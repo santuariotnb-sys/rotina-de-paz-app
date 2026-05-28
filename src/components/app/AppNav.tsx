@@ -1,5 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Layers, Music, BookOpen, Cross, Star } from "lucide-react";
+import { useEffect, useState } from "react";
+import { getCurrentAdmin } from "@/lib/admin/auth";
 import logoSrc from "@/assets/rotina-de-paz-logo.png";
 
 const items = [
@@ -11,6 +13,12 @@ const items = [
 ] as const;
 
 export function TopBar({ name, onLogout }: { name?: string | null; onLogout?: () => void }) {
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    getCurrentAdmin().then((a) => setIsAdmin(!!a));
+  }, []);
+
   return (
     <header className="sticky top-0 z-20 border-b border-[color:var(--rose-dust)]/25 bg-white/70 backdrop-blur-xl">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-3">
@@ -22,6 +30,15 @@ export function TopBar({ name, onLogout }: { name?: string | null; onLogout?: ()
           </div>
         </Link>
         <div className="flex items-center gap-2">
+          {isAdmin ? (
+            <Link to="/admin" className="rounded-full bg-gradient-to-br from-[color:var(--gold-warm)] to-[#B8923E] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white shadow-sm">
+              Admin
+            </Link>
+          ) : (
+            <a href="mailto:suporte@rotinadepaz.com.br" className="text-[12px] text-[color:var(--amethyst)] hover:text-[color:var(--deep-purple)]">
+              Suporte
+            </a>
+          )}
           {onLogout && (
             <button onClick={onLogout} className="hidden sm:inline text-[12px] text-[color:var(--amethyst)] hover:text-[color:var(--deep-purple)]">Sair</button>
           )}
