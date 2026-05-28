@@ -1,0 +1,1000 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Google Fonts (Cormorant Garamond + Outfit) */
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600;700&display=swap");
+
+/* ============================================================
+ * PRIMORDIAL DIGITAL — Admin scope
+ * Tokens isolados sob [data-scope="admin"] para não vazar
+ * pro DNA lavanda/dourado do quiz/app.
+ * ============================================================ */
+[data-scope="admin"] {
+  /* Primordial Digital — Gold on Dark, glassmorphism extremo */
+  --adm-bg-deep: #07090f;
+  --adm-bg-card: #0d1020;
+  --adm-bg-card-alt: #0a0d1a;
+  --adm-bg-elevated: #111425;
+  --adm-ink: #F1EDE5;
+  --adm-ink-soft: #BDB6A6;
+  --adm-text-muted: #9A9384;
+  --adm-gold: #C9A96E;
+  --adm-gold-light: #E0C88A;
+  --adm-gold-dark: #B8952E;
+  --adm-gold-glow: rgba(201, 169, 110, 0.4);
+  --adm-accent: #C9A96E;
+  --adm-accent-soft: rgba(201, 169, 110, 0.10);
+  --adm-purple: #7C6FCD;
+  --adm-purple-glow: rgba(124, 111, 205, 0.15);
+  --adm-success: #4A8C6A;
+  --adm-warning: #E0C88A;
+  --adm-danger: #B85A5A;
+  --adm-border-subtle: rgba(255, 255, 255, 0.06);
+  --adm-border-medium: rgba(255, 255, 255, 0.10);
+  --adm-border-gold: rgba(201, 169, 110, 0.30);
+  --adm-border-gold-active: rgba(201, 169, 110, 0.50);
+  --adm-shadow: 0 32px 80px rgba(0,0,0,0.6), 0 8px 24px rgba(0,0,0,0.4);
+  --adm-shadow-lift: 0 48px 120px rgba(0,0,0,0.75), 0 16px 40px rgba(0,0,0,0.5);
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  color: var(--adm-ink);
+}
+
+[data-scope="admin"] .adm-bg {
+  position: relative;
+  background-color: #07090f;
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse 900px 460px at 50% -60px, rgba(201,169,110,0.10) 0%, transparent 70%),
+    radial-gradient(ellipse 700px 460px at 100% 100%, rgba(30,40,80,0.35) 0%, transparent 60%),
+    linear-gradient(160deg, #07090f 0%, #0a0d18 45%, #07090f 100%);
+}
+/* Grid sutil — papel quadriculado gold quase invisível */
+[data-scope="admin"] .adm-bg::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(201,169,110,0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,169,110,0.018) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}
+/* Fio gold horizontal no topo — ancora o olhar */
+[data-scope="admin"] .adm-bg::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(201,169,110,0.40), transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* GLASSMORPHISM EXTREMO — laje de vidro fumê com fio gold no topo */
+[data-scope="admin"] .adm-glass {
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%),
+    linear-gradient(145deg, rgba(7,9,15,0.88), rgba(10,13,26,0.82));
+  backdrop-filter: blur(64px) saturate(200%);
+  -webkit-backdrop-filter: blur(64px) saturate(200%);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-top: 1px solid rgba(255,255,255,0.12);
+  border-left: 1px solid rgba(255,255,255,0.08);
+  box-shadow:
+    0 32px 80px rgba(0,0,0,0.7),
+    0 8px 24px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.07),
+    inset 0 -1px 0 rgba(0,0,0,0.35),
+    0 0 0 1px rgba(201,169,110,0.06);
+  border-radius: 22px;
+  position: relative;
+  overflow: hidden;
+  color: var(--adm-ink);
+  transition: transform 280ms cubic-bezier(.2,.7,.3,1), box-shadow 280ms ease;
+}
+/* fio gold no topo — detalhe de joalheria */
+[data-scope="admin"] .adm-glass::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,169,110,0.40), transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+/* reflexo de vidro no topo */
+[data-scope="admin"] .adm-glass::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 45%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+/* Sidebar — vidro escuro translúcido com fio gold na borda */
+[data-scope="admin"] .adm-glass-dark {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%),
+    linear-gradient(180deg, rgba(7,9,15,0.92), rgba(10,13,26,0.88));
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  color: var(--adm-ink);
+  border-right: 1px solid rgba(201,169,110,0.12);
+  box-shadow: 24px 0 80px -28px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255,255,255,0.05);
+  position: relative;
+}
+[data-scope="admin"] .adm-glass-dark::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, rgba(201,169,110,0.40), transparent);
+}
+
+/* Orbs (brumas decorativas) — gold/purple ambiente */
+[data-scope="admin"] .adm-orb {
+  position: fixed;
+  border-radius: 9999px;
+  filter: blur(130px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.7;
+}
+
+/* Inputs */
+[data-scope="admin"] .adm-input {
+  width: 100%;
+  background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-top-color: rgba(255,255,255,0.12) !important;
+  border-radius: 12px;
+  padding: 0.6rem 0.8rem;
+  font-size: 13px;
+  color: var(--adm-ink) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+}
+[data-scope="admin"] .adm-input:focus {
+  border-color: rgba(201,169,110,0.50) !important;
+  box-shadow: 0 0 0 3px rgba(201,169,110,0.15), inset 0 1px 0 rgba(255,255,255,0.06) !important;
+}
+[data-scope="admin"] .adm-input::placeholder { color: var(--adm-text-muted); }
+
+/* CTA executivo — Gold sólido com highlight de vidro */
+[data-scope="admin"] .adm-btn-primary {
+  background: linear-gradient(135deg, #D4B06A, #C9A96E 50%, #B8952E);
+  color: #07090f;
+  box-shadow:
+    0 4px 16px rgba(201,169,110,0.40),
+    0 1px 4px rgba(0,0,0,0.3),
+    inset 0 1px 0 rgba(255,255,255,0.25);
+  border: 1px solid rgba(201,169,110,0.50);
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+[data-scope="admin"] .adm-btn-primary:hover {
+  box-shadow:
+    0 8px 28px rgba(201,169,110,0.55),
+    0 2px 8px rgba(0,0,0,0.3),
+    inset 0 1px 0 rgba(255,255,255,0.30);
+  transform: translateY(-1px);
+}
+
+/* Glass icon — bloco de vidro fumê com glow ambiente */
+[data-scope="admin"] .adm-glass-icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-top-color: rgba(255,255,255,0.14);
+  border-left-color: rgba(255,255,255,0.10);
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.4),
+    0 2px 8px rgba(0,0,0,0.3),
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    inset 0 -1px 0 rgba(0,0,0,0.2);
+  color: var(--adm-gold);
+  overflow: hidden;
+  transition: all .28s cubic-bezier(.4,0,.2,1);
+}
+[data-scope="admin"] .adm-glass-icon::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, transparent 100%);
+  pointer-events: none;
+}
+[data-scope="admin"] .adm-glass-icon::after {
+  content: "";
+  position: absolute;
+  inset: -25%;
+  background: radial-gradient(circle, var(--adm-icon-glow, #c9a96e) 0%, transparent 70%);
+  opacity: 0.12;
+  pointer-events: none;
+  transition: opacity .3s;
+}
+[data-scope="admin"] .adm-glass-icon:hover::after { opacity: 0.22; }
+[data-scope="admin"] .adm-glass-icon-gold   { --adm-icon-glow: #c9a96e; }
+[data-scope="admin"] .adm-glass-icon-purple { --adm-icon-glow: #7c6fcd; }
+[data-scope="admin"] .adm-glass-icon-green  { --adm-icon-glow: #4a8c6a; }
+[data-scope="admin"] .adm-glass-icon-blue   { --adm-icon-glow: #5b6baa; }
+
+/* Shimmer sweep — faixa de luz gold passando pelo card */
+@keyframes adm-shimmer-sweep {
+  0%   { transform: translateX(-120%) skewX(-15deg); }
+  100% { transform: translateX(320%) skewX(-15deg); }
+}
+[data-scope="admin"] .adm-glass:hover > .adm-shimmer,
+[data-scope="admin"] .adm-shimmer-on .adm-shimmer {
+  animation: adm-shimmer-sweep 1.4s ease-out;
+}
+[data-scope="admin"] .adm-shimmer {
+  position: absolute;
+  top: 0; left: 0;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(201,169,110,0.18), transparent);
+  transform: translateX(-120%) skewX(-15deg);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Flutuação suave (hover) — cards "respiram" */
+@keyframes adm-float-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+[data-scope="admin"] .adm-float { animation: adm-float-in .55s cubic-bezier(.2,.7,.3,1) both; }
+@keyframes adm-fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+[data-scope="admin"] .adm-fade-up {
+  animation: adm-fade-up 0.4s ease-out both;
+}
+
+/* ============================================================
+ * ADMIN — Glass overrides para shadcn (Card, Input, etc.)
+ * Aplica gold-on-dark glass extremo em TODAS as páginas admin
+ * sem precisar trocar componentes manualmente.
+ * ============================================================ */
+
+/* Shadcn Card e qualquer container com bg-card */
+[data-scope="admin"] [class*="bg-card"],
+[data-scope="admin"] .rounded-xl.border,
+[data-scope="admin"] .rounded-2xl.border,
+[data-scope="admin"] .rounded-lg.border {
+  background: linear-gradient(145deg, rgba(7,9,15,0.88), rgba(10,13,26,0.80)) !important;
+  backdrop-filter: blur(56px) saturate(200%);
+  -webkit-backdrop-filter: blur(56px) saturate(200%);
+  border: 1px solid rgba(255,255,255,0.06) !important;
+  border-top: 1px solid rgba(255,255,255,0.14) !important;
+  color: var(--adm-ink);
+  box-shadow:
+    0 16px 48px rgba(0,0,0,0.55),
+    0 4px 12px rgba(0,0,0,0.35),
+    inset 0 1px 0 rgba(255,255,255,0.07),
+    0 0 0 1px rgba(201,169,110,0.07) !important;
+  position: relative;
+  overflow: hidden;
+  transition: transform .3s cubic-bezier(.4,0,.2,1), box-shadow .3s, border-color .3s;
+}
+/* Gold line no topo de cada card admin */
+[data-scope="admin"] [class*="bg-card"]::before,
+[data-scope="admin"] .rounded-xl.border::before,
+[data-scope="admin"] .rounded-2xl.border::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,169,110,0.40), transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+/* Hover dourado */
+[data-scope="admin"] [class*="bg-card"]:hover,
+[data-scope="admin"] .rounded-xl.border:hover,
+[data-scope="admin"] .rounded-2xl.border:hover {
+  border-color: rgba(201,169,110,0.30) !important;
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.6),
+    0 0 48px rgba(201,169,110,0.10),
+    inset 0 1px 0 rgba(255,255,255,0.12),
+    0 0 0 1px rgba(201,169,110,0.18) !important;
+  transform: translateY(-2px);
+}
+/* Não levantar containers grandes (tabelas/listas) — opcional: classe opt-out */
+[data-scope="admin"] .adm-no-lift:hover { transform: none !important; }
+
+/* Texto base dentro de cards e shadcn */
+[data-scope="admin"] .text-card-foreground,
+[data-scope="admin"] .text-foreground { color: var(--adm-ink) !important; }
+[data-scope="admin"] .text-muted-foreground { color: var(--adm-ink-soft) !important; }
+[data-scope="admin"] .bg-background { background: transparent !important; }
+[data-scope="admin"] .bg-muted { background: rgba(255,255,255,0.04) !important; }
+
+/* Inputs / textarea / select shadcn dentro do admin */
+[data-scope="admin"] input:not([type="checkbox"]):not([type="radio"]):not(.adm-input),
+[data-scope="admin"] textarea,
+[data-scope="admin"] select {
+  background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015)) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  border-top-color: rgba(255,255,255,0.12) !important;
+  color: var(--adm-ink) !important;
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+  transition: border-color .2s, box-shadow .2s;
+}
+[data-scope="admin"] input:focus,
+[data-scope="admin"] textarea:focus,
+[data-scope="admin"] select:focus {
+  border-color: rgba(201,169,110,0.40) !important;
+  box-shadow: 0 0 0 3px rgba(201,169,110,0.10), 0 0 20px rgba(201,169,110,0.06), inset 0 1px 0 rgba(255,255,255,0.06) !important;
+  outline: none !important;
+}
+[data-scope="admin"] input::placeholder,
+[data-scope="admin"] textarea::placeholder { color: var(--adm-text-muted) !important; }
+
+/* Headings com gradiente gold */
+[data-scope="admin"] h1,
+[data-scope="admin"] h2,
+[data-scope="admin"] h3 {
+  background: linear-gradient(135deg, #E8D098 0%, #C9A96E 55%, #B8952E 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Labels uppercase — gold suave com letter-spacing */
+[data-scope="admin"] .uppercase.tracking-wider,
+[data-scope="admin"] .uppercase.tracking-widest,
+[data-scope="admin"] .text-xs.uppercase {
+  color: rgba(201,169,110,0.55) !important;
+  letter-spacing: 0.18em !important;
+  font-weight: 600;
+}
+
+/* Divisores horizontais */
+[data-scope="admin"] hr,
+[data-scope="admin"] [role="separator"] {
+  border: none !important;
+  height: 1px !important;
+  background: linear-gradient(90deg, transparent, rgba(201,169,110,0.20), transparent) !important;
+}
+
+/* Tabelas — header gold suave, linhas com hover quente */
+[data-scope="admin"] table thead th {
+  color: rgba(201,169,110,0.65) !important;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(201,169,110,0.12) !important;
+}
+[data-scope="admin"] table tbody tr {
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  transition: background-color .2s;
+}
+[data-scope="admin"] table tbody tr:hover {
+  background: linear-gradient(90deg, rgba(201,169,110,0.04), transparent) !important;
+}
+
+/* Scrollbar custom — gold */
+[data-scope="admin"] *::-webkit-scrollbar { width: 6px; height: 6px; }
+[data-scope="admin"] *::-webkit-scrollbar-track { background: transparent; }
+[data-scope="admin"] *::-webkit-scrollbar-thumb {
+  background: rgba(201,169,110,0.20);
+  border-radius: 3px;
+}
+[data-scope="admin"] *::-webkit-scrollbar-thumb:hover { background: rgba(201,169,110,0.40); }
+
+/* Mobile — desabilita transform pesado nos cards */
+@media (max-width: 768px) {
+  [data-scope="admin"] [class*="bg-card"]:hover,
+  [data-scope="admin"] .rounded-xl.border:hover,
+  [data-scope="admin"] .rounded-2xl.border:hover {
+    transform: none !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-scope="admin"] * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ============================================================
+ * ADMIN — Override de botões/badges hardcoded em cores antigas
+ * (azul cobalto / âmbar-rosé) para a identidade gold.
+ * ============================================================ */
+
+/* Gradiente azul cobalto → gold sólido */
+[data-scope="admin"] [class*="from-[#3B5BFD]"],
+[data-scope="admin"] [class*="to-[#7C3AED]"],
+[data-scope="admin"] [class*="to-[#2745D8]"] {
+  background-image: linear-gradient(135deg, #D4B06A 0%, #C9A96E 55%, #B8952E 100%) !important;
+  color: #07090f !important;
+  border: 1px solid rgba(201,169,110,0.55) !important;
+  box-shadow:
+    0 4px 16px rgba(201,169,110,0.40),
+    0 1px 4px rgba(0,0,0,0.3),
+    inset 0 1px 0 rgba(255,255,255,0.30) !important;
+  text-shadow: none;
+}
+[data-scope="admin"] [class*="from-[#3B5BFD]"]:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+  box-shadow:
+    0 8px 28px rgba(201,169,110,0.55),
+    0 2px 8px rgba(0,0,0,0.3),
+    inset 0 1px 0 rgba(255,255,255,0.35) !important;
+}
+
+/* Gradiente âmbar-rosé (chips de áudio/categoria) → gold suave */
+[data-scope="admin"] [class*="from-amber-400"],
+[data-scope="admin"] [class*="from-rose-400"] {
+  background-image: linear-gradient(135deg, rgba(201,169,110,0.85), rgba(184,149,46,0.85)) !important;
+  color: #07090f !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.25);
+}
+
+/* Contraste de texto — força texto claro legível, override "text-white/40" sumindo */
+[data-scope="admin"] .text-white { color: var(--adm-ink) !important; }
+/* Subtítulos, listas, opções, sanfonas — texto escuro forte
+ * (o fundo da área de conteúdo é claro/cream; ivory ficava invisível). */
+[data-scope="admin"] .text-white\/90,
+[data-scope="admin"] .text-white\/80,
+[data-scope="admin"] .text-white\/70,
+[data-scope="admin"] .text-white\/60,
+[data-scope="admin"] .text-white\/50,
+[data-scope="admin"] .text-white\/40,
+[data-scope="admin"] .text-white\/30 { color: #1a1a1a !important; }
+
+/* Mas DENTRO de cards/superfícies escuras (.adm-glass, .adm-glass-dark,
+ * bg-card, bg-[#0...]) volta a ser ivory claro para contraste. */
+[data-scope="admin"] .adm-glass .text-white\/90,
+[data-scope="admin"] .adm-glass .text-white\/80,
+[data-scope="admin"] .adm-glass .text-white\/70,
+[data-scope="admin"] .adm-glass .text-white\/60,
+[data-scope="admin"] .adm-glass-dark .text-white\/90,
+[data-scope="admin"] .adm-glass-dark .text-white\/80,
+[data-scope="admin"] .adm-glass-dark .text-white\/70,
+[data-scope="admin"] .adm-glass-dark .text-white\/60,
+[data-scope="admin"] [class*="bg-card"] .text-white\/90,
+[data-scope="admin"] [class*="bg-card"] .text-white\/80,
+[data-scope="admin"] [class*="bg-card"] .text-white\/70,
+[data-scope="admin"] [class*="bg-card"] .text-white\/60,
+[data-scope="admin"] .adm-glass.text-white\/90,
+[data-scope="admin"] .adm-glass.text-white\/80,
+[data-scope="admin"] .adm-glass.text-white\/70,
+[data-scope="admin"] .adm-glass.text-white\/60,
+[data-scope="admin"] .adm-glass-dark.text-white\/90,
+[data-scope="admin"] .adm-glass-dark.text-white\/80,
+[data-scope="admin"] .adm-glass-dark.text-white\/70,
+[data-scope="admin"] .adm-glass-dark.text-white\/60 {
+  color: rgba(241,237,229,0.95) !important;
+}
+[data-scope="admin"] .adm-glass .text-white\/50,
+[data-scope="admin"] .adm-glass .text-white\/40,
+[data-scope="admin"] .adm-glass .text-white\/30,
+[data-scope="admin"] .adm-glass-dark .text-white\/50,
+[data-scope="admin"] .adm-glass-dark .text-white\/40,
+[data-scope="admin"] .adm-glass-dark .text-white\/30,
+[data-scope="admin"] [class*="bg-card"] .text-white\/50,
+[data-scope="admin"] [class*="bg-card"] .text-white\/40,
+[data-scope="admin"] [class*="bg-card"] .text-white\/30,
+[data-scope="admin"] .adm-glass.text-white\/50,
+[data-scope="admin"] .adm-glass.text-white\/40,
+[data-scope="admin"] .adm-glass.text-white\/30,
+[data-scope="admin"] .adm-glass-dark.text-white\/50,
+[data-scope="admin"] .adm-glass-dark.text-white\/40,
+[data-scope="admin"] .adm-glass-dark.text-white\/30 {
+  color: rgba(224,200,138,0.90) !important;
+}
+
+/* Sublabels (parágrafo logo abaixo do h1/h2/h3):
+ * - FORA de cards escuros (fundo claro) → preto forte
+ * - DENTRO de .adm-glass / .adm-glass-dark / bg-card → ivory claro
+ */
+[data-scope="admin"] h1 + p,
+[data-scope="admin"] h2 + p,
+[data-scope="admin"] h3 + p { color: #111 !important; }
+
+[data-scope="admin"] .adm-glass h1 + p,
+[data-scope="admin"] .adm-glass h2 + p,
+[data-scope="admin"] .adm-glass h3 + p,
+[data-scope="admin"] .adm-glass-dark h1 + p,
+[data-scope="admin"] .adm-glass-dark h2 + p,
+[data-scope="admin"] .adm-glass-dark h3 + p,
+[data-scope="admin"] [class*="bg-card"] h1 + p,
+[data-scope="admin"] [class*="bg-card"] h2 + p,
+[data-scope="admin"] [class*="bg-card"] h3 + p {
+  color: rgba(241,237,229,0.92) !important;
+}
+
+/* text-muted-foreground / --adm-text-muted usados em headers fora de cards
+ * (ex.: "FASE 10", "FASE 2", labels uppercase) — escuro no fundo creme. */
+[data-scope="admin"] .text-\[var\(--adm-text-muted\)\] {
+  color: #3a3a3a !important;
+}
+[data-scope="admin"] .adm-glass .text-\[var\(--adm-text-muted\)\],
+[data-scope="admin"] .adm-glass-dark .text-\[var\(--adm-text-muted\)\],
+[data-scope="admin"] [class*="bg-card"] .text-\[var\(--adm-text-muted\)\] {
+  color: rgba(224,200,138,0.85) !important;
+}
+
+/* Headers dentro de cards escuros mantêm o gradiente gold (já definido em h1/h2/h3).
+ * Garantia: parágrafos genéricos dentro de cards escuros = ivory. */
+[data-scope="admin"] .adm-glass p:not([class*="text-"]),
+[data-scope="admin"] .adm-glass-dark p:not([class*="text-"]),
+[data-scope="admin"] [class*="bg-card"] p:not([class*="text-"]) {
+  color: rgba(241,237,229,0.92);
+}
+
+/*
+ * Design system definition.
+ *
+ * The @theme inline block maps CSS custom properties to Tailwind utility
+ * classes (e.g. --color-primary -> bg-primary, text-primary).
+ *
+ * The :root and .dark blocks define the actual color values using oklch.
+ * All colors MUST use oklch format.
+ *
+ * To add a new semantic color:
+ * 1. Add the variable to :root (light value) and .dark (dark value)
+ * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-milk: var(--milk);
+  --color-milk-warm: var(--milk-warm);
+  --color-deep-purple: var(--deep-purple);
+  --color-amethyst: var(--amethyst);
+  --color-lavender: var(--lavender);
+  --color-gold: var(--gold);
+  --color-gold-warm: var(--gold-warm);
+  --color-rose-dust: var(--rose-dust);
+  --color-rose-soft: var(--rose-soft);
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --radius: 1.125rem; /* 18px — bubble-style */
+
+  /* Rotina de Paz brand palette */
+  --milk: #FAF6F4;
+  --milk-warm: #F6EFEA;
+  --deep-purple: #443A52;
+  --amethyst: #75617F;
+  --lavender: #C4A8BC;
+  --gold: #D9C5A5;
+  --gold-warm: #C9A876;
+  --rose-dust: #D4A5B5;
+  --rose-soft: #E8C9D1;
+
+  --background: var(--milk);
+  --foreground: var(--deep-purple);
+  --card: #ffffff;
+  --card-foreground: var(--deep-purple);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.129 0.042 264.695);
+  --primary: var(--deep-purple);
+  --primary-foreground: var(--milk);
+  --secondary: var(--milk-warm);
+  --secondary-foreground: var(--deep-purple);
+  --muted: var(--milk-warm);
+  --muted-foreground: var(--amethyst);
+  --accent: var(--lavender);
+  --accent-foreground: var(--deep-purple);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.984 0.003 247.858);
+  --border: #EFE6E0;
+  --input: #EFE6E0;
+  --ring: var(--lavender);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.984 0.003 247.858);
+  --sidebar-foreground: oklch(0.129 0.042 264.695);
+  --sidebar-primary: oklch(0.208 0.042 265.755);
+  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-accent: oklch(0.968 0.007 247.896);
+  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
+  --sidebar-border: oklch(0.929 0.013 255.508);
+  --sidebar-ring: oklch(0.704 0.04 256.788);
+}
+
+.dark {
+  --background: oklch(0.129 0.042 264.695);
+  --foreground: oklch(0.984 0.003 247.858);
+  --card: oklch(0.208 0.042 265.755);
+  --card-foreground: oklch(0.984 0.003 247.858);
+  --popover: oklch(0.208 0.042 265.755);
+  --popover-foreground: oklch(0.984 0.003 247.858);
+  --primary: oklch(0.929 0.013 255.508);
+  --primary-foreground: oklch(0.208 0.042 265.755);
+  --secondary: oklch(0.279 0.041 260.031);
+  --secondary-foreground: oklch(0.984 0.003 247.858);
+  --muted: oklch(0.279 0.041 260.031);
+  --muted-foreground: oklch(0.704 0.04 256.788);
+  --accent: oklch(0.279 0.041 260.031);
+  --accent-foreground: oklch(0.984 0.003 247.858);
+  --destructive: oklch(0.704 0.191 22.216);
+  --destructive-foreground: oklch(0.984 0.003 247.858);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.551 0.027 264.364);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.208 0.042 265.755);
+  --sidebar-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-accent: oklch(0.279 0.041 260.031);
+  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.551 0.027 264.364);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+}
+
+/* ============ Rotina de Paz custom utilities ============ */
+
+@keyframes rdp-breath {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+@keyframes rdp-blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(0.05); }
+}
+@keyframes rdp-typing-dot {
+  0%, 60%, 100% { opacity: 0.25; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-3px); }
+}
+@keyframes rdp-bubble-in {
+  0% { opacity: 0; transform: scale(0.6) translate(-12px, 12px); transform-origin: bottom left; }
+  60% { opacity: 1; transform: scale(1.03) translate(0, 0); }
+  100% { opacity: 1; transform: scale(1) translate(0, 0); }
+}
+@keyframes rdp-particle {
+  0% { opacity: 0; transform: translateY(20px) scale(0.8); }
+  50% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-40px) scale(1.1); }
+}
+
+.rdp-breath { animation: rdp-breath 3s ease-in-out infinite; transform-origin: center; }
+.rdp-bubble-in { animation: rdp-bubble-in 400ms cubic-bezier(.34,1.56,.64,1) both; }
+.rdp-typing-dot { animation: rdp-typing-dot 1.2s infinite; display: inline-block; }
+
+.rdp-gradient-progress {
+  background-image: linear-gradient(90deg, #C4A8BC 0%, #D4A5B5 55%, #D9C5A5 100%);
+}
+.rdp-gradient-cta {
+  background-image: linear-gradient(135deg, #D9C5A5 0%, #C9A876 100%);
+}
+.rdp-title-gradient {
+  background-image: linear-gradient(135deg, #D4A5B5 0%, #C4A8BC 30%, #C9A876 70%, #D9C5A5 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.rdp-gradient-soft {
+  background-image: linear-gradient(180deg, #FAF6F4 0%, #F6EFEA 100%);
+}
+.rdp-shadow-soft {
+  box-shadow: 0 8px 30px -12px rgba(68, 58, 82, 0.18);
+}
+.rdp-shadow-bubble {
+  box-shadow: 0 6px 24px -10px rgba(68, 58, 82, 0.22);
+}
+
+/* ============ App da Aluna — tema noturno feminino ============ */
+
+:root {
+  --night-1: #1A1326;   /* fundo profundo */
+  --night-2: #221A30;   /* card */
+  --night-3: #2E2440;   /* hover/elev */
+  --line-soft: rgba(212, 165, 181, 0.18);
+  --line-gold: rgba(201, 168, 118, 0.35);
+}
+
+.rdp-night {
+  background:
+    radial-gradient(ellipse at top, rgba(196, 168, 188, 0.10), transparent 55%),
+    radial-gradient(ellipse at bottom right, rgba(212, 165, 181, 0.08), transparent 60%),
+    var(--night-1);
+  color: #F4E9EE;
+}
+.rdp-night-card {
+  background: linear-gradient(180deg, rgba(46,36,64,0.85) 0%, rgba(34,26,48,0.85) 100%);
+  border: 1px solid var(--line-soft);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.04),
+    0 10px 40px -20px rgba(0,0,0,0.6);
+  backdrop-filter: blur(8px);
+}
+.rdp-night-card-hover { transition: border-color 240ms ease, transform 240ms ease, box-shadow 240ms ease; }
+.rdp-night-card-hover:hover {
+  border-color: var(--line-gold);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 40px -18px rgba(201,168,118,0.30);
+}
+.rdp-gold-text {
+  background: linear-gradient(135deg, #E8C9A0 0%, #C9A876 60%, #D4A5B5 110%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+.rdp-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--line-gold), transparent);
+}
+@keyframes rdp-fade-up { 0% {opacity:0; transform: translateY(8px);} 100% {opacity:1; transform: translateY(0);} }
+.rdp-fade-up { animation: rdp-fade-up 500ms ease-out both; }
+@keyframes rdp-pulse-gold {
+  0%,100% { box-shadow: 0 0 0 0 rgba(201,168,118,0.55); }
+  70% { box-shadow: 0 0 0 12px rgba(201,168,118,0); }
+}
+.rdp-pulse-gold { animation: rdp-pulse-gold 2.2s ease-out infinite; }
+@keyframes rdp-logo-in {
+  0% { opacity: 0; transform: scale(0.85); filter: blur(8px); }
+  60% { opacity: 1; filter: blur(0); }
+  100% { opacity: 1; transform: scale(1); filter: blur(0); }
+}
+.rdp-logo-in { animation: rdp-logo-in 900ms cubic-bezier(.2,.7,.3,1.1) both; }
+@keyframes rdp-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.rdp-shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(232,201,160,0.18) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: rdp-shimmer 2.4s linear infinite;
+}
+
+/* ============ Splash — partículas "Haja Luz" ============ */
+.rdp-particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.rdp-particle {
+  position: absolute;
+  bottom: -10px;
+  width: 4px;
+  height: 4px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(255,235,190,0.95) 0%, rgba(232,201,160,0.55) 45%, rgba(232,201,160,0) 75%);
+  box-shadow: 0 0 8px rgba(255,220,170,0.7), 0 0 18px rgba(232,201,160,0.35);
+  opacity: 0;
+  animation: rdp-particle-rise linear infinite;
+}
+@keyframes rdp-particle-rise {
+  0%   { transform: translate3d(0, 0, 0) scale(0.6); opacity: 0; }
+  12%  { opacity: 1; }
+  85%  { opacity: 0.9; }
+  100% { transform: translate3d(var(--rdp-drift, 0px), -110vh, 0) scale(1.1); opacity: 0; }
+}
+@keyframes rdp-haja-luz {
+  0%   { opacity: 0; letter-spacing: 0.5em; filter: blur(6px); }
+  40%  { opacity: 0.9; letter-spacing: 0.42em; filter: blur(0); }
+  100% { opacity: 0.75; letter-spacing: 0.42em; filter: blur(0); }
+}
+.rdp-haja-luz { animation: rdp-haja-luz 1.6s ease-out both; }
+
+/* ============ App — tema claro rosé (pós-splash) ============ */
+
+.rdp-app-bg {
+  background:
+    radial-gradient(ellipse at top, rgba(212,165,181,0.22), transparent 55%),
+    radial-gradient(ellipse at bottom, rgba(196,168,188,0.18), transparent 60%),
+    linear-gradient(180deg, #FAF6F4 0%, #F4E7E4 100%);
+  color: var(--deep-purple);
+}
+.rdp-light-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(255,250,248,0.88) 100%);
+  border: 1px solid color-mix(in oklab, var(--rose-dust) 30%, transparent);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.7),
+    0 12px 36px -22px rgba(117, 97, 127, 0.35);
+  backdrop-filter: blur(8px);
+}
+.rdp-light-card-hover { transition: border-color 240ms ease, transform 240ms ease, box-shadow 240ms ease; }
+.rdp-light-card-hover:hover {
+  border-color: var(--gold-warm);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px -22px rgba(201,168,118,0.45);
+}
+.rdp-chip {
+  display: inline-flex; align-items: center; gap: .4rem;
+  padding: .45rem .85rem; border-radius: 9999px;
+  border: 1px solid color-mix(in oklab, var(--rose-dust) 35%, transparent);
+  background: rgba(255,255,255,0.6);
+  color: var(--amethyst);
+  font-size: 12px; font-weight: 500;
+  transition: all 200ms ease;
+}
+.rdp-chip:hover { border-color: var(--gold-warm); color: var(--deep-purple); }
+.rdp-chip-active {
+  background: linear-gradient(135deg, #E8C9A0 0%, #C9A876 100%);
+  border-color: var(--gold-warm);
+  color: #2C1F0B;
+  box-shadow: 0 4px 14px -6px rgba(201,168,118,0.5);
+}
+@keyframes rdp-eq {
+  0%, 100% { transform: scaleY(0.4); }
+  50% { transform: scaleY(1); }
+}
+.rdp-eq-bar { transform-origin: center bottom; animation: rdp-eq 0.9s ease-in-out infinite; }
+
+/* Botão roxo que vira gradiente no hover/active */
+.rdp-btn-gradient-hover {
+  background-color: var(--deep-purple);
+  transition: background-color 300ms ease, transform 200ms ease, box-shadow 300ms ease;
+}
+.rdp-btn-gradient-hover:hover {
+  background-image: linear-gradient(135deg, #D4A5B5 0%, #C4A8BC 40%, #C9A876 100%);
+  background-color: transparent;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+}
+.rdp-btn-gradient-hover:active {
+  background-image: linear-gradient(135deg, #D4A5B5 0%, #C4A8BC 40%, #C9A876 100%);
+  background-color: transparent;
+}
+.rdp-btn-gradient-hover:disabled {
+  background-image: none;
+  background-color: var(--deep-purple);
+  opacity: 0.4;
+}
+
+/* Rich HTML rendered from quiz content */
+.rdp-prose p { margin-bottom: 0.85rem; }
+.rdp-prose p:last-child { margin-bottom: 0; }
+.rdp-prose strong { color: var(--deep-purple); font-weight: 600; }
+.rdp-prose blockquote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.15rem;
+  line-height: 1.5;
+  color: var(--deep-purple);
+  border-left: 3px solid var(--gold);
+  padding: 0.25rem 0 0.25rem 1rem;
+  margin: 1rem 0;
+}
+
+.rdp-verdade .eyebrow {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-warm);
+}
+.rdp-verdade h3 {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  line-height: 1.25;
+  color: var(--deep-purple);
+  margin-top: 0.5rem;
+}
+.rdp-verdade h3 em { font-style: italic; color: var(--gold-warm); font-weight: 400; }
+.rdp-verdade p { margin-top: 0.85rem; color: var(--amethyst); line-height: 1.6; }
+.rdp-verdade strong { color: var(--deep-purple); font-weight: 600; }
+.rdp-verdade .versiculo {
+  margin-top: 1.1rem;
+  padding: 1rem 1.1rem;
+  border-radius: 1rem;
+  background: rgba(255,255,255,0.55);
+  border: 1px solid color-mix(in oklab, var(--lavender) 40%, transparent);
+}
+.rdp-verdade .versiculo span {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--gold-warm);
+  margin-bottom: 0.35rem;
+}
+.rdp-verdade .versiculo em {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--deep-purple);
+  line-height: 1.45;
+}
+.rdp-verdade .closing {
+  margin-top: 1rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--deep-purple);
+}
