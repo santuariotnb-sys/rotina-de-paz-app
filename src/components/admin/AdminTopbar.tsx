@@ -1,11 +1,18 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { LogOut, Search } from "lucide-react";
+import { LogOut, Search, Menu, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { logAdminAction } from "@/lib/admin/audit";
 import type { AdminRecord } from "@/lib/admin/auth";
 
-export function AdminTopbar({ admin }: { admin: AdminRecord }) {
+type Props = {
+  admin: AdminRecord;
+  collapsed: boolean;
+  onToggle: () => void;
+  onMobileOpen: () => void;
+};
+
+export function AdminTopbar({ admin, collapsed, onToggle, onMobileOpen }: Props) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -25,6 +32,27 @@ export function AdminTopbar({ admin }: { admin: AdminRecord }) {
 
   return (
     <header className="sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-white/10 bg-white/[0.03] px-4 backdrop-blur-2xl lg:px-6">
+      {/* Mobile hamburger */}
+      <button
+        onClick={onMobileOpen}
+        className="grid h-9 w-9 place-items-center rounded-lg text-white/70 hover:bg-white/10 lg:hidden"
+      >
+        <Menu className="h-5 w-5" />
+      </button>
+
+      {/* Desktop collapse toggle */}
+      <button
+        onClick={onToggle}
+        className="hidden h-9 w-9 place-items-center rounded-lg text-white/70 hover:bg-white/10 lg:grid"
+        title={collapsed ? "Expandir menu" : "Recolher menu"}
+      >
+        {collapsed ? (
+          <PanelLeftOpen className="h-4 w-4" />
+        ) : (
+          <PanelLeftClose className="h-4 w-4" />
+        )}
+      </button>
+
       <div className="flex flex-1 items-center gap-2 rounded-xl bg-white/[0.05] px-3 py-1.5 ring-1 ring-white/10 backdrop-blur max-w-md">
         <Search className="h-4 w-4 text-white/55" />
         <input

@@ -67,12 +67,36 @@ function AdminLayout() {
     );
   }
 
+  const [collapsed, setCollapsed] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return localStorage.getItem("adm-sidebar-collapsed") === "true";
+  });
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  function toggleCollapsed() {
+    setCollapsed((v) => {
+      const next = !v;
+      localStorage.setItem("adm-sidebar-collapsed", String(next));
+      return next;
+    });
+  }
+
   return (
     <div data-scope="admin" className="adm-bg relative min-h-dvh">
       <div className="relative z-10 flex min-h-dvh">
-        <AdminSidebar />
+        <AdminSidebar
+          collapsed={collapsed}
+          onToggle={toggleCollapsed}
+          mobileOpen={mobileOpen}
+          onMobileClose={() => setMobileOpen(false)}
+        />
         <div className="flex min-w-0 flex-1 flex-col">
-          <AdminTopbar admin={admin} />
+          <AdminTopbar
+            admin={admin}
+            collapsed={collapsed}
+            onToggle={toggleCollapsed}
+            onMobileOpen={() => setMobileOpen(true)}
+          />
           <main className="flex-1 px-4 py-6 lg:px-8 lg:py-8">
             <Outlet />
           </main>
