@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { ErrorFallback } from "@/components/app/ErrorFallback";
 
 function NotFoundComponent() {
   return (
@@ -72,10 +73,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Rotina de Paz" },
-      { name: "description", content: "Método guiado de 7 dias para ansiedade em mulheres cristãs." },
-      { property: "og:title", content: "Rotina de Paz" },
-      { property: "og:description", content: "Método guiado de 7 dias para ansiedade em mulheres cristãs." },
+      { title: "Rotina de Paz · Círculo da Paz" },
+      { name: "description", content: "Método RP7 — sua jornada de paz interior guiada por fé e neurociência." },
+      { name: "theme-color", content: "#443A52" },
+      { property: "og:title", content: "Rotina de Paz · Círculo da Paz" },
+      { property: "og:description", content: "Método RP7 — sua jornada de paz interior guiada por fé e neurociência." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -84,12 +86,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
+      {
+        rel: "icon",
+        type: "image/png",
+        href: "/favicon.png",
+      },
     ],
   }),
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
-  errorComponent: ErrorComponent,
+  errorComponent: ({ error }) => <ErrorFallback error={error} />,
 });
 
 function RootShell({ children }: { children: React.ReactNode }) {
