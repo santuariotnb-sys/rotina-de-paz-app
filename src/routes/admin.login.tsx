@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Lock, Mail } from "lucide-react";
-import primordiaLogoFull from "@/assets/primordia-logo-full.png";
+import primordiaIcon from "@/assets/primordia-icon.png";
 import { supabase } from "@/integrations/supabase/client";
 import { getCurrentAdmin } from "@/lib/admin/auth";
 import { logAdminAction } from "@/lib/admin/audit";
@@ -62,8 +62,8 @@ function AdminLoginPage() {
     <div className="grid min-h-dvh place-items-center px-5 py-10">
       <div className="w-full max-w-md">
         <div className="mb-6 flex flex-col items-center gap-3 text-center">
-          <img src={primordiaLogoFull} alt="Primordia" className="h-20 w-auto" />
-          <h1 className="text-2xl font-semibold text-[var(--adm-navy-deep)]">Painel de comando</h1>
+          <img src={primordiaIcon} alt="Primordia" className="h-16 w-16 rounded-2xl" />
+          <h1 className="text-2xl font-semibold text-[var(--adm-navy-deep)]">Primordia</h1>
           <p className="text-[13px] text-[var(--adm-text-muted)]">
             Acesso restrito. Somente administradores autorizados.
           </p>
