@@ -33,13 +33,10 @@ function LoginPage() {
     supabase.auth.getSession().then(({ data }) => {
       if (active && data.session) navigate({ to: "/app" });
     });
-    const { data: sub } = supabase.auth.onAuthStateChange(async (_e, session) => {
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
       if (!session?.user) return;
-      try {
-        await syncStudentWithProfile(session.user.id, session.user.email ?? null);
-      } catch (err) {
-        console.error("[login] syncStudentWithProfile failed:", err);
-      }
+      // Fire-and-forget — não bloqueia navegação
+      syncStudentWithProfile(session.user.id, session.user.email ?? null).catch(() => {});
       navigate({ to: "/app" });
     });
     return () => {
