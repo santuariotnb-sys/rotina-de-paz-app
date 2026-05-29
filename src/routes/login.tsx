@@ -35,7 +35,11 @@ function LoginPage() {
     });
     const { data: sub } = supabase.auth.onAuthStateChange(async (_e, session) => {
       if (!session?.user) return;
-      await syncStudentWithProfile(session.user.id, session.user.email ?? null);
+      try {
+        await syncStudentWithProfile(session.user.id, session.user.email ?? null);
+      } catch (err) {
+        console.error("[login] syncStudentWithProfile failed:", err);
+      }
       navigate({ to: "/app" });
     });
     return () => {
