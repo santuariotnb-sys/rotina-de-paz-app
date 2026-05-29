@@ -23,6 +23,7 @@ import { Route as AppDepoimentosRouteImport } from './routes/app.depoimentos'
 import { Route as AdminWebhooksRouteImport } from './routes/admin.webhooks'
 import { Route as AdminVendasRouteImport } from './routes/admin.vendas'
 import { Route as AdminTrackingRouteImport } from './routes/admin.tracking'
+import { Route as AdminSuporteRouteImport } from './routes/admin.suporte'
 import { Route as AdminProdutosRouteImport } from './routes/admin.produtos'
 import { Route as AdminMembrosRouteImport } from './routes/admin.membros'
 import { Route as AdminLouvoresRouteImport } from './routes/admin.louvores'
@@ -34,6 +35,8 @@ import { Route as AdminConfigRouteImport } from './routes/admin.config'
 import { Route as AdminClientesRouteImport } from './routes/admin.clientes'
 import { Route as AdminAudiosRouteImport } from './routes/admin.audios'
 import { Route as AdminAcessosRouteImport } from './routes/admin.acessos'
+import { Route as AppSuporteRouteImport } from './routes/app.suporte'
+import { Route as AppSuporteTicketIdRouteImport } from './routes/app.suporte.$ticketId'
 import { Route as AppVolumeTurnoRouteImport } from './routes/app.volume.$turno'
 import { Route as ApiPublicWebhooksKirvanoRouteImport } from './routes/api/public/webhooks/kirvano'
 
@@ -107,6 +110,11 @@ const AdminTrackingRoute = AdminTrackingRouteImport.update({
   path: '/tracking',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminSuporteRoute = AdminSuporteRouteImport.update({
+  id: '/suporte',
+  path: '/suporte',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminProdutosRoute = AdminProdutosRouteImport.update({
   id: '/produtos',
   path: '/produtos',
@@ -162,6 +170,16 @@ const AdminAcessosRoute = AdminAcessosRouteImport.update({
   path: '/acessos',
   getParentRoute: () => AdminRoute,
 } as any)
+const AppSuporteRoute = AppSuporteRouteImport.update({
+  id: '/suporte',
+  path: '/suporte',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSuporteTicketIdRoute = AppSuporteTicketIdRouteImport.update({
+  id: '/suporte/$ticketId',
+  path: '/suporte/$ticketId',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppVolumeTurnoRoute = AppVolumeTurnoRouteImport.update({
   id: '/volume/$turno',
   path: '/volume/$turno',
@@ -191,6 +209,7 @@ export interface FileRoutesByFullPath {
   '/admin/louvores': typeof AdminLouvoresRoute
   '/admin/membros': typeof AdminMembrosRoute
   '/admin/produtos': typeof AdminProdutosRoute
+  '/admin/suporte': typeof AdminSuporteRoute
   '/admin/tracking': typeof AdminTrackingRoute
   '/admin/vendas': typeof AdminVendasRoute
   '/admin/webhooks': typeof AdminWebhooksRoute
@@ -198,6 +217,8 @@ export interface FileRoutesByFullPath {
   '/app/devocionais': typeof AppDevocionaisRoute
   '/app/ebooks': typeof AppEbooksRoute
   '/app/louvores': typeof AppLouvoresRoute
+  '/app/suporte': typeof AppSuporteRoute
+  '/app/suporte/$ticketId': typeof AppSuporteTicketIdRoute
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
   '/app/volume/$turno': typeof AppVolumeTurnoRoute
@@ -218,6 +239,7 @@ export interface FileRoutesByTo {
   '/admin/louvores': typeof AdminLouvoresRoute
   '/admin/membros': typeof AdminMembrosRoute
   '/admin/produtos': typeof AdminProdutosRoute
+  '/admin/suporte': typeof AdminSuporteRoute
   '/admin/tracking': typeof AdminTrackingRoute
   '/admin/vendas': typeof AdminVendasRoute
   '/admin/webhooks': typeof AdminWebhooksRoute
@@ -225,6 +247,8 @@ export interface FileRoutesByTo {
   '/app/devocionais': typeof AppDevocionaisRoute
   '/app/ebooks': typeof AppEbooksRoute
   '/app/louvores': typeof AppLouvoresRoute
+  '/app/suporte': typeof AppSuporteRoute
+  '/app/suporte/$ticketId': typeof AppSuporteTicketIdRoute
   '/admin': typeof AdminIndexRoute
   '/app': typeof AppIndexRoute
   '/app/volume/$turno': typeof AppVolumeTurnoRoute
@@ -248,6 +272,7 @@ export interface FileRoutesById {
   '/admin/louvores': typeof AdminLouvoresRoute
   '/admin/membros': typeof AdminMembrosRoute
   '/admin/produtos': typeof AdminProdutosRoute
+  '/admin/suporte': typeof AdminSuporteRoute
   '/admin/tracking': typeof AdminTrackingRoute
   '/admin/vendas': typeof AdminVendasRoute
   '/admin/webhooks': typeof AdminWebhooksRoute
@@ -255,6 +280,8 @@ export interface FileRoutesById {
   '/app/devocionais': typeof AppDevocionaisRoute
   '/app/ebooks': typeof AppEbooksRoute
   '/app/louvores': typeof AppLouvoresRoute
+  '/app/suporte': typeof AppSuporteRoute
+  '/app/suporte/$ticketId': typeof AppSuporteTicketIdRoute
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
   '/app/volume/$turno': typeof AppVolumeTurnoRoute
@@ -279,6 +306,7 @@ export interface FileRouteTypes {
     | '/admin/louvores'
     | '/admin/membros'
     | '/admin/produtos'
+    | '/admin/suporte'
     | '/admin/tracking'
     | '/admin/vendas'
     | '/admin/webhooks'
@@ -286,6 +314,8 @@ export interface FileRouteTypes {
     | '/app/devocionais'
     | '/app/ebooks'
     | '/app/louvores'
+    | '/app/suporte'
+    | '/app/suporte/$ticketId'
     | '/admin/'
     | '/app/'
     | '/app/volume/$turno'
@@ -306,6 +336,7 @@ export interface FileRouteTypes {
     | '/admin/louvores'
     | '/admin/membros'
     | '/admin/produtos'
+    | '/admin/suporte'
     | '/admin/tracking'
     | '/admin/vendas'
     | '/admin/webhooks'
@@ -313,6 +344,8 @@ export interface FileRouteTypes {
     | '/app/devocionais'
     | '/app/ebooks'
     | '/app/louvores'
+    | '/app/suporte'
+    | '/app/suporte/$ticketId'
     | '/admin'
     | '/app'
     | '/app/volume/$turno'
@@ -335,6 +368,7 @@ export interface FileRouteTypes {
     | '/admin/louvores'
     | '/admin/membros'
     | '/admin/produtos'
+    | '/admin/suporte'
     | '/admin/tracking'
     | '/admin/vendas'
     | '/admin/webhooks'
@@ -342,6 +376,8 @@ export interface FileRouteTypes {
     | '/app/devocionais'
     | '/app/ebooks'
     | '/app/louvores'
+    | '/app/suporte'
+    | '/app/suporte/$ticketId'
     | '/admin/'
     | '/app/'
     | '/app/volume/$turno'
@@ -457,6 +493,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminTrackingRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/suporte': {
+      id: '/admin/suporte'
+      path: '/suporte'
+      fullPath: '/admin/suporte'
+      preLoaderRoute: typeof AdminSuporteRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/produtos': {
       id: '/admin/produtos'
       path: '/produtos'
@@ -534,6 +577,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAcessosRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/app/suporte': {
+      id: '/app/suporte'
+      path: '/suporte'
+      fullPath: '/app/suporte'
+      preLoaderRoute: typeof AppSuporteRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/suporte/$ticketId': {
+      id: '/app/suporte/$ticketId'
+      path: '/suporte/$ticketId'
+      fullPath: '/app/suporte/$ticketId'
+      preLoaderRoute: typeof AppSuporteTicketIdRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/volume/$turno': {
       id: '/app/volume/$turno'
       path: '/volume/$turno'
@@ -563,6 +620,7 @@ interface AdminRouteChildren {
   AdminLouvoresRoute: typeof AdminLouvoresRoute
   AdminMembrosRoute: typeof AdminMembrosRoute
   AdminProdutosRoute: typeof AdminProdutosRoute
+  AdminSuporteRoute: typeof AdminSuporteRoute
   AdminTrackingRoute: typeof AdminTrackingRoute
   AdminVendasRoute: typeof AdminVendasRoute
   AdminWebhooksRoute: typeof AdminWebhooksRoute
@@ -581,6 +639,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminLouvoresRoute: AdminLouvoresRoute,
   AdminMembrosRoute: AdminMembrosRoute,
   AdminProdutosRoute: AdminProdutosRoute,
+  AdminSuporteRoute: AdminSuporteRoute,
   AdminTrackingRoute: AdminTrackingRoute,
   AdminVendasRoute: AdminVendasRoute,
   AdminWebhooksRoute: AdminWebhooksRoute,
@@ -594,6 +653,8 @@ interface AppRouteChildren {
   AppDevocionaisRoute: typeof AppDevocionaisRoute
   AppEbooksRoute: typeof AppEbooksRoute
   AppLouvoresRoute: typeof AppLouvoresRoute
+  AppSuporteRoute: typeof AppSuporteRoute
+  AppSuporteTicketIdRoute: typeof AppSuporteTicketIdRoute
   AppIndexRoute: typeof AppIndexRoute
   AppVolumeTurnoRoute: typeof AppVolumeTurnoRoute
 }
@@ -603,6 +664,8 @@ const AppRouteChildren: AppRouteChildren = {
   AppDevocionaisRoute: AppDevocionaisRoute,
   AppEbooksRoute: AppEbooksRoute,
   AppLouvoresRoute: AppLouvoresRoute,
+  AppSuporteRoute: AppSuporteRoute,
+  AppSuporteTicketIdRoute: AppSuporteTicketIdRoute,
   AppIndexRoute: AppIndexRoute,
   AppVolumeTurnoRoute: AppVolumeTurnoRoute,
 }
