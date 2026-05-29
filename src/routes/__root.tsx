@@ -3,12 +3,12 @@ import {
   Outlet,
   Link,
   createRootRouteWithContext,
-  useRouter,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { ErrorFallback } from "@/components/app/ErrorFallback";
 
 function NotFoundComponent() {
   return (
@@ -32,50 +32,16 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
-  console.error(error);
-  const router = useRouter();
-
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          This page didn't load
-        </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
-        </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
-          <button
-            onClick={() => {
-              router.invalidate();
-              reset();
-            }}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Try again
-          </button>
-          <a
-            href="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
-          >
-            Go home
-          </a>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Rotina de Paz" },
-      { name: "description", content: "Método guiado de 7 dias para ansiedade em mulheres cristãs." },
-      { property: "og:title", content: "Rotina de Paz" },
-      { property: "og:description", content: "Método guiado de 7 dias para ansiedade em mulheres cristãs." },
+      { title: "Rotina de Paz · Círculo da Paz" },
+      { name: "description", content: "Método RP7 — sua jornada de paz interior guiada por fé e neurociência." },
+      { name: "theme-color", content: "#443A52" },
+      { property: "og:title", content: "Rotina de Paz · Círculo da Paz" },
+      { property: "og:description", content: "Método RP7 — sua jornada de paz interior guiada por fé e neurociência." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -84,12 +50,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
+      {
+        rel: "icon",
+        type: "image/png",
+        href: "/favicon.png",
+      },
     ],
   }),
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
-  errorComponent: ErrorComponent,
+  errorComponent: ({ error }) => <ErrorFallback error={error} />,
 });
 
 function RootShell({ children }: { children: React.ReactNode }) {
