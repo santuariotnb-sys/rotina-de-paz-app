@@ -34,3 +34,7 @@ dist-ssr
 *.sw?
 .lovable/
 .vercel/
+.vercel
+
+# Git worktrees
+.worktrees/
