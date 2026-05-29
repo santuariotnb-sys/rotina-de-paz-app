@@ -16,9 +16,17 @@ export type AdminRecord = {
 export async function getCurrentAdmin(): Promise<AdminRecord | null> {
   const { data: userRes, error: userErr } = await supabase.auth.getUser();
   if (userErr || !userRes.user) return null;
-  const { data, error } = await supabase.rpc("is_admin", {
-    check_user_id: userRes.user.id,
+
+  const { data: isAdmin, error: rpcErr } = await supabase.rpc("is_admin", {
+    _user_id: userRes.user.id,
   });
-  if (error || !data || !Array.isArray(data) || data.length === 0) return null;
-  return data[0] as AdminRecord;
+  if (rpcErr || !isAdmin) return null;
+
+  const { data: adminRow, error: fetchErr } = await supabase
+    .from("admin_users")
+    .select("id, user_id, email, name, role")
+    .eq("user_id", userRes.user.id)
+    .maybeSingle();
+  if (fetchErr || !adminRow) return null;
+  return adminRow as AdminRecord;
 }
