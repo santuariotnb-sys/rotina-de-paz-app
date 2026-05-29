@@ -30,15 +30,14 @@ export function TopBar({ name, onLogout }: { name?: string | null; onLogout?: ()
           </div>
         </Link>
         <div className="flex items-center gap-2">
-          {isAdmin ? (
+          {isAdmin && (
             <Link to="/admin" className="rounded-full bg-gradient-to-br from-[color:var(--gold-warm)] to-[#B8923E] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white shadow-sm">
               Admin
             </Link>
-          ) : (
-            <a href="mailto:suporte@rotinadepaz.com.br" className="text-[12px] text-[color:var(--amethyst)] hover:text-[color:var(--deep-purple)]">
-              Suporte
-            </a>
           )}
+          <Link to="/app/suporte" className="text-[12px] text-[color:var(--amethyst)] hover:text-[color:var(--deep-purple)]">
+            Suporte
+          </Link>
           {onLogout && (
             <button onClick={onLogout} className="hidden sm:inline text-[12px] text-[color:var(--amethyst)] hover:text-[color:var(--deep-purple)]">Sair</button>
           )}

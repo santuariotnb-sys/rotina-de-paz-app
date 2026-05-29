@@ -16,6 +16,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AppSuporteRouteImport } from './routes/app.suporte'
 import { Route as AppLouvoresRouteImport } from './routes/app.louvores'
 import { Route as AppEbooksRouteImport } from './routes/app.ebooks'
 import { Route as AppDevocionaisRouteImport } from './routes/app.devocionais'
@@ -35,9 +36,8 @@ import { Route as AdminConfigRouteImport } from './routes/admin.config'
 import { Route as AdminClientesRouteImport } from './routes/admin.clientes'
 import { Route as AdminAudiosRouteImport } from './routes/admin.audios'
 import { Route as AdminAcessosRouteImport } from './routes/admin.acessos'
-import { Route as AppSuporteRouteImport } from './routes/app.suporte'
-import { Route as AppSuporteTicketIdRouteImport } from './routes/app.suporte.$ticketId'
 import { Route as AppVolumeTurnoRouteImport } from './routes/app.volume.$turno'
+import { Route as AppSuporteTicketIdRouteImport } from './routes/app.suporte.$ticketId'
 import { Route as ApiPublicWebhooksKirvanoRouteImport } from './routes/api/public/webhooks/kirvano'
 
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -74,6 +74,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AdminRoute,
+} as any)
+const AppSuporteRoute = AppSuporteRouteImport.update({
+  id: '/suporte',
+  path: '/suporte',
+  getParentRoute: () => AppRoute,
 } as any)
 const AppLouvoresRoute = AppLouvoresRouteImport.update({
   id: '/louvores',
@@ -170,20 +175,15 @@ const AdminAcessosRoute = AdminAcessosRouteImport.update({
   path: '/acessos',
   getParentRoute: () => AdminRoute,
 } as any)
-const AppSuporteRoute = AppSuporteRouteImport.update({
-  id: '/suporte',
-  path: '/suporte',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppSuporteTicketIdRoute = AppSuporteTicketIdRouteImport.update({
-  id: '/suporte/$ticketId',
-  path: '/suporte/$ticketId',
-  getParentRoute: () => AppRoute,
-} as any)
 const AppVolumeTurnoRoute = AppVolumeTurnoRouteImport.update({
   id: '/volume/$turno',
   path: '/volume/$turno',
   getParentRoute: () => AppRoute,
+} as any)
+const AppSuporteTicketIdRoute = AppSuporteTicketIdRouteImport.update({
+  id: '/$ticketId',
+  path: '/$ticketId',
+  getParentRoute: () => AppSuporteRoute,
 } as any)
 const ApiPublicWebhooksKirvanoRoute =
   ApiPublicWebhooksKirvanoRouteImport.update({
@@ -217,10 +217,10 @@ export interface FileRoutesByFullPath {
   '/app/devocionais': typeof AppDevocionaisRoute
   '/app/ebooks': typeof AppEbooksRoute
   '/app/louvores': typeof AppLouvoresRoute
-  '/app/suporte': typeof AppSuporteRoute
-  '/app/suporte/$ticketId': typeof AppSuporteTicketIdRoute
+  '/app/suporte': typeof AppSuporteRouteWithChildren
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
+  '/app/suporte/$ticketId': typeof AppSuporteTicketIdRoute
   '/app/volume/$turno': typeof AppVolumeTurnoRoute
   '/api/public/webhooks/kirvano': typeof ApiPublicWebhooksKirvanoRoute
 }
@@ -247,10 +247,10 @@ export interface FileRoutesByTo {
   '/app/devocionais': typeof AppDevocionaisRoute
   '/app/ebooks': typeof AppEbooksRoute
   '/app/louvores': typeof AppLouvoresRoute
-  '/app/suporte': typeof AppSuporteRoute
-  '/app/suporte/$ticketId': typeof AppSuporteTicketIdRoute
+  '/app/suporte': typeof AppSuporteRouteWithChildren
   '/admin': typeof AdminIndexRoute
   '/app': typeof AppIndexRoute
+  '/app/suporte/$ticketId': typeof AppSuporteTicketIdRoute
   '/app/volume/$turno': typeof AppVolumeTurnoRoute
   '/api/public/webhooks/kirvano': typeof ApiPublicWebhooksKirvanoRoute
 }
@@ -280,10 +280,10 @@ export interface FileRoutesById {
   '/app/devocionais': typeof AppDevocionaisRoute
   '/app/ebooks': typeof AppEbooksRoute
   '/app/louvores': typeof AppLouvoresRoute
-  '/app/suporte': typeof AppSuporteRoute
-  '/app/suporte/$ticketId': typeof AppSuporteTicketIdRoute
+  '/app/suporte': typeof AppSuporteRouteWithChildren
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
+  '/app/suporte/$ticketId': typeof AppSuporteTicketIdRoute
   '/app/volume/$turno': typeof AppVolumeTurnoRoute
   '/api/public/webhooks/kirvano': typeof ApiPublicWebhooksKirvanoRoute
 }
@@ -315,9 +315,9 @@ export interface FileRouteTypes {
     | '/app/ebooks'
     | '/app/louvores'
     | '/app/suporte'
-    | '/app/suporte/$ticketId'
     | '/admin/'
     | '/app/'
+    | '/app/suporte/$ticketId'
     | '/app/volume/$turno'
     | '/api/public/webhooks/kirvano'
   fileRoutesByTo: FileRoutesByTo
@@ -345,9 +345,9 @@ export interface FileRouteTypes {
     | '/app/ebooks'
     | '/app/louvores'
     | '/app/suporte'
-    | '/app/suporte/$ticketId'
     | '/admin'
     | '/app'
+    | '/app/suporte/$ticketId'
     | '/app/volume/$turno'
     | '/api/public/webhooks/kirvano'
   id:
@@ -377,9 +377,9 @@ export interface FileRouteTypes {
     | '/app/ebooks'
     | '/app/louvores'
     | '/app/suporte'
-    | '/app/suporte/$ticketId'
     | '/admin/'
     | '/app/'
+    | '/app/suporte/$ticketId'
     | '/app/volume/$turno'
     | '/api/public/webhooks/kirvano'
   fileRoutesById: FileRoutesById
@@ -443,6 +443,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/app/suporte': {
+      id: '/app/suporte'
+      path: '/suporte'
+      fullPath: '/app/suporte'
+      preLoaderRoute: typeof AppSuporteRouteImport
+      parentRoute: typeof AppRoute
     }
     '/app/louvores': {
       id: '/app/louvores'
@@ -577,26 +584,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAcessosRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/app/suporte': {
-      id: '/app/suporte'
-      path: '/suporte'
-      fullPath: '/app/suporte'
-      preLoaderRoute: typeof AppSuporteRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/suporte/$ticketId': {
-      id: '/app/suporte/$ticketId'
-      path: '/suporte/$ticketId'
-      fullPath: '/app/suporte/$ticketId'
-      preLoaderRoute: typeof AppSuporteTicketIdRouteImport
-      parentRoute: typeof AppRoute
-    }
     '/app/volume/$turno': {
       id: '/app/volume/$turno'
       path: '/volume/$turno'
       fullPath: '/app/volume/$turno'
       preLoaderRoute: typeof AppVolumeTurnoRouteImport
       parentRoute: typeof AppRoute
+    }
+    '/app/suporte/$ticketId': {
+      id: '/app/suporte/$ticketId'
+      path: '/$ticketId'
+      fullPath: '/app/suporte/$ticketId'
+      preLoaderRoute: typeof AppSuporteTicketIdRouteImport
+      parentRoute: typeof AppSuporteRoute
     }
     '/api/public/webhooks/kirvano': {
       id: '/api/public/webhooks/kirvano'
@@ -648,13 +648,24 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface AppSuporteRouteChildren {
+  AppSuporteTicketIdRoute: typeof AppSuporteTicketIdRoute
+}
+
+const AppSuporteRouteChildren: AppSuporteRouteChildren = {
+  AppSuporteTicketIdRoute: AppSuporteTicketIdRoute,
+}
+
+const AppSuporteRouteWithChildren = AppSuporteRoute._addFileChildren(
+  AppSuporteRouteChildren,
+)
+
 interface AppRouteChildren {
   AppDepoimentosRoute: typeof AppDepoimentosRoute
   AppDevocionaisRoute: typeof AppDevocionaisRoute
   AppEbooksRoute: typeof AppEbooksRoute
   AppLouvoresRoute: typeof AppLouvoresRoute
-  AppSuporteRoute: typeof AppSuporteRoute
-  AppSuporteTicketIdRoute: typeof AppSuporteTicketIdRoute
+  AppSuporteRoute: typeof AppSuporteRouteWithChildren
   AppIndexRoute: typeof AppIndexRoute
   AppVolumeTurnoRoute: typeof AppVolumeTurnoRoute
 }
@@ -664,8 +675,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppDevocionaisRoute: AppDevocionaisRoute,
   AppEbooksRoute: AppEbooksRoute,
   AppLouvoresRoute: AppLouvoresRoute,
-  AppSuporteRoute: AppSuporteRoute,
-  AppSuporteTicketIdRoute: AppSuporteTicketIdRoute,
+  AppSuporteRoute: AppSuporteRouteWithChildren,
   AppIndexRoute: AppIndexRoute,
   AppVolumeTurnoRoute: AppVolumeTurnoRoute,
 }
