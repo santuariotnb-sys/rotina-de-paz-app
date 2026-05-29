@@ -19,6 +19,19 @@ function AdminLayout() {
   const navigate = useNavigate();
   const [admin, setAdmin] = useState<AdminRecord | null>(null);
   const [state, setState] = useState<"checking" | "ready" | "login">("checking");
+  const [collapsed, setCollapsed] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return localStorage.getItem("adm-sidebar-collapsed") === "true";
+  });
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  function toggleCollapsed() {
+    setCollapsed((v) => {
+      const next = !v;
+      localStorage.setItem("adm-sidebar-collapsed", String(next));
+      return next;
+    });
+  }
 
   // On the /admin/login route we skip the gate. We detect that by
   // reading the pathname directly to avoid extra route wiring.
@@ -65,20 +78,6 @@ function AdminLayout() {
         </div>
       </div>
     );
-  }
-
-  const [collapsed, setCollapsed] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return localStorage.getItem("adm-sidebar-collapsed") === "true";
-  });
-  const [mobileOpen, setMobileOpen] = useState(false);
-
-  function toggleCollapsed() {
-    setCollapsed((v) => {
-      const next = !v;
-      localStorage.setItem("adm-sidebar-collapsed", String(next));
-      return next;
-    });
   }
 
   return (
