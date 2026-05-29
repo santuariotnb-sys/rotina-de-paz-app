@@ -1,5 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect } from "react";
+import primordiaIcon from "@/assets/primordia-icon.png";
 import {
   LayoutDashboard,
   Headphones,
@@ -74,16 +75,14 @@ export function AdminSidebar({ collapsed, onToggle, mobileOpen, onMobileClose }:
       {/* Logo */}
       <div className={cn("px-5", collapsed && "px-0 flex justify-center")}>
         <div className={cn("flex items-center gap-2.5", collapsed && "justify-center")}>
-          <div className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-white/90 to-white/60 text-[#1A1B1F] shadow-[0_8px_20px_-6px_rgba(0,0,0,0.45)]">
-            <span className="font-bold" style={{ fontFamily: '"Cormorant Garamond", serif' }}>S</span>
-          </div>
+          <img src={primordiaIcon} alt="Primordia" className="h-9 w-9 shrink-0 rounded-xl object-cover" />
           {!collapsed && (
             <div className="leading-tight">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-white/55">
-                Santuário
+              <p className="text-[15px] font-semibold text-white tracking-wide">
+                Primordia
               </p>
-              <p className="text-sm font-semibold text-white" style={{ fontFamily: '"Cormorant Garamond", serif', letterSpacing: '0.04em' }}>
-                TNB · Admin
+              <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-white/50">
+                Admin
               </p>
             </div>
           )}
@@ -135,7 +134,7 @@ export function AdminSidebar({ collapsed, onToggle, mobileOpen, onMobileClose }:
               <span className="absolute inset-0 animate-ping rounded-full bg-white/40" />
               <span className="relative h-2 w-2 rounded-full bg-white/80" />
             </span>
-            Santuário conectado
+            Primordia conectado
           </div>
         </div>
       )}

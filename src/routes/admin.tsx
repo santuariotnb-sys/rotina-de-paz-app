@@ -8,7 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/admin")({
   head: () => ({
     meta: [
-      { title: "Primordial Digital · Painel" },
+      { title: "Primordia · Painel" },
       { name: "robots", content: "noindex,nofollow" },
     ],
   }),

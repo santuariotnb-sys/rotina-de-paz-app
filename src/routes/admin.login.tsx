@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Lock, Mail, ShieldCheck } from "lucide-react";
+import { Lock, Mail } from "lucide-react";
+import primordiaLogoFull from "@/assets/primordia-logo-full.png";
 import { supabase } from "@/integrations/supabase/client";
 import { getCurrentAdmin } from "@/lib/admin/auth";
 import { logAdminAction } from "@/lib/admin/audit";
@@ -8,7 +9,7 @@ import { logAdminAction } from "@/lib/admin/audit";
 export const Route = createFileRoute("/admin/login")({
   head: () => ({
     meta: [
-      { title: "Acesso · Primordial Digital" },
+      { title: "Acesso · Primordia" },
       { name: "robots", content: "noindex,nofollow" },
     ],
   }),
@@ -60,13 +61,8 @@ function AdminLoginPage() {
   return (
     <div className="grid min-h-dvh place-items-center px-5 py-10">
       <div className="w-full max-w-md">
-        <div className="mb-6 flex flex-col items-center gap-2 text-center">
-          <div className="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-[#3B5BFD] to-[#7C3AED] text-white shadow-lg shadow-blue-500/20">
-            <ShieldCheck className="h-6 w-6" />
-          </div>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[var(--adm-text-muted)]">
-            Primordial Digital
-          </p>
+        <div className="mb-6 flex flex-col items-center gap-3 text-center">
+          <img src={primordiaLogoFull} alt="Primordia" className="h-20 w-auto" />
           <h1 className="text-2xl font-semibold text-[var(--adm-navy-deep)]">Painel de comando</h1>
           <p className="text-[13px] text-[var(--adm-text-muted)]">
             Acesso restrito. Somente administradores autorizados.

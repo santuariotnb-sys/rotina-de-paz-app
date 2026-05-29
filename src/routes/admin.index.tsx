@@ -67,13 +67,13 @@ function AdminOverview() {
     <div className="adm-fade-up space-y-6">
       <header>
         <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#8B7355]" style={{ fontFamily: '"Cormorant Garamond", serif' }}>
-          Santuário · Visão Geral
+          Primordia · Visão Geral
         </p>
         <h1 className="mt-1 text-3xl font-semibold text-[#1A1D26]" style={{ fontFamily: '"Cormorant Garamond", serif', letterSpacing: '0.01em' }}>
           Painel de comando
         </h1>
         <p className="mt-2 text-[13px] text-[#4B5060]">
-          Operação completa do Santuário TNB — conteúdo, vendas e inteligência sobre leads.
+          Operação completa da Primordia — conteúdo, vendas e inteligência sobre leads.
         </p>
       </header>
 
