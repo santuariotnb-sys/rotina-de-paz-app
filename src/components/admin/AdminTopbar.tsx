@@ -1,6 +1,6 @@
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { LogOut, Search, Menu, PanelLeftClose, PanelLeftOpen } from "lucide-react";
+import { LogOut, Search, Menu, PanelLeftClose, PanelLeftOpen, ArrowLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { logAdminAction } from "@/lib/admin/audit";
 import type { AdminRecord } from "@/lib/admin/auth";
@@ -67,6 +67,12 @@ export function AdminTopbar({ admin, collapsed, onToggle, onMobileOpen }: Props)
       </div>
 
       <div className="flex items-center gap-2.5">
+        <Link
+          to="/app"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-[12px] font-medium text-white/70 hover:bg-white/10 transition"
+        >
+          <ArrowLeft className="h-3.5 w-3.5" /> App
+        </Link>
         <div className="hidden text-right md:block">
           <p className="text-[12px] font-semibold text-white leading-tight">
             {admin.name}
