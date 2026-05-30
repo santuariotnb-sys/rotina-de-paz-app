@@ -20,13 +20,13 @@ export function TopBar({ name, onLogout }: { name?: string | null; onLogout?: ()
   }, []);
 
   return (
-    <header className="sticky top-0 z-20 border-b border-[color:var(--rose-dust)]/25 bg-white/70 backdrop-blur-xl">
+    <header className="sticky top-0 z-20 border-b border-[color:var(--rose-dust)]/35 bg-white/90 backdrop-blur-xl shadow-[0_2px_12px_-4px_rgba(68,58,82,0.10)]">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-3">
-        <Link to="/app" className="flex items-center gap-2.5">
-          <img src={logoSrc} alt="" width={40} height={40} className="h-10 w-10" />
+        <Link to="/app" className="flex items-center gap-3">
+          <img src={logoSrc} alt="" width={44} height={44} className="h-11 w-11 drop-shadow-[0_2px_6px_rgba(201,168,118,0.3)]" />
           <div className="leading-tight">
-            <p className="font-display text-[15px] tracking-[0.22em] rdp-title-gradient">ROTINA DE PAZ</p>
-            <p className="text-[10px] uppercase tracking-[0.22em] text-[color:var(--amethyst)]/70">Círculo da Paz</p>
+            <p className="font-display text-[16px] font-semibold tracking-[0.22em] rdp-title-gradient">ROTINA DE PAZ</p>
+            <p className="text-[10px] uppercase tracking-[0.22em] text-[color:var(--amethyst)]">Círculo da Paz</p>
           </div>
         </Link>
         <div className="flex items-center gap-2">
