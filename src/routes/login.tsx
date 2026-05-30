@@ -211,9 +211,6 @@ function LoginPage() {
             Continuar com Google
           </button>
 
-          <p className="mt-5 text-center text-[12px] text-[color:var(--amethyst)]">
-            Ainda não fez o quiz? <Link to="/quiz-sacra" className="font-semibold text-[color:var(--gold-warm)] underline">Começar agora</Link>
-          </p>
         </form>
 
         {forgotOpen && (

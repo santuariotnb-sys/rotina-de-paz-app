@@ -130,7 +130,7 @@ function AdminVendasPage() {
       <GlassCard className="p-5">
         <div className="flex items-center justify-between">
           <h2 className="text-[15px] font-semibold text-[var(--adm-navy-deep)]">Receita por produto</h2>
-          <Link to="/admin/webhook-logs" className="inline-flex items-center gap-1 text-[12px] font-semibold text-[var(--adm-navy-deep)] hover:underline">
+          <Link to="/admin/webhooks" className="inline-flex items-center gap-1 text-[12px] font-semibold text-[var(--adm-navy-deep)] hover:underline">
             Ver logs <ExternalLink className="h-3 w-3" />
           </Link>
         </div>
