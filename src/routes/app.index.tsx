@@ -31,23 +31,25 @@ function PazHome() {
   return (
     <>
       {/* Continuar jornada */}
-      <div className="mt-5 rdp-fade-up rdp-light-card rounded-3xl p-5">
-        <div className="flex items-center gap-4">
-          <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl border border-[color:var(--gold-warm)]/40 bg-white/70 text-[color:var(--gold-warm)]">
-            <Sparkles className="h-6 w-6" />
-          </div>
-          <div className="min-w-0 flex-1">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-[color:var(--gold-warm)]">Próximo passo</p>
-            <p className="mt-0.5 truncate font-display text-lg text-[color:var(--deep-purple)]">
-              Olá{firstName ? `, ${firstName}` : ""} · <span className="italic text-[color:var(--amethyst)]">{arche.name}</span>
-            </p>
-            <p className="mt-0.5 text-[13px] text-[color:var(--amethyst)]">
-              Continue por <strong className="text-[color:var(--deep-purple)]">{nextTurno === "manha" ? "Volume I — Despertar" : "Volume II — Repouso"}</strong>
-            </p>
+      <div className="mt-5 rdp-fade-up rdp-light-card rounded-3xl p-4 sm:p-5">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+          <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
+            <div className="grid h-10 w-10 sm:h-12 sm:w-12 shrink-0 place-items-center rounded-2xl border border-[color:var(--gold-warm)]/40 bg-white/70 text-[color:var(--gold-warm)]">
+              <Sparkles className="h-5 w-5 sm:h-6 sm:w-6" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-[10px] uppercase tracking-[0.22em] text-[color:var(--gold-warm)]">Próximo passo</p>
+              <p className="mt-0.5 truncate font-display text-base sm:text-lg text-[color:var(--deep-purple)]">
+                Olá{firstName ? `, ${firstName}` : ""} · <span className="italic text-[color:var(--amethyst)]">{arche.name}</span>
+              </p>
+              <p className="mt-0.5 text-[12px] sm:text-[13px] text-[color:var(--amethyst)]">
+                Continue por <strong className="text-[color:var(--deep-purple)]">{nextTurno === "manha" ? "Volume I — Despertar" : "Volume II — Repouso"}</strong>
+              </p>
+            </div>
           </div>
           <button
             onClick={() => navigate({ to: "/app/volume/$turno", params: { turno: nextTurno } })}
-            className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-br from-[#E8C9A0] to-[#C9A876] px-4 py-2.5 text-[13px] font-semibold text-[#2C1F0B] shadow-[0_6px_20px_-8px_rgba(201,168,118,0.55)] hover:brightness-110"
+            className="inline-flex w-full sm:w-auto items-center justify-center gap-1.5 rounded-full bg-gradient-to-br from-[#E8C9A0] to-[#C9A876] px-4 py-2.5 text-[13px] font-semibold text-[#2C1F0B] shadow-[0_6px_20px_-8px_rgba(201,168,118,0.55)] hover:brightness-110"
           >
             Iniciar <ChevronRight className="h-4 w-4" />
           </button>
@@ -103,7 +105,7 @@ function VolumeCard({ to, img, eyebrow, title, subtitle, icon, tone, done }: {
       to="/app/volume/$turno" params={{ turno: to }}
       className="group block overflow-hidden rounded-3xl rdp-light-card rdp-light-card-hover rdp-fade-up"
     >
-      <div className="relative aspect-square w-full overflow-hidden">
+      <div className="relative aspect-[4/5] sm:aspect-square w-full overflow-hidden">
         <img src={img} alt={title} width={1024} height={1024} loading="lazy"
           className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />

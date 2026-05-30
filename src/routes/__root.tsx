@@ -36,7 +36,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
       { title: "Rotina de Paz · Círculo da Paz" },
       { name: "description", content: "Método RP7 — sua jornada de paz interior guiada por fé e neurociência." },
       { name: "theme-color", content: "#443A52" },

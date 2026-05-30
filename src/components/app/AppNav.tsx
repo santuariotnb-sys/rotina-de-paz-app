@@ -85,7 +85,7 @@ function DesktopNav() {
 export function BottomNav() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-[color:var(--rose-dust)]/30 bg-white/90 backdrop-blur-xl md:hidden">
+    <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-[color:var(--rose-dust)]/30 bg-white/90 backdrop-blur-xl md:hidden" style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}>
       <div className="mx-auto flex max-w-5xl items-stretch px-2 py-1.5">
         {items.map((it) => {
           const active = it.match(pathname);

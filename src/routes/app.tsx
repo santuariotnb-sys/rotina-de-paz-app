@@ -88,7 +88,7 @@ function AppShell() {
             navigate({ to: "/login" });
           }}
         />
-        <section className="mx-auto max-w-5xl px-4 pb-36 md:pb-28">
+        <section className="mx-auto max-w-5xl px-4 pb-36 md:pb-28" style={{ paddingBottom: "calc(9rem + env(safe-area-inset-bottom, 0px))" }}>
           <Outlet />
         </section>
         <MiniPlayer />

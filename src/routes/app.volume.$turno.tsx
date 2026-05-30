@@ -106,21 +106,23 @@ function VolumePage() {
       </div>
 
       {/* Próximo */}
-      <div className="mt-6 rdp-light-card rounded-3xl p-5 rdp-fade-up">
-        <div className="flex items-center gap-4">
-          <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl border border-[color:var(--gold-warm)]/40 bg-white/70 text-[color:var(--gold-warm)]">
-            {isMorning ? <Sun className="h-6 w-6" /> : <Moon className="h-6 w-6" />}
-          </div>
-          <div className="min-w-0 flex-1">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-[color:var(--gold-warm)]">Próximo passo</p>
-            <p className="mt-0.5 truncate font-display text-lg text-[color:var(--deep-purple)]">
-              Dia {nextDay.day} — {nextDay.theme}
-            </p>
-            <p className="mt-0.5 text-[12px] text-[color:var(--amethyst)]">{nextDay.subtitle}</p>
+      <div className="mt-6 rdp-light-card rounded-3xl p-4 sm:p-5 rdp-fade-up">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+          <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
+            <div className="grid h-10 w-10 sm:h-12 sm:w-12 shrink-0 place-items-center rounded-2xl border border-[color:var(--gold-warm)]/40 bg-white/70 text-[color:var(--gold-warm)]">
+              {isMorning ? <Sun className="h-5 w-5 sm:h-6 sm:w-6" /> : <Moon className="h-5 w-5 sm:h-6 sm:w-6" />}
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-[10px] uppercase tracking-[0.22em] text-[color:var(--gold-warm)]">Próximo passo</p>
+              <p className="mt-0.5 truncate font-display text-base sm:text-lg text-[color:var(--deep-purple)]">
+                Dia {nextDay.day} — {nextDay.theme}
+              </p>
+              <p className="mt-0.5 text-[12px] text-[color:var(--amethyst)]">{nextDay.subtitle}</p>
+            </div>
           </div>
           <button
             onClick={() => setOpenDay(nextDay.day)}
-            className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-br from-[#E8C9A0] to-[#C9A876] px-4 py-2.5 text-[13px] font-semibold text-[#2C1F0B] shadow-[0_6px_20px_-8px_rgba(201,168,118,0.55)] hover:brightness-110"
+            className="inline-flex w-full sm:w-auto items-center justify-center gap-1.5 rounded-full bg-gradient-to-br from-[#E8C9A0] to-[#C9A876] px-4 py-2.5 text-[13px] font-semibold text-[#2C1F0B] shadow-[0_6px_20px_-8px_rgba(201,168,118,0.55)] hover:brightness-110"
           >
             {isMorning ? "Iniciar Ativação" : "Iniciar Selagem"}
           </button>
