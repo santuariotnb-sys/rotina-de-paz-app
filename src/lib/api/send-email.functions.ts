@@ -1,8 +1,29 @@
 import { createServerFn } from "@tanstack/react-start";
 import { Resend } from "resend";
+import { z } from "zod";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
 const FROM = "Rotina de Paz <noreply@rotinadepaz.com.br>";
 const SUPPORT_EMAIL = "suporte@rotinadepaz.com.br";
+
+async function assertAdmin(userId: string) {
+  const { data, error } = await supabaseAdmin
+    .from("admin_users")
+    .select("id")
+    .eq("user_id", userId)
+    .maybeSingle();
+  if (error || !data) throw new Error("Unauthorized");
+}
+
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
 
 function getResend() {
   const key = process.env.RESEND_API_KEY;
@@ -36,6 +57,36 @@ async function sendEmail(payload: EmailPayload): Promise<boolean> {
   }
 }
 
+// ── Zod Schemas ──────────────────────────────────────
+
+const ticketCategory = z.enum(["duvida", "dificuldade", "erro", "reembolso"]);
+
+const newTicketSchema = z.object({
+  userName: z.string().min(1),
+  userEmail: z.string().email(),
+  category: ticketCategory,
+  subject: z.string().min(3).max(100),
+  message: z.string().min(10).max(2000),
+});
+
+const userReplySchema = z.object({
+  userName: z.string().min(1),
+  userEmail: z.string().email(),
+  subject: z.string().min(1),
+  message: z.string().min(1).max(2000),
+});
+
+const adminReplySchema = z.object({
+  userEmail: z.string().email(),
+  subject: z.string().min(1),
+  message: z.string().min(1).max(2000),
+});
+
+const ticketClosedSchema = z.object({
+  userEmail: z.string().email(),
+  subject: z.string().min(1),
+});
+
 // ── Ticket Notifications ──────────────────────────────
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -46,67 +97,93 @@ const CATEGORY_LABELS: Record<string, string> = {
 };
 
 export const notifyNewTicket = createServerFn({ method: "POST" })
-  .validator((data: { userName: string; userEmail: string; category: string; subject: string; message: string }) => data)
+  .middleware([requireSupabaseAuth])
+  .inputValidator(newTicketSchema)
   .handler(async ({ data }) => {
-    await sendEmail({
-      to: SUPPORT_EMAIL,
-      subject: `[Suporte] Novo ticket: ${data.subject} — ${CATEGORY_LABELS[data.category] ?? data.category}`,
-      html: `
-        <h2>Novo ticket de suporte</h2>
-        <p><strong>Aluna:</strong> ${data.userName} (${data.userEmail})</p>
-        <p><strong>Categoria:</strong> ${CATEGORY_LABELS[data.category] ?? data.category}</p>
-        <p><strong>Assunto:</strong> ${data.subject}</p>
-        <hr>
-        <p>${data.message.replace(/\n/g, "<br>")}</p>
-      `,
-    });
+    try {
+      await sendEmail({
+        to: SUPPORT_EMAIL,
+        subject: `[Suporte] Novo ticket: ${data.subject} — ${CATEGORY_LABELS[data.category] ?? data.category}`,
+        html: `
+          <h2>Novo ticket de suporte</h2>
+          <p><strong>Aluna:</strong> ${escapeHtml(data.userName)} (${escapeHtml(data.userEmail)})</p>
+          <p><strong>Categoria:</strong> ${escapeHtml(CATEGORY_LABELS[data.category] ?? data.category)}</p>
+          <p><strong>Assunto:</strong> ${escapeHtml(data.subject)}</p>
+          <hr>
+          <p>${escapeHtml(data.message).replace(/\n/g, "<br>")}</p>
+        `,
+      });
+    } catch (e) {
+      console.error("[send-email] notifyNewTicket failed:", e);
+      throw new Error("Failed to send notification");
+    }
   });
 
 export const notifyUserReply = createServerFn({ method: "POST" })
-  .validator((data: { userName: string; userEmail: string; subject: string; message: string }) => data)
+  .middleware([requireSupabaseAuth])
+  .inputValidator(userReplySchema)
   .handler(async ({ data }) => {
-    await sendEmail({
-      to: SUPPORT_EMAIL,
-      subject: `[Suporte] Nova resposta: ${data.subject}`,
-      html: `
-        <h2>Nova resposta da aluna</h2>
-        <p><strong>Aluna:</strong> ${data.userName} (${data.userEmail})</p>
-        <p><strong>Ticket:</strong> ${data.subject}</p>
-        <hr>
-        <p>${data.message.replace(/\n/g, "<br>")}</p>
-      `,
-    });
+    try {
+      await sendEmail({
+        to: SUPPORT_EMAIL,
+        subject: `[Suporte] Nova resposta: ${data.subject}`,
+        html: `
+          <h2>Nova resposta da aluna</h2>
+          <p><strong>Aluna:</strong> ${escapeHtml(data.userName)} (${escapeHtml(data.userEmail)})</p>
+          <p><strong>Ticket:</strong> ${escapeHtml(data.subject)}</p>
+          <hr>
+          <p>${escapeHtml(data.message).replace(/\n/g, "<br>")}</p>
+        `,
+      });
+    } catch (e) {
+      console.error("[send-email] notifyUserReply failed:", e);
+      throw new Error("Failed to send notification");
+    }
   });
 
 export const notifyAdminReply = createServerFn({ method: "POST" })
-  .validator((data: { userEmail: string; subject: string; message: string }) => data)
-  .handler(async ({ data }) => {
-    await sendEmail({
-      to: data.userEmail,
-      subject: `[Rotina de Paz] Resposta ao seu ticket: ${data.subject}`,
-      html: `
-        <h2>Resposta da equipe Rotina de Paz</h2>
-        <p><strong>Ticket:</strong> ${data.subject}</p>
-        <hr>
-        <p>${data.message.replace(/\n/g, "<br>")}</p>
-        <br>
-        <p style="color:#888;font-size:12px">Você pode responder acessando o app em rotina-de-paz-app.vercel.app</p>
-      `,
-    });
+  .middleware([requireSupabaseAuth])
+  .inputValidator(adminReplySchema)
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.userId);
+    try {
+      await sendEmail({
+        to: data.userEmail,
+        subject: `[Rotina de Paz] Resposta ao seu ticket: ${data.subject}`,
+        html: `
+          <h2>Resposta da equipe Rotina de Paz</h2>
+          <p><strong>Ticket:</strong> ${escapeHtml(data.subject)}</p>
+          <hr>
+          <p>${escapeHtml(data.message).replace(/\n/g, "<br>")}</p>
+          <br>
+          <p style="color:#888;font-size:12px">Você pode responder acessando o app em rotina-de-paz-app.vercel.app</p>
+        `,
+      });
+    } catch (e) {
+      console.error("[send-email] notifyAdminReply failed:", e);
+      throw new Error("Failed to send notification");
+    }
   });
 
 export const notifyTicketClosed = createServerFn({ method: "POST" })
-  .validator((data: { userEmail: string; subject: string }) => data)
-  .handler(async ({ data }) => {
-    await sendEmail({
-      to: data.userEmail,
-      subject: `[Rotina de Paz] Ticket resolvido: ${data.subject}`,
-      html: `
-        <h2>Seu ticket foi resolvido</h2>
-        <p><strong>Ticket:</strong> ${data.subject}</p>
-        <p>Se precisar de mais ajuda, abra um novo ticket no app.</p>
-        <br>
-        <p style="color:#888;font-size:12px">Equipe Rotina de Paz</p>
-      `,
-    });
+  .middleware([requireSupabaseAuth])
+  .inputValidator(ticketClosedSchema)
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.userId);
+    try {
+      await sendEmail({
+        to: data.userEmail,
+        subject: `[Rotina de Paz] Ticket resolvido: ${data.subject}`,
+        html: `
+          <h2>Seu ticket foi resolvido</h2>
+          <p><strong>Ticket:</strong> ${escapeHtml(data.subject)}</p>
+          <p>Se precisar de mais ajuda, abra um novo ticket no app.</p>
+          <br>
+          <p style="color:#888;font-size:12px">Equipe Rotina de Paz</p>
+        `,
+      });
+    } catch (e) {
+      console.error("[send-email] notifyTicketClosed failed:", e);
+      throw new Error("Failed to send notification");
+    }
   });
