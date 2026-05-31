@@ -16,20 +16,17 @@ import {
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { notifyNewTicket } from "@/lib/api/send-email.functions";
+import {
+  type SupportTicket,
+  CATEGORY_LABELS,
+  CATEGORY_COLORS,
+  STATUS_LABELS,
+  STATUS_COLORS,
+} from "@/lib/support/types";
 
 export const Route = createFileRoute("/app/suporte")({
   component: SuportePage,
 });
-
-type Ticket = {
-  id: string;
-  user_id: string;
-  category: string;
-  subject: string;
-  status: string;
-  created_at: string;
-  updated_at: string;
-};
 
 const CATEGORIES = [
   { value: "duvida", label: "Dúvida", icon: HelpCircle, color: "bg-blue-100 text-blue-700" },
@@ -38,18 +35,13 @@ const CATEGORIES = [
   { value: "reembolso", label: "Reembolso", icon: RotateCcw, color: "bg-purple-100 text-purple-700" },
 ] as const;
 
-const CATEGORY_MAP: Record<string, { label: string; color: string }> = {
-  duvida: { label: "Dúvida", color: "bg-blue-100 text-blue-700" },
-  dificuldade: { label: "Dificuldade", color: "bg-amber-100 text-amber-700" },
-  erro: { label: "Erro", color: "bg-rose-100 text-rose-700" },
-  reembolso: { label: "Reembolso", color: "bg-purple-100 text-purple-700" },
-};
+const CATEGORY_MAP: Record<string, { label: string; color: string }> = Object.fromEntries(
+  Object.entries(CATEGORY_LABELS).map(([k, label]) => [k, { label, color: CATEGORY_COLORS[k] }]),
+);
 
-const STATUS_MAP: Record<string, { label: string; color: string }> = {
-  open: { label: "Aberto", color: "bg-amber-100 text-amber-700" },
-  answered: { label: "Respondido", color: "bg-emerald-100 text-emerald-700" },
-  closed: { label: "Fechado", color: "bg-gray-100 text-gray-500" },
-};
+const STATUS_MAP: Record<string, { label: string; color: string }> = Object.fromEntries(
+  Object.entries(STATUS_LABELS).map(([k, label]) => [k, { label, color: STATUS_COLORS[k] }]),
+);
 
 function formatDate(iso: string): string {
   const d = new Date(iso);
@@ -69,7 +61,7 @@ function SuportePage() {
   const [showForm, setShowForm] = useState(false);
   const queryClient = useQueryClient();
 
-  const { data: tickets = [], isLoading } = useQuery<Ticket[]>({
+  const { data: tickets = [], isLoading } = useQuery<SupportTicket[]>({
     queryKey: ["app", "support-tickets"],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -238,7 +230,7 @@ function NewTicketForm({ onSuccess }: { onSuccess: () => void }) {
         data: {
           userName,
           userEmail,
-          category,
+          category: category as "duvida" | "dificuldade" | "erro" | "reembolso",
           subject: subject.trim(),
           message: message.trim(),
         },

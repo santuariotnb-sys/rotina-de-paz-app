@@ -18,38 +18,18 @@ import {
   notifyAdminReply,
   notifyTicketClosed,
 } from "@/lib/api/send-email.functions";
+import {
+  type SupportTicket,
+  type SupportMessage,
+  type SupportProfile,
+  CATEGORY_LABELS,
+  ADMIN_CATEGORY_COLORS as CATEGORY_COLORS,
+  ADMIN_STATUS_BADGES as STATUS_BADGES,
+} from "@/lib/support/types";
 
 export const Route = createFileRoute("/admin/suporte")({
   component: AdminSuportePage,
 });
-
-/* ── Types ──────────────────────────────────────────── */
-
-type Ticket = {
-  id: string;
-  user_id: string;
-  category: string;
-  subject: string;
-  status: string;
-  created_at: string;
-  updated_at: string;
-};
-
-type Profile = {
-  user_id: string;
-  email: string | null;
-  name: string | null;
-  archetype: string | null;
-};
-
-type Message = {
-  id: string;
-  ticket_id: string;
-  sender_type: string;
-  sender_id: string;
-  body: string;
-  created_at: string;
-};
 
 /* ── Constants ──────────────────────────────────────── */
 
@@ -60,49 +40,26 @@ const STATUS_FILTERS = [
   { label: "Fechados", value: "closed" },
 ] as const;
 
-const CATEGORY_COLORS: Record<string, string> = {
-  duvida: "bg-blue-500/15 text-blue-300",
-  dificuldade: "bg-amber-500/15 text-amber-300",
-  erro: "bg-rose-500/15 text-rose-300",
-  reembolso: "bg-purple-500/15 text-purple-300",
-};
-
-const CATEGORY_LABELS: Record<string, string> = {
-  duvida: "Dúvida",
-  dificuldade: "Dificuldade",
-  erro: "Erro",
-  reembolso: "Reembolso",
-};
-
-const STATUS_BADGES: Record<string, { label: string; className: string }> = {
-  open: { label: "Aberto", className: "bg-amber-500/15 text-amber-300" },
-  answered: {
-    label: "Respondido",
-    className: "bg-emerald-500/15 text-emerald-300",
-  },
-  closed: { label: "Fechado", className: "bg-white/5 text-white/30" },
-};
-
 /* ── Page ───────────────────────────────────────────── */
 
 function AdminSuportePage() {
   const [statusFilter, setStatusFilter] =
     useState<(typeof STATUS_FILTERS)[number]>(STATUS_FILTERS[0]);
   const [selected, setSelected] = useState<
-    (Ticket & { profile: Profile }) | null
+    (SupportTicket & { profile: SupportProfile }) | null
   >(null);
 
   /* Tickets */
   const { data: tickets = [], isLoading } = useQuery({
     queryKey: ["adm-suporte-tickets"],
-    queryFn: async (): Promise<Ticket[]> => {
+    queryFn: async (): Promise<SupportTicket[]> => {
       const { data, error } = await supabase
         .from("support_tickets")
         .select("*")
         .order("updated_at", { ascending: false })
         .limit(500);
       if (error) throw new Error(error.message);
-      return (data ?? []) as Ticket[];
+      return (data ?? []) as SupportTicket[];
     },
   });
 
@@ -114,20 +71,20 @@ function AdminSuportePage() {
 
   const { data: profiles = [] } = useQuery({
     queryKey: ["adm-suporte-profiles", userIds],
-    queryFn: async (): Promise<Profile[]> => {
+    queryFn: async (): Promise<SupportProfile[]> => {
       if (userIds.length === 0) return [];
       const { data, error } = await supabase
         .from("profiles")
         .select("user_id, name, email, archetype")
         .in("user_id", userIds);
       if (error) throw new Error(error.message);
-      return (data ?? []) as Profile[];
+      return (data ?? []) as SupportProfile[];
     },
     enabled: userIds.length > 0,
   });
 
   const profileByUserId = useMemo(() => {
-    const m: Record<string, Profile> = {};
+    const m: Record<string, SupportProfile> = {};
     for (const p of profiles) m[p.user_id] = p;
     return m;
   }, [profiles]);
@@ -320,8 +277,8 @@ function TicketDrawer({
   profile,
   onClose,
 }: {
-  ticket: Ticket;
-  profile: Profile;
+  ticket: SupportTicket;
+  profile: SupportProfile;
   onClose: () => void;
 }) {
   const qc = useQueryClient();
@@ -331,14 +288,14 @@ function TicketDrawer({
   /* Messages */
   const { data: messages = [], isLoading: loadingMsgs } = useQuery({
     queryKey: ["adm-suporte-messages", ticket.id],
-    queryFn: async (): Promise<Message[]> => {
+    queryFn: async (): Promise<SupportMessage[]> => {
       const { data, error } = await supabase
         .from("support_messages")
         .select("*")
         .eq("ticket_id", ticket.id)
         .order("created_at", { ascending: true });
       if (error) throw new Error(error.message);
-      return (data ?? []) as Message[];
+      return (data ?? []) as SupportMessage[];
     },
   });
 

@@ -5,42 +5,26 @@ import { motion } from "framer-motion";
 import { ArrowLeft, Send, Lock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { notifyUserReply } from "@/lib/api/send-email.functions";
+import {
+  type SupportTicket,
+  type SupportMessage,
+  CATEGORY_LABELS,
+  CATEGORY_COLORS,
+  STATUS_LABELS,
+  STATUS_COLORS,
+} from "@/lib/support/types";
 
 export const Route = createFileRoute("/app/suporte/$ticketId")({
   component: TicketDetailPage,
 });
 
-type Ticket = {
-  id: string;
-  user_id: string;
-  category: string;
-  subject: string;
-  status: string;
-  created_at: string;
-  updated_at: string;
-};
+const CATEGORY_MAP: Record<string, { label: string; color: string }> = Object.fromEntries(
+  Object.entries(CATEGORY_LABELS).map(([k, label]) => [k, { label, color: CATEGORY_COLORS[k] }]),
+);
 
-type Message = {
-  id: string;
-  ticket_id: string;
-  sender_type: string;
-  sender_id: string;
-  body: string;
-  created_at: string;
-};
-
-const CATEGORY_MAP: Record<string, { label: string; color: string }> = {
-  duvida: { label: "Dúvida", color: "bg-blue-100 text-blue-700" },
-  dificuldade: { label: "Dificuldade", color: "bg-amber-100 text-amber-700" },
-  erro: { label: "Erro", color: "bg-rose-100 text-rose-700" },
-  reembolso: { label: "Reembolso", color: "bg-purple-100 text-purple-700" },
-};
-
-const STATUS_MAP: Record<string, { label: string; color: string }> = {
-  open: { label: "Aberto", color: "bg-amber-100 text-amber-700" },
-  answered: { label: "Respondido", color: "bg-emerald-100 text-emerald-700" },
-  closed: { label: "Fechado", color: "bg-gray-100 text-gray-500" },
-};
+const STATUS_MAP: Record<string, { label: string; color: string }> = Object.fromEntries(
+  Object.entries(STATUS_LABELS).map(([k, label]) => [k, { label, color: STATUS_COLORS[k] }]),
+);
 
 function formatTimestamp(iso: string): string {
   const d = new Date(iso);
@@ -57,7 +41,7 @@ function TicketDetailPage() {
   const bottomRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const { data: ticket, isLoading: loadingTicket } = useQuery<Ticket>({
+  const { data: ticket, isLoading: loadingTicket } = useQuery<SupportTicket>({
     queryKey: ["app", "support-ticket", ticketId],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -70,7 +54,7 @@ function TicketDetailPage() {
     },
   });
 
-  const { data: messages = [], isLoading: loadingMessages } = useQuery<Message[]>({
+  const { data: messages = [], isLoading: loadingMessages } = useQuery<SupportMessage[]>({
     queryKey: ["app", "support-messages", ticketId],
     queryFn: async () => {
       const { data, error } = await supabase
