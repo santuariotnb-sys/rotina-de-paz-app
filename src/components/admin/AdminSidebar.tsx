@@ -18,6 +18,7 @@ import {
   KeyRound,
   X,
   MessageSquare,
+  BarChart3,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -40,6 +41,7 @@ const items: NavItem[] = [
   { to: "/admin/clientes", icon: UserSquare2, label: "Clientes" },
   { to: "/admin/webhooks", icon: Webhook, label: "Webhooks" },
   { to: "/admin/leads", icon: Users, label: "Leads do Quiz" },
+  { to: "/admin/quiz", icon: BarChart3, label: "Analytics Quiz" },
   { to: "/admin/membros", icon: Gem, label: "Membros" },
   { to: "/admin/vendas", icon: CircleDollarSign, label: "Vendas" },
   { to: "/admin/tracking", icon: Target, label: "Tracking" },

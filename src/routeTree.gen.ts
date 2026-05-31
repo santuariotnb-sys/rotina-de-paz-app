@@ -25,6 +25,7 @@ import { Route as AdminWebhooksRouteImport } from './routes/admin.webhooks'
 import { Route as AdminVendasRouteImport } from './routes/admin.vendas'
 import { Route as AdminTrackingRouteImport } from './routes/admin.tracking'
 import { Route as AdminSuporteRouteImport } from './routes/admin.suporte'
+import { Route as AdminQuizRouteImport } from './routes/admin.quiz'
 import { Route as AdminProdutosRouteImport } from './routes/admin.produtos'
 import { Route as AdminMembrosRouteImport } from './routes/admin.membros'
 import { Route as AdminLouvoresRouteImport } from './routes/admin.louvores'
@@ -120,6 +121,11 @@ const AdminSuporteRoute = AdminSuporteRouteImport.update({
   path: '/suporte',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminQuizRoute = AdminQuizRouteImport.update({
+  id: '/quiz',
+  path: '/quiz',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminProdutosRoute = AdminProdutosRouteImport.update({
   id: '/produtos',
   path: '/produtos',
@@ -209,6 +215,7 @@ export interface FileRoutesByFullPath {
   '/admin/louvores': typeof AdminLouvoresRoute
   '/admin/membros': typeof AdminMembrosRoute
   '/admin/produtos': typeof AdminProdutosRoute
+  '/admin/quiz': typeof AdminQuizRoute
   '/admin/suporte': typeof AdminSuporteRoute
   '/admin/tracking': typeof AdminTrackingRoute
   '/admin/vendas': typeof AdminVendasRoute
@@ -239,6 +246,7 @@ export interface FileRoutesByTo {
   '/admin/louvores': typeof AdminLouvoresRoute
   '/admin/membros': typeof AdminMembrosRoute
   '/admin/produtos': typeof AdminProdutosRoute
+  '/admin/quiz': typeof AdminQuizRoute
   '/admin/suporte': typeof AdminSuporteRoute
   '/admin/tracking': typeof AdminTrackingRoute
   '/admin/vendas': typeof AdminVendasRoute
@@ -272,6 +280,7 @@ export interface FileRoutesById {
   '/admin/louvores': typeof AdminLouvoresRoute
   '/admin/membros': typeof AdminMembrosRoute
   '/admin/produtos': typeof AdminProdutosRoute
+  '/admin/quiz': typeof AdminQuizRoute
   '/admin/suporte': typeof AdminSuporteRoute
   '/admin/tracking': typeof AdminTrackingRoute
   '/admin/vendas': typeof AdminVendasRoute
@@ -306,6 +315,7 @@ export interface FileRouteTypes {
     | '/admin/louvores'
     | '/admin/membros'
     | '/admin/produtos'
+    | '/admin/quiz'
     | '/admin/suporte'
     | '/admin/tracking'
     | '/admin/vendas'
@@ -336,6 +346,7 @@ export interface FileRouteTypes {
     | '/admin/louvores'
     | '/admin/membros'
     | '/admin/produtos'
+    | '/admin/quiz'
     | '/admin/suporte'
     | '/admin/tracking'
     | '/admin/vendas'
@@ -368,6 +379,7 @@ export interface FileRouteTypes {
     | '/admin/louvores'
     | '/admin/membros'
     | '/admin/produtos'
+    | '/admin/quiz'
     | '/admin/suporte'
     | '/admin/tracking'
     | '/admin/vendas'
@@ -507,6 +519,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSuporteRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/quiz': {
+      id: '/admin/quiz'
+      path: '/quiz'
+      fullPath: '/admin/quiz'
+      preLoaderRoute: typeof AdminQuizRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/produtos': {
       id: '/admin/produtos'
       path: '/produtos'
@@ -620,6 +639,7 @@ interface AdminRouteChildren {
   AdminLouvoresRoute: typeof AdminLouvoresRoute
   AdminMembrosRoute: typeof AdminMembrosRoute
   AdminProdutosRoute: typeof AdminProdutosRoute
+  AdminQuizRoute: typeof AdminQuizRoute
   AdminSuporteRoute: typeof AdminSuporteRoute
   AdminTrackingRoute: typeof AdminTrackingRoute
   AdminVendasRoute: typeof AdminVendasRoute
@@ -639,6 +659,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminLouvoresRoute: AdminLouvoresRoute,
   AdminMembrosRoute: AdminMembrosRoute,
   AdminProdutosRoute: AdminProdutosRoute,
+  AdminQuizRoute: AdminQuizRoute,
   AdminSuporteRoute: AdminSuporteRoute,
   AdminTrackingRoute: AdminTrackingRoute,
   AdminVendasRoute: AdminVendasRoute,
