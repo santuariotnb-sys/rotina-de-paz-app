@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { DollarSign, TrendingUp, Undo2, Zap, ExternalLink, ShoppingBag, ArrowUpRight, ArrowDownRight, Package } from "lucide-react";
+import { DollarSign, TrendingUp, Undo2, Zap, ExternalLink } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { GlassCard } from "@/components/admin/GlassCard";
 
@@ -19,36 +19,8 @@ type Ent = {
   granted_at: string;
   revoked_at: string | null;
   kirvano_transaction_id: string | null;
-  kirvano_offer_id: string | null;
 };
 type Product = { id: string; name: string; price_cents: number; currency: string };
-type Offer = { product_id: string; kirvano_offer_id: string; label: string | null };
-
-type SaleType = "principal" | "upsell" | "downsell" | "bump" | "outro";
-
-const SALE_TYPE_LABELS: Record<SaleType, string> = {
-  principal: "Venda Principal",
-  upsell: "Upsell",
-  downsell: "Downsell",
-  bump: "Order Bump",
-  outro: "Outro",
-};
-
-const SALE_TYPE_COLORS: Record<SaleType, string> = {
-  principal: "bg-emerald-100 text-emerald-700",
-  upsell: "bg-blue-100 text-blue-700",
-  downsell: "bg-amber-100 text-amber-700",
-  bump: "bg-purple-100 text-purple-700",
-  outro: "bg-slate-100 text-slate-600",
-};
-
-const SALE_TYPE_ICONS: Record<SaleType, typeof ShoppingBag> = {
-  principal: ShoppingBag,
-  upsell: ArrowUpRight,
-  downsell: ArrowDownRight,
-  bump: Package,
-  outro: ShoppingBag,
-};
 
 const PERIODS = [
   { label: "7d", days: 7 },
@@ -61,21 +33,11 @@ function brl(cents: number) {
   return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(cents / 100);
 }
 
-function inferSaleType(label: string | null | undefined): SaleType {
-  if (!label) return "principal";
-  const l = label.toLowerCase().trim();
-  if (l.includes("upsell") || l.includes("up sell") || l.includes("upgrade")) return "upsell";
-  if (l.includes("downsell") || l.includes("down sell")) return "downsell";
-  if (l.includes("bump") || l.includes("order bump")) return "bump";
-  if (l.includes("principal") || l.includes("main") || l.includes("oferta principal")) return "principal";
-  return "outro";
-}
-
-const FUNIL_SLOTS = [
-  { label: "Order 1", match: "rotina de paz", price: "R$ 47", icon: ShoppingBag, color: "bg-emerald-50 text-emerald-700" },
-  { label: "Order 2", match: "_order2_placeholder_", price: "", icon: Package, color: "bg-slate-100 text-slate-500" },
-  { label: "Upsell", match: "chave", price: "R$ 67", icon: ArrowUpRight, color: "bg-blue-50 text-blue-700" },
-  { label: "Downsell", match: "chave", price: "R$ 37", icon: ArrowDownRight, color: "bg-amber-50 text-amber-700" },
+const FUNIL_CARDS = [
+  { key: "bump1", label: "Order Bump 1", product: "A cadastrar", price: "—" },
+  { key: "bump2", label: "Order Bump 2", product: "A cadastrar", price: "—" },
+  { key: "upsell", label: "Upsell", product: "Chave da Gratidão", price: "R$ 67" },
+  { key: "downsell", label: "Downsell", product: "Chave da Gratidão", price: "R$ 37" },
 ] as const;
 
 function AdminVendasPage() {
@@ -90,15 +52,6 @@ function AdminVendasPage() {
     },
   });
 
-  const { data: offers = [] } = useQuery({
-    queryKey: ["adm-vendas-offers"],
-    queryFn: async (): Promise<Offer[]> => {
-      const { data, error } = await supabase.from("product_kirvano_offers").select("product_id, kirvano_offer_id, label");
-      if (error) throw new Error(error.message);
-      return (data ?? []) as Offer[];
-    },
-  });
-
   const sinceISO = useMemo(() => new Date(Date.now() - period.days * 86400_000).toISOString(), [period]);
 
   const { data: ents = [], isLoading } = useQuery({
@@ -106,7 +59,7 @@ function AdminVendasPage() {
     queryFn: async (): Promise<Ent[]> => {
       const { data, error } = await supabase
         .from("entitlements")
-        .select("id, user_id, product_id, source, status, buyer_email, granted_at, revoked_at, kirvano_transaction_id, kirvano_offer_id")
+        .select("id, user_id, product_id, source, status, buyer_email, granted_at, revoked_at, kirvano_transaction_id")
         .gte("granted_at", sinceISO)
         .order("granted_at", { ascending: false })
         .limit(500);
@@ -121,19 +74,6 @@ function AdminVendasPage() {
     return m;
   }, [products]);
 
-  const offerByKirvanoId = useMemo(() => {
-    const m: Record<string, Offer> = {};
-    for (const o of offers) m[o.kirvano_offer_id] = o;
-    return m;
-  }, [offers]);
-
-  function getSaleType(e: Ent): SaleType {
-    if (!e.kirvano_offer_id) return "principal";
-    const offer = offerByKirvanoId[e.kirvano_offer_id];
-    return inferSaleType(offer?.label);
-  }
-
-  // KPIs gerais
   const kpis = useMemo(() => {
     let approved = 0;
     let revenue = 0;
@@ -152,27 +92,7 @@ function AdminVendasPage() {
     return { approved, revenue, refunded, kirvano };
   }, [ents, productById]);
 
-  // Breakdown por tipo de venda
-  const byType = useMemo(() => {
-    const m: Record<SaleType, { count: number; revenue: number }> = {
-      principal: { count: 0, revenue: 0 },
-      upsell: { count: 0, revenue: 0 },
-      downsell: { count: 0, revenue: 0 },
-      bump: { count: 0, revenue: 0 },
-      outro: { count: 0, revenue: 0 },
-    };
-    for (const e of ents) {
-      if (e.status !== "active") continue;
-      const type = getSaleType(e);
-      const price = productById[e.product_id]?.price_cents ?? 0;
-      m[type].count++;
-      m[type].revenue += price;
-    }
-    return m;
-  }, [ents, productById, offerByKirvanoId]);
-
-  // Map por product_id para os cards do funil
-  const byProductMap = useMemo(() => {
+  const byProduct = useMemo(() => {
     const m: Record<string, { count: number; revenue: number }> = {};
     for (const e of ents) {
       if (e.status !== "active") continue;
@@ -181,32 +101,48 @@ function AdminVendasPage() {
       row.count++;
       row.revenue += price;
     }
-    return m;
+    return Object.entries(m).sort((a, b) => b[1].revenue - a[1].revenue);
   }, [ents, productById]);
 
-  // Breakdown por produto (lista)
-  const byProduct = useMemo(() => {
-    const m: Record<string, { count: number; revenue: number; type: SaleType }> = {};
+  // Stats por slot do funil (match por nome do produto)
+  const funnelStats = useMemo(() => {
+    const empty = { count: 0, revenue: 0 };
+    const result: Record<string, { count: number; revenue: number }> = {
+      bump1: { ...empty },
+      bump2: { ...empty },
+      upsell: { ...empty },
+      downsell: { ...empty },
+    };
     for (const e of ents) {
       if (e.status !== "active") continue;
-      const price = productById[e.product_id]?.price_cents ?? 0;
-      const type = getSaleType(e);
-      const row = (m[e.product_id] ??= { count: 0, revenue: 0, type });
-      row.count++;
-      row.revenue += price;
+      const p = productById[e.product_id];
+      if (!p) continue;
+      const name = p.name.toLowerCase();
+      const price = p.price_cents;
+      // Upsell/Downsell: "chave da gratidão" — diferencia pelo preço
+      if (name.includes("chave")) {
+        if (price <= 4000) {
+          result.downsell.count++;
+          result.downsell.revenue += price;
+        } else {
+          result.upsell.count++;
+          result.upsell.revenue += price;
+        }
+      }
+      // Order bumps: cadastrar produtos e ajustar match aqui
+      // bump1: if (name.includes("...")) { result.bump1.count++; result.bump1.revenue += price; }
+      // bump2: if (name.includes("...")) { result.bump2.count++; result.bump2.revenue += price; }
     }
-    return Object.entries(m).sort((a, b) => b[1].revenue - a[1].revenue);
-  }, [ents, productById, offerByKirvanoId]);
-
-  const typesWithData = (Object.entries(byType) as [SaleType, { count: number; revenue: number }][])
-    .filter(([, v]) => v.count > 0);
+    return result;
+  }, [ents, productById]);
 
   return (
     <div className="adm-fade-up space-y-6">
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--adm-text-muted)]">Fase 10</p>
           <h1 className="mt-1 text-2xl font-semibold text-[var(--adm-navy-deep)]">Vendas</h1>
-          <p className="mt-1 text-[13px] text-[var(--adm-text-muted)]">Faturamento por tipo de venda — principal, upsell, downsell e order bump.</p>
+          <p className="mt-1 text-[13px] text-[var(--adm-text-muted)]">Faturamento gerado pelos webhooks aprovados da Kirvano.</p>
         </div>
         <div className="inline-flex rounded-lg border border-slate-200 bg-white p-0.5">
           {PERIODS.map((p) => (
@@ -223,32 +159,33 @@ function AdminVendasPage() {
         </div>
       </header>
 
-      {/* 4 Cards por produto do funil */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {FUNIL_SLOTS.map((slot) => {
-          const product = products.find((p) => p.name.toLowerCase().includes(slot.match));
-          const stats = product ? byProductMap[product.id] : undefined;
-          return (
-            <GlassCard key={slot.label} className="p-4">
-              <div className="flex items-center gap-2">
-                <span className={`inline-flex h-7 w-7 items-center justify-center rounded-md ${slot.color}`}>
-                  <slot.icon className="h-4 w-4" />
-                </span>
-                <span className="text-[11px] font-semibold uppercase tracking-wide text-[var(--adm-text-muted)]">{slot.label}</span>
-              </div>
-              <p className="mt-2 text-2xl font-semibold text-[var(--adm-navy-deep)]">
-                {stats ? brl(stats.revenue) : "R$ 0,00"}
-              </p>
-              <p className="mt-0.5 text-[11px] text-[var(--adm-text-muted)]">
-                {stats ? `${stats.count} venda${stats.count !== 1 ? "s" : ""}` : "Cadastrar produto"}
-                {slot.price && !stats ? ` · ${slot.price}` : ""}
-              </p>
-            </GlassCard>
-          );
-        })}
+        <Kpi icon={<DollarSign className="h-4 w-4" />} label="Receita aprovada" value={brl(kpis.revenue)} tone="emerald" />
+        <Kpi icon={<TrendingUp className="h-4 w-4" />} label="Vendas aprovadas" value={String(kpis.approved)} tone="navy" />
+        <Kpi icon={<Undo2 className="h-4 w-4" />} label="Estornos / cancelados" value={String(kpis.refunded)} tone="rose" />
+        <Kpi icon={<Zap className="h-4 w-4" />} label="Eventos Kirvano" value={String(kpis.kirvano)} tone="amber" />
       </div>
 
-      {/* Receita por produto */}
+      {/* Funil: Order Bump 1, Order Bump 2, Upsell, Downsell */}
+      <div>
+        <h2 className="mb-3 text-[15px] font-semibold text-[var(--adm-navy-deep)]">Funil de Ofertas</h2>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {FUNIL_CARDS.map((card) => {
+            const stats = funnelStats[card.key];
+            return (
+              <GlassCard key={card.key} className="p-4">
+                <p className="text-[11px] font-semibold uppercase tracking-wide text-[var(--adm-text-muted)]">{card.label}</p>
+                <p className="mt-1 text-[13px] text-[var(--adm-navy-deep)]">{card.product}</p>
+                <p className="mt-2 text-2xl font-semibold text-[var(--adm-navy-deep)]">{brl(stats.revenue)}</p>
+                <p className="mt-0.5 text-[11px] text-[var(--adm-text-muted)]">
+                  {stats.count} venda{stats.count !== 1 ? "s" : ""} · {card.price}
+                </p>
+              </GlassCard>
+            );
+          })}
+        </div>
+      </div>
+
       <GlassCard className="p-5">
         <div className="flex items-center justify-between">
           <h2 className="text-[15px] font-semibold text-[var(--adm-navy-deep)]">Receita por produto</h2>
@@ -262,12 +199,7 @@ function AdminVendasPage() {
           <ul className="mt-4 divide-y divide-slate-100">
             {byProduct.map(([pid, row]) => (
               <li key={pid} className="flex items-center justify-between py-2.5">
-                <div className="flex items-center gap-2">
-                  <span className={`rounded-full px-2 py-0.5 text-[9px] font-semibold uppercase ${SALE_TYPE_COLORS[row.type]}`}>
-                    {SALE_TYPE_LABELS[row.type]}
-                  </span>
-                  <span className="text-[13px] text-[var(--adm-navy-deep)]">{productById[pid]?.name ?? pid}</span>
-                </div>
+                <span className="text-[13px] text-[var(--adm-navy-deep)]">{productById[pid]?.name ?? pid}</span>
                 <span className="text-[12px] text-[var(--adm-text-muted)]">
                   {row.count} venda{row.count > 1 ? "s" : ""} · <strong className="text-[var(--adm-navy-deep)]">{brl(row.revenue)}</strong>
                 </span>
@@ -277,7 +209,6 @@ function AdminVendasPage() {
         )}
       </GlassCard>
 
-      {/* Vendas recentes */}
       <GlassCard className="p-0">
         <header className="flex items-center justify-between border-b border-slate-100 px-5 py-3">
           <h2 className="text-[15px] font-semibold text-[var(--adm-navy-deep)]">Vendas recentes</h2>
@@ -293,7 +224,6 @@ function AdminVendasPage() {
               const product = productById[e.product_id];
               const price = product?.price_cents ?? 0;
               const isActive = e.status === "active";
-              const type = getSaleType(e);
               return (
                 <li key={e.id} className="flex flex-wrap items-center justify-between gap-3 px-5 py-3">
                   <div className="min-w-0 flex-1">
@@ -306,9 +236,6 @@ function AdminVendasPage() {
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className={`rounded-full px-2 py-0.5 text-[9px] font-semibold uppercase ${SALE_TYPE_COLORS[type]}`}>
-                      {SALE_TYPE_LABELS[type]}
-                    </span>
                     <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase ${
                       isActive ? "bg-emerald-100 text-emerald-700" : "bg-rose-100 text-rose-700"
                     }`}>
