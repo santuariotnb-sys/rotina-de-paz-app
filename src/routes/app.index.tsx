@@ -1,8 +1,8 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ChevronRight, Sun, Moon, Sparkles } from "lucide-react";
-import volMorningSrc from "@/assets/volume-1-manha.jpg";
-import volNightSrc from "@/assets/volume-2-noite.jpg";
+import volMorningSrc from "@/assets/volume-1-manha.webp";
+import volNightSrc from "@/assets/volume-2-noite.webp";
 import { ARCHETYPES, type Archetype } from "@/data/quiz";
 import { loadProgress, loadStudent, saveStudent, type Student } from "@/lib/student";
 
