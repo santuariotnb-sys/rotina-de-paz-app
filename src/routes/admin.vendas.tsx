@@ -71,6 +71,13 @@ function inferSaleType(label: string | null | undefined): SaleType {
   return "outro";
 }
 
+const FUNIL_SLOTS = [
+  { label: "Order 1", match: "rotina de paz", price: "R$ 47", icon: ShoppingBag, color: "bg-emerald-50 text-emerald-700" },
+  { label: "Order 2", match: "_order2_placeholder_", price: "", icon: Package, color: "bg-slate-100 text-slate-500" },
+  { label: "Upsell", match: "chave", price: "R$ 67", icon: ArrowUpRight, color: "bg-blue-50 text-blue-700" },
+  { label: "Downsell", match: "chave", price: "R$ 37", icon: ArrowDownRight, color: "bg-amber-50 text-amber-700" },
+] as const;
+
 function AdminVendasPage() {
   const [period, setPeriod] = useState<(typeof PERIODS)[number]>(PERIODS[1]);
 
@@ -164,7 +171,20 @@ function AdminVendasPage() {
     return m;
   }, [ents, productById, offerByKirvanoId]);
 
-  // Breakdown por produto
+  // Map por product_id para os cards do funil
+  const byProductMap = useMemo(() => {
+    const m: Record<string, { count: number; revenue: number }> = {};
+    for (const e of ents) {
+      if (e.status !== "active") continue;
+      const price = productById[e.product_id]?.price_cents ?? 0;
+      const row = (m[e.product_id] ??= { count: 0, revenue: 0 });
+      row.count++;
+      row.revenue += price;
+    }
+    return m;
+  }, [ents, productById]);
+
+  // Breakdown por produto (lista)
   const byProduct = useMemo(() => {
     const m: Record<string, { count: number; revenue: number; type: SaleType }> = {};
     for (const e of ents) {
@@ -203,43 +223,30 @@ function AdminVendasPage() {
         </div>
       </header>
 
-      {/* KPIs gerais */}
+      {/* 4 Cards por produto do funil */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Kpi icon={<DollarSign className="h-4 w-4" />} label="Receita total" value={brl(kpis.revenue)} tone="emerald" />
-        <Kpi icon={<TrendingUp className="h-4 w-4" />} label="Vendas aprovadas" value={String(kpis.approved)} tone="navy" />
-        <Kpi icon={<Undo2 className="h-4 w-4" />} label="Estornos / cancelados" value={String(kpis.refunded)} tone="rose" />
-        <Kpi icon={<Zap className="h-4 w-4" />} label="Eventos Kirvano" value={String(kpis.kirvano)} tone="amber" />
+        {FUNIL_SLOTS.map((slot) => {
+          const product = products.find((p) => p.name.toLowerCase().includes(slot.match));
+          const stats = product ? byProductMap[product.id] : undefined;
+          return (
+            <GlassCard key={slot.label} className="p-4">
+              <div className="flex items-center gap-2">
+                <span className={`inline-flex h-7 w-7 items-center justify-center rounded-md ${slot.color}`}>
+                  <slot.icon className="h-4 w-4" />
+                </span>
+                <span className="text-[11px] font-semibold uppercase tracking-wide text-[var(--adm-text-muted)]">{slot.label}</span>
+              </div>
+              <p className="mt-2 text-2xl font-semibold text-[var(--adm-navy-deep)]">
+                {stats ? brl(stats.revenue) : "R$ 0,00"}
+              </p>
+              <p className="mt-0.5 text-[11px] text-[var(--adm-text-muted)]">
+                {stats ? `${stats.count} venda${stats.count !== 1 ? "s" : ""}` : "Cadastrar produto"}
+                {slot.price && !stats ? ` · ${slot.price}` : ""}
+              </p>
+            </GlassCard>
+          );
+        })}
       </div>
-
-      {/* Breakdown por tipo de venda */}
-      <GlassCard className="p-5">
-        <h2 className="text-[15px] font-semibold text-[var(--adm-navy-deep)]">Receita por tipo de venda</h2>
-        {typesWithData.length === 0 ? (
-          <p className="mt-4 text-[13px] text-[var(--adm-text-muted)]">Nenhuma venda aprovada no período.</p>
-        ) : (
-          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {typesWithData.map(([type, data]) => {
-              const Icon = SALE_TYPE_ICONS[type];
-              return (
-                <div key={type} className="rounded-xl border border-slate-100 bg-white p-4">
-                  <div className="flex items-center gap-2">
-                    <span className={`inline-flex h-7 w-7 items-center justify-center rounded-md ${SALE_TYPE_COLORS[type]}`}>
-                      <Icon className="h-3.5 w-3.5" />
-                    </span>
-                    <span className="text-[11px] font-semibold uppercase tracking-wide text-[var(--adm-text-muted)]">
-                      {SALE_TYPE_LABELS[type]}
-                    </span>
-                  </div>
-                  <p className="mt-2 text-xl font-semibold text-[var(--adm-navy-deep)]">{brl(data.revenue)}</p>
-                  <p className="mt-0.5 text-[11px] text-[var(--adm-text-muted)]">
-                    {data.count} venda{data.count !== 1 ? "s" : ""}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </GlassCard>
 
       {/* Receita por produto */}
       <GlassCard className="p-5">
