@@ -139,6 +139,15 @@ export type KirvanoProcessResult = {
   note?: string;
 };
 
+function inferProductType(label: string | null): string {
+  if (!label) return "principal";
+  const l = label.toLowerCase();
+  if (l.includes("upsell") || l.includes("upgrade")) return "upsell";
+  if (l.includes("downsell")) return "downsell";
+  if (l.includes("bump")) return "order_bump";
+  return "principal";
+}
+
 /**
  * Processa o payload já validado e cria/revoga entitlements.
  * Não relança — chamador decide o status do webhook_log.
@@ -207,6 +216,43 @@ export async function processKirvanoPayload(payload: KirvanoPayload): Promise<Ki
       console.warn("[kirvano] erro ao enviar welcome email:", e);
     }
 
+    // Analytics: registrar purchase (isolado — nunca derruba fulfillment)
+    try {
+      for (const product_id of productIds) {
+        const { data: prod } = await supabaseAdmin
+          .from("products")
+          .select("name, price_cents")
+          .eq("id", product_id)
+          .single();
+        if (!prod) continue;
+
+        const offerMatch = (offers ?? []).find((o) => o.product_id === product_id);
+        let offerLabel: string | null = null;
+        if (offerMatch) {
+          const { data: offerRow } = await supabaseAdmin
+            .from("product_kirvano_offers")
+            .select("label")
+            .eq("kirvano_offer_id", offerMatch.kirvano_offer_id)
+            .single();
+          offerLabel = offerRow?.label ?? null;
+        }
+
+        await (supabaseAdmin as any).from("purchases").upsert({
+          transaction_id: txId ? `${txId}_${product_id.slice(0, 8)}` : null,
+          user_id: userId,
+          product_name: prod.name,
+          product_type: inferProductType(offerLabel),
+          gross_value: prod.price_cents,
+          status: "confirmed",
+          kirvano_offer_id: offerIds[0],
+          buyer_email: email,
+          metadata: { event: eventName, raw_offer_ids: offerIds },
+        }, { onConflict: "transaction_id" });
+      }
+    } catch (err) {
+      console.error("[analytics] falha ao registrar purchase (não-bloqueante):", err);
+    }
+
     return { matched: true, granted: productIds, revoked: [], userId };
   }
 
@@ -217,5 +263,17 @@ export async function processKirvanoPayload(payload: KirvanoPayload): Promise<Ki
     .eq("user_id", userId)
     .in("product_id", productIds);
   if (error) throw new Error(`Falha ao revogar entitlements: ${error.message}`);
+
+  // Analytics: marcar purchases como refunded (isolado)
+  try {
+    await (supabaseAdmin as any)
+      .from("purchases")
+      .update({ status: "refunded" })
+      .eq("buyer_email", email)
+      .eq("status", "confirmed");
+  } catch (err) {
+    console.error("[analytics] falha ao marcar refund em purchases (não-bloqueante):", err);
+  }
+
   return { matched: true, granted: [], revoked: productIds, userId };
 }
