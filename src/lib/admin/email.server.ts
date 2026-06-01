@@ -11,7 +11,7 @@ function siteUrl(): string {
 }
 
 function fromAddress(): string {
-  return process.env.RESEND_FROM ?? "Rotina de Paz <no-reply@rotinadepaz.com.br>";
+  return process.env.RESEND_FROM ?? "Rotina de Paz <noreply@rotinadepaz.com.br>";
 }
 
 /** Gera magic link de acesso direto (login sem senha). Falha silenciosa. */

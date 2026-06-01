@@ -115,7 +115,7 @@ export const notifyNewTicket = createServerFn({ method: "POST" })
       });
     } catch (e) {
       console.error("[send-email] notifyNewTicket failed:", e);
-      throw new Error("Failed to send notification");
+      // Falha silenciosa — ticket já foi salvo no banco, email é best-effort
     }
   });
 
@@ -137,7 +137,7 @@ export const notifyUserReply = createServerFn({ method: "POST" })
       });
     } catch (e) {
       console.error("[send-email] notifyUserReply failed:", e);
-      throw new Error("Failed to send notification");
+      // Falha silenciosa — ticket já foi salvo no banco, email é best-effort
     }
   });
 
@@ -161,7 +161,7 @@ export const notifyAdminReply = createServerFn({ method: "POST" })
       });
     } catch (e) {
       console.error("[send-email] notifyAdminReply failed:", e);
-      throw new Error("Failed to send notification");
+      // Falha silenciosa — ticket já foi salvo no banco, email é best-effort
     }
   });
 
@@ -184,6 +184,6 @@ export const notifyTicketClosed = createServerFn({ method: "POST" })
       });
     } catch (e) {
       console.error("[send-email] notifyTicketClosed failed:", e);
-      throw new Error("Failed to send notification");
+      // Falha silenciosa — ticket já foi salvo no banco, email é best-effort
     }
   });
