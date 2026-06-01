@@ -5,7 +5,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
 const FROM = "Rotina de Paz <noreply@rotinadepaz.com.br>";
-const SUPPORT_EMAIL = "suporte@rotinadepaz.com.br";
+const SUPPORT_EMAIL = "rotinadepaz.suporte@gmail.com";
 
 async function assertAdmin(userId: string) {
   const { data, error } = await supabaseAdmin
