@@ -19,6 +19,7 @@ import {
   X,
   MessageSquare,
   BarChart3,
+  TrendingUp,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -45,6 +46,7 @@ const items: NavItem[] = [
   { to: "/admin/membros", icon: Gem, label: "Membros" },
   { to: "/admin/vendas", icon: CircleDollarSign, label: "Vendas" },
   { to: "/admin/tracking", icon: Target, label: "Tracking" },
+  { to: "/admin/analytics", icon: TrendingUp, label: "Analytics Avançado" },
   { to: "/admin/suporte", icon: MessageSquare, label: "Suporte" },
   { to: "/admin/config", icon: Settings, label: "Configurações" },
 ];

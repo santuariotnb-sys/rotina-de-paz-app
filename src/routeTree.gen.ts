@@ -36,6 +36,7 @@ import { Route as AdminCursosRouteImport } from './routes/admin.cursos'
 import { Route as AdminConfigRouteImport } from './routes/admin.config'
 import { Route as AdminClientesRouteImport } from './routes/admin.clientes'
 import { Route as AdminAudiosRouteImport } from './routes/admin.audios'
+import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
 import { Route as AdminAcessosRouteImport } from './routes/admin.acessos'
 import { Route as AppVolumeTurnoRouteImport } from './routes/app.volume.$turno'
 import { Route as AppSuporteTicketIdRouteImport } from './routes/app.suporte.$ticketId'
@@ -176,6 +177,11 @@ const AdminAudiosRoute = AdminAudiosRouteImport.update({
   path: '/audios',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminAcessosRoute = AdminAcessosRouteImport.update({
   id: '/acessos',
   path: '/acessos',
@@ -205,6 +211,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
   '/admin/acessos': typeof AdminAcessosRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/audios': typeof AdminAudiosRoute
   '/admin/clientes': typeof AdminClientesRoute
   '/admin/config': typeof AdminConfigRoute
@@ -236,6 +243,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
   '/admin/acessos': typeof AdminAcessosRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/audios': typeof AdminAudiosRoute
   '/admin/clientes': typeof AdminClientesRoute
   '/admin/config': typeof AdminConfigRoute
@@ -270,6 +278,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
   '/admin/acessos': typeof AdminAcessosRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/audios': typeof AdminAudiosRoute
   '/admin/clientes': typeof AdminClientesRoute
   '/admin/config': typeof AdminConfigRoute
@@ -305,6 +314,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/reset-password'
     | '/admin/acessos'
+    | '/admin/analytics'
     | '/admin/audios'
     | '/admin/clientes'
     | '/admin/config'
@@ -336,6 +346,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/reset-password'
     | '/admin/acessos'
+    | '/admin/analytics'
     | '/admin/audios'
     | '/admin/clientes'
     | '/admin/config'
@@ -369,6 +380,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/reset-password'
     | '/admin/acessos'
+    | '/admin/analytics'
     | '/admin/audios'
     | '/admin/clientes'
     | '/admin/config'
@@ -596,6 +608,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAudiosRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/analytics': {
+      id: '/admin/analytics'
+      path: '/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AdminAnalyticsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/acessos': {
       id: '/admin/acessos'
       path: '/acessos'
@@ -629,6 +648,7 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteChildren {
   AdminAcessosRoute: typeof AdminAcessosRoute
+  AdminAnalyticsRoute: typeof AdminAnalyticsRoute
   AdminAudiosRoute: typeof AdminAudiosRoute
   AdminClientesRoute: typeof AdminClientesRoute
   AdminConfigRoute: typeof AdminConfigRoute
@@ -649,6 +669,7 @@ interface AdminRouteChildren {
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminAcessosRoute: AdminAcessosRoute,
+  AdminAnalyticsRoute: AdminAnalyticsRoute,
   AdminAudiosRoute: AdminAudiosRoute,
   AdminClientesRoute: AdminClientesRoute,
   AdminConfigRoute: AdminConfigRoute,
