@@ -66,7 +66,7 @@ function PazHome() {
       </div>
 
       {/* Duas capas */}
-      <div className="mt-8 grid gap-5 md:grid-cols-2">
+      <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-1 sm:gap-5 md:grid-cols-2">
         <VolumeCard
           to="manha"
           img={volMorningSrc}
@@ -116,10 +116,10 @@ function VolumeCard({ to, img, eyebrow, title, subtitle, icon, tone, done }: {
           {done}/7
         </div>
       </div>
-      <div className="p-5">
+      <div className="p-3 sm:p-5">
         <p className="text-[10px] uppercase tracking-[0.24em] text-[color:var(--gold-warm)]">{eyebrow}</p>
-        <h3 className="mt-1 font-display text-2xl text-[color:var(--deep-purple)]">{title}</h3>
-        <p className="mt-1 text-[13px] text-[color:var(--amethyst)]">{subtitle}</p>
+        <h3 className="mt-1 font-display text-lg sm:text-2xl text-[color:var(--deep-purple)]">{title}</h3>
+        <p className="mt-1 text-[12px] sm:text-[13px] leading-snug text-[color:var(--amethyst)]">{subtitle}</p>
         <div className="mt-4 flex items-center justify-between">
           <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-[color:var(--rose-soft)]/40">
             <div className="h-full rounded-full bg-gradient-to-r from-[#D4A5B5] to-[#C9A876]" style={{ width: `${(done / 7) * 100}%` }} />
