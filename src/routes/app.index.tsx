@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ChevronRight, Sun, Moon, Sparkles } from "lucide-react";
+import { ChevronRight, Sun, Moon, Sparkles, Play, Crown } from "lucide-react";
 import volMorningSrc from "@/assets/volume-1-manha.webp";
 import volNightSrc from "@/assets/volume-2-noite.webp";
 import { ARCHETYPES, type Archetype } from "@/data/quiz";
@@ -108,11 +108,27 @@ function VolumeCard({ to, img, eyebrow, title, subtitle, icon, tone, done }: {
       <div className="relative aspect-[4/5] sm:aspect-square w-full overflow-hidden">
         <img src={img} alt={title} width={1024} height={1024} loading="lazy"
           className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
+
+        {/* período (sup-esq) */}
         <div className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/85 px-2.5 py-1 text-[10px] uppercase tracking-[0.22em] text-[color:var(--gold-warm)]">
           {icon} {tone === "morning" ? "Manhã" : "Noite"}
         </div>
-        <div className="absolute right-4 top-4 rounded-full bg-white/85 px-2.5 py-1 text-[11px] font-semibold text-[color:var(--deep-purple)]">
+
+        {/* selo premium (sup-dir) */}
+        <div className="absolute right-4 top-4 grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-[#E8C9A0] to-[#C9A876] text-[#2C1F0B] shadow-[0_4px_14px_-4px_rgba(201,168,118,0.85)] ring-1 ring-white/60" aria-label="Conteúdo premium">
+          <Crown className="h-4 w-4 fill-current" />
+        </div>
+
+        {/* play central — o clique na capa inicia */}
+        <div className="pointer-events-none absolute inset-0 grid place-items-center">
+          <span className="grid h-14 w-14 place-items-center rounded-full bg-white/85 text-[color:var(--gold-warm)] shadow-lg ring-1 ring-white/70 backdrop-blur-sm transition duration-300 group-hover:scale-110 group-hover:bg-white">
+            <Play className="h-6 w-6 translate-x-[1px] fill-current" />
+          </span>
+        </div>
+
+        {/* progresso (inf-esq) */}
+        <div className="absolute bottom-4 left-4 rounded-full bg-black/45 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur-sm">
           {done}/7
         </div>
       </div>

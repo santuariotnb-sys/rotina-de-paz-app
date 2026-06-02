@@ -879,6 +879,28 @@
 
 /* ============ App — tema claro rosé (pós-splash) ============ */
 
+/* Scrollbar dourada — só nas telas do app (não afeta o admin) */
+html:has(.rdp-app-bg), body:has(.rdp-app-bg) {
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold-warm) transparent;
+}
+html:has(.rdp-app-bg)::-webkit-scrollbar,
+body:has(.rdp-app-bg)::-webkit-scrollbar { width: 10px; }
+html:has(.rdp-app-bg)::-webkit-scrollbar-track,
+body:has(.rdp-app-bg)::-webkit-scrollbar-track { background: transparent; }
+html:has(.rdp-app-bg)::-webkit-scrollbar-thumb,
+body:has(.rdp-app-bg)::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #E8C9A0, #C9A876);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+html:has(.rdp-app-bg)::-webkit-scrollbar-thumb:hover,
+body:has(.rdp-app-bg)::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #C9A876, #B8862F);
+  background-clip: padding-box;
+}
+
 .rdp-app-bg {
   background:
     radial-gradient(ellipse at top, rgba(212,165,181,0.22), transparent 55%),
