@@ -120,13 +120,6 @@ function VolumeCard({ to, img, eyebrow, title, subtitle, icon, tone, done }: {
           <Crown className="h-4 w-4 fill-current" />
         </div>
 
-        {/* play central — o clique na capa inicia */}
-        <div className="pointer-events-none absolute inset-0 grid place-items-center">
-          <span className="grid h-14 w-14 place-items-center rounded-full bg-white/85 text-[color:var(--gold-warm)] shadow-lg ring-1 ring-white/70 backdrop-blur-sm transition duration-300 group-hover:scale-110 group-hover:bg-white">
-            <Play className="h-6 w-6 translate-x-[1px] fill-current" />
-          </span>
-        </div>
-
         {/* progresso (inf-esq) */}
         <div className="absolute bottom-4 left-4 rounded-full bg-black/45 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur-sm">
           {done}/7
@@ -136,11 +129,13 @@ function VolumeCard({ to, img, eyebrow, title, subtitle, icon, tone, done }: {
         <p className="text-[10px] uppercase tracking-[0.24em] text-[color:var(--gold-warm)]">{eyebrow}</p>
         <h3 className="mt-1 font-display text-2xl text-[color:var(--deep-purple)]">{title}</h3>
         <p className="mt-1 text-[13px] text-[color:var(--amethyst)]">{subtitle}</p>
-        <div className="mt-4 flex items-center justify-between">
+        <div className="mt-4 flex items-center justify-between gap-3">
           <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-[color:var(--rose-soft)]/40">
             <div className="h-full rounded-full bg-gradient-to-r from-[#D4A5B5] to-[#C9A876]" style={{ width: `${(done / 7) * 100}%` }} />
           </div>
-          <ChevronRight className="ml-3 h-5 w-5 text-[color:var(--gold-warm)]" />
+          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-gradient-to-br from-[#E8C9A0] to-[#C9A876] text-[#2C1F0B] shadow-[0_6px_18px_-6px_rgba(201,168,118,0.7)] transition duration-300 group-hover:scale-105 group-hover:brightness-110" aria-label="Iniciar">
+            <Play className="h-4 w-4 translate-x-[1px] fill-current" />
+          </span>
         </div>
       </div>
     </Link>
