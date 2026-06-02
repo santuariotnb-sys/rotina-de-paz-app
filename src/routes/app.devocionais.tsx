@@ -55,7 +55,7 @@ function DevocionaisPage() {
 
       <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((d, i) => (
-          <Link key={d.id} to="/app/devocional/$slug" params={{ slug: d.slug }} className="block overflow-hidden rounded-3xl rdp-light-card rdp-light-card-hover rdp-fade-up" style={{ animationDelay: `${i * 60}ms` }}>
+          <Link key={d.id} to="/app/devocional/$slug" params={{ slug: d.slug }} className="mx-auto block w-full max-w-[260px] overflow-hidden rounded-3xl rdp-light-card rdp-light-card-hover rdp-fade-up sm:max-w-none" style={{ animationDelay: `${i * 60}ms` }}>
             <div className="relative aspect-[3/4]" style={{ background: d.cover }}>
               <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
               <span className="absolute left-3 top-3 rounded-full bg-white/90 px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-[color:var(--gold-warm)]">{d.badge}</span>
