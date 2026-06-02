@@ -40,6 +40,7 @@ import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
 import { Route as AdminAcessosRouteImport } from './routes/admin.acessos'
 import { Route as AppVolumeTurnoRouteImport } from './routes/app.volume.$turno'
 import { Route as AppSuporteTicketIdRouteImport } from './routes/app.suporte.$ticketId'
+import { Route as AppDevocionalSlugRouteImport } from './routes/app.devocional.$slug'
 import { Route as ApiPublicWebhooksKirvanoRouteImport } from './routes/api/public/webhooks/kirvano'
 
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -197,6 +198,11 @@ const AppSuporteTicketIdRoute = AppSuporteTicketIdRouteImport.update({
   path: '/$ticketId',
   getParentRoute: () => AppSuporteRoute,
 } as any)
+const AppDevocionalSlugRoute = AppDevocionalSlugRouteImport.update({
+  id: '/devocional/$slug',
+  path: '/devocional/$slug',
+  getParentRoute: () => AppRoute,
+} as any)
 const ApiPublicWebhooksKirvanoRoute =
   ApiPublicWebhooksKirvanoRouteImport.update({
     id: '/api/public/webhooks/kirvano',
@@ -234,6 +240,7 @@ export interface FileRoutesByFullPath {
   '/app/suporte': typeof AppSuporteRouteWithChildren
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
+  '/app/devocional/$slug': typeof AppDevocionalSlugRoute
   '/app/suporte/$ticketId': typeof AppSuporteTicketIdRoute
   '/app/volume/$turno': typeof AppVolumeTurnoRoute
   '/api/public/webhooks/kirvano': typeof ApiPublicWebhooksKirvanoRoute
@@ -266,6 +273,7 @@ export interface FileRoutesByTo {
   '/app/suporte': typeof AppSuporteRouteWithChildren
   '/admin': typeof AdminIndexRoute
   '/app': typeof AppIndexRoute
+  '/app/devocional/$slug': typeof AppDevocionalSlugRoute
   '/app/suporte/$ticketId': typeof AppSuporteTicketIdRoute
   '/app/volume/$turno': typeof AppVolumeTurnoRoute
   '/api/public/webhooks/kirvano': typeof ApiPublicWebhooksKirvanoRoute
@@ -301,6 +309,7 @@ export interface FileRoutesById {
   '/app/suporte': typeof AppSuporteRouteWithChildren
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
+  '/app/devocional/$slug': typeof AppDevocionalSlugRoute
   '/app/suporte/$ticketId': typeof AppSuporteTicketIdRoute
   '/app/volume/$turno': typeof AppVolumeTurnoRoute
   '/api/public/webhooks/kirvano': typeof ApiPublicWebhooksKirvanoRoute
@@ -337,6 +346,7 @@ export interface FileRouteTypes {
     | '/app/suporte'
     | '/admin/'
     | '/app/'
+    | '/app/devocional/$slug'
     | '/app/suporte/$ticketId'
     | '/app/volume/$turno'
     | '/api/public/webhooks/kirvano'
@@ -369,6 +379,7 @@ export interface FileRouteTypes {
     | '/app/suporte'
     | '/admin'
     | '/app'
+    | '/app/devocional/$slug'
     | '/app/suporte/$ticketId'
     | '/app/volume/$turno'
     | '/api/public/webhooks/kirvano'
@@ -403,6 +414,7 @@ export interface FileRouteTypes {
     | '/app/suporte'
     | '/admin/'
     | '/app/'
+    | '/app/devocional/$slug'
     | '/app/suporte/$ticketId'
     | '/app/volume/$turno'
     | '/api/public/webhooks/kirvano'
@@ -636,6 +648,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSuporteTicketIdRouteImport
       parentRoute: typeof AppSuporteRoute
     }
+    '/app/devocional/$slug': {
+      id: '/app/devocional/$slug'
+      path: '/devocional/$slug'
+      fullPath: '/app/devocional/$slug'
+      preLoaderRoute: typeof AppDevocionalSlugRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/api/public/webhooks/kirvano': {
       id: '/api/public/webhooks/kirvano'
       path: '/api/public/webhooks/kirvano'
@@ -709,6 +728,7 @@ interface AppRouteChildren {
   AppLouvoresRoute: typeof AppLouvoresRoute
   AppSuporteRoute: typeof AppSuporteRouteWithChildren
   AppIndexRoute: typeof AppIndexRoute
+  AppDevocionalSlugRoute: typeof AppDevocionalSlugRoute
   AppVolumeTurnoRoute: typeof AppVolumeTurnoRoute
 }
 
@@ -719,6 +739,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppLouvoresRoute: AppLouvoresRoute,
   AppSuporteRoute: AppSuporteRouteWithChildren,
   AppIndexRoute: AppIndexRoute,
+  AppDevocionalSlugRoute: AppDevocionalSlugRoute,
   AppVolumeTurnoRoute: AppVolumeTurnoRoute,
 }
 
