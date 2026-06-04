@@ -22,7 +22,7 @@ export function useEntitlements() {
       if (error) throw new Error(error.message);
       return new Set((data ?? []).map((r) => r.product_id));
     },
-    staleTime: 60_000,
+    staleTime: 5 * 60_000,
   });
 }
 

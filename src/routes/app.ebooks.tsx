@@ -1,14 +1,32 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, type QueryClient } from "@tanstack/react-query";
 import { BookOpen, ShoppingCart, ChevronRight } from "lucide-react";
 import { type Ebook } from "@/data/ebooks";
 import { supabase } from "@/integrations/supabase/client";
 import { isUnlocked, useEntitlements } from "@/hooks/useEntitlements";
 import { checkoutFor, useProductCheckouts } from "@/hooks/useProductCheckouts";
 
+const ebooksQueryOptions = {
+  queryKey: ["app", "ebooks"] as const,
+  queryFn: async () => {
+    const { data, error } = await supabase
+      .from("ebooks")
+      .select("id, title, subtitle, category, price_cents, badge, cover_url, sort_order, required_product_id, file_url, description")
+      .eq("status", "active")
+      .order("sort_order", { ascending: true });
+    if (error) throw error;
+    return data ?? [];
+  },
+};
+
 export const Route = createFileRoute("/app/ebooks")({
+  loader: ({ context }) => {
+    const qc = (context as { queryClient: QueryClient }).queryClient;
+    qc.ensureQueryData(ebooksQueryOptions);
+  },
   component: EbooksPage,
+  pendingComponent: EbooksSkeleton,
 });
 
 type EbookExt = Ebook & {
@@ -18,31 +36,46 @@ type EbookExt = Ebook & {
   coverUrl: string | null;
 };
 
+function mapEbooks(raw: any[]): EbookExt[] {
+  return raw.map((r) => ({
+    id: r.id,
+    title: r.title,
+    subtitle: r.subtitle ?? "",
+    category: (r.category ?? "bonus") as Ebook["category"],
+    price: r.price_cents > 0 ? `R$ ${(r.price_cents / 100).toFixed(2).replace(".", ",")}` : undefined,
+    badge: r.badge ?? undefined,
+    cover: "",
+    coverUrl: r.cover_url ?? null,
+    requiredProductId: r.required_product_id ?? null,
+    fileUrl: r.file_url ?? null,
+    description: r.description ?? null,
+  }));
+}
+
+function EbooksSkeleton() {
+  return (
+    <div className="mt-6 space-y-8 animate-pulse">
+      <div className="text-center">
+        <div className="mx-auto h-4 w-20 rounded bg-[color:var(--gold-warm)]/20" />
+        <div className="mx-auto mt-2 h-8 w-32 rounded bg-[color:var(--deep-purple)]/10" />
+      </div>
+      {[1, 2].map((i) => (
+        <div key={i} className="space-y-3">
+          <div className="h-5 w-40 rounded bg-[color:var(--deep-purple)]/10" />
+          <div className="flex gap-3">
+            {[1, 2, 3].map((j) => (
+              <div key={j} className="aspect-[2/3] w-[55vw] max-w-[200px] shrink-0 rounded-2xl bg-[#F5ECD9]" />
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function EbooksPage() {
-  const { data: ebooks = [], isLoading } = useQuery<EbookExt[]>({
-    queryKey: ["app", "ebooks"],
-    queryFn: async (): Promise<EbookExt[]> => {
-      const { data, error } = await supabase
-        .from("ebooks")
-        .select("id, title, subtitle, category, price_cents, badge, cover_url, sort_order, required_product_id, file_url, description")
-        .eq("status", "active")
-        .order("sort_order", { ascending: true });
-      if (error) throw error;
-      return (data ?? []).map((r: any) => ({
-        id: r.id,
-        title: r.title,
-        subtitle: r.subtitle ?? "",
-        category: (r.category ?? "bonus") as Ebook["category"],
-        price: r.price_cents > 0 ? `R$ ${(r.price_cents / 100).toFixed(2).replace(".", ",")}` : undefined,
-        badge: r.badge ?? undefined,
-        cover: "",
-        coverUrl: r.cover_url ?? null,
-        requiredProductId: r.required_product_id ?? null,
-        fileUrl: r.file_url ?? null,
-        description: r.description ?? null,
-      }));
-    },
-  });
+  const { data: raw = [], isLoading } = useQuery(ebooksQueryOptions);
+  const ebooks = mapEbooks(raw);
 
   const { data: owned } = useEntitlements();
   const { data: checkouts } = useProductCheckouts();
