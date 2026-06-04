@@ -82,35 +82,77 @@ function Shelf({
   owned: Set<string> | undefined;
   checkouts: Map<string, string> | undefined;
 }) {
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const expandedEbook = expandedId ? items.find((e) => e.id === expandedId) : null;
+  const expandedBuyUrl = expandedEbook ? checkoutFor(checkouts, expandedEbook.requiredProductId) : null;
+
   if (items.length === 0) return null;
   return (
     <section className="mt-8 rdp-fade-up">
       <h3 className="mb-3 font-display text-xl text-[color:var(--deep-purple)]">{title}</h3>
       <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 scrollbar-none" style={{ WebkitOverflowScrolling: "touch" }}>
-        {items.map((e) => (
-          <EbookCard key={e.id} ebook={e} owned={owned} checkouts={checkouts} />
-        ))}
+        {items.map((e) => {
+          const unlocked = isUnlocked(owned, e.requiredProductId);
+          const buyUrl = !unlocked ? checkoutFor(checkouts, e.requiredProductId) : null;
+          return (
+            <EbookCard
+              key={e.id}
+              ebook={e}
+              unlocked={unlocked}
+              buyUrl={buyUrl}
+              isExpanded={expandedId === e.id}
+              onToggle={() => setExpandedId(expandedId === e.id ? null : e.id)}
+            />
+          );
+        })}
       </div>
+
+      {/* Offer panel — renders BELOW the carousel */}
+      {expandedEbook && (
+        <div className="mt-3 overflow-hidden rounded-2xl rdp-light-card shadow-[0_8px_24px_-12px_rgba(117,97,127,0.4)] animate-in slide-in-from-top-2 fade-in duration-200">
+          <div className="p-4">
+            <p className="font-display text-lg leading-tight text-[color:var(--deep-purple)]">{expandedEbook.title}</p>
+            <p className="mt-2 text-[13px] leading-relaxed text-[color:var(--amethyst)]">
+              {expandedEbook.description || expandedEbook.subtitle}
+            </p>
+            {expandedBuyUrl && (
+              <a
+                href={expandedBuyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 inline-flex w-full items-center justify-center gap-1.5 rounded-full bg-gradient-to-br from-[#E8C9A0] to-[#C9A876] px-5 py-2.5 text-[13px] font-semibold text-[#2C1F0B] shadow-[0_6px_20px_-8px_rgba(201,168,118,0.55)] hover:brightness-110"
+              >
+                Adquirir agora · {expandedEbook.price} <ChevronRight className="h-4 w-4" />
+              </a>
+            )}
+            <button
+              type="button"
+              onClick={() => setExpandedId(null)}
+              className="mt-2 w-full text-center text-[11px] text-[color:var(--amethyst)] underline underline-offset-2"
+            >
+              Fechar
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
 
 function EbookCard({
-  ebook: e, owned, checkouts,
+  ebook: e, unlocked, buyUrl, isExpanded, onToggle,
 }: {
   ebook: EbookExt;
-  owned: Set<string> | undefined;
-  checkouts: Map<string, string> | undefined;
+  unlocked: boolean;
+  buyUrl: string | null;
+  isExpanded: boolean;
+  onToggle: () => void;
 }) {
-  const [expanded, setExpanded] = useState(false);
-  const unlocked = isUnlocked(owned, e.requiredProductId);
-  const buyUrl = !unlocked ? checkoutFor(checkouts, e.requiredProductId) : null;
-
   function handleTap() {
     if (unlocked && e.fileUrl) {
       window.open(e.fileUrl, "_blank", "noopener");
     } else if (!unlocked) {
-      setExpanded((v) => !v);
+      onToggle();
     }
   }
 
@@ -124,83 +166,46 @@ function EbookCard({
   }
 
   return (
-    <>
-      {/* Carousel card */}
-      <button
-        type="button"
-        onClick={handleTap}
-        className="group block w-[55vw] max-w-[200px] shrink-0 snap-center text-left"
-      >
-        <div className="relative aspect-[2/3] overflow-hidden rounded-2xl shadow-[0_12px_30px_-15px_rgba(117,97,127,0.45)] transition group-hover:-translate-y-1">
-          <div className="absolute inset-0" style={{ background: e.cover }} />
+    <button
+      type="button"
+      onClick={handleTap}
+      className={"group block w-[55vw] max-w-[200px] shrink-0 snap-center text-left transition-transform " + (isExpanded ? "scale-[0.96] opacity-80" : "")}
+    >
+      <div className="relative aspect-[2/3] overflow-hidden rounded-2xl shadow-[0_12px_30px_-15px_rgba(117,97,127,0.45)] transition group-hover:-translate-y-1">
+        <div className="absolute inset-0" style={{ background: e.cover }} />
 
-          {/* Locked: price badge — NO blur, cover stays visible */}
-          {!unlocked && e.price && (
-            <div className="absolute inset-x-0 bottom-0 flex items-center justify-center bg-gradient-to-t from-black/60 to-transparent pb-3 pt-8">
-              <span className="inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-bold text-[color:var(--deep-purple)] shadow">
-                <ShoppingCart className="h-3 w-3 text-[color:var(--gold-warm)]" /> {e.price}
-              </span>
-            </div>
-          )}
-
-          {/* Unlocked: Ler + download */}
-          {unlocked && e.fileUrl && (
-            <div className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-gradient-to-t from-black/70 to-transparent px-3 pb-3 pt-8">
-              <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-white">
-                <BookOpen className="h-3.5 w-3.5" /> Ler
-              </span>
-              <button
-                type="button"
-                onClick={handleDownload}
-                className="grid h-7 w-7 place-items-center rounded-full bg-white/20 text-white hover:bg-white/40"
-                title="Baixar PDF"
-              >
-                <Download className="h-3 w-3" />
-              </button>
-            </div>
-          )}
-
-          {e.badge && (
-            <span className="absolute left-1.5 top-1.5 rounded-full bg-white/90 px-2 py-0.5 text-[8px] font-bold uppercase tracking-wider text-[color:var(--gold-warm)]">{e.badge}</span>
-          )}
-        </div>
-        <p className="mt-1.5 text-[12px] font-medium leading-tight text-[color:var(--deep-purple)]">{e.title}</p>
-        {unlocked && <p className="text-[10px] font-semibold text-emerald-600">Liberado</p>}
-      </button>
-
-      {/* Expanded offer panel */}
-      {expanded && (
-        <div className="w-[calc(100vw-2rem)] shrink-0 snap-center overflow-hidden rounded-2xl rdp-light-card shadow-[0_12px_30px_-15px_rgba(117,97,127,0.45)]">
-          <div className="flex gap-3 p-3">
-            <div className="relative h-[140px] w-[95px] shrink-0 overflow-hidden rounded-xl">
-              <div className="absolute inset-0" style={{ background: e.cover }} />
-            </div>
-            <div className="flex flex-1 flex-col justify-center">
-              <p className="font-display text-base leading-tight text-[color:var(--deep-purple)]">{e.title}</p>
-              <p className="mt-1 text-[11px] leading-relaxed text-[color:var(--amethyst)]">
-                {e.description || e.subtitle}
-              </p>
-              {buyUrl && (
-                <a
-                  href={buyUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-2.5 inline-flex w-fit items-center gap-1.5 rounded-full bg-gradient-to-br from-[#E8C9A0] to-[#C9A876] px-4 py-2 text-[12px] font-semibold text-[#2C1F0B] shadow-[0_4px_14px_-6px_rgba(201,168,118,0.55)] hover:brightness-110"
-                >
-                  Garantir meu e-book <ChevronRight className="h-3.5 w-3.5" />
-                </a>
-              )}
-              <button
-                type="button"
-                onClick={() => setExpanded(false)}
-                className="mt-2 self-start text-[11px] text-[color:var(--amethyst)] underline underline-offset-2"
-              >
-                Fechar
-              </button>
-            </div>
+        {/* Locked: price badge — NO blur, cover stays visible */}
+        {!unlocked && e.price && (
+          <div className="absolute inset-x-0 bottom-0 flex items-center justify-center bg-gradient-to-t from-black/60 to-transparent pb-3 pt-8">
+            <span className="inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-bold text-[color:var(--deep-purple)] shadow">
+              <ShoppingCart className="h-3 w-3 text-[color:var(--gold-warm)]" /> {e.price}
+            </span>
           </div>
-        </div>
-      )}
-    </>
+        )}
+
+        {/* Unlocked: Ler + download */}
+        {unlocked && e.fileUrl && (
+          <div className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-gradient-to-t from-black/70 to-transparent px-3 pb-3 pt-8">
+            <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-white">
+              <BookOpen className="h-3.5 w-3.5" /> Ler
+            </span>
+            <button
+              type="button"
+              onClick={handleDownload}
+              className="grid h-7 w-7 place-items-center rounded-full bg-white/20 text-white hover:bg-white/40"
+              title="Baixar PDF"
+            >
+              <Download className="h-3 w-3" />
+            </button>
+          </div>
+        )}
+
+        {e.badge && (
+          <span className="absolute left-1.5 top-1.5 rounded-full bg-white/90 px-2 py-0.5 text-[8px] font-bold uppercase tracking-wider text-[color:var(--gold-warm)]">{e.badge}</span>
+        )}
+      </div>
+      <p className="mt-1.5 text-[12px] font-medium leading-tight text-[color:var(--deep-purple)]">{e.title}</p>
+      {unlocked && <p className="text-[10px] font-semibold text-emerald-600">Liberado</p>}
+    </button>
   );
 }
