@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { BookOpen, ShoppingCart, Download, ChevronRight } from "lucide-react";
+import { BookOpen, ShoppingCart, ChevronRight } from "lucide-react";
 import { type Ebook } from "@/data/ebooks";
 import { supabase } from "@/integrations/supabase/client";
 import { isUnlocked, useEntitlements } from "@/hooks/useEntitlements";
@@ -148,27 +148,14 @@ function EbookCard({
   isExpanded: boolean;
   onToggle: () => void;
 }) {
-  function handleTap() {
-    if (unlocked && e.fileUrl) {
-      window.open(e.fileUrl, "_blank", "noopener");
-    } else if (!unlocked) {
-      onToggle();
-    }
-  }
-
-  function handleDownload(ev: React.MouseEvent) {
-    ev.stopPropagation();
-    if (!e.fileUrl) return;
-    const a = document.createElement("a");
-    a.href = e.fileUrl;
-    a.download = `${e.title}.pdf`;
-    a.click();
-  }
+  const Tag = unlocked && e.fileUrl ? "a" : "button";
+  const linkProps = unlocked && e.fileUrl
+    ? { href: e.fileUrl, target: "_blank" as const, rel: "noopener noreferrer" }
+    : { type: "button" as const, onClick: () => onToggle() };
 
   return (
-    <button
-      type="button"
-      onClick={handleTap}
+    <Tag
+      {...linkProps as any}
       className={"group block w-[55vw] max-w-[200px] shrink-0 snap-center text-left transition-transform " + (isExpanded ? "scale-[0.96] opacity-80" : "")}
     >
       <div className="relative aspect-[2/3] overflow-hidden rounded-2xl shadow-[0_12px_30px_-15px_rgba(117,97,127,0.45)] transition group-hover:-translate-y-1">
@@ -183,20 +170,12 @@ function EbookCard({
           </div>
         )}
 
-        {/* Unlocked: Ler + download */}
+        {/* Unlocked: Ler indicator */}
         {unlocked && e.fileUrl && (
-          <div className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-gradient-to-t from-black/70 to-transparent px-3 pb-3 pt-8">
-            <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-white">
-              <BookOpen className="h-3.5 w-3.5" /> Ler
+          <div className="absolute inset-x-0 bottom-0 flex items-center justify-center bg-gradient-to-t from-black/70 to-transparent pb-3 pt-8">
+            <span className="inline-flex items-center gap-1 rounded-full bg-white/90 px-3 py-1 text-[10px] font-semibold text-[color:var(--deep-purple)] shadow">
+              <BookOpen className="h-3 w-3" /> Ler agora
             </span>
-            <button
-              type="button"
-              onClick={handleDownload}
-              className="grid h-7 w-7 place-items-center rounded-full bg-white/20 text-white hover:bg-white/40"
-              title="Baixar PDF"
-            >
-              <Download className="h-3 w-3" />
-            </button>
           </div>
         )}
 
