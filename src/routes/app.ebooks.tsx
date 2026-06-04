@@ -20,7 +20,7 @@ function EbooksPage() {
     queryFn: async (): Promise<EbookExt[]> => {
       const { data, error } = await supabase
         .from("ebooks")
-        .select("id, title, subtitle, category, price_cents, badge, cover_url, sort_order")
+        .select("id, title, subtitle, category, price_cents, badge, cover_url, sort_order, required_product_id, file_url")
         .eq("status", "active")
         .order("sort_order", { ascending: true });
       if (error) throw error;
