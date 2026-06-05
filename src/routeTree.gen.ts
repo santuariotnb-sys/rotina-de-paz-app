@@ -9,10 +9,14 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermosDeUsoRouteImport } from './routes/termos-de-uso'
+import { Route as TermoDeCienciaRouteImport } from './routes/termo-de-ciencia'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as PoliticaDePrivacidadeRouteImport } from './routes/politica-de-privacidade'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AceiteRouteImport } from './routes/aceite'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
@@ -43,9 +47,24 @@ import { Route as AppSuporteTicketIdRouteImport } from './routes/app.suporte.$ti
 import { Route as AppDevocionalSlugRouteImport } from './routes/app.devocional.$slug'
 import { Route as ApiPublicWebhooksKirvanoRouteImport } from './routes/api/public/webhooks/kirvano'
 
+const TermosDeUsoRoute = TermosDeUsoRouteImport.update({
+  id: '/termos-de-uso',
+  path: '/termos-de-uso',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermoDeCienciaRoute = TermoDeCienciaRouteImport.update({
+  id: '/termo-de-ciencia',
+  path: '/termo-de-ciencia',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PoliticaDePrivacidadeRoute = PoliticaDePrivacidadeRouteImport.update({
+  id: '/politica-de-privacidade',
+  path: '/politica-de-privacidade',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -61,6 +80,11 @@ const AppRoute = AppRouteImport.update({
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AceiteRoute = AceiteRouteImport.update({
+  id: '/aceite',
+  path: '/aceite',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -212,10 +236,14 @@ const ApiPublicWebhooksKirvanoRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/aceite': typeof AceiteRoute
   '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
+  '/politica-de-privacidade': typeof PoliticaDePrivacidadeRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/termo-de-ciencia': typeof TermoDeCienciaRoute
+  '/termos-de-uso': typeof TermosDeUsoRoute
   '/admin/acessos': typeof AdminAcessosRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/audios': typeof AdminAudiosRoute
@@ -247,8 +275,12 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/aceite': typeof AceiteRoute
   '/login': typeof LoginRoute
+  '/politica-de-privacidade': typeof PoliticaDePrivacidadeRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/termo-de-ciencia': typeof TermoDeCienciaRoute
+  '/termos-de-uso': typeof TermosDeUsoRoute
   '/admin/acessos': typeof AdminAcessosRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/audios': typeof AdminAudiosRoute
@@ -281,10 +313,14 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/aceite': typeof AceiteRoute
   '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
+  '/politica-de-privacidade': typeof PoliticaDePrivacidadeRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/termo-de-ciencia': typeof TermoDeCienciaRoute
+  '/termos-de-uso': typeof TermosDeUsoRoute
   '/admin/acessos': typeof AdminAcessosRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/audios': typeof AdminAudiosRoute
@@ -318,10 +354,14 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/aceite'
     | '/admin'
     | '/app'
     | '/login'
+    | '/politica-de-privacidade'
     | '/reset-password'
+    | '/termo-de-ciencia'
+    | '/termos-de-uso'
     | '/admin/acessos'
     | '/admin/analytics'
     | '/admin/audios'
@@ -353,8 +393,12 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/aceite'
     | '/login'
+    | '/politica-de-privacidade'
     | '/reset-password'
+    | '/termo-de-ciencia'
+    | '/termos-de-uso'
     | '/admin/acessos'
     | '/admin/analytics'
     | '/admin/audios'
@@ -386,10 +430,14 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/aceite'
     | '/admin'
     | '/app'
     | '/login'
+    | '/politica-de-privacidade'
     | '/reset-password'
+    | '/termo-de-ciencia'
+    | '/termos-de-uso'
     | '/admin/acessos'
     | '/admin/analytics'
     | '/admin/audios'
@@ -422,20 +470,45 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AceiteRoute: typeof AceiteRoute
   AdminRoute: typeof AdminRouteWithChildren
   AppRoute: typeof AppRouteWithChildren
   LoginRoute: typeof LoginRoute
+  PoliticaDePrivacidadeRoute: typeof PoliticaDePrivacidadeRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  TermoDeCienciaRoute: typeof TermoDeCienciaRoute
+  TermosDeUsoRoute: typeof TermosDeUsoRoute
   ApiPublicWebhooksKirvanoRoute: typeof ApiPublicWebhooksKirvanoRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/termos-de-uso': {
+      id: '/termos-de-uso'
+      path: '/termos-de-uso'
+      fullPath: '/termos-de-uso'
+      preLoaderRoute: typeof TermosDeUsoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/termo-de-ciencia': {
+      id: '/termo-de-ciencia'
+      path: '/termo-de-ciencia'
+      fullPath: '/termo-de-ciencia'
+      preLoaderRoute: typeof TermoDeCienciaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reset-password': {
       id: '/reset-password'
       path: '/reset-password'
       fullPath: '/reset-password'
       preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/politica-de-privacidade': {
+      id: '/politica-de-privacidade'
+      path: '/politica-de-privacidade'
+      fullPath: '/politica-de-privacidade'
+      preLoaderRoute: typeof PoliticaDePrivacidadeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -457,6 +530,13 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/aceite': {
+      id: '/aceite'
+      path: '/aceite'
+      fullPath: '/aceite'
+      preLoaderRoute: typeof AceiteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -747,22 +827,16 @@ const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AceiteRoute: AceiteRoute,
   AdminRoute: AdminRouteWithChildren,
   AppRoute: AppRouteWithChildren,
   LoginRoute: LoginRoute,
+  PoliticaDePrivacidadeRoute: PoliticaDePrivacidadeRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  TermoDeCienciaRoute: TermoDeCienciaRoute,
+  TermosDeUsoRoute: TermosDeUsoRoute,
   ApiPublicWebhooksKirvanoRoute: ApiPublicWebhooksKirvanoRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

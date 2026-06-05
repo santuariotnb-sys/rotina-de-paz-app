@@ -13,6 +13,7 @@ import {
   syncStudentWithProfile,
   type Student,
 } from "@/lib/student";
+import { getLegalStatus } from "@/lib/legal/legal.functions";
 
 export const Route = createFileRoute("/app")({
   head: () => ({
@@ -44,7 +45,7 @@ function AppShell() {
         }, 1500);
     if (seen) setBooting(false);
 
-    // Auth check
+    // Auth check + legal gate
     supabase.auth.getSession().then(async ({ data }) => {
       if (cancelled) return;
       if (!data.session) {
@@ -55,10 +56,20 @@ function AppShell() {
         data.session.user.id,
         data.session.user.email ?? null,
       );
-      if (!cancelled) {
-        setStudent(merged ?? loadStudent());
-        setAuthReady(true);
+      if (cancelled) return;
+      setStudent(merged ?? loadStudent());
+
+      // Check legal acceptance before granting access
+      try {
+        const { needsAcceptance } = await getLegalStatus();
+        if (!cancelled && needsAcceptance) {
+          navigate({ to: "/aceite" });
+          return;
+        }
+      } catch {
+        // If check fails, allow access (fail-open to not block paying customers)
       }
+      if (!cancelled) setAuthReady(true);
     });
 
     const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
