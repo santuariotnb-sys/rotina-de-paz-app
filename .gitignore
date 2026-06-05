@@ -39,3 +39,4 @@ dist-ssr
 
 # Git worktrees
 .worktrees/
+supabase/.temp/
