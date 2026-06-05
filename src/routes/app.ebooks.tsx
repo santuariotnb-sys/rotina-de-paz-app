@@ -1,18 +1,19 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useQuery, type QueryClient } from "@tanstack/react-query";
-import { BookOpen, ShoppingCart, ChevronRight } from "lucide-react";
+import { BookOpen, ShoppingCart, ChevronRight, Loader2 } from "lucide-react";
 import { type Ebook } from "@/data/ebooks";
 import { supabase } from "@/integrations/supabase/client";
 import { isUnlocked, useEntitlements } from "@/hooks/useEntitlements";
 import { checkoutFor, useProductCheckouts } from "@/hooks/useProductCheckouts";
+import { getEbookUrl } from "@/lib/api/content.functions";
 
 const ebooksQueryOptions = {
   queryKey: ["app", "ebooks"] as const,
   queryFn: async () => {
     const { data, error } = await supabase
       .from("ebooks")
-      .select("id, title, subtitle, category, price_cents, badge, cover_url, sort_order, required_product_id, file_url, description")
+      .select("id, title, subtitle, category, price_cents, badge, cover_url, sort_order, required_product_id, description")
       .eq("status", "active")
       .order("sort_order", { ascending: true });
     if (error) throw error;
@@ -31,7 +32,6 @@ export const Route = createFileRoute("/app/ebooks")({
 
 type EbookExt = Ebook & {
   requiredProductId: string | null;
-  fileUrl: string | null;
   description: string | null;
   coverUrl: string | null;
 };
@@ -47,7 +47,6 @@ function mapEbooks(raw: any[]): EbookExt[] {
     cover: "",
     coverUrl: r.cover_url ?? null,
     requiredProductId: r.required_product_id ?? null,
-    fileUrl: r.file_url ?? null,
     description: r.description ?? null,
   }));
 }
@@ -189,14 +188,34 @@ function EbookCard({
   isExpanded: boolean;
   onToggle: () => void;
 }) {
-  const Tag = unlocked && e.fileUrl ? "a" : "button";
-  const linkProps = unlocked && e.fileUrl
-    ? { href: e.fileUrl, target: "_blank" as const, rel: "noopener noreferrer" }
-    : { type: "button" as const, onClick: () => onToggle() };
+  const [loading, setLoading] = useState(false);
+
+  async function handleReadClick() {
+    if (loading) return;
+    setLoading(true);
+    try {
+      const { url } = await getEbookUrl({ data: { ebookId: e.id } });
+      window.open(url, "_blank", "noopener");
+    } catch {
+      // silencioso — entitlement expirado ou erro de rede
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function handleTap() {
+    if (unlocked) {
+      handleReadClick();
+    } else {
+      onToggle();
+    }
+  }
 
   return (
-    <Tag
-      {...linkProps as any}
+    <button
+      type="button"
+      onClick={handleTap}
+      disabled={loading}
       className={"group block w-[55vw] max-w-[200px] shrink-0 snap-center text-left transition-transform " + (isExpanded ? "scale-[0.96] opacity-80" : "")}
     >
       <div className="relative aspect-[2/3] overflow-hidden rounded-2xl bg-[#F5ECD9] shadow-[0_12px_30px_-15px_rgba(117,97,127,0.45)] transition group-hover:-translate-y-1">
@@ -221,10 +240,11 @@ function EbookCard({
         )}
 
         {/* Unlocked: Ler indicator */}
-        {unlocked && e.fileUrl && (
+        {unlocked && (
           <div className="absolute inset-x-0 bottom-0 flex items-center justify-center bg-gradient-to-t from-black/70 to-transparent pb-3 pt-8">
             <span className="inline-flex items-center gap-1 rounded-full bg-white/90 px-3 py-1 text-[10px] font-semibold text-[color:var(--deep-purple)] shadow">
-              <BookOpen className="h-3 w-3" /> Ler agora
+              {loading ? <Loader2 className="h-3 w-3 animate-spin" /> : <BookOpen className="h-3 w-3" />}
+              {loading ? "Abrindo..." : "Ler agora"}
             </span>
           </div>
         )}
@@ -235,6 +255,6 @@ function EbookCard({
       </div>
       <p className="mt-1.5 text-[12px] font-medium leading-tight text-[color:var(--deep-purple)]">{e.title}</p>
       {unlocked && <p className="text-[10px] font-semibold text-emerald-600">Liberado</p>}
-    </Tag>
+    </button>
   );
 }

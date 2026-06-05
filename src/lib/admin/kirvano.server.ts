@@ -121,11 +121,10 @@ async function ensureUserForEmail(email: string, name: string | null): Promise<s
   });
 
   if (created.error) {
-    // Se já existe, recuperar via listUsers
-    const list = await supabaseAdmin.auth.admin.listUsers({ page: 1, perPage: 200 });
-    const found = list.data?.users.find((u) => u.email?.toLowerCase() === email.toLowerCase());
-    if (found) return found.id;
-    throw new Error(`Não foi possível obter/ criar usuário para ${email}: ${created.error.message}`);
+    // Se já existe, recuperar via RPC direta (sem limite de paginação)
+    const { data: userId } = await (supabaseAdmin as any).rpc("get_user_id_by_email", { p_email: email });
+    if (userId) return userId as string;
+    throw new Error(`Não foi possível obter/criar usuário para ${email}: ${created.error.message}`);
   }
 
   return created.data.user!.id;
@@ -184,24 +183,41 @@ export async function processKirvanoPayload(payload: KirvanoPayload): Promise<Ki
   const userId = await ensureUserForEmail(email, name);
 
   if (isApproved) {
-    const rows = productIds.map((product_id) => ({
-      user_id: userId,
-      product_id,
-      source: "kirvano" as const,
-      status: "active" as const,
-      kirvano_transaction_id: txId,
-      kirvano_offer_id: offerIds[0],
-      buyer_email: email,
-      granted_at: new Date().toISOString(),
-      revoked_at: null,
-      metadata: { event: eventName, raw_offer_ids: offerIds },
-    }));
-    const { error } = await supabaseAdmin
+    // Verificar entitlements existentes para não re-ativar refunded
+    const { data: existing } = await supabaseAdmin
       .from("entitlements")
-      .upsert(rows, { onConflict: "user_id,product_id" });
-    if (error) throw new Error(`Falha ao gravar entitlements: ${error.message}`);
+      .select("product_id, status")
+      .eq("user_id", userId)
+      .in("product_id", productIds);
+    const refundedSet = new Set(
+      (existing ?? []).filter((e) => e.status === "refunded").map((e) => e.product_id),
+    );
 
-    // Boas-vindas (não bloqueia o webhook se falhar)
+    const activatable = productIds.filter((pid) => !refundedSet.has(pid));
+    if (refundedSet.size > 0) {
+      console.warn(`[kirvano] Skipping re-activation of ${refundedSet.size} refunded entitlement(s) for ${email}: ${[...refundedSet].join(", ")}`);
+    }
+
+    if (activatable.length > 0) {
+      const rows = activatable.map((product_id) => ({
+        user_id: userId,
+        product_id,
+        source: "kirvano" as const,
+        status: "active" as const,
+        kirvano_transaction_id: txId,
+        kirvano_offer_id: offerIds[0],
+        buyer_email: email,
+        granted_at: new Date().toISOString(),
+        revoked_at: null,
+        metadata: { event: eventName, raw_offer_ids: offerIds },
+      }));
+      const { error } = await supabaseAdmin
+        .from("entitlements")
+        .upsert(rows, { onConflict: "user_id,product_id" });
+      if (error) throw new Error(`Falha ao gravar entitlements: ${error.message}`);
+    }
+
+    // Boas-vindas (não bloqueia o webhook se falhar, mas ERRO VISÍVEL)
     try {
       const { data: prods } = await supabaseAdmin
         .from("products")
@@ -210,10 +226,11 @@ export async function processKirvanoPayload(payload: KirvanoPayload): Promise<Ki
       const productNames = (prods ?? []).map((p) => p.name);
       const result = await sendWelcomeEmail({ email, name, productNames });
       if (!result.sent) {
-        console.warn("[kirvano] welcome email não enviado:", result.error);
+        // ERROR (não warn) — comprador pagou mas pode não ter recebido acesso por email
+        console.error(`[kirvano] WELCOME EMAIL FALHOU para ${email}: ${result.error}. Comprador pode precisar usar "Esqueci a senha" para acessar.`);
       }
     } catch (e) {
-      console.warn("[kirvano] erro ao enviar welcome email:", e);
+      console.error(`[kirvano] WELCOME EMAIL ERRO para ${email}:`, e);
     }
 
     // Analytics: registrar purchase (isolado — nunca derruba fulfillment)
@@ -264,13 +281,21 @@ export async function processKirvanoPayload(payload: KirvanoPayload): Promise<Ki
     .in("product_id", productIds);
   if (error) throw new Error(`Falha ao revogar entitlements: ${error.message}`);
 
-  // Analytics: marcar purchases como refunded (isolado)
+  // Analytics: marcar purchases como refunded — escopado por produto
   try {
-    await (supabaseAdmin as any)
-      .from("purchases")
-      .update({ status: "refunded" })
-      .eq("buyer_email", email)
-      .eq("status", "confirmed");
+    const { data: prods } = await supabaseAdmin
+      .from("products")
+      .select("name")
+      .in("id", productIds);
+    const prodNames = (prods ?? []).map((p) => p.name);
+    if (prodNames.length > 0) {
+      await (supabaseAdmin as any)
+        .from("purchases")
+        .update({ status: "refunded" })
+        .eq("buyer_email", email)
+        .eq("status", "confirmed")
+        .in("product_name", prodNames);
+    }
   } catch (err) {
     console.error("[analytics] falha ao marcar refund em purchases (não-bloqueante):", err);
   }

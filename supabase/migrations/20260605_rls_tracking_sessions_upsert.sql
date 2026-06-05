@@ -1,0 +1,4 @@
+-- SUPERSEDED by 20260605_hardening_rls_final.sql
+-- This migration created anon UPDATE policy for tracking_sessions,
+-- which was later replaced by RPC upsert_tracking_session.
+-- Kept as no-op for migration history consistency.
