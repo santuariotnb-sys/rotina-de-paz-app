@@ -90,7 +90,7 @@ function AppShell() {
 
   return (
     <PlayerProvider>
-      <main className="rdp-app-bg min-h-dvh">
+      <main className="rdp-app-bg min-h-dvh overflow-x-clip">
         <TopBar
           name={student?.name ?? null}
           onLogout={async () => {
