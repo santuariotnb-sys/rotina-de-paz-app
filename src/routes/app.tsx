@@ -131,11 +131,14 @@ function AppShell() {
 }
 
 function Splash() {
-  const particles = Array.from({ length: 28 });
+  // Partículas só no cliente: usam Math.random() (não-determinístico) e renderizá-las no
+  // SSR causava mismatch de hidratação. Servidor e 1º render do cliente ficam idênticos.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   return (
     <main className="rdp-night fixed inset-0 z-50 grid place-items-center">
       <div className="rdp-particles" aria-hidden>
-        {particles.map((_, i) => {
+        {mounted && Array.from({ length: 28 }).map((_, i) => {
           const left = Math.random() * 100;
           const size = 2 + Math.random() * 4;
           const dur = 6 + Math.random() * 7;

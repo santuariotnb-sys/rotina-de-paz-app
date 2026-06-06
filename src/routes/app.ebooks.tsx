@@ -194,8 +194,9 @@ function EbookCard({
   async function handleReadClick() {
     if (loading) return;
     // Abre a aba SINCRONAMENTE no gesto do clique — senão o navegador bloqueia o popup
-    // (o window.open depois do await caía fora do gesto e era barrado silenciosamente).
-    const win = window.open("", "_blank", "noopener");
+    // (window.open depois do await cai fora do gesto). Sem "noopener" aqui, senão o
+    // browser retorna null e perdemos a referência pra redirecionar.
+    const win = window.open("about:blank", "_blank");
     setLoading(true);
     try {
       const { url } = await getEbookUrl({ data: { ebookId: e.id } });
@@ -204,8 +205,12 @@ function EbookCard({
         toast.error("Link do e-book indisponível. Fale com o suporte.");
         return;
       }
-      if (win) win.location.href = url;
-      else window.location.href = url; // fallback: popup bloqueado → abre na mesma aba
+      if (win) {
+        try { win.opener = null; } catch { /* segurança: corta o opener */ }
+        win.location.href = url;
+      } else {
+        window.location.href = url; // fallback: popup bloqueado → abre na mesma aba
+      }
     } catch (err) {
       win?.close();
       console.error("[ebooks] getEbookUrl falhou:", err);
