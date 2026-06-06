@@ -1,6 +1,7 @@
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { sendWelcomeEmail } from "./email.server";
+import { sendMetaCapiPurchase } from "./meta-capi.server";
 
 /**
  * Validação HMAC-SHA256 em tempo constante.
@@ -277,6 +278,23 @@ export async function processKirvanoPayload(payload: KirvanoPayload): Promise<Ki
       }
     } catch (err) {
       console.error("[analytics] falha ao registrar purchase (não-bloqueante):", err);
+    }
+
+    // Meta CAPI Purchase — fonte de verdade do evento (event_id = sale_id → dedup).
+    // Não-bloqueante: nunca derruba o fulfillment. Reenvio do mesmo webhook não duplica
+    // no Meta porque o event_id é o mesmo sale_id.
+    try {
+      const { data: prods } = await supabaseAdmin
+        .from("products")
+        .select("name")
+        .in("id", productIds);
+      const productNames = (prods ?? []).map((p) => p.name);
+      const capi = await sendMetaCapiPurchase(payload, { transactionId: txId, productNames, productIds });
+      if (!capi.sent && capi.error !== "missing_credentials") {
+        console.error(`[meta-capi] Purchase NÃO enviado (sale ${txId}): ${capi.error}`);
+      }
+    } catch (err) {
+      console.error("[meta-capi] erro inesperado (não-bloqueante):", err);
     }
 
     return { matched: true, granted: productIds, revoked: [], userId };
