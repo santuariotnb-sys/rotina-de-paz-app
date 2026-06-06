@@ -180,34 +180,22 @@ function EbookCard({
 
   async function handleReadClick() {
     if (loading) return;
-    // Abre a aba SINCRONAMENTE no gesto do clique — senão o navegador bloqueia o popup
-    // (window.open depois do await cai fora do gesto). Sem "noopener" aqui, senão o
-    // browser retorna null e perdemos a referência pra redirecionar.
-    const win = window.open("about:blank", "_blank");
-    // Feedback imediato na aba nova enquanto o PDF carrega (rede) — evita "tela branca".
-    if (win) {
-      win.document.write(
-        '<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>Abrindo…</title></head><body style="margin:0;height:100vh;display:grid;place-items:center;background:#FAF6F4;color:#75617F;font-family:Arial,Helvetica,sans-serif"><div style="text-align:center"><div style="font-size:15px">Abrindo seu e-book…</div></div></body></html>',
-      );
-    }
     setLoading(true);
+    toast.loading("Abrindo seu e-book…", { id: "ebook" });
     try {
       const { url } = await getEbookUrl({ data: { ebookId: e.id } });
       if (!url) {
-        win?.close();
-        toast.error("Link do e-book indisponível. Fale com o suporte.");
+        toast.error("Link do e-book indisponível. Fale com o suporte.", { id: "ebook" });
         return;
       }
-      if (win) {
-        try { win.opener = null; } catch { /* segurança: corta o opener */ }
-        win.location.href = url;
-      } else {
-        window.location.href = url; // fallback: popup bloqueado → abre na mesma aba
-      }
+      toast.dismiss("ebook");
+      // Tenta abrir em aba nova; se o navegador bloquear o popup (comum no mobile após
+      // a chamada async), abre na MESMA aba — garante que o e-book sempre abre.
+      const win = window.open(url, "_blank", "noopener");
+      if (!win) window.location.assign(url);
     } catch (err) {
-      win?.close();
       console.error("[ebooks] getEbookUrl falhou:", err);
-      toast.error("Não consegui abrir o e-book. Tente de novo.");
+      toast.error("Não consegui abrir o e-book. Tente de novo.", { id: "ebook" });
     } finally {
       setLoading(false);
     }

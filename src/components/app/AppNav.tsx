@@ -12,6 +12,10 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 
+// Carimbo de versão — bump a cada deploy pra confirmar (no aparelho do usuário) qual
+// build está realmente carregada. Aparece na TopBar: "Círculo da Paz · <APP_BUILD>".
+export const APP_BUILD = "v06jun-5";
+
 const items = [
   { to: "/app",              label: "Paz",         icon: Layers,  match: (p: string) => p === "/app" || p.startsWith("/app/volume") },
   { to: "/app/louvores",     label: "Louvores",    icon: Music,   match: (p: string) => p.startsWith("/app/louvores") },
@@ -34,7 +38,7 @@ export function TopBar({ name, email, onLogout }: { name?: string | null; email?
           <img src={logoSrc} alt="" width={44} height={44} className="h-11 w-11 drop-shadow-[0_2px_6px_rgba(201,168,118,0.3)]" />
           <div className="leading-tight">
             <p className="font-display text-[16px] font-semibold tracking-[0.22em] rdp-title-gradient">ROTINA DE PAZ</p>
-            <p className="text-[10px] uppercase tracking-[0.22em] text-[color:var(--amethyst)]">Círculo da Paz</p>
+            <p className="text-[10px] uppercase tracking-[0.22em] text-[color:var(--amethyst)]">Círculo da Paz · {APP_BUILD}</p>
           </div>
         </Link>
         <DropdownMenu>
