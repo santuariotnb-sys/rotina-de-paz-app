@@ -18,6 +18,7 @@ function AcceptancePage() {
   const [checked, setChecked] = useState(false);
   const [saving, setSaving] = useState(false);
   const [scrolledToEnd, setScrolledToEnd] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   function handleScroll() {
@@ -31,10 +32,13 @@ function AcceptancePage() {
   async function handleAccept() {
     if (!checked || !scrolledToEnd || saving) return;
     setSaving(true);
+    setErr(null);
     try {
       await recordLegalAcceptance();
       navigate({ to: "/app" });
-    } catch {
+    } catch (e) {
+      console.error("[aceite] recordLegalAcceptance falhou:", e);
+      setErr("Não foi possível registrar o aceite. Verifique sua conexão e tente de novo.");
       setSaving(false);
     }
   }
@@ -104,6 +108,10 @@ function AcceptancePage() {
             <Check className="h-4 w-4" />
             {saving ? "Registrando..." : "Aceitar e continuar"}
           </button>
+
+          {err && (
+            <p className="text-center text-[12px] font-medium text-rose-600">{err}</p>
+          )}
 
           <button
             onClick={handleLogout}

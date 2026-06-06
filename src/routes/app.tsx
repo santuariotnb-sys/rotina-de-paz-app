@@ -5,6 +5,7 @@ import { TopBar, BottomNav } from "@/components/app/AppNav";
 import { PlayerProvider } from "@/components/app/player/PlayerProvider";
 import MiniPlayer from "@/components/app/player/MiniPlayer";
 import FullPlayer from "@/components/app/player/FullPlayer";
+import { Toaster } from "@/components/ui/sonner";
 import { supabase } from "@/integrations/supabase/client";
 import {
   clearStudent,
@@ -54,12 +55,19 @@ function AppShell() {
         return;
       }
       setEmail(data.session.user.email ?? null);
-      const merged = await syncStudentWithProfile(
-        data.session.user.id,
-        data.session.user.email ?? null,
-      );
-      if (cancelled) return;
-      setStudent(merged ?? loadStudent());
+      try {
+        const merged = await syncStudentWithProfile(
+          data.session.user.id,
+          data.session.user.email ?? null,
+        );
+        if (cancelled) return;
+        setStudent(merged ?? loadStudent());
+      } catch (e) {
+        // Sync falhou (rede/timeout) → usa estado local, nunca trava o cliente pagante.
+        console.error("[app] sync de perfil falhou, usando estado local:", e);
+        if (cancelled) return;
+        setStudent(loadStudent());
+      }
 
       // Check legal acceptance before granting access
       try {
@@ -72,6 +80,12 @@ function AppShell() {
         // If check fails, allow access (fail-open to not block paying customers)
       }
       if (!cancelled) setAuthReady(true);
+    }).catch((e) => {
+      // getSession rejeitou → não deixa preso no Splash; libera com estado local.
+      console.error("[app] getSession falhou:", e);
+      if (cancelled) return;
+      setStudent(loadStudent());
+      setAuthReady(true);
     });
 
     const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
@@ -110,6 +124,7 @@ function AppShell() {
         <MiniPlayer />
         <BottomNav />
         <FullPlayer />
+        <Toaster />
       </main>
     </PlayerProvider>
   );

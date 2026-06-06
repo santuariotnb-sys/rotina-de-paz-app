@@ -84,7 +84,7 @@ function DesktopNav() {
             <Link
               key={it.to}
               to={it.to}
-              className={`relative flex-1 rounded-xl px-3 py-2.5 text-center transition ${
+              className={`relative flex-1 rounded-xl px-3 py-2.5 text-center transition active:scale-95 ${
                 active
                   ? "bg-gradient-to-br from-white/95 to-[color:var(--rose-soft)]/40 shadow-[0_6px_18px_-10px_rgba(201,168,118,0.5)] border border-[color:var(--gold-warm)]/50"
                   : "hover:bg-white/60 border border-transparent"
@@ -112,13 +112,13 @@ export function BottomNav() {
           const active = it.match(pathname);
           const Icon = it.icon;
           return (
-            <Link key={it.to} to={it.to} className="relative flex flex-1 flex-col items-center gap-0.5 px-1 py-1.5">
+            <Link key={it.to} to={it.to} className="relative flex flex-1 flex-col items-center gap-0.5 px-1 py-1.5 transition-transform active:scale-90">
               <div className={`grid h-9 w-9 place-items-center rounded-xl transition ${
                 active
                   ? "bg-gradient-to-br from-[#E8C9A0] to-[#C9A876] text-[#2C1F0B] shadow-[0_6px_14px_-6px_rgba(201,168,118,0.55)]"
                   : "text-[color:var(--amethyst)]"
               }`}>
-                <Icon className="h-4.5 w-4.5" />
+                <Icon className="h-5 w-5" />
               </div>
               <p className={`text-[9px] tracking-wide ${active ? "text-[color:var(--gold-warm)] font-semibold" : "text-[color:var(--amethyst)]/75"}`}>
                 {it.label}

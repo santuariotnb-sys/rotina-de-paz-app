@@ -18,7 +18,10 @@ export const getRouter = () => {
     routeTree,
     context: { queryClient },
     scrollRestoration: true,
-    defaultPreloadStaleTime: 0,
+    // Pré-carrega o loader da rota no hover/touch do <Link> → navegação parece instantânea.
+    defaultPreload: "intent",
+    // Reusa o cache por 30s no preload (antes 0 forçava refetch a cada intent).
+    defaultPreloadStaleTime: 30_000,
   });
 
   return router;

@@ -27,17 +27,24 @@ function LoginPage() {
   const [forgotOpen, setForgotOpen] = useState(false);
   const [forgotEmail, setForgotEmail] = useState("");
 
-  // Se já estiver logada, vai direto pro app
+  // Se já estiver logada, vai direto pro app. Dedup pra getSession + onAuthStateChange
+  // (que dispara em TOKEN_REFRESHED/USER_UPDATED/multi-aba) não navegarem duas vezes.
   useEffect(() => {
     let active = true;
+    let navigated = false;
+    const go = () => {
+      if (!active || navigated) return;
+      navigated = true;
+      navigate({ to: "/app" });
+    };
     supabase.auth.getSession().then(({ data }) => {
-      if (active && data.session) navigate({ to: "/app" });
+      if (data.session) go();
     });
     const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
       if (!session?.user) return;
       // Fire-and-forget — não bloqueia navegação
       syncStudentWithProfile(session.user.id, session.user.email ?? null).catch(() => {});
-      navigate({ to: "/app" });
+      go();
     });
     return () => {
       active = false;

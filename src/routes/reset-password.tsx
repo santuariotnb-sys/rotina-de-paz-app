@@ -17,6 +17,7 @@ export const Route = createFileRoute("/reset-password")({
 function ResetPasswordPage() {
   const navigate = useNavigate();
   const [ready, setReady] = useState(false);
+  const [expired, setExpired] = useState(false);
   const [pass, setPass] = useState("");
   const [pass2, setPass2] = useState("");
   const [err, setErr] = useState<string | null>(null);
@@ -26,14 +27,18 @@ function ResetPasswordPage() {
   // Supabase coloca o token no hash da URL (#access_token=...&type=recovery)
   // e o cliente já cria a sessão de recovery automaticamente.
   useEffect(() => {
+    let done = false;
+    const markReady = () => { done = true; setReady(true); };
     const { data: sub } = supabase.auth.onAuthStateChange((event) => {
-      if (event === "PASSWORD_RECOVERY") setReady(true);
+      if (event === "PASSWORD_RECOVERY") markReady();
     });
     // Caso o evento já tenha disparado antes do listener:
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) setReady(true);
+      if (data.session) markReady();
     });
-    return () => sub.subscription.unsubscribe();
+    // Sem recovery em ~4s → link inválido/expirado (em vez de "Validando…" eterno).
+    const t = setTimeout(() => { if (!done) setExpired(true); }, 4000);
+    return () => { clearTimeout(t); sub.subscription.unsubscribe(); };
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -62,8 +67,20 @@ function ResetPasswordPage() {
           <p className="mt-3 text-[10px] uppercase tracking-[0.32em] rdp-title-gradient">Rotina de Paz</p>
           <h1 className="mt-2 font-display text-3xl text-[color:var(--deep-purple)]">Nova senha</h1>
           <p className="mt-1 text-[13px] text-[color:var(--amethyst)]">
-            {ready ? "Defina sua nova senha abaixo." : "Validando link de recuperação…"}
+            {ready
+              ? "Defina sua nova senha abaixo."
+              : expired
+                ? "Link inválido ou expirado. Volte ao login e peça um novo."
+                : "Validando link de recuperação…"}
           </p>
+          {expired && !ready && (
+            <button
+              onClick={() => navigate({ to: "/login" })}
+              className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-[color:var(--gold-warm)]/50 bg-white/70 px-4 py-2 text-[13px] font-semibold text-[color:var(--gold-warm)] transition active:scale-95 hover:bg-white"
+            >
+              Voltar ao login <ChevronRight className="h-4 w-4" />
+            </button>
+          )}
         </div>
 
         <form onSubmit={handleSubmit} className="mt-8 rdp-light-card rounded-3xl p-6">

@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { isUnlocked, useEntitlements } from "@/hooks/useEntitlements";
 import { checkoutFor, useProductCheckouts } from "@/hooks/useProductCheckouts";
 import { getEbookUrl } from "@/lib/api/content.functions";
+import { toast } from "sonner";
 
 const ebooksQueryOptions = {
   queryKey: ["app", "ebooks"] as const,
@@ -192,12 +193,23 @@ function EbookCard({
 
   async function handleReadClick() {
     if (loading) return;
+    // Abre a aba SINCRONAMENTE no gesto do clique — senão o navegador bloqueia o popup
+    // (o window.open depois do await caía fora do gesto e era barrado silenciosamente).
+    const win = window.open("", "_blank", "noopener");
     setLoading(true);
     try {
       const { url } = await getEbookUrl({ data: { ebookId: e.id } });
-      window.open(url, "_blank", "noopener");
-    } catch {
-      // silencioso — entitlement expirado ou erro de rede
+      if (!url) {
+        win?.close();
+        toast.error("Link do e-book indisponível. Fale com o suporte.");
+        return;
+      }
+      if (win) win.location.href = url;
+      else window.location.href = url; // fallback: popup bloqueado → abre na mesma aba
+    } catch (err) {
+      win?.close();
+      console.error("[ebooks] getEbookUrl falhou:", err);
+      toast.error("Não consegui abrir o e-book. Tente de novo.");
     } finally {
       setLoading(false);
     }

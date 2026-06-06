@@ -5,9 +5,10 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ARCHETYPES } from "@/data/quiz";
 import { getPlan, type PlanDay } from "@/data/plan";
-import { SessionModal, type SessionAudio } from "@/components/app/SessionModal";
+import { SessionModal, type SessionAudio, type AudioState } from "@/components/app/SessionModal";
 import { loadProgress, loadStudent, saveProgress, type Progress, type Student } from "@/lib/student";
 import { supabase } from "@/integrations/supabase/client";
+import { isUnlocked, useEntitlements } from "@/hooks/useEntitlements";
 
 type Turno = "manha" | "noite";
 
@@ -33,7 +34,7 @@ function VolumePage() {
     setProgress(loadProgress());
   }, []);
 
-  const { data: methodAudio } = useQuery({
+  const { data: methodAudio, isLoading: audioLoading, isError: audioError, refetch: refetchAudio } = useQuery({
     queryKey: ["method-audio", time],
     queryFn: async () => {
       const { data: prods } = await supabase
@@ -44,7 +45,7 @@ function VolumePage() {
         .order("name")
         .limit(1);
       const product = prods?.[0];
-      if (!product) return { byDay: new Map<number, SessionAudio>(), checkoutUrl: null as string | null };
+      if (!product) return { byDay: new Map<number, SessionAudio>(), checkoutUrl: null as string | null, productId: null as string | null };
       const kind = time === "morning" ? "despertar" : "aquietar";
       const { data: tracks } = await supabase
         .from("audio_tracks")
@@ -61,9 +62,26 @@ function VolumePage() {
           duration_seconds: t.duration_seconds ?? 0,
         });
       }
-      return { byDay, checkoutUrl: product.checkout_url ?? null };
+      return { byDay, checkoutUrl: product.checkout_url ?? null, productId: product.id };
     },
   });
+
+  const { data: owned } = useEntitlements();
+
+  // Decide o que mostrar no áudio da sessão. Fail-open: loading/erro/entitlement
+  // desconhecido NUNCA mostram "comprar" — só quando o banco confirma que não possui.
+  const audioStateFor = (day: number): AudioState => {
+    if (audioLoading) return { kind: "loading" };
+    if (audioError) return { kind: "error" };
+    const track = methodAudio?.byDay.get(day) ?? null;
+    if (track?.audio_url) return { kind: "ready", audio: track };
+    const pid = methodAudio?.productId ?? null;
+    const checkoutUrl = methodAudio?.checkoutUrl ?? null;
+    if (pid && owned && !isUnlocked(owned, pid) && checkoutUrl) {
+      return { kind: "locked", checkoutUrl };
+    }
+    return { kind: "comingSoon" };
+  };
 
   if (!student) {
     return (
@@ -160,8 +178,9 @@ function VolumePage() {
             done={!!progress[`${openDay}-${time}`]}
             onClose={() => setOpenDay(null)}
             onToggle={() => toggle(openDay)}
-            audio={methodAudio?.byDay.get(openDay) ?? null}
-            checkoutUrl={methodAudio?.checkoutUrl ?? null}
+            audioState={audioStateFor(openDay)}
+            onRetry={() => refetchAudio()}
+            onAudioEnded={() => { if (!progress[`${openDay}-${time}`]) toggle(openDay); }}
           />
         )}
       </AnimatePresence>

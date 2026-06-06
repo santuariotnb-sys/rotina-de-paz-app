@@ -1,41 +1,48 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, type QueryClient } from "@tanstack/react-query";
 import { Play } from "lucide-react";
 import { type Devocional } from "@/data/devocionais";
 import { supabase } from "@/integrations/supabase/client";
-
-export const Route = createFileRoute("/app/devocionais")({
-  component: DevocionaisPage,
-});
 
 const FALLBACK_COVER = "linear-gradient(135deg,#C9A876 0%,#443A52 100%)";
 
 type DevExt = Devocional & { slug: string; requiredProductId: string | null };
 
+const devocionaisQueryOptions = {
+  queryKey: ["app", "devocionais"] as const,
+  queryFn: async (): Promise<DevExt[]> => {
+    const { data, error } = await supabase
+      .from("courses")
+      .select("id, title, subtitle, slug, days, modules, badge, cover_url, sort_order, required_product_id")
+      .eq("status", "active")
+      .eq("kind", "devocional")
+      .order("sort_order", { ascending: true });
+    if (error) throw error;
+    return (data ?? []).map((r: any) => ({
+      id: r.id,
+      title: r.title,
+      subtitle: r.subtitle ?? "",
+      slug: r.slug,
+      days: r.days ?? 0,
+      modules: r.modules ?? 1,
+      badge: r.badge ?? "DEVOCIONAL",
+      cover: r.cover_url ? `url(${r.cover_url}) center/cover` : FALLBACK_COVER,
+      requiredProductId: r.required_product_id ?? null,
+    }));
+  },
+};
+
+export const Route = createFileRoute("/app/devocionais")({
+  loader: ({ context }) => {
+    const qc = (context as { queryClient: QueryClient }).queryClient;
+    return qc.ensureQueryData(devocionaisQueryOptions);
+  },
+  component: DevocionaisPage,
+  pendingComponent: DevocionaisSkeleton,
+});
+
 function DevocionaisPage() {
-  const { data: items = [], isLoading } = useQuery<DevExt[]>({
-    queryKey: ["app", "devocionais"],
-    queryFn: async (): Promise<DevExt[]> => {
-      const { data, error } = await supabase
-        .from("courses")
-        .select("id, title, subtitle, slug, days, modules, badge, cover_url, sort_order, required_product_id")
-        .eq("status", "active")
-        .eq("kind", "devocional")
-        .order("sort_order", { ascending: true });
-      if (error) throw error;
-      return (data ?? []).map((r: any) => ({
-        id: r.id,
-        title: r.title,
-        subtitle: r.subtitle ?? "",
-        slug: r.slug,
-        days: r.days ?? 0,
-        modules: r.modules ?? 1,
-        badge: r.badge ?? "DEVOCIONAL",
-        cover: r.cover_url ? `url(${r.cover_url}) center/cover` : FALLBACK_COVER,
-        requiredProductId: r.required_product_id ?? null,
-      }));
-    },
-  });
+  const { data: items = [], isLoading } = useQuery(devocionaisQueryOptions);
 
   return (
     <>
@@ -74,5 +81,22 @@ function DevocionaisPage() {
         ))}
       </div>
     </>
+  );
+}
+
+function DevocionaisSkeleton() {
+  return (
+    <div className="mt-6 animate-pulse">
+      <div className="mx-auto h-9 w-56 rounded-lg bg-[color:var(--rose-dust)]/15" />
+      <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {[0, 1, 2].map((i) => (
+          <div key={i} className="mx-auto w-full max-w-[260px] overflow-hidden rounded-3xl sm:max-w-none">
+            <div className="aspect-[3/4] rounded-3xl bg-[color:var(--rose-dust)]/12" />
+            <div className="mt-3 h-3 w-3/4 rounded bg-[color:var(--rose-dust)]/15" />
+            <div className="mt-2 h-3 w-1/2 rounded bg-[color:var(--rose-dust)]/12" />
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }

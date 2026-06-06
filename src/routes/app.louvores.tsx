@@ -1,41 +1,49 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, type QueryClient } from "@tanstack/react-query";
 import { Music, Pause, Play, Sparkles } from "lucide-react";
 import { BOOKS, type BookKey, type Louvor } from "@/data/louvores";
 import { supabase } from "@/integrations/supabase/client";
 import { usePlayer } from "@/components/app/player/PlayerProvider";
 
+const louvoresQueryOptions = {
+  queryKey: ["app", "louvores"] as const,
+  queryFn: async (): Promise<Louvor[]> => {
+    const { data, error } = await supabase
+      .from("louvores")
+      .select("id, book, chapter_index, title, subtitle, duration_seconds, audio_url, is_bonus, sort_order")
+      .order("book", { ascending: true })
+      .order("sort_order", { ascending: true })
+      .order("chapter_index", { ascending: true });
+    if (error) throw error;
+    return (data ?? []).map((r) => ({
+      id: r.id,
+      book: r.book as BookKey,
+      index: r.chapter_index,
+      title: r.title,
+      subtitle: r.subtitle ?? "",
+      duration: formatDuration(r.duration_seconds ?? 0),
+      src: r.audio_url ?? "",
+      isBonus: r.is_bonus,
+    }));
+  },
+};
+
 export const Route = createFileRoute("/app/louvores")({
+  // Pré-carrega as faixas no intent/navegação → lista aparece sem "Carregando…".
+  loader: ({ context }) => {
+    const qc = (context as { queryClient: QueryClient }).queryClient;
+    return qc.ensureQueryData(louvoresQueryOptions);
+  },
   component: LouvoresPage,
+  pendingComponent: LouvoresSkeleton,
 });
 
 function LouvoresPage() {
   const [book, setBook] = useState<BookKey>("salmos");
   const { current, isPlaying, play, toggle } = usePlayer();
 
-  const { data: all = [], isLoading } = useQuery({
-    queryKey: ["app", "louvores"],
-    queryFn: async (): Promise<Louvor[]> => {
-      const { data, error } = await supabase
-        .from("louvores")
-        .select("id, book, chapter_index, title, subtitle, duration_seconds, audio_url, is_bonus, sort_order")
-        .order("book", { ascending: true })
-        .order("sort_order", { ascending: true })
-        .order("chapter_index", { ascending: true });
-      if (error) throw error;
-      return (data ?? []).map((r) => ({
-        id: r.id,
-        book: r.book as BookKey,
-        index: r.chapter_index,
-        title: r.title,
-        subtitle: r.subtitle ?? "",
-        duration: formatDuration(r.duration_seconds ?? 0),
-        src: r.audio_url ?? "",
-        isBonus: r.is_bonus,
-      }));
-    },
-  });
+  const { data: all = [], isLoading } = useQuery(louvoresQueryOptions);
 
   const list = useMemo(() => all.filter((l) => l.book === book), [all, book]);
 
@@ -119,6 +127,21 @@ function formatDuration(seconds: number) {
   const m = Math.floor(seconds / 60);
   const s = Math.floor(seconds % 60);
   return `${m}:${String(s).padStart(2, "0")}`;
+}
+
+function LouvoresSkeleton() {
+  return (
+    <div className="mt-6 animate-pulse">
+      <div className="mx-auto h-14 w-14 rounded-2xl bg-[color:var(--rose-dust)]/15" />
+      <div className="mx-auto mt-3 h-9 w-48 rounded-lg bg-[color:var(--rose-dust)]/15" />
+      <div className="mt-6 flex justify-center gap-2">
+        {[0, 1, 2].map((i) => <div key={i} className="h-8 w-20 rounded-full bg-[color:var(--rose-dust)]/15" />)}
+      </div>
+      <div className="mt-6 space-y-2">
+        {[0, 1, 2, 3, 4].map((i) => <div key={i} className="h-[68px] rounded-2xl bg-[color:var(--rose-dust)]/10" />)}
+      </div>
+    </div>
+  );
 }
 
 function Equalizer() {

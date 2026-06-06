@@ -76,6 +76,13 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
       const a = audioRef.current;
       if (a && d.seekTime != null) a.currentTime = d.seekTime;
     });
+    return () => {
+      // Limpa os handlers ao trocar/fechar a faixa (evita handlers stale acumulando).
+      if (!("mediaSession" in navigator)) return;
+      for (const action of ["play", "pause", "nexttrack", "previoustrack", "seekto"] as const) {
+        try { navigator.mediaSession.setActionHandler(action, null); } catch { /* noop */ }
+      }
+    };
   }, [current]);
 
   const play = useCallback((track: Louvor, q?: Louvor[]) => {
@@ -83,7 +90,15 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
     if (!a) return;
     if (q) setQueue(q);
     setCurrent(track);
-    if (a.src !== track.src) a.src = track.src;
+    if (a.src !== track.src) {
+      // Troca de faixa: reseta progresso e força reload dos metadados (barra não "salta").
+      a.pause();
+      a.src = track.src;
+      a.currentTime = 0;
+      setProgress(0);
+      setDuration(0);
+      a.load();
+    }
     a.play().catch(() => {});
   }, []);
 
@@ -113,8 +128,15 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const close = useCallback(() => {
-    audioRef.current?.pause();
+    const a = audioRef.current;
+    if (a) {
+      a.pause();
+      a.removeAttribute("src"); // libera o áudio da memória sem recarregar a página
+      a.load();
+    }
     setCurrent(null);
+    setProgress(0);
+    setDuration(0);
     setExpanded(false);
   }, []);
 
