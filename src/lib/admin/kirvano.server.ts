@@ -8,15 +8,24 @@ import { sendWelcomeEmail } from "./email.server";
  */
 export function verifyKirvanoSignature(rawBody: string, signature: string | null, secret: string): boolean {
   if (!signature || !secret) return false;
+
+  // 1. Tentar HMAC-SHA256 (padrão seguro)
   const expected = createHmac("sha256", secret).update(rawBody).digest("hex");
-  // Aceita signature direta em hex ou no formato "sha256=<hex>"
   const received = signature.startsWith("sha256=") ? signature.slice(7) : signature;
-  if (received.length !== expected.length) return false;
-  try {
-    return timingSafeEqual(Buffer.from(received, "hex"), Buffer.from(expected, "hex"));
-  } catch {
-    return false;
+  if (received.length === expected.length) {
+    try {
+      if (timingSafeEqual(Buffer.from(received, "hex"), Buffer.from(expected, "hex"))) return true;
+    } catch { /* fall through to plain comparison */ }
   }
+
+  // 2. Fallback: comparação direta de token estático (Kirvano pode enviar plain token)
+  if (signature.length === secret.length) {
+    try {
+      return timingSafeEqual(Buffer.from(signature), Buffer.from(secret));
+    } catch { return false; }
+  }
+
+  return false;
 }
 
 type KirvanoPayload = Record<string, unknown> & {
@@ -95,7 +104,7 @@ function extractCustomerName(payload: KirvanoPayload): string | null {
 
 function extractTransactionId(payload: KirvanoPayload): string | null {
   return (
-    pick<string>(payload, "data.id", "data.transaction_id", "data.transaction.id", "data.sale_id", "id", "transaction_id") ?? null
+    pick<string>(payload, "data.id", "data.transaction_id", "data.transaction.id", "data.sale_id", "sale_id", "id", "transaction_id") ?? null
   );
 }
 

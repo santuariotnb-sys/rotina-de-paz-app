@@ -6,18 +6,23 @@ import {
   verifyKirvanoSignature,
 } from "@/lib/admin/kirvano.server";
 
-// Headers candidatos onde a Kirvano pode enviar a assinatura.
+// Headers candidatos onde a Kirvano pode enviar a assinatura/token.
 const SIGNATURE_HEADERS = [
   "x-kirvano-signature",
   "x-signature",
   "x-hub-signature-256",
   "x-webhook-signature",
+  "authorization",
+  "token",
+  "x-token",
+  "x-webhook-token",
+  "x-api-key",
 ];
 
 function readSignature(request: Request): string | null {
   for (const h of SIGNATURE_HEADERS) {
     const v = request.headers.get(h);
-    if (v) return v;
+    if (v) return v.startsWith("Bearer ") ? v.slice(7) : v;
   }
   return null;
 }
