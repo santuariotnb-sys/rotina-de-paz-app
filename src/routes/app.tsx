@@ -30,6 +30,7 @@ function AppShell() {
   const navigate = useNavigate();
   const [booting, setBooting] = useState(true);
   const [student, setStudent] = useState<Student | null>(null);
+  const [email, setEmail] = useState<string | null>(null);
   const [authReady, setAuthReady] = useState(false);
 
   useEffect(() => {
@@ -52,6 +53,7 @@ function AppShell() {
         navigate({ to: "/login" });
         return;
       }
+      setEmail(data.session.user.email ?? null);
       const merged = await syncStudentWithProfile(
         data.session.user.id,
         data.session.user.email ?? null,
@@ -76,6 +78,8 @@ function AppShell() {
       if (!session) {
         clearStudent();
         navigate({ to: "/login" });
+      } else {
+        setEmail(session.user.email ?? null);
       }
     });
 
@@ -93,8 +97,9 @@ function AppShell() {
       <main className="rdp-app-bg min-h-dvh">
         <TopBar
           name={student?.name ?? null}
+          email={email}
           onLogout={async () => {
-            await supabase.auth.signOut();
+            try { await supabase.auth.signOut(); } catch { /* fail-forward: limpa local */ }
             clearStudent();
             navigate({ to: "/login" });
           }}

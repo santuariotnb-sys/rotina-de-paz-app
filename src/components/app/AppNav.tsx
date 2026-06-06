@@ -1,8 +1,16 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Layers, Music, BookOpen, Cross, Star } from "lucide-react";
+import { Layers, Music, BookOpen, Cross, Star, LogOut, LifeBuoy, ShieldCheck } from "lucide-react";
 import { useEffect, useState } from "react";
 import { getCurrentAdmin } from "@/lib/admin/auth";
 import logoSrc from "@/assets/rotina-de-paz-logo.png";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
 
 const items = [
   { to: "/app",              label: "Paz",         icon: Layers,  match: (p: string) => p === "/app" || p.startsWith("/app/volume") },
@@ -12,11 +20,11 @@ const items = [
   { to: "/app/depoimentos",  label: "Depoimentos", icon: Star,    match: (p: string) => p.startsWith("/app/depoimentos") },
 ] as const;
 
-export function TopBar({ name, onLogout }: { name?: string | null; onLogout?: () => void }) {
+export function TopBar({ name, email, onLogout }: { name?: string | null; email?: string | null; onLogout?: () => void }) {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    getCurrentAdmin().then((a) => setIsAdmin(!!a));
+    getCurrentAdmin().then((a) => setIsAdmin(!!a)).catch(() => setIsAdmin(false));
   }, []);
 
   return (
@@ -29,22 +37,35 @@ export function TopBar({ name, onLogout }: { name?: string | null; onLogout?: ()
             <p className="text-[10px] uppercase tracking-[0.22em] text-[color:var(--amethyst)]">Círculo da Paz</p>
           </div>
         </Link>
-        <div className="flex items-center gap-2">
-          {isAdmin && (
-            <Link to="/admin" className="rounded-full bg-gradient-to-br from-[color:var(--gold-warm)] to-[#B8923E] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white shadow-sm">
-              Admin
-            </Link>
-          )}
-          <Link to="/app/suporte" className="text-[12px] text-[color:var(--amethyst)] hover:text-[color:var(--deep-purple)]">
-            Suporte
-          </Link>
-          {onLogout && (
-            <button onClick={onLogout} className="hidden sm:inline text-[12px] text-[color:var(--amethyst)] hover:text-[color:var(--deep-purple)]">Sair</button>
-          )}
-          <div className="grid h-9 w-9 place-items-center rounded-full border border-[color:var(--gold-warm)]/50 bg-white/80 text-[12px] font-semibold text-[color:var(--gold-warm)]">
-            {(name?.[0] ?? "P").toUpperCase()}
-          </div>
-        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button
+              aria-label="Abrir perfil"
+              className="grid h-9 w-9 place-items-center rounded-full border border-[color:var(--gold-warm)]/50 bg-white/80 text-[12px] font-semibold text-[color:var(--gold-warm)] transition hover:brightness-105 active:scale-95"
+            >
+              {(name?.[0] ?? "P").toUpperCase()}
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" sideOffset={8} className="w-56">
+            <DropdownMenuLabel className="flex flex-col gap-0.5">
+              <span className="font-semibold text-[color:var(--deep-purple)] truncate">{name ?? "Membro"}</span>
+              {email && <span className="text-xs font-normal text-[color:var(--amethyst)] truncate">{email}</span>}
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {isAdmin && (
+              <DropdownMenuItem asChild>
+                <Link to="/admin"><ShieldCheck className="mr-2 h-4 w-4" /> Painel Admin</Link>
+              </DropdownMenuItem>
+            )}
+            <DropdownMenuItem asChild>
+              <Link to="/app/suporte"><LifeBuoy className="mr-2 h-4 w-4" /> Suporte</Link>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onSelect={onLogout} className="text-red-600 focus:text-red-600">
+              <LogOut className="mr-2 h-4 w-4" /> Sair da conta
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
       <DesktopNav />
     </header>
