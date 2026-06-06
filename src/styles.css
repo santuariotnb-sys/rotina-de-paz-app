@@ -716,6 +716,8 @@
     overflow-x: hidden;
     overflow-x: clip;
     max-width: 100%;
+    /* Mata o "balanço"/rubber-band lateral no iOS sem afetar o scroll vertical. */
+    overscroll-behavior-x: none;
   }
 
   body {

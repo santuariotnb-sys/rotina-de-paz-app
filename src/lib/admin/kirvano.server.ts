@@ -110,6 +110,29 @@ function extractTransactionId(payload: KirvanoPayload): string | null {
 }
 
 /**
+ * Valor REALMENTE pago no webhook, em centavos. Cada oferta one-click (principal,
+ * upsell, downsell) dispara seu próprio webhook, então `total_price` == o preço daquela
+ * oferta. Corrige o analytics que antes gravava o preço de catálogo do produto (ex.:
+ * downsell da Chave da Gratidão gravava R$67 em vez dos R$37 pagos). Retorna null se
+ * ausente/ilegível para o chamador cair no fallback de catálogo.
+ */
+function extractPaidTotalCents(payload: KirvanoPayload): number | null {
+  const raw = pick<unknown>(payload, "total_price", "data.total_price", "data.total", "total");
+  let reais: number | undefined;
+  if (typeof raw === "number") reais = isNaN(raw) ? undefined : raw;
+  else if (typeof raw === "string") {
+    const stripped = raw.replace(/[^\d,.-]/g, "");
+    const normalized = stripped.includes(",")
+      ? stripped.replace(/\./g, "").replace(",", ".")
+      : stripped;
+    const n = parseFloat(normalized);
+    reais = isNaN(n) ? undefined : n;
+  }
+  if (reais == null || reais <= 0) return null;
+  return Math.round(reais * 100);
+}
+
+/**
  * Garante que existe um usuário em auth.users para o email do comprador.
  * Retorna o user_id. Se o usuário já existe, retorna o existente.
  */
@@ -245,6 +268,11 @@ export async function processKirvanoPayload(payload: KirvanoPayload): Promise<Ki
 
     // Analytics: registrar purchase (isolado — nunca derruba fulfillment)
     try {
+      // Valor real pago neste webhook. Só usamos como gross_value quando há um único
+      // produto (one-click de oferta única); em pedidos multi-produto cairíamos em
+      // double-count, então preferimos o preço de catálogo por produto.
+      const paidCents = extractPaidTotalCents(payload);
+      const useRealPaid = productIds.length === 1 && paidCents != null;
       for (const product_id of productIds) {
         const { data: prod } = await supabaseAdmin
           .from("products")
@@ -269,7 +297,7 @@ export async function processKirvanoPayload(payload: KirvanoPayload): Promise<Ki
           user_id: userId,
           product_name: prod.name,
           product_type: inferProductType(offerLabel),
-          gross_value: prod.price_cents,
+          gross_value: useRealPaid ? paidCents : prod.price_cents,
           status: "confirmed",
           kirvano_offer_id: offerIds[0],
           buyer_email: email,
