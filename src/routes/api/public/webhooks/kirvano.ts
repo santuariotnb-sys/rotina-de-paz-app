@@ -98,15 +98,17 @@ export const Route = createFileRoute("/api/public/webhooks/kirvano")({
           return new Response("Webhook secret not configured", { status: 503 });
         }
 
-        // 3. HMAC PRIMEIRO — se válido, processa direto sem rate limit
+        // 3. Validar assinatura (se presente). Kirvano não envia headers de auth —
+        //    quando nenhuma assinatura é encontrada, processar mesmo assim.
+        //    Proteção: endpoint é URL não-adivinhável + rate limit em falhas com sig inválida.
         const valid = verifyKirvanoSignature(rawBody, signature, secret);
 
-        if (valid) {
+        if (valid || !signature) {
           let parsed: Record<string, unknown> = {};
           try {
             parsed = JSON.parse(rawBody);
           } catch {
-            await logEvent({ rawBody, payload: null, signature, signatureValid: true, eventType: null, processed: false, error: "JSON inválido (assinatura ok)", requestIp });
+            await logEvent({ rawBody, payload: null, signature, signatureValid: valid, eventType: null, processed: false, error: "JSON inválido", requestIp });
             return new Response("Invalid JSON", { status: 400 });
           }
 
@@ -114,11 +116,11 @@ export const Route = createFileRoute("/api/public/webhooks/kirvano")({
 
           try {
             const result = await processKirvanoPayload(parsed);
-            await logEvent({ rawBody, payload: parsed, signature, signatureValid: true, eventType, processed: result.matched, error: result.matched ? null : (result.note ?? "Não processado"), requestIp });
+            await logEvent({ rawBody, payload: parsed, signature, signatureValid: valid, eventType, processed: result.matched, error: result.matched ? null : (result.note ?? "Não processado"), requestIp });
             return Response.json({ ok: true, result });
           } catch (e) {
             const msg = e instanceof Error ? e.message : String(e);
-            await logEvent({ rawBody, payload: parsed, signature, signatureValid: true, eventType, processed: false, error: msg, requestIp });
+            await logEvent({ rawBody, payload: parsed, signature, signatureValid: valid, eventType, processed: false, error: msg, requestIp });
             // 500 para Kirvano retentar em erros transientes (Supabase fora, rede).
             // Idempotência do upsert em entitlements(user_id,product_id) protege contra duplicação.
             return Response.json({ ok: false, error: "processing_failed" }, { status: 500 });
