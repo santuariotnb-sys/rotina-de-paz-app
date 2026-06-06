@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ipAddress } from "@vercel/functions";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
+import { timingSafeEqual } from "node:crypto";
 import {
   processKirvanoPayload,
   verifyKirvanoSignature,
@@ -82,6 +83,20 @@ export const Route = createFileRoute("/api/public/webhooks/kirvano")({
     handlers: {
       POST: async ({ request }) => {
         const requestIp = ipAddress(request) ?? null;
+
+        // 0. Secret na URL (?k=) — autenticação que a Kirvano NÃO envia via header/body.
+        //    Setup-safe: só valida se KIRVANO_URL_SECRET estiver configurado (não quebra durante o setup).
+        //    Com o env setado + a URL do webhook na Kirvano contendo ?k=<secret>, impede webhook forjado
+        //    por quem apenas descobriu a URL. Comparação constant-time.
+        const urlSecret = process.env.KIRVANO_URL_SECRET;
+        if (urlSecret) {
+          const provided = Buffer.from(new URL(request.url).searchParams.get("k") ?? "");
+          const expected = Buffer.from(urlSecret);
+          if (provided.length !== expected.length || !timingSafeEqual(provided, expected)) {
+            return new Response("Unauthorized", { status: 401 });
+          }
+        }
+
         const secret = process.env.KIRVANO_WEBHOOK_SECRET;
         const rawBody = await request.text();
         const signature = readSignature(request);
