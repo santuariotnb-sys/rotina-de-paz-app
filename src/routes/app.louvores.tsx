@@ -2,32 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { useQuery, type QueryClient } from "@tanstack/react-query";
 import { Music, Pause, Play, Sparkles } from "lucide-react";
-import { BOOKS, type BookKey, type Louvor } from "@/data/louvores";
-import { supabase } from "@/integrations/supabase/client";
+import { BOOKS, type BookKey } from "@/data/louvores";
 import { usePlayer } from "@/components/app/player/PlayerProvider";
-
-const louvoresQueryOptions = {
-  queryKey: ["app", "louvores"] as const,
-  queryFn: async (): Promise<Louvor[]> => {
-    const { data, error } = await supabase
-      .from("louvores")
-      .select("id, book, chapter_index, title, subtitle, duration_seconds, audio_url, is_bonus, sort_order")
-      .order("book", { ascending: true })
-      .order("sort_order", { ascending: true })
-      .order("chapter_index", { ascending: true });
-    if (error) throw error;
-    return (data ?? []).map((r) => ({
-      id: r.id,
-      book: r.book as BookKey,
-      index: r.chapter_index,
-      title: r.title,
-      subtitle: r.subtitle ?? "",
-      duration: formatDuration(r.duration_seconds ?? 0),
-      src: r.audio_url ?? "",
-      isBonus: r.is_bonus,
-    }));
-  },
-};
+import { louvoresQueryOptions } from "@/lib/app-queries";
 
 export const Route = createFileRoute("/app/louvores")({
   // Pré-carrega as faixas no intent/navegação → lista aparece sem "Carregando…".
@@ -121,12 +98,6 @@ function LouvoresPage() {
       </ol>
     </>
   );
-}
-
-function formatDuration(seconds: number) {
-  const m = Math.floor(seconds / 60);
-  const s = Math.floor(seconds % 60);
-  return `${m}:${String(s).padStart(2, "0")}`;
 }
 
 function LouvoresSkeleton() {

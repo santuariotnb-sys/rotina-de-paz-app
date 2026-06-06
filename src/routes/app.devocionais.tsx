@@ -1,36 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, type QueryClient } from "@tanstack/react-query";
 import { Play } from "lucide-react";
-import { type Devocional } from "@/data/devocionais";
-import { supabase } from "@/integrations/supabase/client";
-
-const FALLBACK_COVER = "linear-gradient(135deg,#C9A876 0%,#443A52 100%)";
-
-type DevExt = Devocional & { slug: string; requiredProductId: string | null };
-
-const devocionaisQueryOptions = {
-  queryKey: ["app", "devocionais"] as const,
-  queryFn: async (): Promise<DevExt[]> => {
-    const { data, error } = await supabase
-      .from("courses")
-      .select("id, title, subtitle, slug, days, modules, badge, cover_url, sort_order, required_product_id")
-      .eq("status", "active")
-      .eq("kind", "devocional")
-      .order("sort_order", { ascending: true });
-    if (error) throw error;
-    return (data ?? []).map((r: any) => ({
-      id: r.id,
-      title: r.title,
-      subtitle: r.subtitle ?? "",
-      slug: r.slug,
-      days: r.days ?? 0,
-      modules: r.modules ?? 1,
-      badge: r.badge ?? "DEVOCIONAL",
-      cover: r.cover_url ? `url(${r.cover_url}) center/cover` : FALLBACK_COVER,
-      requiredProductId: r.required_product_id ?? null,
-    }));
-  },
-};
+import { devocionaisQueryOptions } from "@/lib/app-queries";
 
 export const Route = createFileRoute("/app/devocionais")({
   loader: ({ context }) => {

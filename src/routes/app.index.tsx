@@ -106,7 +106,7 @@ function VolumeCard({ to, img, eyebrow, title, subtitle, icon, tone, done }: {
       className="group mx-auto block w-full max-w-[280px] overflow-hidden rounded-3xl rdp-light-card rdp-light-card-hover rdp-fade-up md:max-w-none"
     >
       <div className="relative aspect-[4/5] sm:aspect-square w-full overflow-hidden">
-        <img src={img} alt={title} width={1024} height={1024} loading="lazy"
+        <img src={img} alt={title} width={1024} height={1024} loading="lazy" decoding="async"
           className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
 

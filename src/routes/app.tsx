@@ -1,10 +1,9 @@
 import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import logoSrc from "@/assets/rotina-de-paz-logo.png";
 import { TopBar, BottomNav } from "@/components/app/AppNav";
 import { PlayerProvider } from "@/components/app/player/PlayerProvider";
 import MiniPlayer from "@/components/app/player/MiniPlayer";
-import FullPlayer from "@/components/app/player/FullPlayer";
 import { Toaster } from "@/components/ui/sonner";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -15,6 +14,11 @@ import {
   type Student,
 } from "@/lib/student";
 import { getLegalStatus } from "@/lib/legal/legal.functions";
+import { ebooksQueryOptions, louvoresQueryOptions, devocionaisQueryOptions } from "@/lib/app-queries";
+
+// Lazy: tira o framer-motion (~40kb) do bundle inicial do /app. O player expandido só
+// carrega quando o usuário abre o FullPlayer.
+const FullPlayer = lazy(() => import("@/components/app/player/FullPlayer"));
 
 export const Route = createFileRoute("/app")({
   head: () => ({
@@ -29,6 +33,7 @@ export const Route = createFileRoute("/app")({
 
 function AppShell() {
   const navigate = useNavigate();
+  const { queryClient } = Route.useRouteContext();
   const [booting, setBooting] = useState(true);
   const [student, setStudent] = useState<Student | null>(null);
   const [email, setEmail] = useState<string | null>(null);
@@ -79,7 +84,12 @@ function AppShell() {
       } catch {
         // If check fails, allow access (fail-open to not block paying customers)
       }
-      if (!cancelled) setAuthReady(true);
+      if (cancelled) return;
+      setAuthReady(true);
+      // Aquece o cache das abas em background → trocar de aba vira cache-hit instantâneo.
+      void queryClient.prefetchQuery(ebooksQueryOptions);
+      void queryClient.prefetchQuery(louvoresQueryOptions);
+      void queryClient.prefetchQuery(devocionaisQueryOptions);
     }).catch((e) => {
       // getSession rejeitou → não deixa preso no Splash; libera com estado local.
       console.error("[app] getSession falhou:", e);
@@ -102,7 +112,7 @@ function AppShell() {
       if (splashTimer) clearTimeout(splashTimer);
       sub.subscription.unsubscribe();
     };
-  }, [navigate]);
+  }, [navigate, queryClient]);
 
   if (booting || !authReady) return <Splash />;
 
@@ -123,7 +133,9 @@ function AppShell() {
         </section>
         <MiniPlayer />
         <BottomNav />
-        <FullPlayer />
+        <Suspense fallback={null}>
+          <FullPlayer />
+        </Suspense>
         <Toaster />
       </main>
     </PlayerProvider>

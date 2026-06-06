@@ -3,24 +3,11 @@ import { useState } from "react";
 import { useQuery, type QueryClient } from "@tanstack/react-query";
 import { BookOpen, ShoppingCart, ChevronRight, Loader2 } from "lucide-react";
 import { type Ebook } from "@/data/ebooks";
-import { supabase } from "@/integrations/supabase/client";
 import { isUnlocked, useEntitlements } from "@/hooks/useEntitlements";
 import { checkoutFor, useProductCheckouts } from "@/hooks/useProductCheckouts";
 import { getEbookUrl } from "@/lib/api/content.functions";
 import { toast } from "sonner";
-
-const ebooksQueryOptions = {
-  queryKey: ["app", "ebooks"] as const,
-  queryFn: async () => {
-    const { data, error } = await supabase
-      .from("ebooks")
-      .select("id, title, subtitle, category, price_cents, badge, cover_url, sort_order, required_product_id, description")
-      .eq("status", "active")
-      .order("sort_order", { ascending: true });
-    if (error) throw error;
-    return data ?? [];
-  },
-};
+import { ebooksQueryOptions } from "@/lib/app-queries";
 
 export const Route = createFileRoute("/app/ebooks")({
   loader: ({ context }) => {
@@ -197,6 +184,12 @@ function EbookCard({
     // (window.open depois do await cai fora do gesto). Sem "noopener" aqui, senão o
     // browser retorna null e perdemos a referência pra redirecionar.
     const win = window.open("about:blank", "_blank");
+    // Feedback imediato na aba nova enquanto o PDF carrega (rede) — evita "tela branca".
+    if (win) {
+      win.document.write(
+        '<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>Abrindo…</title></head><body style="margin:0;height:100vh;display:grid;place-items:center;background:#FAF6F4;color:#75617F;font-family:Arial,Helvetica,sans-serif"><div style="text-align:center"><div style="font-size:15px">Abrindo seu e-book…</div></div></body></html>',
+      );
+    }
     setLoading(true);
     try {
       const { url } = await getEbookUrl({ data: { ebookId: e.id } });
@@ -241,6 +234,7 @@ function EbookCard({
             src={e.coverUrl}
             alt={e.title}
             loading="lazy"
+            decoding="async"
             className="absolute inset-0 h-full w-full object-contain"
           />
         ) : (
