@@ -302,7 +302,14 @@ function AdminQuizPage() {
       </div>
 
       {isLoading ? (
-        <p className="text-center text-[#8A90A2]">Carregando…</p>
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="rounded-xl border border-white/5 bg-[#1A1F2E] p-4">
+              <div className="h-3 w-20 animate-pulse rounded bg-white/10" />
+              <div className="mt-3 h-6 w-12 animate-pulse rounded bg-white/10" />
+            </div>
+          ))}
+        </div>
       ) : (
         <>
           {/* KPIs */}
