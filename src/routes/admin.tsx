@@ -81,7 +81,7 @@ function AdminLayout() {
   }
 
   return (
-    <div data-scope="admin" className="adm-bg relative min-h-dvh">
+    <div data-scope="admin" className="adm-bg relative min-h-dvh overflow-x-hidden">
       <div className="relative z-10 flex min-h-dvh">
         <AdminSidebar
           collapsed={collapsed}
@@ -96,7 +96,7 @@ function AdminLayout() {
             onToggle={toggleCollapsed}
             onMobileOpen={() => setMobileOpen(true)}
           />
-          <main className="flex-1 px-4 py-6 lg:px-8 lg:py-8">
+          <main className="flex-1 overflow-x-hidden px-4 py-6 lg:px-8 lg:py-8">
             <Outlet />
           </main>
         </div>
