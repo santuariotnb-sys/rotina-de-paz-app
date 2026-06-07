@@ -1,0 +1,2700 @@
+[
+  {
+    "id": "3a9d64cc-cfd1-4b46-b784-3f356c3d2fc7",
+    "source": "kirvano",
+    "event_type": "BANK_SLIP_GENERATED",
+    "payload": {
+      "utm": {
+        "src": "google",
+        "utm_term": "codes",
+        "utm_medium": "email",
+        "utm_source": "broadcast",
+        "utm_content": "link",
+        "utm_campaign": "register"
+      },
+      "type": "ONE_TIME",
+      "event": "BANK_SLIP_GENERATED",
+      "status": "PENDING",
+      "payment": {
+        "link": "https://pay-api.kirvano.com/bankslip/dcc4e277-0f1b-4ce9-9223-77f8c7f3f06f/download",
+        "method": "BANK_SLIP",
+        "barcode": "30281847500000169802023169000000000000017904",
+        "expires_at": "2026-06-06 01:10:48",
+        "digitable_line": "30282023186900000000500000179044184750000016980"
+      },
+      "sale_id": "D2RP8RQ7",
+      "customer": {
+        "name": "João da Silva",
+        "email": "exemplo@email.com",
+        "document": "23875090127",
+        "phone_number": "5511987654321"
+      },
+      "products": [
+        {
+          "id": "a35f278b-36c1-4617-8da5-f8c29533ce97",
+          "name": "Mercado de Ações no Brasil",
+          "photo": "https://s3.amazonaws.com/production.kirvano.com/products/a25685b5-accf-48fb-b93c-af1dfd8c9aa7/cover-1780546248324.jpg",
+          "price": "R$ 119,90",
+          "offer_id": "4ae90eec-2bba-4b15-8dba-b2dc2175e906",
+          "offer_name": "Mercado de Ações no Brasil",
+          "description": "Conheça os principais conceitos de renda variável e o funcionamento dos mercados",
+          "is_order_bump": false
+        },
+        {
+          "id": "4ecdc2b5-f086-4037-bc84-387cac318b82",
+          "name": "Excel para Investidores",
+          "photo": "https://s3.amazonaws.com/production.kirvano.com/products/55c10085-f5aa-42a6-a161-c87d4c03bba0/cover-1780546248324.jpg",
+          "price": "R$ 49,90",
+          "offer_id": "49105832-28ff-433b-851e-5b4ae5c00c5c",
+          "offer_name": "Excel para Investidores",
+          "description": "O melhor curso para quem quer começar a investir e ainda aprender a gerenciar sua carteira.",
+          "is_order_bump": true
+        }
+      ],
+      "created_at": "2026-06-04 01:10:48",
+      "checkout_id": "Q8J1N6K3",
+      "total_price": "R$ 169,80",
+      "payment_method": "BANK_SLIP",
+      "event_description": "Boleto gerado"
+    },
+    "signature": null,
+    "signature_valid": false,
+    "processed": false,
+    "processed_at": null,
+    "error": "Assinatura inválida",
+    "request_ip": "54.160.206.24",
+    "created_at": "2026-06-04T04:10:49.265653+00:00"
+  },
+  {
+    "id": "7e8f95f5-35d0-4d87-a95f-9bb4ab6db75f",
+    "source": "kirvano",
+    "event_type": "SALE_APPROVED",
+    "payload": {
+      "utm": {
+        "src": "google",
+        "utm_term": "codes",
+        "utm_medium": "email",
+        "utm_source": "broadcast",
+        "utm_content": "link",
+        "utm_campaign": "register"
+      },
+      "type": "ONE_TIME",
+      "event": "SALE_APPROVED",
+      "status": "APPROVED",
+      "payment": {
+        "brand": "visa",
+        "method": "CREDIT_CARD",
+        "finished_at": "2026-06-04 01:11:44",
+        "installments": 1
+      },
+      "sale_id": "D2RP8RQ7",
+      "customer": {
+        "name": "João da Silva",
+        "email": "exemplo@email.com",
+        "document": "23875090127",
+        "phone_number": "5511987654321"
+      },
+      "products": [
+        {
+          "id": "b4e46054-f470-4bfe-ab41-6cd70cdaa41c",
+          "name": "Mercado de Ações no Brasil",
+          "photo": "https://s3.amazonaws.com/production.kirvano.com/products/b6728a85-94fa-44e1-b4ae-7f335158c88f/cover-1780546289114.jpg",
+          "price": "R$ 119,90",
+          "offer_id": "b84e9309-056f-4716-89ec-a165b48fb835",
+          "offer_name": "Mercado de Ações no Brasil",
+          "description": "Conheça os principais conceitos de renda variável e o funcionamento dos mercados",
+          "is_order_bump": false
+        },
+        {
+          "id": "fcc35b25-af70-4241-b2a5-dfc6c9a04296",
+          "name": "Excel para Investidores",
+          "photo": "https://s3.amazonaws.com/production.kirvano.com/products/1b9443c1-c8b7-4d06-ac3e-9aa4ca6698f8/cover-1780546289114.jpg",
+          "price": "R$ 49,90",
+          "offer_id": "5b11ed9e-ca5b-4768-9386-d876a20c9294",
+          "offer_name": "Excel para Investidores",
+          "description": "O melhor curso para quem quer começar a investir e ainda aprender a gerenciar sua carteira.",
+          "is_order_bump": true
+        }
+      ],
+      "created_at": "2026-06-04 01:11:29",
+      "checkout_id": "Q8J1N6K3",
+      "total_price": "R$ 169,80",
+      "payment_method": "CREDIT_CARD",
+      "event_description": "Compra aprovada"
+    },
+    "signature": null,
+    "signature_valid": false,
+    "processed": false,
+    "processed_at": null,
+    "error": "Assinatura inválida",
+    "request_ip": "54.160.206.24",
+    "created_at": "2026-06-04T04:11:29.617545+00:00"
+  },
+  {
+    "id": "e0bce789-5e59-482a-bd21-7dd469e0d02b",
+    "source": "kirvano",
+    "event_type": "SALE_APPROVED",
+    "payload": {
+      "utm": {
+        "src": "google",
+        "utm_term": "codes",
+        "utm_medium": "email",
+        "utm_source": "broadcast",
+        "utm_content": "link",
+        "utm_campaign": "register"
+      },
+      "type": "ONE_TIME",
+      "event": "SALE_APPROVED",
+      "status": "APPROVED",
+      "payment": {
+        "brand": "visa",
+        "method": "CREDIT_CARD",
+        "finished_at": "2026-06-04 01:15:34",
+        "installments": 1
+      },
+      "sale_id": "D2RP8RQ7",
+      "customer": {
+        "name": "João da Silva",
+        "email": "exemplo@email.com",
+        "document": "23875090127",
+        "phone_number": "5511987654321"
+      },
+      "products": [
+        {
+          "id": "c2620550-be66-47c8-bf58-269683f30b41",
+          "name": "Mercado de Ações no Brasil",
+          "photo": "https://s3.amazonaws.com/production.kirvano.com/products/f7ff38e8-f40e-4a75-b29c-13e4da69df9c/cover-1780546519727.jpg",
+          "price": "R$ 119,90",
+          "offer_id": "5b67cfa4-3147-403a-8613-0e01f232b141",
+          "offer_name": "Mercado de Ações no Brasil",
+          "description": "Conheça os principais conceitos de renda variável e o funcionamento dos mercados",
+          "is_order_bump": false
+        },
+        {
+          "id": "c0324798-cd51-4ee9-8d4c-ef39e40ad71e",
+          "name": "Excel para Investidores",
+          "photo": "https://s3.amazonaws.com/production.kirvano.com/products/50825fd2-534d-4013-89ec-58d95f656d9d/cover-1780546519727.jpg",
+          "price": "R$ 49,90",
+          "offer_id": "8af22484-8a75-486c-96ed-bbbdd9f532d7",
+          "offer_name": "Excel para Investidores",
+          "description": "O melhor curso para quem quer começar a investir e ainda aprender a gerenciar sua carteira.",
+          "is_order_bump": true
+        }
+      ],
+      "created_at": "2026-06-04 01:15:19",
+      "checkout_id": "Q8J1N6K3",
+      "total_price": "R$ 169,80",
+      "payment_method": "CREDIT_CARD",
+      "event_description": "Compra aprovada"
+    },
+    "signature": null,
+    "signature_valid": false,
+    "processed": false,
+    "processed_at": null,
+    "error": "Assinatura inválida",
+    "request_ip": "44.197.54.29",
+    "created_at": "2026-06-04T04:15:20.614326+00:00"
+  },
+  {
+    "id": "7c48d8af-f7f8-418e-b0af-2a0dd1a32c79",
+    "source": "kirvano",
+    "event_type": "SALE_APPROVED",
+    "payload": {
+      "utm": {
+        "src": "google",
+        "utm_term": "codes",
+        "utm_medium": "email",
+        "utm_source": "broadcast",
+        "utm_content": "link",
+        "utm_campaign": "register"
+      },
+      "type": "ONE_TIME",
+      "event": "SALE_APPROVED",
+      "status": "APPROVED",
+      "payment": {
+        "brand": "visa",
+        "method": "CREDIT_CARD",
+        "finished_at": "2026-06-04 01:18:04",
+        "installments": 1
+      },
+      "sale_id": "D2RP8RQ7",
+      "customer": {
+        "name": "João da Silva",
+        "email": "exemplo@email.com",
+        "document": "23875090127",
+        "phone_number": "5511987654321"
+      },
+      "products": [
+        {
+          "id": "1decf42e-336f-4a1b-b07f-3e8700e13b4b",
+          "name": "Mercado de Ações no Brasil",
+          "photo": "https://s3.amazonaws.com/production.kirvano.com/products/b66113cc-bf7e-4b21-a90f-54049c7d7282/cover-1780546669532.jpg",
+          "price": "R$ 119,90",
+          "offer_id": "4cc4d8bc-58a4-4edc-9927-ce09e21f7bac",
+          "offer_name": "Mercado de Ações no Brasil",
+          "description": "Conheça os principais conceitos de renda variável e o funcionamento dos mercados",
+          "is_order_bump": false
+        },
+        {
+          "id": "d755dae9-244c-45bd-af38-7548539b1993",
+          "name": "Excel para Investidores",
+          "photo": "https://s3.amazonaws.com/production.kirvano.com/products/78d3cfa2-6d34-4729-a1c9-3cee429d93fa/cover-1780546669532.jpg",
+          "price": "R$ 49,90",
+          "offer_id": "22093339-0139-4c83-8633-edbbaa9fdb08",
+          "offer_name": "Excel para Investidores",
+          "description": "O melhor curso para quem quer começar a investir e ainda aprender a gerenciar sua carteira.",
+          "is_order_bump": true
+        }
+      ],
+      "created_at": "2026-06-04 01:17:49",
+      "checkout_id": "Q8J1N6K3",
+      "total_price": "R$ 169,80",
+      "payment_method": "CREDIT_CARD",
+      "event_description": "Compra aprovada"
+    },
+    "signature": null,
+    "signature_valid": false,
+    "processed": false,
+    "processed_at": null,
+    "error": "Assinatura inválida",
+    "request_ip": "54.160.206.24",
+    "created_at": "2026-06-04T04:17:50.1644+00:00"
+  },
+  {
+    "id": "42cf007a-2c30-4a63-bd6d-e88a1969902a",
+    "source": "kirvano",
+    "event_type": "SALE_APPROVED",
+    "payload": {
+      "ip": "2804:868:d060:f0eb:4990:ba3b:d6c0:d2f8",
+      "fee": 5.08,
+      "utm": {
+        "src": "qs_babbf644-1555-4b07-b060-346244f0ca2d",
+        "utm_term": "",
+        "utm_medium": "",
+        "utm_source": "teste_completo",
+        "utm_content": "",
+        "utm_campaign": "val"
+      },
+      "type": "ONE_TIME",
+      "event": "SALE_APPROVED",
+      "fiscal": {
+        "fee": 5.08,
+        "net_value": 62.9,
+        "commission": 57.82,
+        "service_tax": 0,
+        "total_value": 62.9,
+        "original_value": 62.9,
+        "coupon_discount": 0,
+        "total_discounts": 0,
+        "total_commissions": 57.82,
+        "automatic_discount": 0,
+        "affiliate_commission": 0,
+        "coproduction_commission": 0
+      },
+      "status": "APPROVED",
+      "cookies": {
+        "fbp": "fb.1.1780543412876.790697580549413296.AQYAAQIB",
+        "ttp": "01KTBZ6DAPQQY8KPSRJA25VMYW_.tt.1",
+        "gclid": "1.1.1011004692.1780665759",
+        "fbclid": "fb.1.1780659648005.IwARtesteFaseB123.AQYAAQIB"
+      },
+      "payment": {
+        "method": "PIX",
+        "qrcode": "00020101021226820014br.gov.bcb.pix2560qrcode.pinbank.com.br/qr/v2/3922174174F1843330F1DF1E02919BC25204000053039865802BR5914DM INSTITUICAO6007BARUERI62070503***6304348F",
+        "expires_at": "2026-06-06 14:08:24",
+        "finished_at": "2026-06-05 14:09:01",
+        "qrcode_image": "00020101021226820014br.gov.bcb.pix2560qrcode.pinbank.com.br/qr/v2/3922174174F1843330F1DF1E02919BC25204000053039865802BR5914DM INSTITUICAO6007BARUERI62070503***6304348F"
+      },
+      "sale_id": "5LZV2QKV",
+      "customer": {
+        "name": "Guilherme henrique",
+        "email": "chave.proverbio@gmail.com",
+        "address": {
+          "city": null,
+          "state": null,
+          "number": null,
+          "street": null,
+          "zipcode": null,
+          "complement": null,
+          "neighborhood": null
+        },
+        "document": "40204298806",
+        "phone_number": "5519992932754"
+      },
+      "products": [
+        {
+          "id": "09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1",
+          "name": "Rotina de Paz",
+          "photo": "products/09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1/cover-1780577457551.webp",
+          "price": "R$ 47,00",
+          "format": "service",
+          "category": "91321cff-087a-4353-96c3-01af1c7ff171",
+          "offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+          "offer_name": "Mulher Cristã",
+          "description": "Rotina de Paz é um produto digital de bem-estar para mulheres cristãs que lidam com ansiedade.é um ecossistema com app, áudios guiados, manuais e bônus, ancorado numa jornada de prática de fé.",
+          "is_order_bump": false
+        },
+        {
+          "id": "c73468c4-b665-4dfa-b2b9-b72520868150",
+          "name": "Devocional 30 Dias com os Salmos",
+          "photo": "products/c73468c4-b665-4dfa-b2b9-b72520868150/cover-1780524285469.webp",
+          "price": "R$ 15,90",
+          "format": "file",
+          "category": "91321cff-087a-4353-96c3-01af1c7ff171",
+          "offer_id": "6ba796b8-d3d1-4d56-bcf1-e7f493a23938",
+          "offer_name": "Devocional 30 Dias com Salmos",
+          "description": "30 devocionais diários para acalmar a mente : versículo, reflexão, oração e prática para viver em paz. Um encontro por dia com Deus para entregar o que rouba seu descanso.",
+          "is_order_bump": true
+        }
+      ],
+      "commission": 57.82,
+      "created_at": "2026-06-05 14:09:01",
+      "checkout_id": "51LVRJM9",
+      "total_price": "R$ 62,90",
+      "contactEmail": "rotinadepaz.suporte@gmail.com",
+      "couponDiscount": 0,
+      "payment_method": "PIX",
+      "automaticDiscount": 0,
+      "event_description": "Compra aprovada",
+      "affiliateCommission": 0,
+      "coproductionCommission": 0
+    },
+    "signature": null,
+    "signature_valid": false,
+    "processed": false,
+    "processed_at": null,
+    "error": "Assinatura inválida",
+    "request_ip": "54.160.206.24",
+    "created_at": "2026-06-05T17:09:03.707342+00:00"
+  },
+  {
+    "id": "1f2af0ce-ae75-41b7-bfbf-a58b2c5ec4fd",
+    "source": "kirvano",
+    "event_type": "PIX_GENERATED",
+    "payload": {
+      "utm": {
+        "src": "google",
+        "utm_term": "codes",
+        "utm_medium": "email",
+        "utm_source": "broadcast",
+        "utm_content": "link",
+        "utm_campaign": "register"
+      },
+      "type": "ONE_TIME",
+      "event": "PIX_GENERATED",
+      "status": "PENDING",
+      "payment": {
+        "method": "PIX",
+        "qrcode": "00020201011325br.gov.bcb.pixBADE53BA66C4121804702BR5823KIRVANO PAGAMENTOS LTDA***7213D5D7",
+        "expires_at": "2026-06-05 22:15:21",
+        "qrcode_image": "https://pay-api.kirvano.com/pix/e1b532d2-3dcf-43b4-bc7c-eb3c69b85d8d"
+      },
+      "sale_id": "D2RP8RQ7",
+      "customer": {
+        "name": "João da Silva",
+        "email": "exemplo@email.com",
+        "document": "23875090127",
+        "phone_number": "5511987654321"
+      },
+      "products": [
+        {
+          "id": "d81b760b-afe2-44c5-a4a7-210bd55ee66c",
+          "name": "Mercado de Ações no Brasil",
+          "photo": "https://s3.amazonaws.com/production.kirvano.com/products/639b118a-c604-4ed4-b538-ab0e29657196/cover-1780704921930.jpg",
+          "price": "R$ 119,90",
+          "offer_id": "4d63c17c-595f-4a7c-a709-2702f5c6a571",
+          "offer_name": "Mercado de Ações no Brasil",
+          "description": "Conheça os principais conceitos de renda variável e o funcionamento dos mercados",
+          "is_order_bump": false
+        },
+        {
+          "id": "e3304a44-1ddd-40a5-95b3-6870ea26fb0b",
+          "name": "Excel para Investidores",
+          "photo": "https://s3.amazonaws.com/production.kirvano.com/products/eaf3d95d-4fde-491e-9919-4ba0243ea44c/cover-1780704921930.jpg",
+          "price": "R$ 49,90",
+          "offer_id": "347dc249-4416-494b-a004-8c487da85d33",
+          "offer_name": "Excel para Investidores",
+          "description": "O melhor curso para quem quer começar a investir e ainda aprender a gerenciar sua carteira.",
+          "is_order_bump": true
+        }
+      ],
+      "created_at": "2026-06-05 21:15:21",
+      "checkout_id": "Q8J1N6K3",
+      "total_price": "R$ 169,80",
+      "payment_method": "PIX",
+      "event_description": "PIX gerado"
+    },
+    "signature": null,
+    "signature_valid": false,
+    "processed": false,
+    "processed_at": null,
+    "error": "Assinatura inválida",
+    "request_ip": "44.197.54.29",
+    "created_at": "2026-06-06T00:15:23.651014+00:00"
+  },
+  {
+    "id": "b3cf1b11-e76f-4550-9e14-735a4820b18f",
+    "source": "kirvano",
+    "event_type": "SALE_APPROVED",
+    "payload": {
+      "utm": {
+        "src": "google",
+        "utm_term": "codes",
+        "utm_medium": "email",
+        "utm_source": "broadcast",
+        "utm_content": "link",
+        "utm_campaign": "register"
+      },
+      "type": "ONE_TIME",
+      "event": "SALE_APPROVED",
+      "status": "APPROVED",
+      "payment": {
+        "brand": "visa",
+        "method": "CREDIT_CARD",
+        "finished_at": "2026-06-05 21:23:30",
+        "installments": 1
+      },
+      "sale_id": "D2RP8RQ7",
+      "customer": {
+        "name": "João da Silva",
+        "email": "exemplo@email.com",
+        "document": "23875090127",
+        "phone_number": "5511987654321"
+      },
+      "products": [
+        {
+          "id": "f59d3f07-135d-4acf-834b-fe69695e5fe8",
+          "name": "Mercado de Ações no Brasil",
+          "photo": "https://s3.amazonaws.com/production.kirvano.com/products/4f00bbec-2173-463b-9e86-286b1db3239a/cover-1780705395794.jpg",
+          "price": "R$ 119,90",
+          "offer_id": "f6b76591-f7c3-41f9-9418-61de95687510",
+          "offer_name": "Mercado de Ações no Brasil",
+          "description": "Conheça os principais conceitos de renda variável e o funcionamento dos mercados",
+          "is_order_bump": false
+        },
+        {
+          "id": "df1fa0fd-96e7-4984-89f4-8aa13f26aec2",
+          "name": "Excel para Investidores",
+          "photo": "https://s3.amazonaws.com/production.kirvano.com/products/553fbadd-0631-4302-9e45-4d391c023e6d/cover-1780705395794.jpg",
+          "price": "R$ 49,90",
+          "offer_id": "51f4d5ac-5df6-4063-8837-45ba0dcd159c",
+          "offer_name": "Excel para Investidores",
+          "description": "O melhor curso para quem quer começar a investir e ainda aprender a gerenciar sua carteira.",
+          "is_order_bump": true
+        }
+      ],
+      "created_at": "2026-06-05 21:23:15",
+      "checkout_id": "Q8J1N6K3",
+      "total_price": "R$ 169,80",
+      "payment_method": "CREDIT_CARD",
+      "event_description": "Compra aprovada"
+    },
+    "signature": null,
+    "signature_valid": false,
+    "processed": false,
+    "processed_at": null,
+    "error": "Nenhum produto vinculado às offers f6b76591-f7c3-41f9-9418-61de95687510, 51f4d5ac-5df6-4063-8837-45ba0dcd159c",
+    "request_ip": "54.160.206.24",
+    "created_at": "2026-06-06T00:23:17.382561+00:00"
+  },
+  {
+    "id": "00792c83-8376-4fad-bd0a-6f70adbbd63c",
+    "source": "kirvano",
+    "event_type": "SALE_APPROVED",
+    "payload": {
+      "ip": "2804:868:d060:f0eb:4990:ba3b:d6c0:d2f8",
+      "fee": 5.08,
+      "utm": {
+        "src": "qs_babbf644-1555-4b07-b060-346244f0ca2d",
+        "utm_term": "",
+        "utm_medium": "",
+        "utm_source": "teste_completo",
+        "utm_content": "",
+        "utm_campaign": "val"
+      },
+      "type": "ONE_TIME",
+      "event": "SALE_APPROVED",
+      "fiscal": {
+        "fee": 5.08,
+        "net_value": 62.9,
+        "commission": 57.82,
+        "service_tax": 0,
+        "total_value": 62.9,
+        "original_value": 62.9,
+        "coupon_discount": 0,
+        "total_discounts": 0,
+        "total_commissions": 57.82,
+        "automatic_discount": 0,
+        "affiliate_commission": 0,
+        "coproduction_commission": 0
+      },
+      "status": "APPROVED",
+      "cookies": {
+        "fbp": "fb.1.1780543412876.790697580549413296.AQYAAQIB",
+        "ttp": "01KTBZ6DAPQQY8KPSRJA25VMYW_.tt.1",
+        "gclid": "1.1.1011004692.1780665759",
+        "fbclid": "fb.1.1780659648005.IwARtesteFaseB123.AQYAAQIB"
+      },
+      "payment": {
+        "method": "PIX",
+        "qrcode": "00020101021226820014br.gov.bcb.pix2560qrcode.pinbank.com.br/qr/v2/3922174174F1843330F1DF1E02919BC25204000053039865802BR5914DM INSTITUICAO6007BARUERI62070503***6304348F",
+        "expires_at": "2026-06-06 14:08:24",
+        "finished_at": "2026-06-05 14:09:01",
+        "qrcode_image": "00020101021226820014br.gov.bcb.pix2560qrcode.pinbank.com.br/qr/v2/3922174174F1843330F1DF1E02919BC25204000053039865802BR5914DM INSTITUICAO6007BARUERI62070503***6304348F"
+      },
+      "sale_id": "5LZV2QKV",
+      "customer": {
+        "name": "Guilherme henrique",
+        "email": "chave.proverbio@gmail.com",
+        "address": {
+          "city": null,
+          "state": null,
+          "number": null,
+          "street": null,
+          "zipcode": null,
+          "complement": null,
+          "neighborhood": null
+        },
+        "document": "40204298806",
+        "phone_number": "5519992932754"
+      },
+      "products": [
+        {
+          "id": "09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1",
+          "name": "Rotina de Paz",
+          "photo": "products/09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1/cover-1780577457551.webp",
+          "price": "R$ 47,00",
+          "format": "service",
+          "category": "91321cff-087a-4353-96c3-01af1c7ff171",
+          "offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+          "offer_name": "Mulher Cristã",
+          "description": "Rotina de Paz é um produto digital de bem-estar para mulheres cristãs que lidam com ansiedade.é um ecossistema com app, áudios guiados, manuais e bônus, ancorado numa jornada de prática de fé.",
+          "is_order_bump": false
+        },
+        {
+          "id": "c73468c4-b665-4dfa-b2b9-b72520868150",
+          "name": "Devocional 30 Dias com os Salmos",
+          "photo": "products/c73468c4-b665-4dfa-b2b9-b72520868150/cover-1780524285469.webp",
+          "price": "R$ 15,90",
+          "format": "file",
+          "category": "91321cff-087a-4353-96c3-01af1c7ff171",
+          "offer_id": "6ba796b8-d3d1-4d56-bcf1-e7f493a23938",
+          "offer_name": "Devocional 30 Dias com Salmos",
+          "description": "30 devocionais diários para acalmar a mente : versículo, reflexão, oração e prática para viver em paz. Um encontro por dia com Deus para entregar o que rouba seu descanso.",
+          "is_order_bump": true
+        }
+      ],
+      "commission": 57.82,
+      "created_at": "2026-06-05 14:09:01",
+      "checkout_id": "51LVRJM9",
+      "total_price": "R$ 62,90",
+      "contactEmail": "rotinadepaz.suporte@gmail.com",
+      "couponDiscount": 0,
+      "payment_method": "PIX",
+      "automaticDiscount": 0,
+      "event_description": "Compra aprovada",
+      "affiliateCommission": 0,
+      "coproductionCommission": 0
+    },
+    "signature": null,
+    "signature_valid": false,
+    "processed": true,
+    "processed_at": "2026-06-06T00:28:56.121+00:00",
+    "error": null,
+    "request_ip": "54.160.206.24",
+    "created_at": "2026-06-06T00:28:56.190378+00:00"
+  },
+  {
+    "id": "3ec9f1c4-20c6-448f-aa79-e55a67c66dd4",
+    "source": "kirvano",
+    "event_type": "PROBE",
+    "payload": {
+      "event": "PROBE"
+    },
+    "signature": null,
+    "signature_valid": false,
+    "processed": false,
+    "processed_at": null,
+    "error": "Evento ignorado: PROBE",
+    "request_ip": "45.175.113.94",
+    "created_at": "2026-06-06T01:07:47.185478+00:00"
+  },
+  {
+    "id": "5af64644-86ea-4637-988f-30b9b6c2fb99",
+    "source": "kirvano",
+    "event_type": "SALE_APPROVED",
+    "payload": {
+      "utm": {
+        "src": "google",
+        "utm_term": "codes",
+        "utm_medium": "email",
+        "utm_source": "broadcast",
+        "utm_content": "link",
+        "utm_campaign": "register"
+      },
+      "type": "ONE_TIME",
+      "event": "SALE_APPROVED",
+      "status": "APPROVED",
+      "payment": {
+        "brand": "visa",
+        "method": "CREDIT_CARD",
+        "finished_at": "2026-06-05 22:11:42",
+        "installments": 1
+      },
+      "sale_id": "D2RP8RQ7",
+      "customer": {
+        "name": "João da Silva",
+        "email": "exemplo@email.com",
+        "document": "23875090127",
+        "phone_number": "5511987654321"
+      },
+      "products": [
+        {
+          "id": "a9eb1786-806b-46bf-96d1-da36d8d3a31b",
+          "name": "Mercado de Ações no Brasil",
+          "photo": "https://s3.amazonaws.com/production.kirvano.com/products/1c62b55b-56eb-403b-ae77-e6418d1fac73/cover-1780708287016.jpg",
+          "price": "R$ 119,90",
+          "offer_id": "0ead97e3-2e60-4e14-8cf7-2ce400fb5644",
+          "offer_name": "Mercado de Ações no Brasil",
+          "description": "Conheça os principais conceitos de renda variável e o funcionamento dos mercados",
+          "is_order_bump": false
+        },
+        {
+          "id": "8d6ba74c-1c11-4de8-81e2-0bdbec77d533",
+          "name": "Excel para Investidores",
+          "photo": "https://s3.amazonaws.com/production.kirvano.com/products/277e89fa-d93a-4ace-a5fc-b7280608d40a/cover-1780708287016.jpg",
+          "price": "R$ 49,90",
+          "offer_id": "cae0bca5-aa62-48f9-9ee5-a8e77806fdcc",
+          "offer_name": "Excel para Investidores",
+          "description": "O melhor curso para quem quer começar a investir e ainda aprender a gerenciar sua carteira.",
+          "is_order_bump": true
+        }
+      ],
+      "created_at": "2026-06-05 22:11:27",
+      "checkout_id": "Q8J1N6K3",
+      "total_price": "R$ 169,80",
+      "payment_method": "CREDIT_CARD",
+      "event_description": "Compra aprovada"
+    },
+    "signature": null,
+    "signature_valid": false,
+    "processed": false,
+    "processed_at": null,
+    "error": "Nenhum produto vinculado às offers 0ead97e3-2e60-4e14-8cf7-2ce400fb5644, cae0bca5-aa62-48f9-9ee5-a8e77806fdcc",
+    "request_ip": "44.197.54.29",
+    "created_at": "2026-06-06T01:11:30.261136+00:00"
+  },
+  {
+    "id": "79abeb05-596f-4dc7-be40-4b58730d691e",
+    "source": "kirvano",
+    "event_type": "SALE_APPROVED",
+    "payload": {
+      "ip": "2804:868:d060:f0eb:55f9:d815:a2f4:73d1",
+      "fee": 5.27,
+      "utm": {
+        "src": "qs_babbf644-1555-4b07-b060-346244f0ca2d",
+        "utm_term": "",
+        "utm_medium": "",
+        "utm_source": "teste_pix",
+        "utm_content": "",
+        "utm_campaign": "val2"
+      },
+      "type": "ONE_TIME",
+      "event": "SALE_APPROVED",
+      "fiscal": {
+        "fee": 5.27,
+        "net_value": 66.9,
+        "commission": 61.63,
+        "service_tax": 0,
+        "total_value": 66.9,
+        "original_value": 66.9,
+        "coupon_discount": 0,
+        "total_discounts": 0,
+        "total_commissions": 61.63,
+        "automatic_discount": 0,
+        "affiliate_commission": 0,
+        "coproduction_commission": 0
+      },
+      "status": "APPROVED",
+      "cookies": {
+        "fbp": "fb.1.1780543412876.790697580549413296.AQYAAQIB",
+        "ttp": "01KTBZ6DAPQQY8KPSRJA25VMYW_.tt.1",
+        "gclid": "1.1.1011004692.1780665759",
+        "fbclid": "IwARteste3"
+      },
+      "payment": {
+        "method": "PIX",
+        "qrcode": "00020101021226820014br.gov.bcb.pix2560qrcode.pinbank.com.br/qr/v2/F6B35E788B76D1696CA9888C5D8999985204000053039865802BR5914DM INSTITUICAO6007BARUERI62070503***6304A7CC",
+        "expires_at": "2026-06-06 22:34:36",
+        "finished_at": "2026-06-05 22:35:14",
+        "qrcode_image": "00020101021226820014br.gov.bcb.pix2560qrcode.pinbank.com.br/qr/v2/F6B35E788B76D1696CA9888C5D8999985204000053039865802BR5914DM INSTITUICAO6007BARUERI62070503***6304A7CC"
+      },
+      "sale_id": "5MV3N1Q9",
+      "customer": {
+        "name": "Guilherme henrique",
+        "email": "legarcianarros17@gmail.com",
+        "address": {
+          "city": null,
+          "state": null,
+          "number": null,
+          "street": null,
+          "zipcode": null,
+          "complement": null,
+          "neighborhood": null
+        },
+        "document": "40204298806",
+        "phone_number": "5519992932754"
+      },
+      "products": [
+        {
+          "id": "09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1",
+          "name": "Rotina de Paz",
+          "photo": "products/09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1/cover-1780577457551.webp",
+          "price": "R$ 47,00",
+          "format": "service",
+          "category": "91321cff-087a-4353-96c3-01af1c7ff171",
+          "offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+          "offer_name": "Mulher Cristã",
+          "description": "Rotina de Paz é um produto digital de bem-estar para mulheres cristãs que lidam com ansiedade.é um ecossistema com app, áudios guiados, manuais e bônus, ancorado numa jornada de prática de fé.",
+          "is_order_bump": false
+        },
+        {
+          "id": "addf40dd-1b7d-4e66-bad3-03ade014d9b6",
+          "name": "Da Ansiedade à Gratidão - 7 Dias de Renovação",
+          "photo": "products/addf40dd-1b7d-4e66-bad3-03ade014d9b6/cover-1780525560613.webp",
+          "price": "R$ 19,90",
+          "format": "file",
+          "category": "91321cff-087a-4353-96c3-01af1c7ff171",
+          "offer_id": "9805e364-f28f-4575-82a1-b0786fb9d7da",
+          "offer_name": "Da Ansiedade à Gratidão - 7 Dias de Renovação",
+          "description": "7 dias de renovação neural pela Palavra para mentes ansiosas. Cada dia une versículo, neurociência e prática manhã/noite para reescrever a ansiedade e ensinar o corpo a descansar em Deus.",
+          "is_order_bump": true
+        }
+      ],
+      "commission": 61.63,
+      "created_at": "2026-06-05 22:35:14",
+      "checkout_id": "82LW346G",
+      "total_price": "R$ 66,90",
+      "contactEmail": "rotinadepaz.suporte@gmail.com",
+      "couponDiscount": 0,
+      "payment_method": "PIX",
+      "automaticDiscount": 0,
+      "event_description": "Compra aprovada",
+      "affiliateCommission": 0,
+      "coproductionCommission": 0
+    },
+    "signature": null,
+    "signature_valid": false,
+    "processed": true,
+    "processed_at": "2026-06-06T01:35:20.73+00:00",
+    "error": null,
+    "request_ip": "44.197.54.29",
+    "created_at": "2026-06-06T01:35:20.803574+00:00"
+  },
+  {
+    "id": "8b57c472-041a-4cc7-a8e5-728b43f48a6d",
+    "source": "kirvano",
+    "event_type": "SALE_APPROVED",
+    "payload": {
+      "ip": "2804:868:d060:f0eb:58b1:4316:93d:fb9a",
+      "fee": 4.3,
+      "utm": {
+        "src": "qs_babbf644-1555-4b07-b060-346244f0ca2d",
+        "utm_term": "",
+        "utm_medium": "funil",
+        "utm_source": "teste_card",
+        "utm_content": "",
+        "utm_campaign": "val3"
+      },
+      "type": "ONE_TIME",
+      "event": "SALE_APPROVED",
+      "fiscal": {
+        "fee": 4.3,
+        "net_value": 47,
+        "commission": 42.7,
+        "service_tax": 0,
+        "total_value": 47,
+        "original_value": 47,
+        "coupon_discount": 0,
+        "total_discounts": 0,
+        "total_commissions": 42.7,
+        "automatic_discount": 0,
+        "affiliate_commission": 0,
+        "coproduction_commission": 0
+      },
+      "status": "APPROVED",
+      "cookies": {
+        "fbp": "fb.1.1780543412876.790697580549413296.AQYAAQIB",
+        "ttp": "01KTBZ6DAPQQY8KPSRJA25VMYW_.tt.1",
+        "gclid": "1.1.1011004692.1780665759",
+        "fbclid": "IwARteste4"
+      },
+      "payment": {
+        "method": "PIX",
+        "qrcode": "00020126810014br.gov.bcb.pix2559qr-code.picpay.com/pix/32ef21dd-79b2-441b-9fbc-495fa6a2588f5204000053039865802BR5923KIRVANO PAGAMENTOS LTDA6009Sao Paulo62070503***63042DFB",
+        "expires_at": "2026-06-07 05:25:02",
+        "finished_at": "2026-06-06 05:26:49",
+        "qrcode_image": "00020126810014br.gov.bcb.pix2559qr-code.picpay.com/pix/32ef21dd-79b2-441b-9fbc-495fa6a2588f5204000053039865802BR5923KIRVANO PAGAMENTOS LTDA6009Sao Paulo62070503***63042DFB"
+      },
+      "sale_id": "5Q1MPV3K",
+      "customer": {
+        "name": "Guilherme henrique",
+        "email": "guilherme_041@hotmail.com",
+        "address": {
+          "city": null,
+          "state": null,
+          "number": null,
+          "street": null,
+          "zipcode": null,
+          "complement": null,
+          "neighborhood": null
+        },
+        "document": "40204298806",
+        "phone_number": "5519992932754"
+      },
+      "products": [
+        {
+          "id": "09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1",
+          "name": "Rotina de Paz",
+          "photo": "products/09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1/cover-1780577457551.webp",
+          "price": "R$ 47,00",
+          "format": "service",
+          "category": "91321cff-087a-4353-96c3-01af1c7ff171",
+          "offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+          "offer_name": "Mulher Cristã",
+          "description": "Rotina de Paz é um produto digital de bem-estar para mulheres cristãs que lidam com ansiedade.é um ecossistema com app, áudios guiados, manuais e bônus, ancorado numa jornada de prática de fé.",
+          "is_order_bump": false
+        }
+      ],
+      "commission": 42.7,
+      "created_at": "2026-06-06 05:26:49",
+      "checkout_id": "5GV1EV3Q",
+      "total_price": "R$ 47,00",
+      "contactEmail": "rotinadepaz.suporte@gmail.com",
+      "couponDiscount": 0,
+      "payment_method": "PIX",
+      "automaticDiscount": 0,
+      "event_description": "Compra aprovada",
+      "affiliateCommission": 0,
+      "coproductionCommission": 0
+    },
+    "signature": null,
+    "signature_valid": false,
+    "processed": true,
+    "processed_at": "2026-06-06T08:26:54.228+00:00",
+    "error": null,
+    "request_ip": "44.197.54.29",
+    "created_at": "2026-06-06T08:26:54.298916+00:00"
+  },
+  {
+    "id": "9b383c87-0c04-4fcc-bc20-cbdab8ab115d",
+    "source": "kirvano",
+    "event_type": "SALE_APPROVED",
+    "payload": {
+      "ip": "2804:868:d060:f0eb:58b1:4316:93d:fb9a",
+      "fee": 5.28,
+      "utm": {
+        "src": "qs_babbf644-1555-4b07-b060-346244f0ca2d",
+        "utm_term": "",
+        "utm_medium": "funil",
+        "utm_source": "teste_card",
+        "utm_content": "",
+        "utm_campaign": "val3"
+      },
+      "type": "ONE_TIME",
+      "event": "SALE_APPROVED",
+      "fiscal": {
+        "fee": 5.28,
+        "net_value": 67,
+        "commission": 61.72,
+        "service_tax": 0,
+        "total_value": 67,
+        "original_value": 67,
+        "coupon_discount": 0,
+        "total_discounts": 0,
+        "total_commissions": 61.72,
+        "automatic_discount": 0,
+        "affiliate_commission": 0,
+        "coproduction_commission": 0
+      },
+      "status": "APPROVED",
+      "cookies": {
+        "fbp": "fb.1.1780543412876.790697580549413296.AQYAAQIB",
+        "ttp": "01KTBZ6DAPQQY8KPSRJA25VMYW_.tt.1",
+        "gclid": "1.1.1011004692.1780665759",
+        "fbclid": "IwARteste4"
+      },
+      "payment": {
+        "method": "PIX",
+        "qrcode": "00020101021226820014br.gov.bcb.pix2560qrcode.pinbank.com.br/qr/v2/4461B62C4A676B54D1200DBD8D79BDF55204000053039865802BR5914DM INSTITUICAO6007BARUERI62070503***6304DC20",
+        "expires_at": "2026-06-07 05:30:36",
+        "finished_at": "2026-06-06 05:33:37",
+        "qrcode_image": "00020101021226820014br.gov.bcb.pix2560qrcode.pinbank.com.br/qr/v2/4461B62C4A676B54D1200DBD8D79BDF55204000053039865802BR5914DM INSTITUICAO6007BARUERI62070503***6304DC20"
+      },
+      "sale_id": "82RY10Z1",
+      "customer": {
+        "name": "Guilherme henrique",
+        "email": "guilherme_041@hotmail.com",
+        "address": {
+          "city": null,
+          "state": null,
+          "number": null,
+          "street": null,
+          "zipcode": null,
+          "complement": null,
+          "neighborhood": null
+        },
+        "document": "40204298806",
+        "phone_number": "5519992932754"
+      },
+      "products": [
+        {
+          "id": "3e920688-674a-4671-8624-3f469c58f5b3",
+          "name": "A Chave da Gratidão",
+          "photo": "products/3e920688-674a-4671-8624-3f469c58f5b3/cover-1780539667491.webp",
+          "price": "R$ 67,00",
+          "format": "file",
+          "category": "91321cff-087a-4353-96c3-01af1c7ff171",
+          "offer_id": "ca518c06-88d8-44a7-9487-7ca71d3e86d3",
+          "offer_name": "upsell",
+          "description": "Ebook- com 7 devocionais de Fé em video com foco em Gratidão",
+          "is_order_bump": false
+        }
+      ],
+      "commission": 61.72,
+      "created_at": "2026-06-06 05:33:37",
+      "checkout_id": "5GV1EV3Q",
+      "total_price": "R$ 67,00",
+      "contactEmail": "rotinadepaz.suporte@gmail.com",
+      "couponDiscount": 0,
+      "payment_method": "PIX",
+      "automaticDiscount": 0,
+      "event_description": "Compra aprovada",
+      "affiliateCommission": 0,
+      "coproductionCommission": 0
+    },
+    "signature": null,
+    "signature_valid": false,
+    "processed": true,
+    "processed_at": "2026-06-06T08:33:41.843+00:00",
+    "error": null,
+    "request_ip": "44.197.54.29",
+    "created_at": "2026-06-06T08:33:41.914579+00:00"
+  },
+  {
+    "id": "0276b42f-90c2-43c2-8493-ffc32740bd7a",
+    "source": "kirvano",
+    "event_type": "SALE_APPROVED",
+    "payload": {
+      "ip": "2804:868:d060:f0eb:58b1:4316:93d:fb9a",
+      "fee": 4.3,
+      "utm": {
+        "src": "qs_babbf644-1555-4b07-b060-346244f0ca2d",
+        "utm_term": "",
+        "utm_medium": "funil",
+        "utm_source": "teste_card",
+        "utm_content": "",
+        "utm_campaign": "val3"
+      },
+      "type": "ONE_TIME",
+      "event": "SALE_APPROVED",
+      "fiscal": {
+        "fee": 4.3,
+        "net_value": 47,
+        "commission": 42.7,
+        "service_tax": 0,
+        "total_value": 47,
+        "original_value": 47,
+        "coupon_discount": 0,
+        "total_discounts": 0,
+        "total_commissions": 42.7,
+        "automatic_discount": 0,
+        "affiliate_commission": 0,
+        "coproduction_commission": 0
+      },
+      "status": "APPROVED",
+      "cookies": {
+        "fbp": "fb.1.1780543412876.790697580549413296.AQYAAQIB",
+        "ttp": "01KTBZ6DAPQQY8KPSRJA25VMYW_.tt.1",
+        "gclid": "1.1.1011004692.1780665759",
+        "fbclid": "IwARteste4"
+      },
+      "payment": {
+        "method": "PIX",
+        "qrcode": "00020126810014br.gov.bcb.pix2559qr-code.picpay.com/pix/32ef21dd-79b2-441b-9fbc-495fa6a2588f5204000053039865802BR5923KIRVANO PAGAMENTOS LTDA6009Sao Paulo62070503***63042DFB",
+        "expires_at": "2026-06-07 05:25:02",
+        "finished_at": "2026-06-06 05:26:49",
+        "qrcode_image": "00020126810014br.gov.bcb.pix2559qr-code.picpay.com/pix/32ef21dd-79b2-441b-9fbc-495fa6a2588f5204000053039865802BR5923KIRVANO PAGAMENTOS LTDA6009Sao Paulo62070503***63042DFB"
+      },
+      "sale_id": "5Q1MPV3K",
+      "customer": {
+        "name": "Guilherme henrique",
+        "email": "guilherme_041@hotmail.com",
+        "address": {
+          "city": null,
+          "state": null,
+          "number": null,
+          "street": null,
+          "zipcode": null,
+          "complement": null,
+          "neighborhood": null
+        },
+        "document": "40204298806",
+        "phone_number": "5519992932754"
+      },
+      "products": [
+        {
+          "id": "09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1",
+          "name": "Rotina de Paz",
+          "photo": "products/09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1/cover-1780577457551.webp",
+          "price": "R$ 47,00",
+          "format": "service",
+          "category": "91321cff-087a-4353-96c3-01af1c7ff171",
+          "offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+          "offer_name": "Mulher Cristã",
+          "description": "Rotina de Paz é um produto digital de bem-estar para mulheres cristãs que lidam com ansiedade.é um ecossistema com app, áudios guiados, manuais e bônus, ancorado numa jornada de prática de fé.",
+          "is_order_bump": false
+        }
+      ],
+      "commission": 42.7,
+      "created_at": "2026-06-06 05:26:49",
+      "checkout_id": "5GV1EV3Q",
+      "total_price": "R$ 47,00",
+      "contactEmail": "rotinadepaz.suporte@gmail.com",
+      "couponDiscount": 0,
+      "payment_method": "PIX",
+      "automaticDiscount": 0,
+      "event_description": "Compra aprovada",
+      "affiliateCommission": 0,
+      "coproductionCommission": 0
+    },
+    "signature": null,
+    "signature_valid": false,
+    "processed": true,
+    "processed_at": "2026-06-06T11:34:56.108+00:00",
+    "error": null,
+    "request_ip": "44.197.54.29",
+    "created_at": "2026-06-06T11:34:56.440059+00:00"
+  },
+  {
+    "id": "fc00d925-d723-46ab-8874-242558c1580c",
+    "source": "kirvano",
+    "event_type": "SALE_APPROVED",
+    "payload": {
+      "ip": "2804:868:d060:f0eb:58b1:4316:93d:fb9a",
+      "fee": 4.3,
+      "utm": {
+        "src": "qs_babbf644-1555-4b07-b060-346244f0ca2d",
+        "utm_term": "",
+        "utm_medium": "funil",
+        "utm_source": "teste_card",
+        "utm_content": "",
+        "utm_campaign": "val3"
+      },
+      "type": "ONE_TIME",
+      "event": "SALE_APPROVED",
+      "fiscal": {
+        "fee": 4.3,
+        "net_value": 47,
+        "commission": 42.7,
+        "service_tax": 0,
+        "total_value": 47,
+        "original_value": 47,
+        "coupon_discount": 0,
+        "total_discounts": 0,
+        "total_commissions": 42.7,
+        "automatic_discount": 0,
+        "affiliate_commission": 0,
+        "coproduction_commission": 0
+      },
+      "status": "APPROVED",
+      "cookies": {
+        "fbp": "fb.1.1780543412876.790697580549413296.AQYAAQIB",
+        "ttp": "01KTBZ6DAPQQY8KPSRJA25VMYW_.tt.1",
+        "gclid": "1.1.1011004692.1780665759",
+        "fbclid": "IwARteste4"
+      },
+      "payment": {
+        "method": "PIX",
+        "qrcode": "00020126810014br.gov.bcb.pix2559qr-code.picpay.com/pix/32ef21dd-79b2-441b-9fbc-495fa6a2588f5204000053039865802BR5923KIRVANO PAGAMENTOS LTDA6009Sao Paulo62070503***63042DFB",
+        "expires_at": "2026-06-07 05:25:02",
+        "finished_at": "2026-06-06 05:26:49",
+        "qrcode_image": "00020126810014br.gov.bcb.pix2559qr-code.picpay.com/pix/32ef21dd-79b2-441b-9fbc-495fa6a2588f5204000053039865802BR5923KIRVANO PAGAMENTOS LTDA6009Sao Paulo62070503***63042DFB"
+      },
+      "sale_id": "5Q1MPV3K",
+      "customer": {
+        "name": "Guilherme henrique",
+        "email": "guilherme_041@hotmail.com",
+        "address": {
+          "city": null,
+          "state": null,
+          "number": null,
+          "street": null,
+          "zipcode": null,
+          "complement": null,
+          "neighborhood": null
+        },
+        "document": "40204298806",
+        "phone_number": "5519992932754"
+      },
+      "products": [
+        {
+          "id": "09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1",
+          "name": "Rotina de Paz",
+          "photo": "products/09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1/cover-1780577457551.webp",
+          "price": "R$ 47,00",
+          "format": "service",
+          "category": "91321cff-087a-4353-96c3-01af1c7ff171",
+          "offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+          "offer_name": "Mulher Cristã",
+          "description": "Rotina de Paz é um produto digital de bem-estar para mulheres cristãs que lidam com ansiedade.é um ecossistema com app, áudios guiados, manuais e bônus, ancorado numa jornada de prática de fé.",
+          "is_order_bump": false
+        }
+      ],
+      "commission": 42.7,
+      "created_at": "2026-06-06 05:26:49",
+      "checkout_id": "5GV1EV3Q",
+      "total_price": "R$ 47,00",
+      "contactEmail": "rotinadepaz.suporte@gmail.com",
+      "couponDiscount": 0,
+      "payment_method": "PIX",
+      "automaticDiscount": 0,
+      "event_description": "Compra aprovada",
+      "affiliateCommission": 0,
+      "coproductionCommission": 0
+    },
+    "signature": null,
+    "signature_valid": false,
+    "processed": true,
+    "processed_at": "2026-06-06T12:04:57.154+00:00",
+    "error": null,
+    "request_ip": "54.160.206.24",
+    "created_at": "2026-06-06T12:04:57.224383+00:00"
+  },
+  {
+    "id": "45f1fb29-9342-47af-8379-0bc4a7d61a37",
+    "source": "kirvano",
+    "event_type": "SALE_APPROVED",
+    "payload": {
+      "ip": "2804:868:d060:f0eb:58b1:4316:93d:fb9a",
+      "fee": 5.28,
+      "utm": {
+        "src": "qs_babbf644-1555-4b07-b060-346244f0ca2d",
+        "utm_term": "",
+        "utm_medium": "funil",
+        "utm_source": "teste_card",
+        "utm_content": "",
+        "utm_campaign": "val3"
+      },
+      "type": "ONE_TIME",
+      "event": "SALE_APPROVED",
+      "fiscal": {
+        "fee": 5.28,
+        "net_value": 67,
+        "commission": 61.72,
+        "service_tax": 0,
+        "total_value": 67,
+        "original_value": 67,
+        "coupon_discount": 0,
+        "total_discounts": 0,
+        "total_commissions": 61.72,
+        "automatic_discount": 0,
+        "affiliate_commission": 0,
+        "coproduction_commission": 0
+      },
+      "status": "APPROVED",
+      "cookies": {
+        "fbp": "fb.1.1780543412876.790697580549413296.AQYAAQIB",
+        "ttp": "01KTBZ6DAPQQY8KPSRJA25VMYW_.tt.1",
+        "gclid": "1.1.1011004692.1780665759",
+        "fbclid": "IwARteste4"
+      },
+      "payment": {
+        "method": "PIX",
+        "qrcode": "00020101021226820014br.gov.bcb.pix2560qrcode.pinbank.com.br/qr/v2/4461B62C4A676B54D1200DBD8D79BDF55204000053039865802BR5914DM INSTITUICAO6007BARUERI62070503***6304DC20",
+        "expires_at": "2026-06-07 05:30:36",
+        "finished_at": "2026-06-06 05:33:37",
+        "qrcode_image": "00020101021226820014br.gov.bcb.pix2560qrcode.pinbank.com.br/qr/v2/4461B62C4A676B54D1200DBD8D79BDF55204000053039865802BR5914DM INSTITUICAO6007BARUERI62070503***6304DC20"
+      },
+      "sale_id": "82RY10Z1",
+      "customer": {
+        "name": "Guilherme henrique",
+        "email": "guilherme_041@hotmail.com",
+        "address": {
+          "city": null,
+          "state": null,
+          "number": null,
+          "street": null,
+          "zipcode": null,
+          "complement": null,
+          "neighborhood": null
+        },
+        "document": "40204298806",
+        "phone_number": "5519992932754"
+      },
+      "products": [
+        {
+          "id": "3e920688-674a-4671-8624-3f469c58f5b3",
+          "name": "A Chave da Gratidão",
+          "photo": "products/3e920688-674a-4671-8624-3f469c58f5b3/cover-1780539667491.webp",
+          "price": "R$ 67,00",
+          "format": "file",
+          "category": "91321cff-087a-4353-96c3-01af1c7ff171",
+          "offer_id": "ca518c06-88d8-44a7-9487-7ca71d3e86d3",
+          "offer_name": "upsell",
+          "description": "Ebook- com 7 devocionais de Fé em video com foco em Gratidão",
+          "is_order_bump": false
+        }
+      ],
+      "commission": 61.72,
+      "created_at": "2026-06-06 05:33:37",
+      "checkout_id": "5GV1EV3Q",
+      "total_price": "R$ 67,00",
+      "contactEmail": "rotinadepaz.suporte@gmail.com",
+      "couponDiscount": 0,
+      "payment_method": "PIX",
+      "automaticDiscount": 0,
+      "event_description": "Compra aprovada",
+      "affiliateCommission": 0,
+      "coproductionCommission": 0
+    },
+    "signature": null,
+    "signature_valid": false,
+    "processed": true,
+    "processed_at": "2026-06-06T12:09:42.933+00:00",
+    "error": null,
+    "request_ip": "44.197.54.29",
+    "created_at": "2026-06-06T12:09:43.001804+00:00"
+  },
+  {
+    "id": "5ad31601-c668-40c0-bdac-9d0032f88ce0",
+    "source": "kirvano",
+    "event_type": "SALE_APPROVED",
+    "payload": {
+      "ip": "2804:868:d060:f0eb:58b1:4316:93d:fb9a",
+      "fee": 5.28,
+      "utm": {
+        "src": "qs_babbf644-1555-4b07-b060-346244f0ca2d",
+        "utm_term": "",
+        "utm_medium": "funil",
+        "utm_source": "teste_card",
+        "utm_content": "",
+        "utm_campaign": "val3"
+      },
+      "type": "ONE_TIME",
+      "event": "SALE_APPROVED",
+      "fiscal": {
+        "fee": 5.28,
+        "net_value": 67,
+        "commission": 61.72,
+        "service_tax": 0,
+        "total_value": 67,
+        "original_value": 67,
+        "coupon_discount": 0,
+        "total_discounts": 0,
+        "total_commissions": 61.72,
+        "automatic_discount": 0,
+        "affiliate_commission": 0,
+        "coproduction_commission": 0
+      },
+      "status": "APPROVED",
+      "cookies": {
+        "fbp": "fb.1.1780543412876.790697580549413296.AQYAAQIB",
+        "ttp": "01KTBZ6DAPQQY8KPSRJA25VMYW_.tt.1",
+        "gclid": "1.1.1011004692.1780665759",
+        "fbclid": "IwARteste4"
+      },
+      "payment": {
+        "method": "PIX",
+        "qrcode": "00020101021226820014br.gov.bcb.pix2560qrcode.pinbank.com.br/qr/v2/4461B62C4A676B54D1200DBD8D79BDF55204000053039865802BR5914DM INSTITUICAO6007BARUERI62070503***6304DC20",
+        "expires_at": "2026-06-07 05:30:36",
+        "finished_at": "2026-06-06 05:33:37",
+        "qrcode_image": "00020101021226820014br.gov.bcb.pix2560qrcode.pinbank.com.br/qr/v2/4461B62C4A676B54D1200DBD8D79BDF55204000053039865802BR5914DM INSTITUICAO6007BARUERI62070503***6304DC20"
+      },
+      "sale_id": "82RY10Z1",
+      "customer": {
+        "name": "Guilherme henrique",
+        "email": "guilherme_041@hotmail.com",
+        "address": {
+          "city": null,
+          "state": null,
+          "number": null,
+          "street": null,
+          "zipcode": null,
+          "complement": null,
+          "neighborhood": null
+        },
+        "document": "40204298806",
+        "phone_number": "5519992932754"
+      },
+      "products": [
+        {
+          "id": "3e920688-674a-4671-8624-3f469c58f5b3",
+          "name": "A Chave da Gratidão",
+          "photo": "products/3e920688-674a-4671-8624-3f469c58f5b3/cover-1780539667491.webp",
+          "price": "R$ 67,00",
+          "format": "file",
+          "category": "91321cff-087a-4353-96c3-01af1c7ff171",
+          "offer_id": "ca518c06-88d8-44a7-9487-7ca71d3e86d3",
+          "offer_name": "upsell",
+          "description": "Ebook- com 7 devocionais de Fé em video com foco em Gratidão",
+          "is_order_bump": false
+        }
+      ],
+      "commission": 61.72,
+      "created_at": "2026-06-06 05:33:37",
+      "checkout_id": "5GV1EV3Q",
+      "total_price": "R$ 67,00",
+      "contactEmail": "rotinadepaz.suporte@gmail.com",
+      "couponDiscount": 0,
+      "payment_method": "PIX",
+      "automaticDiscount": 0,
+      "event_description": "Compra aprovada",
+      "affiliateCommission": 0,
+      "coproductionCommission": 0
+    },
+    "signature": null,
+    "signature_valid": false,
+    "processed": true,
+    "processed_at": "2026-06-06T12:09:44.812+00:00",
+    "error": null,
+    "request_ip": "54.160.206.24",
+    "created_at": "2026-06-06T12:09:44.893506+00:00"
+  },
+  {
+    "id": "0ed2d903-21e5-445b-806d-3cba81a0bcca",
+    "source": "kirvano",
+    "event_type": "SALE_APPROVED",
+    "payload": {
+      "ip": "2804:868:d060:f0eb:58b1:4316:93d:fb9a",
+      "fee": 4.3,
+      "utm": {
+        "src": "qs_babbf644-1555-4b07-b060-346244f0ca2d",
+        "utm_term": "",
+        "utm_medium": "funil",
+        "utm_source": "teste_card",
+        "utm_content": "",
+        "utm_campaign": "val3"
+      },
+      "type": "ONE_TIME",
+      "event": "SALE_APPROVED",
+      "fiscal": {
+        "fee": 4.3,
+        "net_value": 47,
+        "commission": 42.7,
+        "service_tax": 0,
+        "total_value": 47,
+        "original_value": 47,
+        "coupon_discount": 0,
+        "total_discounts": 0,
+        "total_commissions": 42.7,
+        "automatic_discount": 0,
+        "affiliate_commission": 0,
+        "coproduction_commission": 0
+      },
+      "status": "APPROVED",
+      "cookies": {
+        "fbp": "fb.1.1780543412876.790697580549413296.AQYAAQIB",
+        "ttp": "01KTBZ6DAPQQY8KPSRJA25VMYW_.tt.1",
+        "gclid": "1.1.1011004692.1780665759",
+        "fbclid": "IwARteste4"
+      },
+      "payment": {
+        "method": "PIX",
+        "qrcode": "00020126810014br.gov.bcb.pix2559qr-code.picpay.com/pix/32ef21dd-79b2-441b-9fbc-495fa6a2588f5204000053039865802BR5923KIRVANO PAGAMENTOS LTDA6009Sao Paulo62070503***63042DFB",
+        "expires_at": "2026-06-07 05:25:02",
+        "finished_at": "2026-06-06 05:26:49",
+        "qrcode_image": "00020126810014br.gov.bcb.pix2559qr-code.picpay.com/pix/32ef21dd-79b2-441b-9fbc-495fa6a2588f5204000053039865802BR5923KIRVANO PAGAMENTOS LTDA6009Sao Paulo62070503***63042DFB"
+      },
+      "sale_id": "5Q1MPV3K",
+      "customer": {
+        "name": "Guilherme henrique",
+        "email": "guilherme_041@hotmail.com",
+        "address": {
+          "city": null,
+          "state": null,
+          "number": null,
+          "street": null,
+          "zipcode": null,
+          "complement": null,
+          "neighborhood": null
+        },
+        "document": "40204298806",
+        "phone_number": "5519992932754"
+      },
+      "products": [
+        {
+          "id": "09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1",
+          "name": "Rotina de Paz",
+          "photo": "products/09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1/cover-1780577457551.webp",
+          "price": "R$ 47,00",
+          "format": "service",
+          "category": "91321cff-087a-4353-96c3-01af1c7ff171",
+          "offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+          "offer_name": "Mulher Cristã",
+          "description": "Rotina de Paz é um produto digital de bem-estar para mulheres cristãs que lidam com ansiedade.é um ecossistema com app, áudios guiados, manuais e bônus, ancorado numa jornada de prática de fé.",
+          "is_order_bump": false
+        }
+      ],
+      "commission": 42.7,
+      "created_at": "2026-06-06 05:26:49",
+      "checkout_id": "5GV1EV3Q",
+      "total_price": "R$ 47,00",
+      "contactEmail": "rotinadepaz.suporte@gmail.com",
+      "couponDiscount": 0,
+      "payment_method": "PIX",
+      "automaticDiscount": 0,
+      "event_description": "Compra aprovada",
+      "affiliateCommission": 0,
+      "coproductionCommission": 0
+    },
+    "signature": null,
+    "signature_valid": false,
+    "processed": true,
+    "processed_at": "2026-06-06T12:11:11.509+00:00",
+    "error": null,
+    "request_ip": "44.197.54.29",
+    "created_at": "2026-06-06T12:11:11.577082+00:00"
+  },
+  {
+    "id": "63e502fc-af30-4a9f-b621-aac81d3cce4b",
+    "source": "kirvano",
+    "event_type": "SALE_APPROVED",
+    "payload": {
+      "ip": "2804:868:d060:f0eb:58b1:4316:93d:fb9a",
+      "fee": 4.3,
+      "utm": {
+        "src": "qs_babbf644-1555-4b07-b060-346244f0ca2d",
+        "utm_term": "",
+        "utm_medium": "funil",
+        "utm_source": "teste_card",
+        "utm_content": "",
+        "utm_campaign": "val3"
+      },
+      "type": "ONE_TIME",
+      "event": "SALE_APPROVED",
+      "fiscal": {
+        "fee": 4.3,
+        "net_value": 47,
+        "commission": 42.7,
+        "service_tax": 0,
+        "total_value": 47,
+        "original_value": 47,
+        "coupon_discount": 0,
+        "total_discounts": 0,
+        "total_commissions": 42.7,
+        "automatic_discount": 0,
+        "affiliate_commission": 0,
+        "coproduction_commission": 0
+      },
+      "status": "APPROVED",
+      "cookies": {
+        "fbp": "fb.1.1780543412876.790697580549413296.AQYAAQIB",
+        "ttp": "01KTBZ6DAPQQY8KPSRJA25VMYW_.tt.1",
+        "gclid": "1.1.1011004692.1780665759",
+        "fbclid": "IwARteste4"
+      },
+      "payment": {
+        "method": "PIX",
+        "qrcode": "00020126810014br.gov.bcb.pix2559qr-code.picpay.com/pix/32ef21dd-79b2-441b-9fbc-495fa6a2588f5204000053039865802BR5923KIRVANO PAGAMENTOS LTDA6009Sao Paulo62070503***63042DFB",
+        "expires_at": "2026-06-07 05:25:02",
+        "finished_at": "2026-06-06 05:26:49",
+        "qrcode_image": "00020126810014br.gov.bcb.pix2559qr-code.picpay.com/pix/32ef21dd-79b2-441b-9fbc-495fa6a2588f5204000053039865802BR5923KIRVANO PAGAMENTOS LTDA6009Sao Paulo62070503***63042DFB"
+      },
+      "sale_id": "5Q1MPV3K",
+      "customer": {
+        "name": "Guilherme henrique",
+        "email": "guilherme_041@hotmail.com",
+        "address": {
+          "city": null,
+          "state": null,
+          "number": null,
+          "street": null,
+          "zipcode": null,
+          "complement": null,
+          "neighborhood": null
+        },
+        "document": "40204298806",
+        "phone_number": "5519992932754"
+      },
+      "products": [
+        {
+          "id": "09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1",
+          "name": "Rotina de Paz",
+          "photo": "products/09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1/cover-1780577457551.webp",
+          "price": "R$ 47,00",
+          "format": "service",
+          "category": "91321cff-087a-4353-96c3-01af1c7ff171",
+          "offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+          "offer_name": "Mulher Cristã",
+          "description": "Rotina de Paz é um produto digital de bem-estar para mulheres cristãs que lidam com ansiedade.é um ecossistema com app, áudios guiados, manuais e bônus, ancorado numa jornada de prática de fé.",
+          "is_order_bump": false
+        }
+      ],
+      "commission": 42.7,
+      "created_at": "2026-06-06 05:26:49",
+      "checkout_id": "5GV1EV3Q",
+      "total_price": "R$ 47,00",
+      "contactEmail": "rotinadepaz.suporte@gmail.com",
+      "couponDiscount": 0,
+      "payment_method": "PIX",
+      "automaticDiscount": 0,
+      "event_description": "Compra aprovada",
+      "affiliateCommission": 0,
+      "coproductionCommission": 0
+    },
+    "signature": null,
+    "signature_valid": false,
+    "processed": true,
+    "processed_at": "2026-06-06T12:34:42.683+00:00",
+    "error": null,
+    "request_ip": "44.197.54.29",
+    "created_at": "2026-06-06T12:34:42.752527+00:00"
+  },
+  {
+    "id": "36b6551b-f6b7-4e5b-9223-f240910b9340",
+    "source": "kirvano",
+    "event_type": "SALE_APPROVED",
+    "payload": {
+      "ip": "2804:868:d060:f0eb:f5b9:2464:ab84:cce4",
+      "fee": 4.3,
+      "utm": {
+        "src": "qs_590437ba-49ba-4e51-9d69-341f0d663989",
+        "utm_term": "",
+        "utm_medium": "funil",
+        "utm_source": "teste_capi",
+        "utm_content": "",
+        "utm_campaign": "val4"
+      },
+      "type": "ONE_TIME",
+      "event": "SALE_APPROVED",
+      "fiscal": {
+        "fee": 4.3,
+        "net_value": 47,
+        "commission": 42.7,
+        "service_tax": 0,
+        "total_value": 47,
+        "original_value": 47,
+        "coupon_discount": 0,
+        "total_discounts": 0,
+        "total_commissions": 42.7,
+        "automatic_discount": 0,
+        "affiliate_commission": 0,
+        "coproduction_commission": 0
+      },
+      "status": "APPROVED",
+      "cookies": {},
+      "payment": {
+        "method": "PIX",
+        "qrcode": "00020101021226990014br.gov.bcb.pix2577pix.bancogenial.com/qrs1/v2/016awpnvCXDp8sdnEYXx6Vee8d6cl9vnYaalgHYT4sPZyV3tZ520400005303986540547.005802BR5908Account16009SAO PAULO62070503***63040689",
+        "expires_at": "2026-06-07 09:22:16",
+        "finished_at": "2026-06-06 09:41:41",
+        "qrcode_image": "00020101021226990014br.gov.bcb.pix2577pix.bancogenial.com/qrs1/v2/016awpnvCXDp8sdnEYXx6Vee8d6cl9vnYaalgHYT4sPZyV3tZ520400005303986540547.005802BR5908Account16009SAO PAULO62070503***63040689"
+      },
+      "sale_id": "5Q1MP09D",
+      "customer": {
+        "name": "Tamires",
+        "email": "tamires.lllaura@gmail.com",
+        "address": {
+          "city": null,
+          "state": null,
+          "number": null,
+          "street": null,
+          "zipcode": null,
+          "complement": null,
+          "neighborhood": null
+        },
+        "document": "49292227882",
+        "phone_number": "5519992932754"
+      },
+      "products": [
+        {
+          "id": "09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1",
+          "name": "Rotina de Paz",
+          "photo": "products/09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1/cover-1780577457551.webp",
+          "price": "R$ 47,00",
+          "format": "service",
+          "category": "91321cff-087a-4353-96c3-01af1c7ff171",
+          "offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+          "offer_name": "Mulher Cristã",
+          "description": "Rotina de Paz é um produto digital de bem-estar para mulheres cristãs que lidam com ansiedade.é um ecossistema com app, áudios guiados, manuais e bônus, ancorado numa jornada de prática de fé.",
+          "is_order_bump": false
+        }
+      ],
+      "commission": 42.7,
+      "created_at": "2026-06-06 09:41:41",
+      "checkout_id": "5WW4ZZ96",
+      "total_price": "R$ 47,00",
+      "contactEmail": "rotinadepaz.suporte@gmail.com",
+      "couponDiscount": 0,
+      "payment_method": "PIX",
+      "automaticDiscount": 0,
+      "event_description": "Compra aprovada",
+      "affiliateCommission": 0,
+      "coproductionCommission": 0
+    },
+    "signature": null,
+    "signature_valid": false,
+    "processed": true,
+    "processed_at": "2026-06-06T12:41:46.14+00:00",
+    "error": null,
+    "request_ip": "44.197.54.29",
+    "created_at": "2026-06-06T12:41:46.218083+00:00"
+  },
+  {
+    "id": "54bb4c89-dcef-4b76-bb70-8e9d24caa10e",
+    "source": "kirvano",
+    "event_type": "SALE_APPROVED",
+    "payload": {
+      "ip": "2804:868:d060:f0eb:f5b9:2464:ab84:cce4",
+      "fee": 4.3,
+      "utm": {
+        "src": "qs_beeffc5a-0347-43bf-8ff0-adeb654d757f",
+        "utm_term": "",
+        "utm_medium": "funil",
+        "utm_source": "teste_capi",
+        "utm_content": "",
+        "utm_campaign": "val4"
+      },
+      "type": "ONE_TIME",
+      "event": "SALE_APPROVED",
+      "fiscal": {
+        "fee": 4.3,
+        "net_value": 47,
+        "commission": 42.7,
+        "service_tax": 0,
+        "total_value": 47,
+        "original_value": 47,
+        "coupon_discount": 0,
+        "total_discounts": 0,
+        "total_commissions": 42.7,
+        "automatic_discount": 0,
+        "affiliate_commission": 0,
+        "coproduction_commission": 0
+      },
+      "status": "APPROVED",
+      "cookies": {},
+      "payment": {
+        "method": "PIX",
+        "qrcode": "00020101021226820014br.gov.bcb.pix2560qrcode.pinbank.com.br/qr/v2/C8E85777A5FE4A3109061B0D1B376E705204000053039865802BR5914DM INSTITUICAO6007BARUERI62070503***63042E75",
+        "expires_at": "2026-06-07 12:54:56",
+        "finished_at": "2026-06-06 12:55:37",
+        "qrcode_image": "00020101021226820014br.gov.bcb.pix2560qrcode.pinbank.com.br/qr/v2/C8E85777A5FE4A3109061B0D1B376E705204000053039865802BR5914DM INSTITUICAO6007BARUERI62070503***63042E75"
+      },
+      "sale_id": "82RY1YZM",
+      "customer": {
+        "name": "Tamires Almeida Lopes",
+        "email": "365.morandocomdeus@gmail.com",
+        "address": {
+          "city": null,
+          "state": null,
+          "number": null,
+          "street": null,
+          "zipcode": null,
+          "complement": null,
+          "neighborhood": null
+        },
+        "document": "49292227882",
+        "phone_number": "5519991679449"
+      },
+      "products": [
+        {
+          "id": "09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1",
+          "name": "Rotina de Paz",
+          "photo": "products/09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1/cover-1780577457551.webp",
+          "price": "R$ 47,00",
+          "format": "service",
+          "category": "91321cff-087a-4353-96c3-01af1c7ff171",
+          "offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+          "offer_name": "Mulher Cristã",
+          "description": "Rotina de Paz é um produto digital de bem-estar para mulheres cristãs que lidam com ansiedade.é um ecossistema com app, áudios guiados, manuais e bônus, ancorado numa jornada de prática de fé.",
+          "is_order_bump": false
+        }
+      ],
+      "commission": 42.7,
+      "created_at": "2026-06-06 12:55:37",
+      "checkout_id": "57K23Y73",
+      "total_price": "R$ 47,00",
+      "contactEmail": "rotinadepaz.suporte@gmail.com",
+      "couponDiscount": 0,
+      "payment_method": "PIX",
+      "automaticDiscount": 0,
+      "event_description": "Compra aprovada",
+      "affiliateCommission": 0,
+      "coproductionCommission": 0
+    },
+    "signature": null,
+    "signature_valid": false,
+    "processed": true,
+    "processed_at": "2026-06-06T15:55:43.036+00:00",
+    "error": null,
+    "request_ip": "44.197.54.29",
+    "created_at": "2026-06-06T15:55:43.342006+00:00"
+  },
+  {
+    "id": "cb8e79b0-a47d-42cc-ac40-38691bbc6a3f",
+    "source": "kirvano",
+    "event_type": "SALE_APPROVED",
+    "payload": {
+      "ip": "2804:868:d060:f0eb:fd0d:7fff:1357:cac0",
+      "fee": 4.93,
+      "utm": {
+        "src": "qs_aaa2f543-f71b-41b8-acf4-0409ef495dc5",
+        "utm_term": "",
+        "utm_medium": "funil",
+        "utm_source": "teste_capi",
+        "utm_content": "",
+        "utm_campaign": "val4"
+      },
+      "type": "ONE_TIME",
+      "event": "SALE_APPROVED",
+      "fiscal": {
+        "fee": 4.93,
+        "net_value": 59.9,
+        "commission": 54.97,
+        "service_tax": 0,
+        "total_value": 59.9,
+        "original_value": 59.9,
+        "coupon_discount": 0,
+        "total_discounts": 0,
+        "total_commissions": 54.97,
+        "automatic_discount": 0,
+        "affiliate_commission": 0,
+        "coproduction_commission": 0
+      },
+      "status": "APPROVED",
+      "cookies": {
+        "fbp": "fb.1.1780739744476.69455279953492837.AQYAAQIB",
+        "ttp": "01KTEBBK0EZT4M3VB1DCW4DN08_.tt.1",
+        "gclid": "1.1.1663647550.1780745617.124182119.1780763288.1780763288",
+        "fbclid": "IwARtestecapi5"
+      },
+      "payment": {
+        "method": "PIX",
+        "qrcode": "00020126810014br.gov.bcb.pix2559qr-code.picpay.com/pix/1025cc25-3e19-4dfc-abdc-ae05c8491db35204000053039865802BR5923KIRVANO PAGAMENTOS LTDA6009Sao Paulo62070503***63046D82",
+        "expires_at": "2026-06-07 14:00:09",
+        "finished_at": "2026-06-06 14:00:51",
+        "qrcode_image": "00020126810014br.gov.bcb.pix2559qr-code.picpay.com/pix/1025cc25-3e19-4dfc-abdc-ae05c8491db35204000053039865802BR5923KIRVANO PAGAMENTOS LTDA6009Sao Paulo62070503***63046D82"
+      },
+      "sale_id": "51WY136M",
+      "customer": {
+        "name": "vendarealgmailcom",
+        "email": "venda.real17@gmail.com",
+        "address": {
+          "city": null,
+          "state": null,
+          "number": null,
+          "street": null,
+          "zipcode": null,
+          "complement": null,
+          "neighborhood": null
+        },
+        "document": "49292227882",
+        "phone_number": "5519991679449"
+      },
+      "products": [
+        {
+          "id": "09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1",
+          "name": "Rotina de Paz",
+          "photo": "products/09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1/cover-1780577457551.webp",
+          "price": "R$ 47,00",
+          "format": "service",
+          "category": "91321cff-087a-4353-96c3-01af1c7ff171",
+          "offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+          "offer_name": "Mulher Cristã",
+          "description": "Rotina de Paz é um produto digital de bem-estar para mulheres cristãs que lidam com ansiedade.é um ecossistema com app, áudios guiados, manuais e bônus, ancorado numa jornada de prática de fé.",
+          "is_order_bump": false
+        },
+        {
+          "id": "4cae3fb8-b22f-4fbd-b5a9-3d20435d86eb",
+          "name": "Bíblia das Emoções",
+          "photo": "products/4cae3fb8-b22f-4fbd-b5a9-3d20435d86eb/cover-1754871062767.webp",
+          "price": "R$ 12,90",
+          "format": "file",
+          "category": "91321cff-087a-4353-96c3-01af1c7ff171",
+          "offer_id": "17dcc27c-215f-436e-a9b6-1a3b2cc007ef",
+          "offer_name": "Bíblia das Emoções - 77 versiculos direcionados",
+          "description": "77 Versículos para Curar sua\nAlma com a Palavra",
+          "is_order_bump": true
+        }
+      ],
+      "commission": 54.97,
+      "created_at": "2026-06-06 14:00:51",
+      "checkout_id": "5Z49NQLM",
+      "total_price": "R$ 59,90",
+      "contactEmail": "rotinadepaz.suporte@gmail.com",
+      "couponDiscount": 0,
+      "payment_method": "PIX",
+      "automaticDiscount": 0,
+      "event_description": "Compra aprovada",
+      "affiliateCommission": 0,
+      "coproductionCommission": 0
+    },
+    "signature": null,
+    "signature_valid": false,
+    "processed": true,
+    "processed_at": "2026-06-06T17:00:57.652+00:00",
+    "error": null,
+    "request_ip": "44.197.54.29",
+    "created_at": "2026-06-06T17:00:57.981412+00:00"
+  },
+  {
+    "id": "c8388683-99b5-422b-86ec-a0beb71f75ac",
+    "source": "kirvano",
+    "event_type": "SALE_APPROVED",
+    "payload": {
+      "ip": "2804:868:d060:f0eb:fd0d:7fff:1357:cac0",
+      "fee": 3.81,
+      "utm": {
+        "src": "qs_aaa2f543-f71b-41b8-acf4-0409ef495dc5",
+        "utm_term": "",
+        "utm_medium": "funil",
+        "utm_source": "teste_capi",
+        "utm_content": "",
+        "utm_campaign": "val4"
+      },
+      "type": "ONE_TIME",
+      "event": "SALE_APPROVED",
+      "fiscal": {
+        "fee": 3.81,
+        "net_value": 37,
+        "commission": 33.19,
+        "service_tax": 0,
+        "total_value": 37,
+        "original_value": 37,
+        "coupon_discount": 0,
+        "total_discounts": 0,
+        "total_commissions": 33.19,
+        "automatic_discount": 0,
+        "affiliate_commission": 0,
+        "coproduction_commission": 0
+      },
+      "status": "APPROVED",
+      "cookies": {
+        "fbp": "fb.1.1780739744476.69455279953492837.AQYAAQIB",
+        "ttp": "01KTEBBK0EZT4M3VB1DCW4DN08_.tt.1",
+        "gclid": "1.1.1663647550.1780745617.124182119.1780763288.1780763288",
+        "fbclid": "IwARtestecapi5"
+      },
+      "payment": {
+        "method": "PIX",
+        "qrcode": "00020126810014br.gov.bcb.pix2559qr-code.picpay.com/pix/76624138-d10a-428f-9b7c-db444f2e6d215204000053039865802BR5923KIRVANO PAGAMENTOS LTDA6009Sao Paulo62070503***63043F22",
+        "expires_at": "2026-06-07 14:28:53",
+        "finished_at": "2026-06-06 14:29:49",
+        "qrcode_image": "00020126810014br.gov.bcb.pix2559qr-code.picpay.com/pix/76624138-d10a-428f-9b7c-db444f2e6d215204000053039865802BR5923KIRVANO PAGAMENTOS LTDA6009Sao Paulo62070503***63043F22"
+      },
+      "sale_id": "57ZYRMLR",
+      "customer": {
+        "name": "vendarealgmailcom",
+        "email": "venda.real17@gmail.com",
+        "address": {
+          "city": null,
+          "state": null,
+          "number": null,
+          "street": null,
+          "zipcode": null,
+          "complement": null,
+          "neighborhood": null
+        },
+        "document": "49292227882",
+        "phone_number": "5519991679449"
+      },
+      "products": [
+        {
+          "id": "3e920688-674a-4671-8624-3f469c58f5b3",
+          "name": "A Chave da Gratidão",
+          "photo": "products/3e920688-674a-4671-8624-3f469c58f5b3/cover-1780539667491.webp",
+          "price": "R$ 37,00",
+          "format": "file",
+          "category": "91321cff-087a-4353-96c3-01af1c7ff171",
+          "offer_id": "e6fd35f3-ad96-4121-b6a9-1123468d5f9f",
+          "offer_name": "Downsell",
+          "description": "Ebook- com 7 devocionais de Fé em video com foco em Gratidão",
+          "is_order_bump": false
+        }
+      ],
+      "commission": 33.19,
+      "created_at": "2026-06-06 14:29:49",
+      "checkout_id": "5Z49NQLM",
+      "total_price": "R$ 37,00",
+      "contactEmail": "rotinadepaz.suporte@gmail.com",
+      "couponDiscount": 0,
+      "payment_method": "PIX",
+      "automaticDiscount": 0,
+      "event_description": "Compra aprovada",
+      "affiliateCommission": 0,
+      "coproductionCommission": 0
+    },
+    "signature": null,
+    "signature_valid": false,
+    "processed": true,
+    "processed_at": "2026-06-06T17:29:54.447+00:00",
+    "error": null,
+    "request_ip": "44.197.54.29",
+    "created_at": "2026-06-06T17:29:54.522264+00:00"
+  },
+  {
+    "id": "abfdf2b0-44a1-4cc7-9701-3c3428e4f625",
+    "source": "kirvano",
+    "event_type": "SALE_APPROVED",
+    "payload": {
+      "ip": "2804:868:d060:f0eb:1876:252f:b688:7440",
+      "fee": 5.08,
+      "utm": {
+        "src": "qs_670f0993-7668-412c-99cd-045dec302d8a",
+        "utm_term": "",
+        "utm_medium": "funil",
+        "utm_source": "teste_capi",
+        "utm_content": "",
+        "utm_campaign": "val4"
+      },
+      "type": "ONE_TIME",
+      "event": "SALE_APPROVED",
+      "fiscal": {
+        "fee": 5.08,
+        "net_value": 62.9,
+        "commission": 57.82,
+        "service_tax": 0,
+        "total_value": 62.9,
+        "original_value": 62.9,
+        "coupon_discount": 0,
+        "total_discounts": 0,
+        "total_commissions": 57.82,
+        "automatic_discount": 0,
+        "affiliate_commission": 0,
+        "coproduction_commission": 0
+      },
+      "status": "APPROVED",
+      "cookies": {
+        "fbp": "fb.1.1780767340492.846993546254536056",
+        "fbclid": "IwARtestecapi5"
+      },
+      "payment": {
+        "method": "PIX",
+        "qrcode": "00020126810014br.gov.bcb.pix2559qr-code.picpay.com/pix/4f145388-0947-4291-b13d-1f9bef3d92e35204000053039865802BR5923KIRVANO PAGAMENTOS LTDA6009Sao Paulo62070503***6304FB2B",
+        "expires_at": "2026-06-07 14:40:35",
+        "finished_at": "2026-06-06 14:42:24",
+        "qrcode_image": "00020126810014br.gov.bcb.pix2559qr-code.picpay.com/pix/4f145388-0947-4291-b13d-1f9bef3d92e35204000053039865802BR5923KIRVANO PAGAMENTOS LTDA6009Sao Paulo62070503***6304FB2B"
+      },
+      "sale_id": "8K4JDL6R",
+      "customer": {
+        "name": "Tamires Almeida Lopes",
+        "email": "tamires.almeida900@gmail.com",
+        "address": {
+          "city": null,
+          "state": null,
+          "number": null,
+          "street": null,
+          "zipcode": null,
+          "complement": null,
+          "neighborhood": null
+        },
+        "document": "07856556897",
+        "phone_number": "5519991679449"
+      },
+      "products": [
+        {
+          "id": "09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1",
+          "name": "Rotina de Paz",
+          "photo": "products/09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1/cover-1780577457551.webp",
+          "price": "R$ 47,00",
+          "format": "service",
+          "category": "91321cff-087a-4353-96c3-01af1c7ff171",
+          "offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+          "offer_name": "Mulher Cristã",
+          "description": "Rotina de Paz é um produto digital de bem-estar para mulheres cristãs que lidam com ansiedade.é um ecossistema com app, áudios guiados, manuais e bônus, ancorado numa jornada de prática de fé.",
+          "is_order_bump": false
+        },
+        {
+          "id": "c73468c4-b665-4dfa-b2b9-b72520868150",
+          "name": "Devocional 30 Dias com os Salmos",
+          "photo": "products/c73468c4-b665-4dfa-b2b9-b72520868150/cover-1780524285469.webp",
+          "price": "R$ 15,90",
+          "format": "file",
+          "category": "91321cff-087a-4353-96c3-01af1c7ff171",
+          "offer_id": "6ba796b8-d3d1-4d56-bcf1-e7f493a23938",
+          "offer_name": "Devocional 30 Dias com Salmos",
+          "description": "30 devocionais diários para acalmar a mente : versículo, reflexão, oração e prática para viver em paz. Um encontro por dia com Deus para entregar o que rouba seu descanso.",
+          "is_order_bump": true
+        }
+      ],
+      "commission": 57.82,
+      "created_at": "2026-06-06 14:42:24",
+      "checkout_id": "8B3GN4P7",
+      "total_price": "R$ 62,90",
+      "contactEmail": "rotinadepaz.suporte@gmail.com",
+      "couponDiscount": 0,
+      "payment_method": "PIX",
+      "automaticDiscount": 0,
+      "event_description": "Compra aprovada",
+      "affiliateCommission": 0,
+      "coproductionCommission": 0
+    },
+    "signature": null,
+    "signature_valid": false,
+    "processed": true,
+    "processed_at": "2026-06-06T17:42:30.929+00:00",
+    "error": null,
+    "request_ip": "44.197.54.29",
+    "created_at": "2026-06-06T17:42:31.007868+00:00"
+  },
+  {
+    "id": "dde80953-8193-4285-8899-81c6867ea27c",
+    "source": "kirvano",
+    "event_type": "SALE_APPROVED",
+    "payload": {
+      "ip": "2804:868:d060:f0eb:1876:252f:b688:7440",
+      "fee": 3.81,
+      "utm": {
+        "src": "qs_670f0993-7668-412c-99cd-045dec302d8a",
+        "utm_term": "",
+        "utm_medium": "funil",
+        "utm_source": "teste_capi",
+        "utm_content": "",
+        "utm_campaign": "val4"
+      },
+      "type": "ONE_TIME",
+      "event": "SALE_APPROVED",
+      "fiscal": {
+        "fee": 3.81,
+        "net_value": 37,
+        "commission": 33.19,
+        "service_tax": 0,
+        "total_value": 37,
+        "original_value": 37,
+        "coupon_discount": 0,
+        "total_discounts": 0,
+        "total_commissions": 33.19,
+        "automatic_discount": 0,
+        "affiliate_commission": 0,
+        "coproduction_commission": 0
+      },
+      "status": "APPROVED",
+      "cookies": {
+        "fbp": "fb.1.1780767340492.846993546254536056",
+        "fbclid": "IwARtestecapi5"
+      },
+      "payment": {
+        "method": "PIX",
+        "qrcode": "00020101021226820014br.gov.bcb.pix2560qrcode.pinbank.com.br/qr/v2/21257AE4A0F04E2AEF14A53D6A4858995204000053039865802BR5914DM INSTITUICAO6007BARUERI62070503***63045416",
+        "expires_at": "2026-06-07 14:44:36",
+        "finished_at": "2026-06-06 14:45:20",
+        "qrcode_image": "00020101021226820014br.gov.bcb.pix2560qrcode.pinbank.com.br/qr/v2/21257AE4A0F04E2AEF14A53D6A4858995204000053039865802BR5914DM INSTITUICAO6007BARUERI62070503***63045416"
+      },
+      "sale_id": "82RY1D63",
+      "customer": {
+        "name": "Tamires Almeida Lopes",
+        "email": "tamires.almeida900@gmail.com",
+        "address": {
+          "city": null,
+          "state": null,
+          "number": null,
+          "street": null,
+          "zipcode": null,
+          "complement": null,
+          "neighborhood": null
+        },
+        "document": "07856556897",
+        "phone_number": "5519991679449"
+      },
+      "products": [
+        {
+          "id": "3e920688-674a-4671-8624-3f469c58f5b3",
+          "name": "A Chave da Gratidão",
+          "photo": "products/3e920688-674a-4671-8624-3f469c58f5b3/cover-1780539667491.webp",
+          "price": "R$ 37,00",
+          "format": "file",
+          "category": "91321cff-087a-4353-96c3-01af1c7ff171",
+          "offer_id": "e6fd35f3-ad96-4121-b6a9-1123468d5f9f",
+          "offer_name": "Downsell",
+          "description": "Ebook- com 7 devocionais de Fé em video com foco em Gratidão",
+          "is_order_bump": false
+        }
+      ],
+      "commission": 33.19,
+      "created_at": "2026-06-06 14:45:20",
+      "checkout_id": "8B3GN4P7",
+      "total_price": "R$ 37,00",
+      "contactEmail": "rotinadepaz.suporte@gmail.com",
+      "couponDiscount": 0,
+      "payment_method": "PIX",
+      "automaticDiscount": 0,
+      "event_description": "Compra aprovada",
+      "affiliateCommission": 0,
+      "coproductionCommission": 0
+    },
+    "signature": null,
+    "signature_valid": false,
+    "processed": true,
+    "processed_at": "2026-06-06T17:45:25.421+00:00",
+    "error": null,
+    "request_ip": "44.197.54.29",
+    "created_at": "2026-06-06T17:45:25.747886+00:00"
+  },
+  {
+    "id": "5703dbbc-9dd4-41fb-b8d2-d4ffbf4a1cb2",
+    "source": "kirvano",
+    "event_type": "SALE_APPROVED",
+    "payload": {
+      "ip": "2804:868:d060:f0eb:94dc:71f5:6dcc:f8bc",
+      "fee": 4.3,
+      "utm": {
+        "src": "qs_6644e335-838e-4808-9e8e-206b8cfdb118",
+        "utm_term": "",
+        "utm_medium": "funil",
+        "utm_source": "teste_capi",
+        "utm_content": "",
+        "utm_campaign": "val4"
+      },
+      "type": "ONE_TIME",
+      "event": "SALE_APPROVED",
+      "fiscal": {
+        "fee": 4.3,
+        "net_value": 47,
+        "commission": 42.7,
+        "service_tax": 0,
+        "total_value": 47,
+        "original_value": 47,
+        "coupon_discount": 0,
+        "total_discounts": 0,
+        "total_commissions": 42.7,
+        "automatic_discount": 0,
+        "affiliate_commission": 0,
+        "coproduction_commission": 0
+      },
+      "status": "APPROVED",
+      "cookies": {
+        "fbclid": "IwARtestecapi5"
+      },
+      "payment": {
+        "method": "PIX",
+        "qrcode": "00020126810014br.gov.bcb.pix2559qr-code.picpay.com/pix/1db32518-81fd-4c5c-858d-abef60f603985204000053039865802BR5923KIRVANO PAGAMENTOS LTDA6009Sao Paulo62070503***6304684C",
+        "expires_at": "2026-06-07 14:50:07",
+        "finished_at": "2026-06-06 14:51:14",
+        "qrcode_image": "00020126810014br.gov.bcb.pix2559qr-code.picpay.com/pix/1db32518-81fd-4c5c-858d-abef60f603985204000053039865802BR5923KIRVANO PAGAMENTOS LTDA6009Sao Paulo62070503***6304684C"
+      },
+      "sale_id": "X99J2VKE",
+      "customer": {
+        "name": "Gustavo Pereira",
+        "email": "guhgs.pereira@yahoo.com.br",
+        "address": {
+          "city": null,
+          "state": null,
+          "number": null,
+          "street": null,
+          "zipcode": null,
+          "complement": null,
+          "neighborhood": null
+        },
+        "document": "40211902870",
+        "phone_number": "5515551999270"
+      },
+      "products": [
+        {
+          "id": "09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1",
+          "name": "Rotina de Paz",
+          "photo": "products/09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1/cover-1780577457551.webp",
+          "price": "R$ 47,00",
+          "format": "service",
+          "category": "91321cff-087a-4353-96c3-01af1c7ff171",
+          "offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+          "offer_name": "Mulher Cristã",
+          "description": "Rotina de Paz é um produto digital de bem-estar para mulheres cristãs que lidam com ansiedade.é um ecossistema com app, áudios guiados, manuais e bônus, ancorado numa jornada de prática de fé.",
+          "is_order_bump": false
+        }
+      ],
+      "commission": 42.7,
+      "created_at": "2026-06-06 14:51:14",
+      "checkout_id": "5ME19RME",
+      "total_price": "R$ 47,00",
+      "contactEmail": "rotinadepaz.suporte@gmail.com",
+      "couponDiscount": 0,
+      "payment_method": "PIX",
+      "automaticDiscount": 0,
+      "event_description": "Compra aprovada",
+      "affiliateCommission": 0,
+      "coproductionCommission": 0
+    },
+    "signature": null,
+    "signature_valid": false,
+    "processed": true,
+    "processed_at": "2026-06-06T17:51:19.016+00:00",
+    "error": null,
+    "request_ip": "44.197.54.29",
+    "created_at": "2026-06-06T17:51:19.091173+00:00"
+  },
+  {
+    "id": "f5065c68-5f5a-4d14-b9fa-d9d0d217bb12",
+    "source": "kirvano",
+    "event_type": "SALE_APPROVED",
+    "payload": {
+      "ip": "2804:868:d060:f0eb:94dc:71f5:6dcc:f8bc",
+      "fee": 3.81,
+      "utm": {
+        "src": "qs_6644e335-838e-4808-9e8e-206b8cfdb118",
+        "utm_term": "",
+        "utm_medium": "funil",
+        "utm_source": "teste_capi",
+        "utm_content": "",
+        "utm_campaign": "val4"
+      },
+      "type": "ONE_TIME",
+      "event": "SALE_APPROVED",
+      "fiscal": {
+        "fee": 3.81,
+        "net_value": 37,
+        "commission": 33.19,
+        "service_tax": 0,
+        "total_value": 37,
+        "original_value": 37,
+        "coupon_discount": 0,
+        "total_discounts": 0,
+        "total_commissions": 33.19,
+        "automatic_discount": 0,
+        "affiliate_commission": 0,
+        "coproduction_commission": 0
+      },
+      "status": "APPROVED",
+      "cookies": {
+        "fbclid": "IwARtestecapi5"
+      },
+      "payment": {
+        "method": "PIX",
+        "qrcode": "00020126810014br.gov.bcb.pix2559qr-code.picpay.com/pix/03a7783f-0957-494c-8f9c-e3306da641db5204000053039865802BR5923KIRVANO PAGAMENTOS LTDA6009Sao Paulo62070503***63040CA6",
+        "expires_at": "2026-06-07 14:51:55",
+        "finished_at": "2026-06-06 14:52:33",
+        "qrcode_image": "00020126810014br.gov.bcb.pix2559qr-code.picpay.com/pix/03a7783f-0957-494c-8f9c-e3306da641db5204000053039865802BR5923KIRVANO PAGAMENTOS LTDA6009Sao Paulo62070503***63040CA6"
+      },
+      "sale_id": "842Y1NZP",
+      "customer": {
+        "name": "Gustavo Pereira",
+        "email": "guhgs.pereira@yahoo.com.br",
+        "address": {
+          "city": null,
+          "state": null,
+          "number": null,
+          "street": null,
+          "zipcode": null,
+          "complement": null,
+          "neighborhood": null
+        },
+        "document": "40211902870",
+        "phone_number": "5515551999270"
+      },
+      "products": [
+        {
+          "id": "3e920688-674a-4671-8624-3f469c58f5b3",
+          "name": "A Chave da Gratidão",
+          "photo": "products/3e920688-674a-4671-8624-3f469c58f5b3/cover-1780539667491.webp",
+          "price": "R$ 37,00",
+          "format": "file",
+          "category": "91321cff-087a-4353-96c3-01af1c7ff171",
+          "offer_id": "e6fd35f3-ad96-4121-b6a9-1123468d5f9f",
+          "offer_name": "Downsell",
+          "description": "Ebook- com 7 devocionais de Fé em video com foco em Gratidão",
+          "is_order_bump": false
+        }
+      ],
+      "commission": 33.19,
+      "created_at": "2026-06-06 14:52:33",
+      "checkout_id": "5ME19RME",
+      "total_price": "R$ 37,00",
+      "contactEmail": "rotinadepaz.suporte@gmail.com",
+      "couponDiscount": 0,
+      "payment_method": "PIX",
+      "automaticDiscount": 0,
+      "event_description": "Compra aprovada",
+      "affiliateCommission": 0,
+      "coproductionCommission": 0
+    },
+    "signature": null,
+    "signature_valid": false,
+    "processed": true,
+    "processed_at": "2026-06-06T17:52:37.045+00:00",
+    "error": null,
+    "request_ip": "44.197.54.29",
+    "created_at": "2026-06-06T17:52:37.115266+00:00"
+  },
+  {
+    "id": "428222a6-ef27-4c75-9ccd-f9e7e89783e1",
+    "source": "kirvano",
+    "event_type": "SALE_REFUSED",
+    "payload": {
+      "ip": "2804:868:d060:6dad:75f9:f668:6242:ff15",
+      "fee": 5.27,
+      "utm": {
+        "src": "qs_9335bc06-4c08-47d1-a93a-2dd6af6082bb",
+        "utm_term": "",
+        "utm_medium": "",
+        "utm_source": "",
+        "utm_content": "",
+        "utm_campaign": ""
+      },
+      "type": "ONE_TIME",
+      "event": "SALE_REFUSED",
+      "fiscal": {
+        "fee": 5.27,
+        "net_value": 72.58,
+        "commission": 61.63,
+        "service_tax": 0,
+        "total_value": 72.58,
+        "original_value": 72.58,
+        "coupon_discount": 0,
+        "total_discounts": 0,
+        "total_commissions": 61.63,
+        "automatic_discount": 0,
+        "affiliate_commission": 0,
+        "coproduction_commission": 0
+      },
+      "status": "REFUSED",
+      "cookies": {},
+      "payment": {
+        "brand": "visa",
+        "method": "CREDIT_CARD",
+        "installments": 2
+      },
+      "sale_id": "82RY97D7",
+      "customer": {
+        "name": "Ricardo bispo",
+        "email": "ricardo.biapopereira@gmail.com",
+        "address": {
+          "city": null,
+          "state": null,
+          "number": null,
+          "street": null,
+          "zipcode": null,
+          "complement": null,
+          "neighborhood": null
+        },
+        "document": "09543644810",
+        "phone_number": "5519973548877"
+      },
+      "products": [
+        {
+          "id": "09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1",
+          "name": "Rotina de Paz",
+          "photo": "products/09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1/cover-1780577457551.webp",
+          "price": "R$ 47,00",
+          "format": "service",
+          "category": "91321cff-087a-4353-96c3-01af1c7ff171",
+          "offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+          "offer_name": "Mulher Cristã",
+          "description": "Rotina de Paz é um produto digital de bem-estar para mulheres cristãs que lidam com ansiedade.é um ecossistema com app, áudios guiados, manuais e bônus, ancorado numa jornada de prática de fé.",
+          "is_order_bump": false
+        },
+        {
+          "id": "addf40dd-1b7d-4e66-bad3-03ade014d9b6",
+          "name": "Da Ansiedade à Gratidão - 7 Dias de Renovação",
+          "photo": "products/addf40dd-1b7d-4e66-bad3-03ade014d9b6/cover-1780525560613.webp",
+          "price": "R$ 19,90",
+          "format": "file",
+          "category": "91321cff-087a-4353-96c3-01af1c7ff171",
+          "offer_id": "9805e364-f28f-4575-82a1-b0786fb9d7da",
+          "offer_name": "Da Ansiedade à Gratidão - 7 Dias de Renovação",
+          "description": "7 dias de renovação neural pela Palavra para mentes ansiosas. Cada dia une versículo, neurociência e prática manhã/noite para reescrever a ansiedade e ensinar o corpo a descansar em Deus.",
+          "is_order_bump": true
+        }
+      ],
+      "commission": 61.63,
+      "created_at": "2026-06-06 17:35:34",
+      "checkout_id": "X9ZGQ7ZB",
+      "total_price": "R$ 66,90",
+      "checkout_url": "https://pay.kirvano.com/0b6125dc-2775-401d-8abc-90676c29031c",
+      "contactEmail": "rotinadepaz.suporte@gmail.com",
+      "couponDiscount": 0,
+      "payment_method": "CREDIT_CARD",
+      "automaticDiscount": 0,
+      "event_description": "Compra recusada",
+      "affiliateCommission": 0,
+      "coproductionCommission": 0
+    },
+    "signature": null,
+    "signature_valid": false,
+    "processed": false,
+    "processed_at": null,
+    "error": "Evento ignorado: SALE_REFUSED",
+    "request_ip": "44.197.54.29",
+    "created_at": "2026-06-06T20:35:35.177177+00:00"
+  },
+  {
+    "id": "269febbf-3086-4ba0-b991-382ee6b1e5cd",
+    "source": "kirvano",
+    "event_type": "SALE_REFUSED",
+    "payload": {
+      "ip": "2804:868:d060:6dad:75f9:f668:6242:ff15",
+      "fee": 5.27,
+      "utm": {
+        "src": "qs_9335bc06-4c08-47d1-a93a-2dd6af6082bb",
+        "utm_term": "",
+        "utm_medium": "",
+        "utm_source": "",
+        "utm_content": "",
+        "utm_campaign": ""
+      },
+      "type": "ONE_TIME",
+      "event": "SALE_REFUSED",
+      "fiscal": {
+        "fee": 5.27,
+        "net_value": 72.58,
+        "commission": 61.63,
+        "service_tax": 0,
+        "total_value": 72.58,
+        "original_value": 72.58,
+        "coupon_discount": 0,
+        "total_discounts": 0,
+        "total_commissions": 61.63,
+        "automatic_discount": 0,
+        "affiliate_commission": 0,
+        "coproduction_commission": 0
+      },
+      "status": "REFUSED",
+      "cookies": {},
+      "payment": {
+        "brand": "visa",
+        "method": "CREDIT_CARD",
+        "installments": 2
+      },
+      "sale_id": "82RY97D7",
+      "customer": {
+        "name": "Ricardo bispo pereira",
+        "email": "ricardo.bispopereira@gmail.com",
+        "address": {
+          "city": null,
+          "state": null,
+          "number": null,
+          "street": null,
+          "zipcode": null,
+          "complement": null,
+          "neighborhood": null
+        },
+        "document": "09543644810",
+        "phone_number": "5519973548877"
+      },
+      "products": [
+        {
+          "id": "09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1",
+          "name": "Rotina de Paz",
+          "photo": "products/09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1/cover-1780577457551.webp",
+          "price": "R$ 47,00",
+          "format": "service",
+          "category": "91321cff-087a-4353-96c3-01af1c7ff171",
+          "offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+          "offer_name": "Mulher Cristã",
+          "description": "Rotina de Paz é um produto digital de bem-estar para mulheres cristãs que lidam com ansiedade.é um ecossistema com app, áudios guiados, manuais e bônus, ancorado numa jornada de prática de fé.",
+          "is_order_bump": false
+        },
+        {
+          "id": "addf40dd-1b7d-4e66-bad3-03ade014d9b6",
+          "name": "Da Ansiedade à Gratidão - 7 Dias de Renovação",
+          "photo": "products/addf40dd-1b7d-4e66-bad3-03ade014d9b6/cover-1780525560613.webp",
+          "price": "R$ 19,90",
+          "format": "file",
+          "category": "91321cff-087a-4353-96c3-01af1c7ff171",
+          "offer_id": "9805e364-f28f-4575-82a1-b0786fb9d7da",
+          "offer_name": "Da Ansiedade à Gratidão - 7 Dias de Renovação",
+          "description": "7 dias de renovação neural pela Palavra para mentes ansiosas. Cada dia une versículo, neurociência e prática manhã/noite para reescrever a ansiedade e ensinar o corpo a descansar em Deus.",
+          "is_order_bump": true
+        }
+      ],
+      "commission": 61.63,
+      "created_at": "2026-06-06 17:36:05",
+      "checkout_id": "X9ZGQ7ZB",
+      "total_price": "R$ 66,90",
+      "checkout_url": "https://pay.kirvano.com/0b6125dc-2775-401d-8abc-90676c29031c",
+      "contactEmail": "rotinadepaz.suporte@gmail.com",
+      "couponDiscount": 0,
+      "payment_method": "CREDIT_CARD",
+      "automaticDiscount": 0,
+      "event_description": "Compra recusada",
+      "affiliateCommission": 0,
+      "coproductionCommission": 0
+    },
+    "signature": null,
+    "signature_valid": false,
+    "processed": false,
+    "processed_at": null,
+    "error": "Evento ignorado: SALE_REFUSED",
+    "request_ip": "44.197.54.29",
+    "created_at": "2026-06-06T20:36:06.444856+00:00"
+  },
+  {
+    "id": "b7750bfe-a51d-4e39-9d1f-3d78882c9608",
+    "source": "kirvano",
+    "event_type": "SALE_APPROVED",
+    "payload": {
+      "ip": "2804:868:d060:6dad:75f9:f668:6242:ff15",
+      "fee": 4.3,
+      "utm": {
+        "src": "qs_9335bc06-4c08-47d1-a93a-2dd6af6082bb",
+        "utm_term": "",
+        "utm_medium": "",
+        "utm_source": "",
+        "utm_content": "",
+        "utm_campaign": ""
+      },
+      "type": "ONE_TIME",
+      "event": "SALE_APPROVED",
+      "fiscal": {
+        "fee": 4.3,
+        "net_value": 47,
+        "commission": 42.7,
+        "service_tax": 0,
+        "total_value": 47,
+        "original_value": 47,
+        "coupon_discount": 0,
+        "total_discounts": 0,
+        "total_commissions": 42.7,
+        "automatic_discount": 0,
+        "affiliate_commission": 0,
+        "coproduction_commission": 0
+      },
+      "status": "APPROVED",
+      "cookies": {},
+      "payment": {
+        "method": "PIX",
+        "qrcode": "00020126810014br.gov.bcb.pix2559qr-code.picpay.com/pix/134d811d-0867-428f-b28a-63ee36da36395204000053039865802BR5923KIRVANO PAGAMENTOS LTDA6009Sao Paulo62070503***6304C348",
+        "expires_at": "2026-06-07 17:36:18",
+        "finished_at": "2026-06-06 17:38:46",
+        "qrcode_image": "00020126810014br.gov.bcb.pix2559qr-code.picpay.com/pix/134d811d-0867-428f-b28a-63ee36da36395204000053039865802BR5923KIRVANO PAGAMENTOS LTDA6009Sao Paulo62070503***6304C348"
+      },
+      "sale_id": "82RY97D7",
+      "customer": {
+        "name": "Ricardo bispo pereira",
+        "email": "ricardo.bispopereira@gmail.com",
+        "address": {
+          "city": null,
+          "state": null,
+          "number": null,
+          "street": null,
+          "zipcode": null,
+          "complement": null,
+          "neighborhood": null
+        },
+        "document": "09543644810",
+        "phone_number": "5519973548877"
+      },
+      "products": [
+        {
+          "id": "09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1",
+          "name": "Rotina de Paz",
+          "photo": "products/09494a43-e1e0-41d8-b3e0-7d8c6c54b1c1/cover-1780577457551.webp",
+          "price": "R$ 47,00",
+          "format": "service",
+          "category": "91321cff-087a-4353-96c3-01af1c7ff171",
+          "offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+          "offer_name": "Mulher Cristã",
+          "description": "Rotina de Paz é um produto digital de bem-estar para mulheres cristãs que lidam com ansiedade.é um ecossistema com app, áudios guiados, manuais e bônus, ancorado numa jornada de prática de fé.",
+          "is_order_bump": false
+        }
+      ],
+      "commission": 42.7,
+      "created_at": "2026-06-06 17:38:46",
+      "checkout_id": "X9ZGQ7ZB",
+      "total_price": "R$ 47,00",
+      "contactEmail": "rotinadepaz.suporte@gmail.com",
+      "couponDiscount": 0,
+      "payment_method": "PIX",
+      "automaticDiscount": 0,
+      "event_description": "Compra aprovada",
+      "affiliateCommission": 0,
+      "coproductionCommission": 0
+    },
+    "signature": null,
+    "signature_valid": false,
+    "processed": true,
+    "processed_at": "2026-06-06T20:38:52.035+00:00",
+    "error": null,
+    "request_ip": "44.197.54.29",
+    "created_at": "2026-06-06T20:38:52.367745+00:00"
+  },
+  {
+    "id": "70fa5788-9edd-49bc-bf94-9d3e96221ae2",
+    "source": "kirvano",
+    "event_type": "SALE_APPROVED",
+    "payload": {
+      "ip": "2804:868:d060:6dad:75f9:f668:6242:ff15",
+      "fee": 5.28,
+      "utm": {
+        "src": "qs_9335bc06-4c08-47d1-a93a-2dd6af6082bb",
+        "utm_term": "",
+        "utm_medium": "",
+        "utm_source": "",
+        "utm_content": "",
+        "utm_campaign": ""
+      },
+      "type": "ONE_TIME",
+      "event": "SALE_APPROVED",
+      "fiscal": {
+        "fee": 5.28,
+        "net_value": 67,
+        "commission": 61.72,
+        "service_tax": 0,
+        "total_value": 67,
+        "original_value": 67,
+        "coupon_discount": 0,
+        "total_discounts": 0,
+        "total_commissions": 61.72,
+        "automatic_discount": 0,
+        "affiliate_commission": 0,
+        "coproduction_commission": 0
+      },
+      "status": "APPROVED",
+      "cookies": {},
+      "payment": {
+        "method": "PIX",
+        "qrcode": "00020101021226820014br.gov.bcb.pix2560qrcode.pinbank.com.br/qr/v2/6F7EF8B34EEB2B7AECB79FAC837B696F5204000053039865802BR5914DM INSTITUICAO6007BARUERI62070503***6304FD33",
+        "expires_at": "2026-06-07 17:39:07",
+        "finished_at": "2026-06-06 17:39:28",
+        "qrcode_image": "00020101021226820014br.gov.bcb.pix2560qrcode.pinbank.com.br/qr/v2/6F7EF8B34EEB2B7AECB79FAC837B696F5204000053039865802BR5914DM INSTITUICAO6007BARUERI62070503***6304FD33"
+      },
+      "sale_id": "842Y6JPV",
+      "customer": {
+        "name": "Ricardo bispo pereira",
+        "email": "ricardo.bispopereira@gmail.com",
+        "address": {
+          "city": null,
+          "state": null,
+          "number": null,
+          "street": null,
+          "zipcode": null,
+          "complement": null,
+          "neighborhood": null
+        },
+        "document": "09543644810",
+        "phone_number": "5519973548877"
+      },
+      "products": [
+        {
+          "id": "3e920688-674a-4671-8624-3f469c58f5b3",
+          "name": "A Chave da Gratidão",
+          "photo": "products/3e920688-674a-4671-8624-3f469c58f5b3/cover-1780539667491.webp",
+          "price": "R$ 67,00",
+          "format": "file",
+          "category": "91321cff-087a-4353-96c3-01af1c7ff171",
+          "offer_id": "ca518c06-88d8-44a7-9487-7ca71d3e86d3",
+          "offer_name": "upsell",
+          "description": "Ebook- com 7 devocionais de Fé em video com foco em Gratidão",
+          "is_order_bump": false
+        }
+      ],
+      "commission": 61.72,
+      "created_at": "2026-06-06 17:39:28",
+      "checkout_id": "X9ZGQ7ZB",
+      "total_price": "R$ 67,00",
+      "contactEmail": "rotinadepaz.suporte@gmail.com",
+      "couponDiscount": 0,
+      "payment_method": "PIX",
+      "automaticDiscount": 0,
+      "event_description": "Compra aprovada",
+      "affiliateCommission": 0,
+      "coproductionCommission": 0
+    },
+    "signature": null,
+    "signature_valid": false,
+    "processed": true,
+    "processed_at": "2026-06-06T20:39:31.94+00:00",
+    "error": null,
+    "request_ip": "44.197.54.29",
+    "created_at": "2026-06-06T20:39:32.013622+00:00"
+  }
+]

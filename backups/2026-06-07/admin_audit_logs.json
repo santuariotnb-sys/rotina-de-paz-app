@@ -1,0 +1,1864 @@
+[
+  {
+    "id": "69924343-89cb-476f-bad3-f07b135181cd",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "5d23cdbf-d98c-4031-895e-3bb6fc4d291a",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 1"
+    },
+    "created_at": "2026-05-30T23:23:17.135444+00:00"
+  },
+  {
+    "id": "6cbd8f08-2b9c-4e0c-8436-333a00d2d332",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "59c1776e-0b80-4d68-b364-2bc64481173d",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 2 Ele Reina"
+    },
+    "created_at": "2026-05-30T23:23:20.527837+00:00"
+  },
+  {
+    "id": "3db27ae8-3497-4fd5-ad1f-4f7763a13553",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "03d8dedc-f713-4010-a856-c13f18e545eb",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 3"
+    },
+    "created_at": "2026-05-30T23:23:23.765233+00:00"
+  },
+  {
+    "id": "c788c6b1-9bdb-4b91-8e38-8c0d882cc1d1",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "d5868af9-0f57-4ac7-9c61-fab07255e6c7",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 4"
+    },
+    "created_at": "2026-05-30T23:23:26.55591+00:00"
+  },
+  {
+    "id": "460530f1-20ef-43d1-818c-124960a5aeff",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "c77ccf4a-866b-4f67-88c8-137e90609487",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 5"
+    },
+    "created_at": "2026-05-30T23:23:29.612838+00:00"
+  },
+  {
+    "id": "36426059-e2ef-4273-8ad0-37478b11d123",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "c020c722-926c-46be-bee9-fca271f4e7ef",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 6"
+    },
+    "created_at": "2026-05-30T23:23:32.48123+00:00"
+  },
+  {
+    "id": "992572b8-4bbd-4177-9359-9adb6f8f807c",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "9e40bb6f-5a1e-4165-a1c4-f86bed205e99",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 7"
+    },
+    "created_at": "2026-05-30T23:23:35.259584+00:00"
+  },
+  {
+    "id": "a7f949d2-60c1-49ef-84bd-65ac71a4dd16",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "2a96d3e9-57c6-4da6-8442-f45b38d1edf2",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 8"
+    },
+    "created_at": "2026-05-30T23:23:38.13468+00:00"
+  },
+  {
+    "id": "2df64d90-2b7c-4c72-a740-aeff6adb955f",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "39f040df-ff4f-4adc-ae19-d437cffcec44",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 9"
+    },
+    "created_at": "2026-05-30T23:23:41.123014+00:00"
+  },
+  {
+    "id": "5573d94a-faaa-4aa5-a06e-029bce1a0cc7",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "ef82f7bc-cfcf-435d-af93-ba59742881cb",
+    "metadata": {
+      "bulk": true,
+      "title": "SALMOS 10"
+    },
+    "created_at": "2026-05-30T23:23:43.96557+00:00"
+  },
+  {
+    "id": "311da224-439a-4cdf-bafc-ba9bf4ad4dd6",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "5e7b6e48-227d-4986-a3eb-290ab527dba6",
+    "metadata": {
+      "bulk": true,
+      "title": "SALMOS 11"
+    },
+    "created_at": "2026-05-30T23:23:46.845504+00:00"
+  },
+  {
+    "id": "100b83c5-6536-4ee0-b61a-d99ecf99c530",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "f7d9dfeb-918e-4888-aec0-38741c193e03",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 12"
+    },
+    "created_at": "2026-05-30T23:23:49.21165+00:00"
+  },
+  {
+    "id": "9f15fc6f-0e0f-4b51-8e90-4350e0360dc9",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "2451dc13-094c-4477-8075-6925fef9d655",
+    "metadata": {
+      "bulk": true,
+      "title": "SALMOS 13"
+    },
+    "created_at": "2026-05-30T23:23:51.870428+00:00"
+  },
+  {
+    "id": "ef57523a-2b32-4f61-94d5-9bcaab486de6",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "ab288d3b-4860-494f-96e4-1321c528ee62",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 14 Nova"
+    },
+    "created_at": "2026-05-30T23:23:54.682444+00:00"
+  },
+  {
+    "id": "06155ed9-6b57-44f2-94f4-2e9de233f906",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "6c1495f3-0635-4293-9e68-6765c20b3dff",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 15 Nova"
+    },
+    "created_at": "2026-05-30T23:23:57.528071+00:00"
+  },
+  {
+    "id": "bb222935-1e27-4fa5-a853-be3fa83253b3",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "c253c37b-e023-4cec-ab53-f9450f98919e",
+    "metadata": {
+      "bulk": true,
+      "title": "SALMOS 16"
+    },
+    "created_at": "2026-05-30T23:24:00.212518+00:00"
+  },
+  {
+    "id": "b1b39550-a597-43cf-96be-691898b29a41",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "b05269bd-e962-47b9-983d-d5b00d7186a8",
+    "metadata": {
+      "bulk": true,
+      "title": "SALMOS 17"
+    },
+    "created_at": "2026-05-30T23:24:03.153729+00:00"
+  },
+  {
+    "id": "b527f1cc-4459-463a-8a71-af8ec428f67b",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "f4225e24-9a64-4d5d-abed-b6583aac72ee",
+    "metadata": {
+      "bulk": true,
+      "title": "SALMOS 18"
+    },
+    "created_at": "2026-05-30T23:24:06.166081+00:00"
+  },
+  {
+    "id": "dbd1ccd8-d810-466b-8ae5-bcc5d2b5b6f3",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "ebdacc9e-71d9-467b-94f0-a08c637fff5b",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 19 Nova"
+    },
+    "created_at": "2026-05-30T23:24:08.933671+00:00"
+  },
+  {
+    "id": "4613ef86-d883-424e-a981-d454af5a19d9",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "86c0f509-2ea3-4e9f-a127-a04517d7e6bb",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 20 Que o Senhor te ouça no dia da aflição"
+    },
+    "created_at": "2026-05-30T23:24:11.678426+00:00"
+  },
+  {
+    "id": "57e55a1d-22a6-409e-9ab6-1349c84cf122",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "30141211-6824-4c41-b045-4bacfdf25d52",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 21"
+    },
+    "created_at": "2026-05-30T23:24:14.365124+00:00"
+  },
+  {
+    "id": "6883499f-d094-4c47-bdd0-343c72bb41f6",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "2eed755e-12ac-49ee-8fec-606cde69abe2",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 22"
+    },
+    "created_at": "2026-05-30T23:24:17.692175+00:00"
+  },
+  {
+    "id": "e5a911be-ed34-4d90-b39a-79e6cf4e0068",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "1aca91b4-5d2a-44ce-8067-337e25cfa675",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 22 Clássico"
+    },
+    "created_at": "2026-05-30T23:24:21.271654+00:00"
+  },
+  {
+    "id": "e28b938f-1b87-4566-8f9e-1251df10c06c",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "4b0519ab-d2b8-4232-85f6-7de942600545",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 23 Novo"
+    },
+    "created_at": "2026-05-30T23:24:24.456603+00:00"
+  },
+  {
+    "id": "741106dd-f568-4223-b9d2-cd9c2385bb40",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "2121efca-790c-4c19-98d3-b1153a2f3faa",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 24"
+    },
+    "created_at": "2026-05-30T23:24:27.624787+00:00"
+  },
+  {
+    "id": "1101fd0e-9eda-4c8b-bb96-7b33bd74428c",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "9e20c6c8-150c-467e-90d1-6833f5fe09b1",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 25"
+    },
+    "created_at": "2026-05-30T23:24:31.770344+00:00"
+  },
+  {
+    "id": "8a22f835-648f-48e8-8d0b-29e0aff9209e",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "9eddb04d-957c-4d27-8af6-d96dfa82fbe8",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 25(1)"
+    },
+    "created_at": "2026-05-30T23:24:35.075867+00:00"
+  },
+  {
+    "id": "8db4e2be-99aa-4911-89f9-7036a16a9e73",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "0fb2e692-2427-45fb-9c97-c35e628643ff",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 26"
+    },
+    "created_at": "2026-05-30T23:24:37.96184+00:00"
+  },
+  {
+    "id": "4cf6582c-84c3-48a5-bffc-f1ed7b958a86",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "29ec0536-9afe-4ad1-bb23-8a258006999f",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 27"
+    },
+    "created_at": "2026-05-30T23:24:40.907382+00:00"
+  },
+  {
+    "id": "cdff77b7-8210-4509-9de3-0eb783648077",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "796ee232-5097-462c-b7ed-4fd505e82dee",
+    "metadata": {
+      "bulk": true,
+      "title": "SALMOS 28"
+    },
+    "created_at": "2026-05-30T23:24:43.642017+00:00"
+  },
+  {
+    "id": "a5a554c6-ddcf-4563-ab97-6da1389c423c",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "cd2f5538-88c5-4514-96ed-1847ba63b376",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 29 (1)"
+    },
+    "created_at": "2026-05-30T23:24:46.779606+00:00"
+  },
+  {
+    "id": "20846018-8adf-49d9-9dd0-6dd7a89b26e5",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "baf25104-e6ae-4f85-ba8d-2d4f7b0d6b13",
+    "metadata": {
+      "bulk": true,
+      "title": "SALMOS 30"
+    },
+    "created_at": "2026-05-30T23:24:49.845039+00:00"
+  },
+  {
+    "id": "a22a6a26-02fc-440a-bf5d-ebb04e19823e",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "c8ff0401-90cd-4d37-b72c-5c75b03b1107",
+    "metadata": {
+      "bulk": true,
+      "title": "SALMOS 31"
+    },
+    "created_at": "2026-05-30T23:24:53.166402+00:00"
+  },
+  {
+    "id": "26c75072-7f55-4708-8ae3-9decfb40fdce",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "437132a0-2bca-4a2f-b7d5-67b914fd1ca4",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 32"
+    },
+    "created_at": "2026-05-30T23:24:56.084331+00:00"
+  },
+  {
+    "id": "8651f3d2-224b-4d23-aedc-4936e824c1d0",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "70d41e01-f946-48c7-b9c4-c89894c4f9c3",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 33"
+    },
+    "created_at": "2026-05-30T23:24:58.537164+00:00"
+  },
+  {
+    "id": "c2e54f31-e826-498e-9cf5-df24cde60238",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "ccae74e6-259f-42c3-bfaf-c8c19743d74f",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 34"
+    },
+    "created_at": "2026-05-30T23:25:01.380489+00:00"
+  },
+  {
+    "id": "84a69820-1a81-49f5-b4bc-98587d95a6d2",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "41582e00-181c-42b7-aa81-bc91fffe0145",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 35"
+    },
+    "created_at": "2026-05-30T23:25:04.148357+00:00"
+  },
+  {
+    "id": "6ab31528-f993-4c12-bac4-1d2f7452c61a",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "7a5e6028-631d-4e43-b187-76a206b985c4",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 36"
+    },
+    "created_at": "2026-05-30T23:25:06.939781+00:00"
+  },
+  {
+    "id": "1a1e95a1-297b-408a-8f2f-95c7155da882",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "e972a784-d2ec-4aec-960d-331ab8c6e0a5",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 37"
+    },
+    "created_at": "2026-05-30T23:25:09.518455+00:00"
+  },
+  {
+    "id": "37ca90a8-6645-4022-8d38-52cbeadfb307",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "6312a5b7-ad0f-4edd-bc3a-6ae63d59e1db",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 38"
+    },
+    "created_at": "2026-05-30T23:25:13.371351+00:00"
+  },
+  {
+    "id": "135e7584-60e5-44ec-9fec-9e5540976b41",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "110fd0d0-5703-4e85-acc9-e07b5e4d4fd8",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 39"
+    },
+    "created_at": "2026-05-30T23:25:16.149494+00:00"
+  },
+  {
+    "id": "1be6f443-274b-474c-b1fa-6f4b78e9f867",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "e04b6717-aaae-4213-b556-19a1b8ccd1a1",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 40"
+    },
+    "created_at": "2026-05-30T23:25:22.705962+00:00"
+  },
+  {
+    "id": "c61215a0-4d4e-4741-86fe-23df97936afb",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "e2913b91-4250-4f9a-a45c-3daf139cc133",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 41"
+    },
+    "created_at": "2026-05-30T23:25:25.616159+00:00"
+  },
+  {
+    "id": "8dbcd8ae-f7ad-4a91-af36-95b679c43cb9",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "99b2302a-5f35-4615-8bfb-cbf3e67dc7f6",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 42"
+    },
+    "created_at": "2026-05-30T23:25:28.449811+00:00"
+  },
+  {
+    "id": "7e8d3cce-7d41-4742-a8b1-6d8ae3b2b5bf",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "870fee11-d71f-4cb6-bf91-0984dbeebe12",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 43"
+    },
+    "created_at": "2026-05-30T23:25:31.547782+00:00"
+  },
+  {
+    "id": "cb5accda-d82b-4869-9de9-f0e7f587d2f9",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "8f3f0f32-3db2-4a1f-a0c1-1ba91cec9004",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 44"
+    },
+    "created_at": "2026-05-30T23:25:34.411162+00:00"
+  },
+  {
+    "id": "08676bc1-45d9-42bd-b836-8b9fad8c79b3",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "0a69eea8-dbcf-4d66-a6ec-51cfe022a150",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 45"
+    },
+    "created_at": "2026-05-30T23:25:37.177487+00:00"
+  },
+  {
+    "id": "689ccf60-1206-45de-a1c1-025ad8775e76",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "0fc40b8c-98c0-404d-a9ea-130ef7207a8a",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 47"
+    },
+    "created_at": "2026-05-30T23:25:39.858389+00:00"
+  },
+  {
+    "id": "ceb96268-f36d-4004-90e7-0d29a0c3f08d",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "8dd13684-6678-4dbc-b202-898adaa73e83",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 52"
+    },
+    "created_at": "2026-05-30T23:26:00.7408+00:00"
+  },
+  {
+    "id": "bb262ca3-2a0a-4a0c-974a-aa50ee82d27c",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "75235b09-46c5-43da-9af3-52cce63db72d",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 57"
+    },
+    "created_at": "2026-05-30T23:26:15.618066+00:00"
+  },
+  {
+    "id": "08552f0b-d81a-4d5f-9ba2-edd239283d7c",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "95034754-b67f-4c0f-b079-8e52e346ab6c",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 61"
+    },
+    "created_at": "2026-05-30T23:26:33.876267+00:00"
+  },
+  {
+    "id": "93259677-670c-4e94-989d-66073098991b",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "9b2b30b8-1fd0-4f79-a070-1d11df888249",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 48"
+    },
+    "created_at": "2026-05-30T23:25:43.393022+00:00"
+  },
+  {
+    "id": "4cf44760-a506-46af-9111-752654faafb1",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "d6a9fee9-bc0e-45ef-820c-7c1e7afa74d6",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 53"
+    },
+    "created_at": "2026-05-30T23:26:03.88525+00:00"
+  },
+  {
+    "id": "2f27f957-f185-4aae-b56f-808513140c87",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "12fcf06b-bb1b-4fd1-90e3-7c1dd6b12a3f",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 58"
+    },
+    "created_at": "2026-05-30T23:26:18.321407+00:00"
+  },
+  {
+    "id": "a338445d-7ab6-4b21-8bf9-589ae05c24d6",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "ceeb1323-3a6f-463c-99cb-c0ddbf6bcc81",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 62 Somente em Ti"
+    },
+    "created_at": "2026-05-30T23:26:37.104591+00:00"
+  },
+  {
+    "id": "e91e7bb4-68c5-4138-bcd8-6f3ac3f624c0",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "dece50af-2a19-4b53-89b6-f2f4d715e5ac",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 49"
+    },
+    "created_at": "2026-05-30T23:25:47.54243+00:00"
+  },
+  {
+    "id": "de5d696f-5b4b-4831-a715-2d2794517154",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "32be1a05-3d50-41e2-8e3a-132ccdec4f10",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 54"
+    },
+    "created_at": "2026-05-30T23:26:06.521595+00:00"
+  },
+  {
+    "id": "baacc76d-ac41-42d2-9747-b1fea3a0703f",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "12338ecb-7f7d-4f72-9fc3-8d001f2a7ff6",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 59"
+    },
+    "created_at": "2026-05-30T23:26:20.9946+00:00"
+  },
+  {
+    "id": "a352e16e-6025-488f-801d-866e2967775d",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "fddcfaeb-67ed-441f-b2cc-1d4d0c431c3a",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 63 A Minha Alma Tem Sede"
+    },
+    "created_at": "2026-05-30T23:26:40.248831+00:00"
+  },
+  {
+    "id": "ddf46c5b-1591-4576-8336-76b46868deb2",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "ebf3181a-20ed-4698-b59f-6689fef07db2",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 50"
+    },
+    "created_at": "2026-05-30T23:25:50.361825+00:00"
+  },
+  {
+    "id": "174f5454-3d40-4c9c-82df-faa5083f24c5",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "59b8a0bc-17a6-4112-8e72-05af70ceeaee",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 55"
+    },
+    "created_at": "2026-05-30T23:26:09.28112+00:00"
+  },
+  {
+    "id": "d783989f-90bb-4650-8836-fa108f9e4fe9",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "b405f8ce-178f-4abb-9eb8-41b87319b4c6",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 60 Socorro que Vem do Alto"
+    },
+    "created_at": "2026-05-30T23:26:23.742151+00:00"
+  },
+  {
+    "id": "c03eb17d-856f-4a18-8836-b50b1203af22",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "67a69074-bbe7-410c-9754-fdd48aae1f1a",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 64 Tu Me Guardas"
+    },
+    "created_at": "2026-05-30T23:26:44.871012+00:00"
+  },
+  {
+    "id": "ecc731eb-b0b1-4a7b-84ac-c66b746c6d14",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "9a77a4c2-3efe-4d87-a681-d92ea714c5a6",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 51"
+    },
+    "created_at": "2026-05-30T23:25:57.658562+00:00"
+  },
+  {
+    "id": "83810c48-483c-4c4f-83ba-68360f6c1868",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "bc921586-cb3e-47de-8426-f4c35181ab50",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 56"
+    },
+    "created_at": "2026-05-30T23:26:12.468741+00:00"
+  },
+  {
+    "id": "e4736ae7-f3fc-42a6-959e-5189ecfc4d50",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "8bb93002-3c72-4044-ba36-528d6d3faf0e",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 61 Leva me à Rocha"
+    },
+    "created_at": "2026-05-30T23:26:27.288188+00:00"
+  },
+  {
+    "id": "c0d5096e-d8ed-4f63-8bf8-6e54b9388850",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "11f07029-c9fd-4dba-89c9-2a631ca5d4cb",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 65 Tua Bondade Enche a Terra"
+    },
+    "created_at": "2026-05-30T23:26:50.589594+00:00"
+  },
+  {
+    "id": "56d34d7c-fb08-43be-8cd3-864008f955e2",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "ed08babf-7e84-47f9-b3a8-cd592c66c081",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 66 Vinde e Ouvi"
+    },
+    "created_at": "2026-05-30T23:26:54.941804+00:00"
+  },
+  {
+    "id": "44488371-67cd-4dd8-8983-70632d9979ec",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "04e77433-37bc-471b-8a2b-1fdafa383ebb",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 67 Para Que Te Conheçam"
+    },
+    "created_at": "2026-05-30T23:26:58.268573+00:00"
+  },
+  {
+    "id": "0c643ad5-ba23-4d6d-9d91-96b042300bca",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "52978836-e153-4e18-8e81-9de224fdb053",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 68 O Senhor Se Levanta"
+    },
+    "created_at": "2026-05-30T23:27:02.352682+00:00"
+  },
+  {
+    "id": "76fe194e-3186-46a9-bdd1-b43c8638000a",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "de697557-286e-41c2-95d6-bfada6327ed0",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 69 Salva me, Ó Deus"
+    },
+    "created_at": "2026-05-30T23:27:07.036993+00:00"
+  },
+  {
+    "id": "080803dc-5ff5-47b6-bec3-ea88ce83713a",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "16e2a5cc-a60a-4653-a0ce-fa9af5205e5f",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 70 Apressa Te, Senhor"
+    },
+    "created_at": "2026-05-30T23:27:10.686115+00:00"
+  },
+  {
+    "id": "d191dad7-bfca-4342-a6f5-0c87cbd6db6b",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "3a41bd90-3de0-419d-b6f1-7b724dbf7b85",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 71 Minha Esperança Desde a Mocidade"
+    },
+    "created_at": "2026-05-30T23:27:15.830605+00:00"
+  },
+  {
+    "id": "8a66b134-93e2-42cd-86a7-6218bafaf870",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "a4dbfb6f-121a-4103-a0a1-ab289fae7869",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 72 Reina Com Justiça"
+    },
+    "created_at": "2026-05-30T23:27:19.667121+00:00"
+  },
+  {
+    "id": "63f50561-ceca-4472-a763-2cd96f7296e4",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "b7d335a0-964e-4b64-99ed-48039c7c9783",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 73 Bom é Estar Contigo"
+    },
+    "created_at": "2026-05-30T23:27:23.879644+00:00"
+  },
+  {
+    "id": "2114ac05-3a09-44f5-b10f-b7f8ca1fc653",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "3bc7242c-8d58-48bf-80d9-69dafe8042bd",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 74 Levanta Te, ó Deus"
+    },
+    "created_at": "2026-05-30T23:27:28.177887+00:00"
+  },
+  {
+    "id": "cb7b07c0-eaff-435c-b74d-b034f0542249",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "4a13c9bd-0ed2-4d01-8548-af82f42e8e06",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 75 O Justo Juiz"
+    },
+    "created_at": "2026-05-30T23:27:33.567359+00:00"
+  },
+  {
+    "id": "95319396-794b-4a0d-88e8-1e2c4b19fefc",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "b585ae23-cb51-4de4-ba5a-7ce3e6aa9c49",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 76 Temido És Tu"
+    },
+    "created_at": "2026-05-30T23:27:39.064246+00:00"
+  },
+  {
+    "id": "0f2df390-1e3d-465e-a21e-42965b4059e2",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "a0f51ee2-85c6-4054-8ae5-d93627640aec",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 77"
+    },
+    "created_at": "2026-05-30T23:27:43.785515+00:00"
+  },
+  {
+    "id": "7385d6de-1d7e-434a-9f88-b9da141873e4",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "ed71e34f-5f76-4a80-948c-e87f39fd97e6",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 78"
+    },
+    "created_at": "2026-05-30T23:27:47.562904+00:00"
+  },
+  {
+    "id": "bdb86c46-5b74-40b9-b2dc-8526396ac02f",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "8a6deac4-e31f-4333-8651-fa55892c4997",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 79"
+    },
+    "created_at": "2026-05-30T23:27:51.093681+00:00"
+  },
+  {
+    "id": "b41737b6-e501-4cca-99dc-8a4c282531ca",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "46843fb1-efed-4ec3-9fd2-918162208cd4",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 80"
+    },
+    "created_at": "2026-05-30T23:27:54.549283+00:00"
+  },
+  {
+    "id": "264a5c04-22db-47de-a9b7-48edeac04fc8",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "41805d38-0019-4222-9c49-d6ebb9500d54",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 81"
+    },
+    "created_at": "2026-05-30T23:27:57.550104+00:00"
+  },
+  {
+    "id": "9b902a58-63d5-4497-979a-086aafc6d268",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "56d519cf-0d93-4f9b-aa23-e3a3644ab1ae",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 82"
+    },
+    "created_at": "2026-05-30T23:28:00.321069+00:00"
+  },
+  {
+    "id": "5ec66a74-4e3e-4707-934b-6242d6f55c26",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "07792b8c-c32b-4186-9b7b-9447093890f6",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 83"
+    },
+    "created_at": "2026-05-30T23:28:03.402104+00:00"
+  },
+  {
+    "id": "7200b899-b5e7-4678-b9cf-d43eeacf7ec6",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "8c7f0d05-a84f-43a8-840f-ed5139aa9bb1",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 84"
+    },
+    "created_at": "2026-05-30T23:28:07.280793+00:00"
+  },
+  {
+    "id": "fb6213ba-f5d8-4d60-b773-8f5d93ec00b1",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "49c1ba5b-c73d-4292-8ce1-587471f38789",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 85"
+    },
+    "created_at": "2026-05-30T23:28:11.385618+00:00"
+  },
+  {
+    "id": "06a5cdc0-2b9a-45bf-ba91-335ebe289290",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "9db30ae0-8825-4708-b229-bd07d8ed0eaf",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 86 Inclina, Senhor, os Teus ouvidos"
+    },
+    "created_at": "2026-05-30T23:28:15.464066+00:00"
+  },
+  {
+    "id": "0c8dc7e7-6e59-4cc1-9fd1-39375d1a0688",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "467793b2-376b-4e34-900f-6d46371e72f1",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 87 Fundada nos montes santos está"
+    },
+    "created_at": "2026-05-30T23:28:18.916492+00:00"
+  },
+  {
+    "id": "69d0ec85-8491-4809-9ca0-f8ce11c5f8e7",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "4bf3a0da-cee2-4c5b-aa78-e78527d608a5",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 88 Senhor, Deus da minha salvação"
+    },
+    "created_at": "2026-05-30T23:28:22.750747+00:00"
+  },
+  {
+    "id": "9e13b5d7-1dfc-4b51-aff7-7e5c23d53490",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "89320b56-66af-475c-aaf5-c5d46982f5dd",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 89 Cantarei para sempre a tua fidelidade"
+    },
+    "created_at": "2026-05-30T23:28:27.463386+00:00"
+  },
+  {
+    "id": "5edd84ca-efa2-4519-8720-bfde2902aa7c",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "4471e871-b21b-400e-8c93-7365a011eca4",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 90 Senhor, tu tens sido o nosso refúgio"
+    },
+    "created_at": "2026-05-30T23:28:33.21026+00:00"
+  },
+  {
+    "id": "6ddeabe3-7de5-4954-bac2-e496f3b88892",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "30efa7e4-0134-4c91-9848-18cf5a00e069",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 91"
+    },
+    "created_at": "2026-05-30T23:28:39.268973+00:00"
+  },
+  {
+    "id": "e555d667-62b2-4359-9245-9fbeee71aa48",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "6a6ab514-3947-46e4-8320-035b41af3772",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 92 Bom é Te Louvar"
+    },
+    "created_at": "2026-05-30T23:28:44.430651+00:00"
+  },
+  {
+    "id": "1f3f959d-3fbd-4a04-b710-87311a9a591c",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "2eb52fb4-eabc-4bed-8247-d726452a668f",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 93 Reina o Senhor, vestido de glória"
+    },
+    "created_at": "2026-05-30T23:28:49.715733+00:00"
+  },
+  {
+    "id": "a5294911-e270-46fc-b5dd-0db5a57ab19d",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "beb9a629-a25d-4a14-97ef-24ed82b5f0f3",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 94 Deus da vingança"
+    },
+    "created_at": "2026-05-30T23:28:55.821853+00:00"
+  },
+  {
+    "id": "3679227b-ab94-4618-89fd-7e9acc7347fc",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "1e11de14-3140-4b0b-b4e3-7ac449da1db7",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 95 Vinde e cantemos ao Senhor"
+    },
+    "created_at": "2026-05-30T23:29:00.999783+00:00"
+  },
+  {
+    "id": "4ce6b391-4e15-460c-8a83-43395bd7838a",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "068983dc-f9f6-43d1-890e-ea3a2862b8b3",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 96 Cantai ao Senhor um cântico novo"
+    },
+    "created_at": "2026-05-30T23:29:05.472826+00:00"
+  },
+  {
+    "id": "25edc965-7fc7-4903-83c2-3d11ed4c13f5",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "a608f50e-903d-4815-858b-48c312459152",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 97 O Senhor reina, regozije se a terra"
+    },
+    "created_at": "2026-05-30T23:29:10.194272+00:00"
+  },
+  {
+    "id": "ed522fb2-2d14-44f3-80dc-25de4389cac4",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "db86c095-30ab-474e-b173-5529e7d7a208",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 98 Cantai ao Senhor um cântico novo"
+    },
+    "created_at": "2026-05-30T23:29:14.466361+00:00"
+  },
+  {
+    "id": "a97d5b1a-3a74-4dec-a6be-d9bd5ad82f67",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "54401e92-cd46-4df1-8d41-9a8aec167fc1",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 99 Reina o Senhor, tremam os povos"
+    },
+    "created_at": "2026-05-30T23:29:19.122951+00:00"
+  },
+  {
+    "id": "079f3ee8-557a-49e6-acdd-7ac8963c9011",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "7cd4b15a-5615-4558-afdc-c1762afdf3bd",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 100 Celebrai com júbilo ao Senhor"
+    },
+    "created_at": "2026-05-30T23:29:23.714144+00:00"
+  },
+  {
+    "id": "e0d394e1-c999-43bf-af2e-6cbe11cb6c43",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "1b0ab8ca-1d10-4246-89b0-c68201b6fac9",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 101 Andarei Com Coração Íntegro"
+    },
+    "created_at": "2026-05-30T23:29:27.703224+00:00"
+  },
+  {
+    "id": "85639ff9-5123-4aed-b317-d1edb972de6f",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "7381955e-4c08-4c36-bcf6-04cd7f29b863",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 102 Tu Permanecerás"
+    },
+    "created_at": "2026-05-30T23:29:31.804544+00:00"
+  },
+  {
+    "id": "41d26bf1-aad8-4f79-b49b-e6168de3789d",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "75268237-41aa-426c-acef-9c9d1098102e",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 103 Bendize, ó Minha Alma"
+    },
+    "created_at": "2026-05-30T23:29:36.443333+00:00"
+  },
+  {
+    "id": "735b85b5-6d1e-4b2e-8a40-82ae8c93c854",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "f5e902ba-7113-4b8e-968f-0e1aedfbb750",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 104 Ó Minha Alma, Bendize ao Senhor"
+    },
+    "created_at": "2026-05-30T23:29:42.259403+00:00"
+  },
+  {
+    "id": "7666a273-7432-4644-b149-546f89096a71",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "ceb4816d-9c05-465e-bdbf-f808cca689b5",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 105 Lembrai das Maravilhas"
+    },
+    "created_at": "2026-05-30T23:29:45.988259+00:00"
+  },
+  {
+    "id": "43510e5e-4e46-4a46-b9b7-5e4832df9eb8",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "713d3918-8936-43dd-9f76-5409ccd1da5d",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 110 À Tua Direita"
+    },
+    "created_at": "2026-05-30T23:30:09.002965+00:00"
+  },
+  {
+    "id": "dd3c1401-ecb4-40f3-b225-98cca76ef6b2",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "8dbbb0fc-9756-42f2-b1fe-27c3da2f1cb0",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 115"
+    },
+    "created_at": "2026-05-30T23:30:33.532162+00:00"
+  },
+  {
+    "id": "ee060361-8aeb-43db-a752-11d4e5e47947",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "036430d6-8252-41e0-8519-11b4f11c65ac",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 119"
+    },
+    "created_at": "2026-05-30T23:30:58.419885+00:00"
+  },
+  {
+    "id": "6a24f490-60a0-426a-bc0f-8ffc462805a9",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "ac255fad-22c8-4e86-9128-79bc89019271",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 124 Se Não Fosse o Senhor"
+    },
+    "created_at": "2026-05-30T23:31:26.485134+00:00"
+  },
+  {
+    "id": "24e4420e-93b6-4218-80fa-6ff24eb218d0",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "386f4dbe-356b-40a9-bbdc-69a2d541c7df",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 106 Ele É Bom"
+    },
+    "created_at": "2026-05-30T23:29:49.923941+00:00"
+  },
+  {
+    "id": "60cefbf4-2892-4b50-b8bb-0bde0a8adff4",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "c8798e0d-9526-4f12-b0b9-76688eb60d47",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 111"
+    },
+    "created_at": "2026-05-30T23:30:15.241044+00:00"
+  },
+  {
+    "id": "46a3351c-34f9-4280-ab2b-44bdcb1756b8",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "fd046626-a200-4afd-bc9d-a6b2eaf68945",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 116."
+    },
+    "created_at": "2026-05-30T23:30:37.177666+00:00"
+  },
+  {
+    "id": "e9ce5e4a-f8a8-4fff-89c6-e74f14094438",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "c696e7d9-a337-4cef-95ac-5644e298f403",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 120"
+    },
+    "created_at": "2026-05-30T23:31:02.448676+00:00"
+  },
+  {
+    "id": "acccc040-edf8-4f07-8924-e78670a4110b",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "791bea0e-9bd5-4a15-b40b-d53121fcf54a",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 125 Como o Monte Sião"
+    },
+    "created_at": "2026-05-30T23:31:30.87886+00:00"
+  },
+  {
+    "id": "df8927a8-4982-4466-b03a-7b5536737ab8",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "c0818f0a-1121-46a2-996a-fc8f1c2c65ac",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 107 Ele Nos Livrou"
+    },
+    "created_at": "2026-05-30T23:29:53.634385+00:00"
+  },
+  {
+    "id": "bbf2be66-632a-4d24-97e8-17bfd5935bf1",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "f880457f-ab26-436d-bd92-935f91469abf",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 112"
+    },
+    "created_at": "2026-05-30T23:30:20.034507+00:00"
+  },
+  {
+    "id": "a42c5fc5-7358-4f2b-9104-5bd5d27a78fa",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "0d6d2854-856a-473b-8343-42c07c0a1238",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 117"
+    },
+    "created_at": "2026-05-30T23:30:43.019829+00:00"
+  },
+  {
+    "id": "99c30bc6-971b-4bb0-95f3-d5dd257a1f36",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "f4c49351-631f-4034-8868-917273cbdfe7",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 121 Ele Não Dorme"
+    },
+    "created_at": "2026-05-30T23:31:10.898591+00:00"
+  },
+  {
+    "id": "7d7c41cf-059b-4e57-99c5-3887707a4861",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "0046a826-912c-48e8-9c62-5995ab59575f",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 126 Com Lágrimas Semeamos"
+    },
+    "created_at": "2026-05-30T23:31:35.596364+00:00"
+  },
+  {
+    "id": "baec31ca-10f3-49bd-882f-3ef3b4784109",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "71c38169-76e0-41ba-8cae-1301a771f8c3",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 108 Firme Está o Meu Coração"
+    },
+    "created_at": "2026-05-30T23:29:58.108679+00:00"
+  },
+  {
+    "id": "bac7659e-ef2a-41d2-9bca-d6654d501e47",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "a324ab20-6d30-461c-8b19-3b0e25166683",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 113"
+    },
+    "created_at": "2026-05-30T23:30:25.040055+00:00"
+  },
+  {
+    "id": "598bf3a9-44a1-4ca9-ba87-cc7e7ed020c8",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "290cfedc-e8e0-4d0e-8b39-5cd040c32e63",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 118 Dai graças ao Senhor, pois ele é bom"
+    },
+    "created_at": "2026-05-30T23:30:46.807994+00:00"
+  },
+  {
+    "id": "fbaf5133-eb09-44df-a4ae-12a677aa3efe",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "238f8cc9-2052-4d64-8782-b416150fa611",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 122 Alegrei me Quando Me Disseram"
+    },
+    "created_at": "2026-05-30T23:31:18.068424+00:00"
+  },
+  {
+    "id": "a401ae4a-761f-4968-852b-eef7cb7b269e",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "3b2e0485-e374-4896-9491-580c9ea2695d",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 127 Se o Senhor Não Edificar"
+    },
+    "created_at": "2026-05-30T23:31:39.87813+00:00"
+  },
+  {
+    "id": "850d4cdd-fa78-42e3-a775-9289b4bb2cb9",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "2c4c87ac-18c2-4bd0-bc9c-ac350e312aca",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 109 Sê Tu Meu Ajudador"
+    },
+    "created_at": "2026-05-30T23:30:02.966147+00:00"
+  },
+  {
+    "id": "72b12242-aa57-411c-8277-4552de520863",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "c11abaff-5dda-4ea3-ba64-520be3bddcaa",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 114"
+    },
+    "created_at": "2026-05-30T23:30:29.050898+00:00"
+  },
+  {
+    "id": "1a473176-b612-4e7c-ac89-1c70089f291a",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "15a627fe-aad8-49fd-958e-b3e453ff165b",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 118"
+    },
+    "created_at": "2026-05-30T23:30:54.371463+00:00"
+  },
+  {
+    "id": "c712f62f-e576-41bd-949f-35ba33d22a07",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "a58ca818-a662-4301-9ebf-e9380bdf287e",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 123 A Ti Levanto Meus Olhos"
+    },
+    "created_at": "2026-05-30T23:31:21.536504+00:00"
+  },
+  {
+    "id": "710528fb-06d8-4f5f-bf95-8012e2101cf7",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "d9ae7ea1-2b3f-457c-9c24-bd8becbbb39b",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 127"
+    },
+    "created_at": "2026-05-30T23:31:50.752083+00:00"
+  },
+  {
+    "id": "94cc0e4a-eb87-45bc-8e07-93041b7a5b1a",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "924d2f89-f820-44e5-9928-5bd1c2dc8ac8",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 128 Bem Aventurada é a Casa (1)"
+    },
+    "created_at": "2026-05-30T23:31:54.994131+00:00"
+  },
+  {
+    "id": "7acf0cb5-c9b6-4983-9662-571011bf0c85",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "00018239-cf4c-470c-8569-daccc91f3d18",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 128 Bem Aventurada é a Casa"
+    },
+    "created_at": "2026-05-30T23:31:58.433014+00:00"
+  },
+  {
+    "id": "7cb09439-4949-4bc9-9eb8-7c776f88187a",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "dfceb589-a07e-4058-a05e-b5b4596f1d4b",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 129 Não Prevaleceram Contra Mim"
+    },
+    "created_at": "2026-05-30T23:32:18.22931+00:00"
+  },
+  {
+    "id": "9cba11c9-f7b0-4938-a9f4-881c4e6b52b7",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "648085ec-f277-4a05-aae5-91545f19b743",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 130 Das Profundezas Clamo"
+    },
+    "created_at": "2026-05-30T23:32:40.969176+00:00"
+  },
+  {
+    "id": "3f040485-0849-4b86-8dbe-626b8bcce1e2",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "d1669b33-840d-44f7-9d42-c46ad060dd70",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 130"
+    },
+    "created_at": "2026-05-30T23:33:00.754281+00:00"
+  },
+  {
+    "id": "f441215e-b20e-4dfd-818e-4b5e1f9953fc",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "ba7690df-4d33-4e3f-8845-14293c4fa4e3",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 131"
+    },
+    "created_at": "2026-05-30T23:33:06.099491+00:00"
+  },
+  {
+    "id": "3f359baf-62d9-472d-b5ee-9baa9783f49a",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "53b7cbb4-060c-43dc-87d0-620d9ba5568b",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 132"
+    },
+    "created_at": "2026-05-30T23:33:09.423758+00:00"
+  },
+  {
+    "id": "4ea6b242-109e-4354-9ab5-adffa67af9fc",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "beb603b7-1f0b-4b29-b10d-a46cff41c339",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 133"
+    },
+    "created_at": "2026-05-30T23:33:12.60819+00:00"
+  },
+  {
+    "id": "32ee3185-b994-456c-8e0a-aa25f06cd4b7",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "5e1286b8-23d0-4bc5-b28c-3e30dfe5778b",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 134"
+    },
+    "created_at": "2026-05-30T23:33:17.616167+00:00"
+  },
+  {
+    "id": "1c1dd7cb-f736-4ffe-a33c-fb3b4603bb45",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "beb40970-3864-478a-abb4-e36e024fab98",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 135"
+    },
+    "created_at": "2026-05-30T23:33:21.097706+00:00"
+  },
+  {
+    "id": "1d17312b-e082-4d41-a469-fef8f0d7bd29",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "e7b1f691-8fa7-4653-b445-6741f0a756e1",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 136"
+    },
+    "created_at": "2026-05-30T23:33:24.36116+00:00"
+  },
+  {
+    "id": "b81045d1-7c33-4f7c-9d10-2af845781db0",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "75ab72d0-358f-4dc3-83fd-d109f0e6f56e",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 137"
+    },
+    "created_at": "2026-05-30T23:33:28.167753+00:00"
+  },
+  {
+    "id": "c4ebcd28-db76-4410-9ca5-66318874df6a",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "026c0113-9706-4509-b01c-f37e988e83b1",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 138"
+    },
+    "created_at": "2026-05-30T23:33:31.358186+00:00"
+  },
+  {
+    "id": "8dfc3cba-69eb-4895-84c8-79da5e20597a",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "3d72f341-fd10-4844-8c43-4a077de7c7c5",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 139"
+    },
+    "created_at": "2026-05-30T23:33:34.146334+00:00"
+  },
+  {
+    "id": "c17b1307-a839-4d55-b98b-63e0cf9e8cfa",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "94702755-8211-4092-a4ed-5850018e3194",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 140"
+    },
+    "created_at": "2026-05-30T23:33:36.915437+00:00"
+  },
+  {
+    "id": "6817783b-5a52-43c6-97ce-410d054f4cd1",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "666bfc10-60f7-4d19-a7fa-7b132926de55",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 141 (1)"
+    },
+    "created_at": "2026-05-30T23:33:39.88865+00:00"
+  },
+  {
+    "id": "4ae75ac5-147a-4e3d-80bb-16dff273d046",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "louvor.create",
+    "resource_type": "louvor",
+    "resource_id": "dd33ab9d-6827-4a4a-82ba-feb70bcac3cd",
+    "metadata": {
+      "bulk": true,
+      "title": "Salmos 142"
+    },
+    "created_at": "2026-05-30T23:33:43.030806+00:00"
+  },
+  {
+    "id": "fe404197-501c-4d43-ac01-91bc66914aca",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "admin.logout",
+    "resource_type": null,
+    "resource_id": null,
+    "metadata": null,
+    "created_at": "2026-05-31T22:18:05.567896+00:00"
+  },
+  {
+    "id": "da7f7feb-af80-479c-ab80-a3739c8178fe",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "ebook.create",
+    "resource_type": "ebook",
+    "resource_id": "683368d0-bb8e-4c33-a2cb-4d430e59d9a7",
+    "metadata": {
+      "title": "Biblia das Emoções"
+    },
+    "created_at": "2026-06-04T13:07:51.078787+00:00"
+  },
+  {
+    "id": "6147cef8-3ec2-4a83-b5a0-73884cd3c667",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "ebook.create",
+    "resource_type": "ebook",
+    "resource_id": "847825c7-5316-4cde-8304-df9440db1af1",
+    "metadata": {
+      "title": "As Parabolas de Jesus em Imegens"
+    },
+    "created_at": "2026-06-04T13:15:53.905044+00:00"
+  },
+  {
+    "id": "81e539d3-5c7a-43e8-9365-b7556ecb0f6c",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "ebook.update",
+    "resource_type": "ebook",
+    "resource_id": "847825c7-5316-4cde-8304-df9440db1af1",
+    "metadata": {
+      "title": "As Parabolas de Jesus em Imegens"
+    },
+    "created_at": "2026-06-04T13:16:24.693109+00:00"
+  },
+  {
+    "id": "575d68fa-1f99-4246-92fd-8a48eed183fb",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "ebook.create",
+    "resource_type": "ebook",
+    "resource_id": "8d2bf6b5-3b3e-45a7-9d67-a7d9555ce3d7",
+    "metadata": {
+      "title": "30 devocionais em Salmos"
+    },
+    "created_at": "2026-06-04T13:17:55.662767+00:00"
+  },
+  {
+    "id": "7b19bf41-7192-40a8-b327-758141a14154",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "ebook.create",
+    "resource_type": "ebook",
+    "resource_id": "56865562-ce63-4595-888d-489094e6b6c5",
+    "metadata": {
+      "title": "Da Ansiedade a Gratidão"
+    },
+    "created_at": "2026-06-04T13:22:11.579084+00:00"
+  },
+  {
+    "id": "922ccba8-3b6a-4d3a-abc3-496a805bfb14",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "ebook.create",
+    "resource_type": "ebook",
+    "resource_id": "cf7e7398-e914-4375-9e88-db65c93e3338",
+    "metadata": {
+      "title": "Devocional 30 Dias com Jesus"
+    },
+    "created_at": "2026-06-04T13:23:55.102749+00:00"
+  },
+  {
+    "id": "fa76811b-f4fe-4b69-98ea-6e083e92a4f9",
+    "admin_id": "0a57bff3-d2f6-460c-990c-830f0fffadb0",
+    "action": "ebook.create",
+    "resource_type": "ebook",
+    "resource_id": "9aa31bbe-1003-4106-b083-e1d368d4b05b",
+    "metadata": {
+      "title": "Dormir Melhor  Hoje"
+    },
+    "created_at": "2026-06-04T13:33:05.336113+00:00"
+  }
+]

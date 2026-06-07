@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Users, Gem, Activity, Sparkles, DollarSign, TrendingUp } from "lucide-react";
+import { Users, Gem, Activity, Sparkles, DollarSign, Download, TrendingUp } from "lucide-react";
 import { KpiCard } from "@/components/admin/KpiCard";
 import { GlassCard } from "@/components/admin/GlassCard";
+import { downloadCsv } from "@/lib/admin/csv";
 import { fetchOverviewKpis } from "@/lib/admin/queries";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -58,23 +59,46 @@ function AdminOverview() {
   });
 
   const brl = (cents: number) =>
-    new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format((cents ?? 0) / 100);
+    new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(
+      (cents ?? 0) / 100,
+    );
 
   const breakdown = data?.archetypeBreakdown ?? {};
   const totalArch = Object.values(breakdown).reduce((a, b) => a + b, 0) || 1;
 
   return (
     <div className="adm-fade-up space-y-6">
-      <header>
-        <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#8B7355]" style={{ fontFamily: '"Cormorant Garamond", serif' }}>
-          Primordia · Visão Geral
-        </p>
-        <h1 className="mt-1 text-3xl font-semibold text-[#1A1D26]" style={{ fontFamily: '"Cormorant Garamond", serif', letterSpacing: '0.01em' }}>
-          Painel de comando
-        </h1>
-        <p className="mt-2 text-[13px] text-[#4B5060]">
-          Operação completa da Primordia — conteúdo, vendas e inteligência sobre leads.
-        </p>
+      <header className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p
+            className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#8B7355]"
+            style={{ fontFamily: '"Cormorant Garamond", serif' }}
+          >
+            Primordia · Visão Geral
+          </p>
+          <h1
+            className="mt-1 text-3xl font-semibold text-[#1A1D26]"
+            style={{ fontFamily: '"Cormorant Garamond", serif', letterSpacing: "0.01em" }}
+          >
+            Painel de comando
+          </h1>
+          <p className="mt-2 text-[13px] text-[#4B5060]">
+            Operação completa da Primordia — conteúdo, vendas e inteligência sobre leads.
+          </p>
+        </div>
+        <button
+          onClick={() => {
+            const rows = Object.entries(breakdown).map(([key, count]) => ({
+              arquetipo: ARCH_LABELS[key]?.name ?? key,
+              quantidade: count,
+              percentual: `${((count / totalArch) * 100).toFixed(1)}%`,
+            }));
+            downloadCsv(rows, `overview-arquetipos-${new Date().toISOString().slice(0, 10)}.csv`);
+          }}
+          className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-[12px] font-medium text-[#6B7280] hover:bg-slate-50"
+        >
+          <Download className="h-3.5 w-3.5" /> CSV
+        </button>
       </header>
 
       <section className="grid gap-4 sm:grid-cols-2">
@@ -133,7 +157,10 @@ function AdminOverview() {
 
       <section className="grid gap-5 lg:grid-cols-3">
         <GlassCard className="lg:col-span-2">
-          <h2 className="text-[16px] font-semibold text-[#1A1D26]" style={{ fontFamily: '"Cormorant Garamond", serif' }}>
+          <h2
+            className="text-[16px] font-semibold text-[#1A1D26]"
+            style={{ fontFamily: '"Cormorant Garamond", serif' }}
+          >
             Distribuição de arquétipos
           </h2>
           <p className="mt-0.5 text-[12px] text-[#6B7280]">
@@ -141,9 +168,7 @@ function AdminOverview() {
           </p>
           <div className="mt-5 space-y-3">
             {Object.entries(breakdown).length === 0 && (
-              <p className="text-[13px] text-[#6B7280]">
-                Sem respostas registradas ainda.
-              </p>
+              <p className="text-[13px] text-[#6B7280]">Sem respostas registradas ainda.</p>
             )}
             {Object.entries(breakdown)
               .sort(([, a], [, b]) => b - a)
@@ -171,7 +196,12 @@ function AdminOverview() {
         </GlassCard>
 
         <GlassCard>
-          <h2 className="text-[16px] font-semibold text-[#1A1D26]" style={{ fontFamily: '"Cormorant Garamond", serif' }}>Próximos passos</h2>
+          <h2
+            className="text-[16px] font-semibold text-[#1A1D26]"
+            style={{ fontFamily: '"Cormorant Garamond", serif' }}
+          >
+            Próximos passos
+          </h2>
           <ul className="mt-4 space-y-3 text-[13px] text-[#2A2F3A]">
             <li className="flex gap-2">
               <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[#6B8E6F]" />

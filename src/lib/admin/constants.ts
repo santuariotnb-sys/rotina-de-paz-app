@@ -28,6 +28,7 @@ export const DESIRE_LABELS: Record<string, string> = {
 };
 
 export const PERIODS = [
+  { label: "Hoje", days: 0 },
   { label: "7d", days: 7 },
   { label: "30d", days: 30 },
   { label: "90d", days: 90 },
@@ -37,5 +38,10 @@ export const PERIODS = [
 export type Period = (typeof PERIODS)[number];
 
 export function sinceISO(period: Period): string {
+  if (period.days === 0) {
+    // Meia-noite de hoje em São Paulo (UTC-3, Brasil sem horário de verão)
+    const todaySP = new Date().toLocaleDateString("sv", { timeZone: "America/Sao_Paulo" });
+    return todaySP + "T03:00:00.000Z";
+  }
   return new Date(Date.now() - period.days * 86400_000).toISOString();
 }

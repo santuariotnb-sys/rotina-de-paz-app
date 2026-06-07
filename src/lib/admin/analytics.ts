@@ -46,9 +46,14 @@ export type CohortRow = {
   conv_pct: number;
 };
 
+// RPCs recebem p_days inteiro; days=0 ("Hoje") usa 1 (últimas 24h) para não retornar vazio
+function effectiveDays(days: number): number {
+  return days === 0 ? 1 : days;
+}
+
 export async function fetchTopSegments(days = 30): Promise<TopSegment[]> {
   const { data, error } = await supabase.rpc("analytics_top_segments" as any, {
-    p_days: days,
+    p_days: effectiveDays(days),
     p_min_leads: 20,
   });
   if (error) throw error;
@@ -56,23 +61,34 @@ export async function fetchTopSegments(days = 30): Promise<TopSegment[]> {
 }
 
 export async function fetchFunnel(days = 30): Promise<FunnelData> {
-  const { data, error } = await supabase.rpc("analytics_funnel" as any, { p_days: days });
+  const { data, error } = await supabase.rpc("analytics_funnel" as any, {
+    p_days: effectiveDays(days),
+  });
   if (error) throw error;
   const row = Array.isArray(data) ? data[0] : data;
   return (row ?? {
-    total_leads: 0, with_archetype: 0, with_email: 0,
-    purchasers: 0, upsell_buyers: 0, downsell_buyers: 0, total_revenue: 0,
+    total_leads: 0,
+    with_archetype: 0,
+    with_email: 0,
+    purchasers: 0,
+    upsell_buyers: 0,
+    downsell_buyers: 0,
+    total_revenue: 0,
   }) as FunnelData;
 }
 
 export async function fetchRevenueBreakdown(days = 30): Promise<RevenueRow[]> {
-  const { data, error } = await supabase.rpc("analytics_revenue_breakdown" as any, { p_days: days });
+  const { data, error } = await supabase.rpc("analytics_revenue_breakdown" as any, {
+    p_days: effectiveDays(days),
+  });
   if (error) throw error;
   return (data ?? []) as RevenueRow[];
 }
 
 export async function fetchQuizConversion(days = 30): Promise<QuizConversionRow[]> {
-  const { data, error } = await supabase.rpc("analytics_quiz_conversion" as any, { p_days: days });
+  const { data, error } = await supabase.rpc("analytics_quiz_conversion" as any, {
+    p_days: effectiveDays(days),
+  });
   if (error) throw error;
   return (data ?? []) as QuizConversionRow[];
 }

@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { BarChart3, PieChart as PieIcon, TrendingUp, Users } from "lucide-react";
+import { BarChart3, Download, PieChart as PieIcon, TrendingUp, Users } from "lucide-react";
 import {
   BarChart,
   Bar,
@@ -17,6 +17,7 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { GlassCard } from "@/components/admin/GlassCard";
 import { KpiCard } from "@/components/admin/KpiCard";
+import { downloadCsv } from "@/lib/admin/csv";
 import {
   ARCHETYPE_COLORS,
   ARCHETYPE_LABELS,
@@ -39,7 +40,15 @@ const QUESTION_LABELS: Record<string, string> = {
   desejo: "O que mudaria",
 };
 
-const QUESTION_ORDER = ["situacao", "risco", "sintoma", "comportamento", "frase", "espiritual", "desejo"];
+const QUESTION_ORDER = [
+  "situacao",
+  "risco",
+  "sintoma",
+  "comportamento",
+  "frase",
+  "espiritual",
+  "desejo",
+];
 
 const BAR_COLORS = ["#3B82F6", "#F59E0B", "#8B5CF6", "#EC4899", "#10B981", "#EF4444"];
 
@@ -55,6 +64,7 @@ type QuizResponse = {
 type Lead = {
   id: string;
   archetype: string | null;
+  email: string | null;
   created_at: string;
 };
 
@@ -82,7 +92,7 @@ function AdminQuizPage() {
     queryFn: async (): Promise<Lead[]> => {
       const { data, error } = await supabase
         .from("leads")
-        .select("id, archetype, created_at")
+        .select("id, archetype, email, created_at")
         .gte("created_at", since)
         .order("created_at", { ascending: false })
         .limit(2000);
@@ -120,9 +130,8 @@ function AdminQuizPage() {
       totalResponses: responses.length,
       uniqueLeads: uniqueLeads.size,
       completedQuizzes: completedLeads.size,
-      completionRate: uniqueLeads.size > 0
-        ? Math.round((completedLeads.size / uniqueLeads.size) * 100)
-        : 0,
+      completionRate:
+        uniqueLeads.size > 0 ? Math.round((completedLeads.size / uniqueLeads.size) * 100) : 0,
     };
   }, [responses]);
 
@@ -187,6 +196,76 @@ function AdminQuizPage() {
     }));
   }, [leads]);
 
+  // Funil de jornada
+  const journeyFunnel = useMemo(() => {
+    const totalLeads = leads.length;
+    const withResponses = new Set(responses.map((r) => r.lead_id)).size;
+    const completed = kpis.completedQuizzes;
+    const withEmail = leads.filter((l) => l.archetype).length; // archetype = completou processamento
+    const leadsWithEmail = leads.filter((l) => responses.some((r) => r.lead_id === l.id)).length;
+    // Leads que viraram compradores
+    const buyerEmails = new Set(
+      entitlements.filter((e) => e.buyer_email).map((e) => e.buyer_email!.toLowerCase()),
+    );
+    const leadEmails = leads
+      .map((l) => l.id)
+      .filter((id) => {
+        const lead = leads.find((x) => x.id === id);
+        return lead && buyerEmails.has(lead.email?.toLowerCase() ?? "");
+      });
+
+    // Tempo médio do quiz (time_to_answer é o tempo total por lead no formato batch)
+    const timePerLead: Record<string, number> = {};
+    for (const r of responses) {
+      if (!timePerLead[r.lead_id]) timePerLead[r.lead_id] = r.time_to_answer ?? 0;
+    }
+    const times = Object.values(timePerLead).filter((t) => t > 0);
+    const avgTimeMs = times.length > 0 ? times.reduce((a, b) => a + b, 0) / times.length : 0;
+
+    return {
+      totalLeads,
+      withResponses,
+      completed,
+      emailCaptured: leads.filter((l) => l.email).length,
+      converted: leadEmails.length,
+      avgTimeSec: Math.round(avgTimeMs / 1000),
+    };
+  }, [leads, responses, kpis.completedQuizzes, entitlements]);
+
+  // Distribuição de respostas por pergunta (para funil de perguntas)
+  const questionReach = useMemo(() => {
+    const QUESTION_ORDER = [
+      "situacao",
+      "risco",
+      "sintoma",
+      "comportamento",
+      "frase",
+      "espiritual",
+      "desejo",
+    ];
+    return QUESTION_ORDER.map((key, idx) => {
+      const respondents = new Set(
+        responses.filter((r) => r.question_key === key).map((r) => r.lead_id),
+      ).size;
+      return {
+        key,
+        label: QUESTION_LABELS[key] ?? key,
+        respondents,
+        pct: kpis.uniqueLeads > 0 ? Math.round((respondents / kpis.uniqueLeads) * 100) : 0,
+        order: idx + 1,
+      };
+    });
+  }, [responses, kpis.uniqueLeads]);
+
+  const handleExportCsv = () => {
+    const rows = leads.map((l) => ({
+      id: l.id,
+      arquetipo: ARCHETYPE_LABELS[l.archetype ?? ""] ?? l.archetype ?? "",
+      criado_em: new Date(l.created_at).toLocaleString("pt-BR"),
+    }));
+    downloadCsv(rows, `quiz-leads-${period.label}-${new Date().toISOString().slice(0, 10)}.csv`);
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -197,20 +276,28 @@ function AdminQuizPage() {
             Respostas, arquétipos e comportamento do público
           </p>
         </div>
-        <div className="flex gap-1 rounded-xl bg-[#1A1F2E] p-1">
-          {PERIODS.map((p) => (
-            <button
-              key={p.label}
-              onClick={() => setPeriod(p)}
-              className={`rounded-lg px-3 py-1.5 text-xs font-medium transition ${
-                period.label === p.label
-                  ? "bg-gradient-to-r from-[#3B5BFD] to-[#7C3AED] text-white"
-                  : "text-[#8A90A2] hover:text-white"
-              }`}
-            >
-              {p.label}
-            </button>
-          ))}
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            onClick={handleExportCsv}
+            className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-[12px] font-medium text-white/70 hover:bg-white/10"
+          >
+            <Download className="h-3.5 w-3.5" /> CSV
+          </button>
+          <div className="flex flex-wrap gap-1 rounded-xl bg-[#1A1F2E] p-1">
+            {PERIODS.map((p) => (
+              <button
+                key={p.label}
+                onClick={() => setPeriod(p)}
+                className={`rounded-lg px-2.5 py-1.5 text-xs font-medium transition ${
+                  period.label === p.label
+                    ? "bg-gradient-to-r from-[#3B5BFD] to-[#7C3AED] text-white"
+                    : "text-[#8A90A2] hover:text-white"
+                }`}
+              >
+                {p.label}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -220,11 +307,89 @@ function AdminQuizPage() {
         <>
           {/* KPIs */}
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-            <KpiCard label="Respostas" value={kpis.totalResponses} icon={<BarChart3 className="h-4 w-4" />} loading={isLoading} />
-            <KpiCard label="Leads únicos" value={kpis.uniqueLeads} icon={<Users className="h-4 w-4" />} loading={isLoading} />
-            <KpiCard label="Quiz completo" value={kpis.completedQuizzes} icon={<TrendingUp className="h-4 w-4" />} loading={isLoading} />
-            <KpiCard label="Taxa conclusão" value={`${kpis.completionRate}%`} icon={<PieIcon className="h-4 w-4" />} loading={isLoading} />
+            <KpiCard
+              label="Respostas"
+              value={kpis.totalResponses}
+              icon={<BarChart3 className="h-4 w-4" />}
+              loading={isLoading}
+            />
+            <KpiCard
+              label="Leads únicos"
+              value={kpis.uniqueLeads}
+              icon={<Users className="h-4 w-4" />}
+              loading={isLoading}
+            />
+            <KpiCard
+              label="Quiz completo"
+              value={kpis.completedQuizzes}
+              icon={<TrendingUp className="h-4 w-4" />}
+              loading={isLoading}
+            />
+            <KpiCard
+              label="Taxa conclusão"
+              value={`${kpis.completionRate}%`}
+              icon={<PieIcon className="h-4 w-4" />}
+              loading={isLoading}
+            />
           </div>
+
+          {/* Funil de Jornada */}
+          <GlassCard>
+            <h2 className="mb-4 text-lg font-semibold text-white">Funil de Jornada</h2>
+            <div className="grid grid-cols-3 gap-3 sm:grid-cols-5">
+              {[
+                { label: "Leads", value: journeyFunnel.totalLeads },
+                { label: "Responderam", value: journeyFunnel.withResponses },
+                { label: "Completaram", value: journeyFunnel.completed },
+                { label: "Email capturado", value: journeyFunnel.emailCaptured },
+                { label: "Compraram", value: journeyFunnel.converted },
+              ].map((step, i, arr) => (
+                <div key={step.label} className="text-center">
+                  <p className="text-2xl font-bold text-white">{step.value}</p>
+                  <p className="mt-1 text-[11px] text-[#8A90A2]">{step.label}</p>
+                  {i > 0 && arr[i - 1].value > 0 && (
+                    <p className="mt-0.5 text-[10px] text-[#6366F1]">
+                      {Math.round((step.value / arr[i - 1].value) * 100)}% do anterior
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
+            {journeyFunnel.avgTimeSec > 0 && (
+              <p className="mt-4 text-[12px] text-[#8A90A2]">
+                Tempo médio do quiz:{" "}
+                <strong className="text-white">{journeyFunnel.avgTimeSec}s</strong>
+              </p>
+            )}
+          </GlassCard>
+
+          {/* Alcance por Pergunta */}
+          <GlassCard>
+            <h2 className="mb-4 text-lg font-semibold text-white">Alcance por Pergunta</h2>
+            <p className="mb-3 text-[12px] text-[#8A90A2]">
+              % de leads que respondeu cada etapa (com persistência em lote, 100% indica que todos
+              completaram)
+            </p>
+            <div className="space-y-2">
+              {questionReach.map((q) => (
+                <div key={q.key} className="flex items-center gap-3">
+                  <span className="w-6 text-[11px] font-mono text-[#8A90A2]">{q.order}.</span>
+                  <span className="w-24 truncate text-[12px] text-white sm:w-40">{q.label}</span>
+                  <div className="flex-1">
+                    <div className="h-2 rounded-full bg-[#1A1F2E]">
+                      <div
+                        className="h-2 rounded-full bg-gradient-to-r from-[#3B5BFD] to-[#7C3AED]"
+                        style={{ width: `${q.pct}%` }}
+                      />
+                    </div>
+                  </div>
+                  <span className="w-16 text-right text-[11px] font-mono text-[#8A90A2]">
+                    {q.respondents} ({q.pct}%)
+                  </span>
+                </div>
+              ))}
+            </div>
+          </GlassCard>
 
           {/* Distribuição de arquétipos */}
           <GlassCard>
@@ -247,7 +412,11 @@ function AdminQuizPage() {
                       ))}
                     </Pie>
                     <Tooltip
-                      contentStyle={{ background: "#1A1F2E", border: "1px solid #2A2F3E", borderRadius: 8 }}
+                      contentStyle={{
+                        background: "#1A1F2E",
+                        border: "1px solid #2A2F3E",
+                        borderRadius: 8,
+                      }}
                       itemStyle={{ color: "#fff" }}
                     />
                   </PieChart>
@@ -292,7 +461,10 @@ function AdminQuizPage() {
                 {questionDist.map((d, i) => (
                   <div key={d.value} className="group">
                     <div className="mb-1 flex items-baseline justify-between gap-2">
-                      <p className="flex-1 text-sm text-[#C8CDD8] group-hover:text-white" title={d.fullText}>
+                      <p
+                        className="flex-1 text-sm text-[#C8CDD8] group-hover:text-white"
+                        title={d.fullText}
+                      >
                         {d.text}
                       </p>
                       <span className="whitespace-nowrap text-sm font-semibold text-white">
@@ -329,7 +501,11 @@ function AdminQuizPage() {
                     tick={{ fill: "#C8CDD8", fontSize: 12 }}
                   />
                   <Tooltip
-                    contentStyle={{ background: "#1A1F2E", border: "1px solid #2A2F3E", borderRadius: 8 }}
+                    contentStyle={{
+                      background: "#1A1F2E",
+                      border: "1px solid #2A2F3E",
+                      borderRadius: 8,
+                    }}
                     itemStyle={{ color: "#fff" }}
                   />
                   <Bar dataKey="leads" radius={[0, 6, 6, 0]}>

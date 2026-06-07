@@ -1,0 +1,370 @@
+[
+  {
+    "id": "165f571a-a730-48a4-9b33-579f42809d7e",
+    "user_id": "174f8a39-5119-42a9-acb4-838d426fb7d9",
+    "product_id": "10bd3984-4b29-406d-bcfd-91b6b92ab518",
+    "source": "kirvano",
+    "status": "active",
+    "kirvano_transaction_id": "5LZV2QKV",
+    "kirvano_offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+    "buyer_email": "chave.proverbio@gmail.com",
+    "granted_at": "2026-06-06T00:28:53.414+00:00",
+    "revoked_at": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "0b6125dc-2775-401d-8abc-90676c29031c",
+        "6ba796b8-d3d1-4d56-bcf1-e7f493a23938"
+      ]
+    },
+    "created_at": "2026-06-06T00:28:53.775672+00:00",
+    "updated_at": "2026-06-06T00:28:53.775672+00:00"
+  },
+  {
+    "id": "7fd3c3e6-ae18-4a07-bc84-a7ab43711924",
+    "user_id": "174f8a39-5119-42a9-acb4-838d426fb7d9",
+    "product_id": "a64e5cf3-8b86-43f1-99ba-45da1347ebe6",
+    "source": "kirvano",
+    "status": "active",
+    "kirvano_transaction_id": "5LZV2QKV",
+    "kirvano_offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+    "buyer_email": "chave.proverbio@gmail.com",
+    "granted_at": "2026-06-06T00:28:53.414+00:00",
+    "revoked_at": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "0b6125dc-2775-401d-8abc-90676c29031c",
+        "6ba796b8-d3d1-4d56-bcf1-e7f493a23938"
+      ]
+    },
+    "created_at": "2026-06-06T00:28:53.775672+00:00",
+    "updated_at": "2026-06-06T00:28:53.775672+00:00"
+  },
+  {
+    "id": "bbd98852-a33b-408c-976b-84edc24190df",
+    "user_id": "b3b6ac53-97e0-4fe1-a2c2-26d0e58abf86",
+    "product_id": "10bd3984-4b29-406d-bcfd-91b6b92ab518",
+    "source": "kirvano",
+    "status": "active",
+    "kirvano_transaction_id": "5MV3N1Q9",
+    "kirvano_offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+    "buyer_email": "legarcianarros17@gmail.com",
+    "granted_at": "2026-06-06T01:35:17.774+00:00",
+    "revoked_at": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "0b6125dc-2775-401d-8abc-90676c29031c",
+        "9805e364-f28f-4575-82a1-b0786fb9d7da"
+      ]
+    },
+    "created_at": "2026-06-06T01:35:17.868162+00:00",
+    "updated_at": "2026-06-06T01:35:17.868162+00:00"
+  },
+  {
+    "id": "add80ebd-4c4c-4042-a4fa-fb9338488046",
+    "user_id": "b3b6ac53-97e0-4fe1-a2c2-26d0e58abf86",
+    "product_id": "1500605e-7aa0-4218-8ae1-2e258d569b99",
+    "source": "kirvano",
+    "status": "active",
+    "kirvano_transaction_id": "5MV3N1Q9",
+    "kirvano_offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+    "buyer_email": "legarcianarros17@gmail.com",
+    "granted_at": "2026-06-06T01:35:17.774+00:00",
+    "revoked_at": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "0b6125dc-2775-401d-8abc-90676c29031c",
+        "9805e364-f28f-4575-82a1-b0786fb9d7da"
+      ]
+    },
+    "created_at": "2026-06-06T01:35:17.868162+00:00",
+    "updated_at": "2026-06-06T01:35:17.868162+00:00"
+  },
+  {
+    "id": "d2fa733f-46fe-48eb-832f-d282206ed8ca",
+    "user_id": "3c1d75a6-b1ab-4e7e-9ca7-b8195b288b75",
+    "product_id": "b4de4d67-282f-4bee-a612-1dd655a021f0",
+    "source": "kirvano",
+    "status": "active",
+    "kirvano_transaction_id": "842Y1NZP",
+    "kirvano_offer_id": "e6fd35f3-ad96-4121-b6a9-1123468d5f9f",
+    "buyer_email": "guhgs.pereira@yahoo.com.br",
+    "granted_at": "2026-06-06T17:52:35.006+00:00",
+    "revoked_at": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "e6fd35f3-ad96-4121-b6a9-1123468d5f9f"
+      ]
+    },
+    "created_at": "2026-06-06T17:52:35.377934+00:00",
+    "updated_at": "2026-06-06T17:52:35.377934+00:00"
+  },
+  {
+    "id": "8f07114e-8826-4be1-a78f-b36c47e455c7",
+    "user_id": "6fb698de-c0d8-4fc8-bfc9-0e2dc9564463",
+    "product_id": "10bd3984-4b29-406d-bcfd-91b6b92ab518",
+    "source": "kirvano",
+    "status": "active",
+    "kirvano_transaction_id": "82RY97D7",
+    "kirvano_offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+    "buyer_email": "ricardo.bispopereira@gmail.com",
+    "granted_at": "2026-06-06T20:38:48.849+00:00",
+    "revoked_at": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "0b6125dc-2775-401d-8abc-90676c29031c"
+      ]
+    },
+    "created_at": "2026-06-06T20:38:49.169142+00:00",
+    "updated_at": "2026-06-06T20:38:49.169142+00:00"
+  },
+  {
+    "id": "24096e82-1134-46bd-a87e-6c5b7729481d",
+    "user_id": "6fb698de-c0d8-4fc8-bfc9-0e2dc9564463",
+    "product_id": "b4de4d67-282f-4bee-a612-1dd655a021f0",
+    "source": "kirvano",
+    "status": "active",
+    "kirvano_transaction_id": "842Y6JPV",
+    "kirvano_offer_id": "ca518c06-88d8-44a7-9487-7ca71d3e86d3",
+    "buyer_email": "ricardo.bispopereira@gmail.com",
+    "granted_at": "2026-06-06T20:39:29.462+00:00",
+    "revoked_at": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "ca518c06-88d8-44a7-9487-7ca71d3e86d3"
+      ]
+    },
+    "created_at": "2026-06-06T20:39:29.783527+00:00",
+    "updated_at": "2026-06-06T20:39:29.783527+00:00"
+  },
+  {
+    "id": "33f6a71e-021e-4599-a24e-c3244de5df5a",
+    "user_id": "5abdad84-40cc-44d2-a1a6-2f90fc3b5659",
+    "product_id": "b4de4d67-282f-4bee-a612-1dd655a021f0",
+    "source": "kirvano",
+    "status": "active",
+    "kirvano_transaction_id": "82RY10Z1",
+    "kirvano_offer_id": "ca518c06-88d8-44a7-9487-7ca71d3e86d3",
+    "buyer_email": "guilherme_041@hotmail.com",
+    "granted_at": "2026-06-06T12:09:42.837+00:00",
+    "revoked_at": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "ca518c06-88d8-44a7-9487-7ca71d3e86d3"
+      ]
+    },
+    "created_at": "2026-06-06T08:33:40.288623+00:00",
+    "updated_at": "2026-06-06T12:09:42.911794+00:00"
+  },
+  {
+    "id": "533b3884-8cb1-4ce2-9c05-8fa8f5a25562",
+    "user_id": "5abdad84-40cc-44d2-a1a6-2f90fc3b5659",
+    "product_id": "10bd3984-4b29-406d-bcfd-91b6b92ab518",
+    "source": "kirvano",
+    "status": "active",
+    "kirvano_transaction_id": "5Q1MPV3K",
+    "kirvano_offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+    "buyer_email": "guilherme_041@hotmail.com",
+    "granted_at": "2026-06-06T12:34:40.061+00:00",
+    "revoked_at": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "0b6125dc-2775-401d-8abc-90676c29031c"
+      ]
+    },
+    "created_at": "2026-06-06T08:26:52.576531+00:00",
+    "updated_at": "2026-06-06T12:34:40.149108+00:00"
+  },
+  {
+    "id": "edc74e7e-6bc7-437d-82ea-14f7aa8d18f8",
+    "user_id": "a2d5b1f6-a8cf-4f4d-b76d-3f18c48e96c1",
+    "product_id": "10bd3984-4b29-406d-bcfd-91b6b92ab518",
+    "source": "kirvano",
+    "status": "active",
+    "kirvano_transaction_id": "5Q1MP09D",
+    "kirvano_offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+    "buyer_email": "tamires.lllaura@gmail.com",
+    "granted_at": "2026-06-06T12:41:44.585+00:00",
+    "revoked_at": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "0b6125dc-2775-401d-8abc-90676c29031c"
+      ]
+    },
+    "created_at": "2026-06-06T12:41:44.678022+00:00",
+    "updated_at": "2026-06-06T12:41:44.678022+00:00"
+  },
+  {
+    "id": "37022185-627f-4cb0-8f98-4f06b23c1254",
+    "user_id": "1ccfbc73-56dd-4b91-849a-143aee5fa2b4",
+    "product_id": "10bd3984-4b29-406d-bcfd-91b6b92ab518",
+    "source": "kirvano",
+    "status": "active",
+    "kirvano_transaction_id": "82RY1YZM",
+    "kirvano_offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+    "buyer_email": "365.morandocomdeus@gmail.com",
+    "granted_at": "2026-06-06T15:55:40.6+00:00",
+    "revoked_at": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "0b6125dc-2775-401d-8abc-90676c29031c"
+      ]
+    },
+    "created_at": "2026-06-06T15:55:40.927685+00:00",
+    "updated_at": "2026-06-06T15:55:40.927685+00:00"
+  },
+  {
+    "id": "96e85c88-c809-4cc8-bbb0-17376e9dcc1b",
+    "user_id": "10169930-b802-44b3-887c-8d0d284115a2",
+    "product_id": "10bd3984-4b29-406d-bcfd-91b6b92ab518",
+    "source": "kirvano",
+    "status": "active",
+    "kirvano_transaction_id": "51WY136M",
+    "kirvano_offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+    "buyer_email": "venda.real17@gmail.com",
+    "granted_at": "2026-06-06T17:00:54.134+00:00",
+    "revoked_at": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "0b6125dc-2775-401d-8abc-90676c29031c",
+        "17dcc27c-215f-436e-a9b6-1a3b2cc007ef"
+      ]
+    },
+    "created_at": "2026-06-06T17:00:54.473854+00:00",
+    "updated_at": "2026-06-06T17:00:54.473854+00:00"
+  },
+  {
+    "id": "74e6278e-d954-4a8c-8b0d-3551b9bd4905",
+    "user_id": "10169930-b802-44b3-887c-8d0d284115a2",
+    "product_id": "45b12e06-d280-414b-ac1f-202741b9f32b",
+    "source": "kirvano",
+    "status": "active",
+    "kirvano_transaction_id": "51WY136M",
+    "kirvano_offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+    "buyer_email": "venda.real17@gmail.com",
+    "granted_at": "2026-06-06T17:00:54.134+00:00",
+    "revoked_at": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "0b6125dc-2775-401d-8abc-90676c29031c",
+        "17dcc27c-215f-436e-a9b6-1a3b2cc007ef"
+      ]
+    },
+    "created_at": "2026-06-06T17:00:54.473854+00:00",
+    "updated_at": "2026-06-06T17:00:54.473854+00:00"
+  },
+  {
+    "id": "ce14b1d9-5446-4add-ba80-bfdbb9aab3e1",
+    "user_id": "10169930-b802-44b3-887c-8d0d284115a2",
+    "product_id": "b4de4d67-282f-4bee-a612-1dd655a021f0",
+    "source": "kirvano",
+    "status": "active",
+    "kirvano_transaction_id": "57ZYRMLR",
+    "kirvano_offer_id": "e6fd35f3-ad96-4121-b6a9-1123468d5f9f",
+    "buyer_email": "venda.real17@gmail.com",
+    "granted_at": "2026-06-06T17:29:52.261+00:00",
+    "revoked_at": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "e6fd35f3-ad96-4121-b6a9-1123468d5f9f"
+      ]
+    },
+    "created_at": "2026-06-06T17:29:52.606018+00:00",
+    "updated_at": "2026-06-06T17:29:52.606018+00:00"
+  },
+  {
+    "id": "e11984f0-87e5-4b58-ad6c-b9a9f906e0f0",
+    "user_id": "b8b1560b-4998-4044-a7cb-e7457805f010",
+    "product_id": "10bd3984-4b29-406d-bcfd-91b6b92ab518",
+    "source": "kirvano",
+    "status": "active",
+    "kirvano_transaction_id": "8K4JDL6R",
+    "kirvano_offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+    "buyer_email": "tamires.almeida900@gmail.com",
+    "granted_at": "2026-06-06T17:42:27.486+00:00",
+    "revoked_at": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "0b6125dc-2775-401d-8abc-90676c29031c",
+        "6ba796b8-d3d1-4d56-bcf1-e7f493a23938"
+      ]
+    },
+    "created_at": "2026-06-06T17:42:27.838882+00:00",
+    "updated_at": "2026-06-06T17:42:27.838882+00:00"
+  },
+  {
+    "id": "8257286c-65eb-49b5-b20b-fba6300ec235",
+    "user_id": "b8b1560b-4998-4044-a7cb-e7457805f010",
+    "product_id": "a64e5cf3-8b86-43f1-99ba-45da1347ebe6",
+    "source": "kirvano",
+    "status": "active",
+    "kirvano_transaction_id": "8K4JDL6R",
+    "kirvano_offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+    "buyer_email": "tamires.almeida900@gmail.com",
+    "granted_at": "2026-06-06T17:42:27.486+00:00",
+    "revoked_at": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "0b6125dc-2775-401d-8abc-90676c29031c",
+        "6ba796b8-d3d1-4d56-bcf1-e7f493a23938"
+      ]
+    },
+    "created_at": "2026-06-06T17:42:27.838882+00:00",
+    "updated_at": "2026-06-06T17:42:27.838882+00:00"
+  },
+  {
+    "id": "188ffa9f-5763-4a0f-bcf6-d05636b78bac",
+    "user_id": "b8b1560b-4998-4044-a7cb-e7457805f010",
+    "product_id": "b4de4d67-282f-4bee-a612-1dd655a021f0",
+    "source": "kirvano",
+    "status": "active",
+    "kirvano_transaction_id": "82RY1D63",
+    "kirvano_offer_id": "e6fd35f3-ad96-4121-b6a9-1123468d5f9f",
+    "buyer_email": "tamires.almeida900@gmail.com",
+    "granted_at": "2026-06-06T17:45:23.12+00:00",
+    "revoked_at": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "e6fd35f3-ad96-4121-b6a9-1123468d5f9f"
+      ]
+    },
+    "created_at": "2026-06-06T17:45:23.481031+00:00",
+    "updated_at": "2026-06-06T17:45:23.481031+00:00"
+  },
+  {
+    "id": "a739789a-37a5-463c-bfa7-c112a6959071",
+    "user_id": "3c1d75a6-b1ab-4e7e-9ca7-b8195b288b75",
+    "product_id": "10bd3984-4b29-406d-bcfd-91b6b92ab518",
+    "source": "kirvano",
+    "status": "active",
+    "kirvano_transaction_id": "X99J2VKE",
+    "kirvano_offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+    "buyer_email": "guhgs.pereira@yahoo.com.br",
+    "granted_at": "2026-06-06T17:51:17.068+00:00",
+    "revoked_at": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "0b6125dc-2775-401d-8abc-90676c29031c"
+      ]
+    },
+    "created_at": "2026-06-06T17:51:17.159418+00:00",
+    "updated_at": "2026-06-06T17:51:17.159418+00:00"
+  }
+]

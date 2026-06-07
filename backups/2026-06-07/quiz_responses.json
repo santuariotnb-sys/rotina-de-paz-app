@@ -1,0 +1,704 @@
+[
+  {
+    "id": "a4478383-15db-4f5a-accb-d7af59f3d67e",
+    "created_at": "2026-06-05T12:08:40.294138+00:00",
+    "lead_id": null,
+    "question_key": "rls_test",
+    "answer_value": "test_val",
+    "answer_text": "Test Answer",
+    "time_to_answer": null
+  },
+  {
+    "id": "645b1670-b4be-4eba-8e51-f9ae7d01df3d",
+    "created_at": "2026-06-05T12:55:28.637177+00:00",
+    "lead_id": "8a925875-f0ea-41e1-b8ec-dad0737b0cb8",
+    "question_key": "situacao",
+    "answer_value": "casada-sem-filhos",
+    "answer_text": "Sou casada, sem filhos (ou tentando)",
+    "time_to_answer": 7274
+  },
+  {
+    "id": "b6d690af-0e8f-4f4d-8ef7-487979eafb06",
+    "created_at": "2026-06-05T12:55:28.637177+00:00",
+    "lead_id": "8a925875-f0ea-41e1-b8ec-dad0737b0cb8",
+    "question_key": "risco",
+    "answer_value": "funcionando",
+    "answer_text": "Cansada, ansiosa, mas funcionando",
+    "time_to_answer": 7274
+  },
+  {
+    "id": "2855b7f2-8b6c-416d-9d8f-2fa13167c73d",
+    "created_at": "2026-06-05T12:55:28.637177+00:00",
+    "lead_id": "8a925875-f0ea-41e1-b8ec-dad0737b0cb8",
+    "question_key": "sintoma",
+    "answer_value": "madrugada",
+    "answer_text": "Acordo entre 3h e 5h da manhã e não consigo voltar a dormir",
+    "time_to_answer": 7274
+  },
+  {
+    "id": "b82dbea6-eae8-46ed-8d2e-ea8be635a740",
+    "created_at": "2026-06-05T12:55:28.637177+00:00",
+    "lead_id": "8a925875-f0ea-41e1-b8ec-dad0737b0cb8",
+    "question_key": "comportamento",
+    "answer_value": "checagem",
+    "answer_text": "Fico checando: trava da porta, gás, e-mail, mensagem do filho. Não consigo desligar.",
+    "time_to_answer": 7274
+  },
+  {
+    "id": "06473d31-58b7-4a6c-a280-a5835f30ca82",
+    "created_at": "2026-06-05T12:55:28.637177+00:00",
+    "lead_id": "8a925875-f0ea-41e1-b8ec-dad0737b0cb8",
+    "question_key": "frase",
+    "answer_value": "pior",
+    "answer_text": "“E se acontecer o pior?”",
+    "time_to_answer": 7274
+  },
+  {
+    "id": "b22b6226-7037-49b5-8d41-ee2e0384e13c",
+    "created_at": "2026-06-05T12:55:28.637177+00:00",
+    "lead_id": "8a925875-f0ea-41e1-b8ec-dad0737b0cb8",
+    "question_key": "espiritual",
+    "answer_value": "perdao-constante",
+    "answer_text": "Oro pedindo perdão o tempo todo. Sinto que não sou digna.",
+    "time_to_answer": 7274
+  },
+  {
+    "id": "bd42038b-d397-432b-a318-01e16855ae55",
+    "created_at": "2026-06-05T12:55:28.637177+00:00",
+    "lead_id": "8a925875-f0ea-41e1-b8ec-dad0737b0cb8",
+    "question_key": "desejo",
+    "answer_value": "parar-pior",
+    "answer_text": "Parar de imaginar o pior o tempo todo.",
+    "time_to_answer": 7274
+  },
+  {
+    "id": "6f77706c-fbcd-4a1b-9795-974adf23d4a9",
+    "created_at": "2026-06-05T17:06:46.763165+00:00",
+    "lead_id": "7bd294a1-38d8-4027-83d6-1077c8f0bfca",
+    "question_key": "situacao",
+    "answer_value": "casada-filhos-grandes",
+    "answer_text": "Sou casada e tenho filhos grandes (adolescentes/adultos)",
+    "time_to_answer": 9650
+  },
+  {
+    "id": "b9c53905-697f-474d-9744-725c69507925",
+    "created_at": "2026-06-05T17:06:46.763165+00:00",
+    "lead_id": "7bd294a1-38d8-4027-83d6-1077c8f0bfca",
+    "question_key": "risco",
+    "answer_value": "sombrios",
+    "answer_text": "Pensamentos sombrios têm aparecido com frequência",
+    "time_to_answer": 9650
+  },
+  {
+    "id": "cb64a526-5425-4e1c-a470-da71e3030041",
+    "created_at": "2026-06-05T17:06:46.763165+00:00",
+    "lead_id": "7bd294a1-38d8-4027-83d6-1077c8f0bfca",
+    "question_key": "sintoma",
+    "answer_value": "tensao",
+    "answer_text": "Sinto cansaço crônico, tensão em ombros/pescoço/mandíbula",
+    "time_to_answer": 9650
+  },
+  {
+    "id": "00ec3140-59c5-4c2e-8cfb-3062bd001d74",
+    "created_at": "2026-06-05T17:06:46.763165+00:00",
+    "lead_id": "7bd294a1-38d8-4027-83d6-1077c8f0bfca",
+    "question_key": "comportamento",
+    "answer_value": "cenarios",
+    "answer_text": "Imagino cenários ruins. Crio diálogos difíceis na cabeça antes de acontecer.",
+    "time_to_answer": 9650
+  },
+  {
+    "id": "f1c0d6d2-44e3-4047-ae3a-77e969a5bfb3",
+    "created_at": "2026-06-05T17:06:46.763165+00:00",
+    "lead_id": "7bd294a1-38d8-4027-83d6-1077c8f0bfca",
+    "question_key": "frase",
+    "answer_value": "nao-parar",
+    "answer_text": "“Eu não posso parar. Tem gente dependendo de mim.”",
+    "time_to_answer": 9650
+  },
+  {
+    "id": "cf1a7a9e-90db-4d33-8895-d0f9a4e7d682",
+    "created_at": "2026-06-05T17:06:46.763165+00:00",
+    "lead_id": "7bd294a1-38d8-4027-83d6-1077c8f0bfca",
+    "question_key": "espiritual",
+    "answer_value": "sirvo-muito",
+    "answer_text": "Sirvo bastante. Mas não sinto Deus como antes.",
+    "time_to_answer": 9650
+  },
+  {
+    "id": "490276c1-4793-4112-a35c-6f0fd4ffa2fd",
+    "created_at": "2026-06-05T17:06:46.763165+00:00",
+    "lead_id": "7bd294a1-38d8-4027-83d6-1077c8f0bfca",
+    "question_key": "desejo",
+    "answer_value": "descansar",
+    "answer_text": "Conseguir parar e descansar sem sentir culpa.",
+    "time_to_answer": 9650
+  },
+  {
+    "id": "2418a77d-78ca-47a5-bc76-344e5cb227a3",
+    "created_at": "2026-06-06T09:54:16.347737+00:00",
+    "lead_id": "9d9b5b9f-7aac-4f89-aea0-1e5d4b4ebabc",
+    "question_key": "situacao",
+    "answer_value": "solteira",
+    "answer_text": "Sou solteira, sem filhos",
+    "time_to_answer": 2896
+  },
+  {
+    "id": "04769a9c-6692-410b-ac26-42582ea90231",
+    "created_at": "2026-06-06T09:54:16.347737+00:00",
+    "lead_id": "9d9b5b9f-7aac-4f89-aea0-1e5d4b4ebabc",
+    "question_key": "risco",
+    "answer_value": "",
+    "answer_text": "",
+    "time_to_answer": 2896
+  },
+  {
+    "id": "0a14417b-3125-49bb-bea6-35faa239bbb3",
+    "created_at": "2026-06-06T09:54:16.347737+00:00",
+    "lead_id": "9d9b5b9f-7aac-4f89-aea0-1e5d4b4ebabc",
+    "question_key": "sintoma",
+    "answer_value": "",
+    "answer_text": "",
+    "time_to_answer": 2896
+  },
+  {
+    "id": "9263d513-c8d9-45ef-a8b7-b04f23f40a48",
+    "created_at": "2026-06-06T09:54:16.347737+00:00",
+    "lead_id": "9d9b5b9f-7aac-4f89-aea0-1e5d4b4ebabc",
+    "question_key": "comportamento",
+    "answer_value": "",
+    "answer_text": "",
+    "time_to_answer": 2896
+  },
+  {
+    "id": "c892c391-1f8c-4803-9c6a-f6cc014de486",
+    "created_at": "2026-06-06T09:54:16.347737+00:00",
+    "lead_id": "9d9b5b9f-7aac-4f89-aea0-1e5d4b4ebabc",
+    "question_key": "frase",
+    "answer_value": "",
+    "answer_text": "",
+    "time_to_answer": 2896
+  },
+  {
+    "id": "dfc35fc5-0044-4f14-be41-7dee63cce31d",
+    "created_at": "2026-06-06T09:54:16.347737+00:00",
+    "lead_id": "9d9b5b9f-7aac-4f89-aea0-1e5d4b4ebabc",
+    "question_key": "espiritual",
+    "answer_value": "perdao-constante",
+    "answer_text": "Oro pedindo perdão o tempo todo. Sinto que não sou digna.",
+    "time_to_answer": 2896
+  },
+  {
+    "id": "d3155557-fb22-446d-a46d-a2251170c1b9",
+    "created_at": "2026-06-06T09:54:16.347737+00:00",
+    "lead_id": "9d9b5b9f-7aac-4f89-aea0-1e5d4b4ebabc",
+    "question_key": "desejo",
+    "answer_value": "parar-pior",
+    "answer_text": "Parar de imaginar o pior o tempo todo.",
+    "time_to_answer": 2896
+  },
+  {
+    "id": "2e93f3bd-2b6d-463a-b28d-21142392fa97",
+    "created_at": "2026-06-06T12:21:12.625192+00:00",
+    "lead_id": "0ac27175-b7a1-47c3-badb-b1e4b8a09424",
+    "question_key": "situacao",
+    "answer_value": "casada-filhos-grandes",
+    "answer_text": "Sou casada e tenho filhos grandes (adolescentes/adultos)",
+    "time_to_answer": 11492
+  },
+  {
+    "id": "7b16f204-8b9f-49b8-8dfc-e1d347406e1d",
+    "created_at": "2026-06-06T12:21:12.625192+00:00",
+    "lead_id": "0ac27175-b7a1-47c3-badb-b1e4b8a09424",
+    "question_key": "risco",
+    "answer_value": "sombrios",
+    "answer_text": "Pensamentos sombrios têm aparecido com frequência",
+    "time_to_answer": 11492
+  },
+  {
+    "id": "dfdbabf0-69f0-4196-b16d-6147b7459074",
+    "created_at": "2026-06-06T12:21:12.625192+00:00",
+    "lead_id": "0ac27175-b7a1-47c3-badb-b1e4b8a09424",
+    "question_key": "sintoma",
+    "answer_value": "estomago",
+    "answer_text": "Estômago travado, intestino reagindo, sintomas físicos que ninguém entende",
+    "time_to_answer": 11492
+  },
+  {
+    "id": "f34d1c1d-1351-47a1-8ebb-e0b317ee61fc",
+    "created_at": "2026-06-06T12:21:12.625192+00:00",
+    "lead_id": "0ac27175-b7a1-47c3-badb-b1e4b8a09424",
+    "question_key": "comportamento",
+    "answer_value": "oracao",
+    "answer_text": "Oro pedindo perdão. Releio versículos. Tento confiar mais. E não passa.",
+    "time_to_answer": 11492
+  },
+  {
+    "id": "5456216b-32fb-4b55-8c94-b22aaa0a1beb",
+    "created_at": "2026-06-06T12:21:12.625192+00:00",
+    "lead_id": "0ac27175-b7a1-47c3-badb-b1e4b8a09424",
+    "question_key": "frase",
+    "answer_value": "insuficiente",
+    "answer_text": "“Eu nunca sou suficiente — pra ninguém. Nem pra Deus.”",
+    "time_to_answer": 11492
+  },
+  {
+    "id": "36e0e120-70f9-4831-becc-6d87fe5dd4e9",
+    "created_at": "2026-06-06T12:21:12.625192+00:00",
+    "lead_id": "0ac27175-b7a1-47c3-badb-b1e4b8a09424",
+    "question_key": "espiritual",
+    "answer_value": "perdao-constante",
+    "answer_text": "Oro pedindo perdão o tempo todo. Sinto que não sou digna.",
+    "time_to_answer": 11492
+  },
+  {
+    "id": "340a3b89-7671-44cf-ba84-41b1a7fd5fa5",
+    "created_at": "2026-06-06T12:21:12.625192+00:00",
+    "lead_id": "0ac27175-b7a1-47c3-badb-b1e4b8a09424",
+    "question_key": "desejo",
+    "answer_value": "parar-pior",
+    "answer_text": "Parar de imaginar o pior o tempo todo.",
+    "time_to_answer": 11492
+  },
+  {
+    "id": "b5464f1b-5560-4ed8-a783-1b132cd875ed",
+    "created_at": "2026-06-06T15:48:21.492242+00:00",
+    "lead_id": "17197a2e-556a-4bb2-9e6b-15bf400cc938",
+    "question_key": "situacao",
+    "answer_value": "casada-sem-filhos",
+    "answer_text": "Sou casada, sem filhos (ou tentando)",
+    "time_to_answer": 5352
+  },
+  {
+    "id": "f05c3ad9-f0cf-41f7-9724-868651215493",
+    "created_at": "2026-06-06T15:48:21.492242+00:00",
+    "lead_id": "17197a2e-556a-4bb2-9e6b-15bf400cc938",
+    "question_key": "risco",
+    "answer_value": "dificil",
+    "answer_text": "Tenho tido dias muito difíceis, mas consigo continuar",
+    "time_to_answer": 5352
+  },
+  {
+    "id": "ee61c5d3-1c58-4ab1-9542-40a632b98393",
+    "created_at": "2026-06-06T15:48:21.492242+00:00",
+    "lead_id": "17197a2e-556a-4bb2-9e6b-15bf400cc938",
+    "question_key": "sintoma",
+    "answer_value": "madrugada",
+    "answer_text": "Acordo entre 3h e 5h da manhã e não consigo voltar a dormir",
+    "time_to_answer": 5352
+  },
+  {
+    "id": "837f6b35-ad4e-4d82-995f-563471113042",
+    "created_at": "2026-06-06T15:48:21.492242+00:00",
+    "lead_id": "17197a2e-556a-4bb2-9e6b-15bf400cc938",
+    "question_key": "comportamento",
+    "answer_value": "cenarios",
+    "answer_text": "Imagino cenários ruins. Crio diálogos difíceis na cabeça antes de acontecer.",
+    "time_to_answer": 5352
+  },
+  {
+    "id": "17c70384-8cd5-46ae-b50f-1875bc343a88",
+    "created_at": "2026-06-06T15:48:21.492242+00:00",
+    "lead_id": "17197a2e-556a-4bb2-9e6b-15bf400cc938",
+    "question_key": "frase",
+    "answer_value": "insuficiente",
+    "answer_text": "“Eu nunca sou suficiente — pra ninguém. Nem pra Deus.”",
+    "time_to_answer": 5352
+  },
+  {
+    "id": "32e18c44-469f-4ec8-b0df-02ee0c5bcb78",
+    "created_at": "2026-06-06T15:48:21.492242+00:00",
+    "lead_id": "17197a2e-556a-4bb2-9e6b-15bf400cc938",
+    "question_key": "espiritual",
+    "answer_value": "mente-nao-desliga",
+    "answer_text": "Tento orar mas minha mente não desliga. Não consigo focar.",
+    "time_to_answer": 5352
+  },
+  {
+    "id": "16eb41ae-4851-42d7-8c65-bd065cf66aa3",
+    "created_at": "2026-06-06T15:48:21.492242+00:00",
+    "lead_id": "17197a2e-556a-4bb2-9e6b-15bf400cc938",
+    "question_key": "desejo",
+    "answer_value": "parar-pior",
+    "answer_text": "Parar de imaginar o pior o tempo todo.",
+    "time_to_answer": 5352
+  },
+  {
+    "id": "ed394817-4c42-4afa-9539-01adc2c2de69",
+    "created_at": "2026-06-06T15:53:23.017216+00:00",
+    "lead_id": "fd94d4ee-06e6-433b-9211-150adce87f5d",
+    "question_key": "situacao",
+    "answer_value": "casada-sem-filhos",
+    "answer_text": "Sou casada, sem filhos (ou tentando)",
+    "time_to_answer": 12386
+  },
+  {
+    "id": "8792a99a-3c09-4800-b4ff-ae930c2b923c",
+    "created_at": "2026-06-06T15:53:23.017216+00:00",
+    "lead_id": "fd94d4ee-06e6-433b-9211-150adce87f5d",
+    "question_key": "risco",
+    "answer_value": "dificil",
+    "answer_text": "Tenho tido dias muito difíceis, mas consigo continuar",
+    "time_to_answer": 12386
+  },
+  {
+    "id": "4fbc22bd-0254-4139-9db0-2f59da0cd4f5",
+    "created_at": "2026-06-06T15:53:23.017216+00:00",
+    "lead_id": "fd94d4ee-06e6-433b-9211-150adce87f5d",
+    "question_key": "sintoma",
+    "answer_value": "madrugada",
+    "answer_text": "Acordo entre 3h e 5h da manhã e não consigo voltar a dormir",
+    "time_to_answer": 12386
+  },
+  {
+    "id": "4b718381-39eb-44c3-abb3-23e1f7cf558c",
+    "created_at": "2026-06-06T15:53:23.017216+00:00",
+    "lead_id": "fd94d4ee-06e6-433b-9211-150adce87f5d",
+    "question_key": "comportamento",
+    "answer_value": "checagem",
+    "answer_text": "Fico checando: trava da porta, gás, e-mail, mensagem do filho. Não consigo desligar.",
+    "time_to_answer": 12386
+  },
+  {
+    "id": "64153bc3-2c02-41ac-ae5d-0f1fd28eb2c7",
+    "created_at": "2026-06-06T15:53:23.017216+00:00",
+    "lead_id": "fd94d4ee-06e6-433b-9211-150adce87f5d",
+    "question_key": "frase",
+    "answer_value": "insuficiente",
+    "answer_text": "“Eu nunca sou suficiente — pra ninguém. Nem pra Deus.”",
+    "time_to_answer": 12386
+  },
+  {
+    "id": "7d860c71-8dd5-4f9d-9e42-0a11dd919ea9",
+    "created_at": "2026-06-06T15:53:23.017216+00:00",
+    "lead_id": "fd94d4ee-06e6-433b-9211-150adce87f5d",
+    "question_key": "espiritual",
+    "answer_value": "",
+    "answer_text": "",
+    "time_to_answer": 12386
+  },
+  {
+    "id": "ea0edf19-ffde-4c11-bac2-ea9751db5053",
+    "created_at": "2026-06-06T15:53:23.017216+00:00",
+    "lead_id": "fd94d4ee-06e6-433b-9211-150adce87f5d",
+    "question_key": "desejo",
+    "answer_value": "descansar",
+    "answer_text": "Conseguir parar e descansar sem sentir culpa.",
+    "time_to_answer": 12386
+  },
+  {
+    "id": "b8832809-f3f3-4afa-9a4c-4bbc6113e40a",
+    "created_at": "2026-06-06T16:33:02.102748+00:00",
+    "lead_id": "c2e0bf9a-3dd1-414f-bf7f-2bdd04fd32da",
+    "question_key": "situacao",
+    "answer_value": "casada-filhos-grandes",
+    "answer_text": "Sou casada e tenho filhos grandes (adolescentes/adultos)",
+    "time_to_answer": 5391
+  },
+  {
+    "id": "abf234ca-4cbd-4c1a-bb14-a10fe8a226e1",
+    "created_at": "2026-06-06T16:33:02.102748+00:00",
+    "lead_id": "c2e0bf9a-3dd1-414f-bf7f-2bdd04fd32da",
+    "question_key": "risco",
+    "answer_value": "dificil",
+    "answer_text": "Tenho tido dias muito difíceis, mas consigo continuar",
+    "time_to_answer": 5391
+  },
+  {
+    "id": "2ad7a9ab-30de-4b23-bd0e-718cb74a1f62",
+    "created_at": "2026-06-06T16:33:02.102748+00:00",
+    "lead_id": "c2e0bf9a-3dd1-414f-bf7f-2bdd04fd32da",
+    "question_key": "sintoma",
+    "answer_value": "madrugada",
+    "answer_text": "Acordo entre 3h e 5h da manhã e não consigo voltar a dormir",
+    "time_to_answer": 5391
+  },
+  {
+    "id": "584cf2d4-334c-4b47-8b23-f2040ab4d936",
+    "created_at": "2026-06-06T16:33:02.102748+00:00",
+    "lead_id": "c2e0bf9a-3dd1-414f-bf7f-2bdd04fd32da",
+    "question_key": "comportamento",
+    "answer_value": "aceitar-mais",
+    "answer_text": "Aceito mais uma tarefa. Mais um cuidado. Não consigo dizer não.",
+    "time_to_answer": 5391
+  },
+  {
+    "id": "e4bda95d-68fe-4476-a4e3-7b4090922b6f",
+    "created_at": "2026-06-06T16:33:02.102748+00:00",
+    "lead_id": "c2e0bf9a-3dd1-414f-bf7f-2bdd04fd32da",
+    "question_key": "frase",
+    "answer_value": "soltar",
+    "answer_text": "“Se eu soltar isso, algo ruim vai acontecer.”",
+    "time_to_answer": 5391
+  },
+  {
+    "id": "6814b6ec-ab43-4b81-a5ec-74789733637d",
+    "created_at": "2026-06-06T16:33:02.102748+00:00",
+    "lead_id": "c2e0bf9a-3dd1-414f-bf7f-2bdd04fd32da",
+    "question_key": "espiritual",
+    "answer_value": "mente-nao-desliga",
+    "answer_text": "Tento orar mas minha mente não desliga. Não consigo focar.",
+    "time_to_answer": 5391
+  },
+  {
+    "id": "f66e8b93-47a6-4e3b-a36e-9142c979da22",
+    "created_at": "2026-06-06T16:33:02.102748+00:00",
+    "lead_id": "c2e0bf9a-3dd1-414f-bf7f-2bdd04fd32da",
+    "question_key": "desejo",
+    "answer_value": "descansar",
+    "answer_text": "Conseguir parar e descansar sem sentir culpa.",
+    "time_to_answer": 5391
+  },
+  {
+    "id": "a88a69ed-6e03-4846-aa38-aa6766bcfb8f",
+    "created_at": "2026-06-06T16:58:42.480781+00:00",
+    "lead_id": "56af277f-f089-46a7-ace7-752b53d77631",
+    "question_key": "situacao",
+    "answer_value": "casada-filhos-grandes",
+    "answer_text": "Sou casada e tenho filhos grandes (adolescentes/adultos)",
+    "time_to_answer": 4042
+  },
+  {
+    "id": "1ae66ce4-de87-4a66-aa00-539fd517cf1c",
+    "created_at": "2026-06-06T16:58:42.480781+00:00",
+    "lead_id": "56af277f-f089-46a7-ace7-752b53d77631",
+    "question_key": "risco",
+    "answer_value": "dificil",
+    "answer_text": "Tenho tido dias muito difíceis, mas consigo continuar",
+    "time_to_answer": 4042
+  },
+  {
+    "id": "a201e40e-ca37-422e-bb16-ccb2bf6553c7",
+    "created_at": "2026-06-06T16:58:42.480781+00:00",
+    "lead_id": "56af277f-f089-46a7-ace7-752b53d77631",
+    "question_key": "sintoma",
+    "answer_value": "peito",
+    "answer_text": "Peito apertado, respiração curta, sensação de que algo ruim vai acontecer",
+    "time_to_answer": 4042
+  },
+  {
+    "id": "d63e1dc7-e5f9-4016-ac21-7491e1819b4a",
+    "created_at": "2026-06-06T16:58:42.480781+00:00",
+    "lead_id": "56af277f-f089-46a7-ace7-752b53d77631",
+    "question_key": "comportamento",
+    "answer_value": "",
+    "answer_text": "",
+    "time_to_answer": 4042
+  },
+  {
+    "id": "fc82c6ef-f3ba-4b72-9a9b-5800b48164e5",
+    "created_at": "2026-06-06T16:58:42.480781+00:00",
+    "lead_id": "56af277f-f089-46a7-ace7-752b53d77631",
+    "question_key": "frase",
+    "answer_value": "pior",
+    "answer_text": "“E se acontecer o pior?”",
+    "time_to_answer": 4042
+  },
+  {
+    "id": "6e7824df-7027-409a-9d96-e6a2e7a34c0c",
+    "created_at": "2026-06-06T16:58:42.480781+00:00",
+    "lead_id": "56af277f-f089-46a7-ace7-752b53d77631",
+    "question_key": "espiritual",
+    "answer_value": "",
+    "answer_text": "",
+    "time_to_answer": 4042
+  },
+  {
+    "id": "ac9c1f75-c461-495d-87f1-631e6a23918a",
+    "created_at": "2026-06-06T16:58:42.480781+00:00",
+    "lead_id": "56af277f-f089-46a7-ace7-752b53d77631",
+    "question_key": "desejo",
+    "answer_value": "orar",
+    "answer_text": "Conseguir orar e sentir Deus de novo.",
+    "time_to_answer": 4042
+  },
+  {
+    "id": "9bb9a90b-a05d-43bb-b6ba-4684d204a375",
+    "created_at": "2026-06-06T17:34:30.04162+00:00",
+    "lead_id": "ed67b2fd-6229-47fc-93cc-771de26be718",
+    "question_key": "situacao",
+    "answer_value": "casada-filhos-pequenos",
+    "answer_text": "Sou casada e tenho filhos pequenos (0-12 anos)",
+    "time_to_answer": 16207
+  },
+  {
+    "id": "6bbe3f21-5b65-4739-a66e-a425fb8774fe",
+    "created_at": "2026-06-06T17:34:30.04162+00:00",
+    "lead_id": "ed67b2fd-6229-47fc-93cc-771de26be718",
+    "question_key": "risco",
+    "answer_value": "funcionando",
+    "answer_text": "Cansada, ansiosa, mas funcionando",
+    "time_to_answer": 16207
+  },
+  {
+    "id": "e1fbdbc4-45a8-462e-8e11-f3ca1350cf70",
+    "created_at": "2026-06-06T17:34:30.04162+00:00",
+    "lead_id": "ed67b2fd-6229-47fc-93cc-771de26be718",
+    "question_key": "sintoma",
+    "answer_value": "madrugada",
+    "answer_text": "Acordo entre 3h e 5h da manhã e não consigo voltar a dormir",
+    "time_to_answer": 16207
+  },
+  {
+    "id": "661824c1-b9be-43c0-a683-0014176ab962",
+    "created_at": "2026-06-06T17:34:30.04162+00:00",
+    "lead_id": "ed67b2fd-6229-47fc-93cc-771de26be718",
+    "question_key": "comportamento",
+    "answer_value": "aceitar-mais",
+    "answer_text": "Aceito mais uma tarefa. Mais um cuidado. Não consigo dizer não.",
+    "time_to_answer": 16207
+  },
+  {
+    "id": "4710a4bb-87ae-4576-af33-032e047c3afe",
+    "created_at": "2026-06-06T17:34:30.04162+00:00",
+    "lead_id": "ed67b2fd-6229-47fc-93cc-771de26be718",
+    "question_key": "frase",
+    "answer_value": "nao-parar",
+    "answer_text": "“Eu não posso parar. Tem gente dependendo de mim.”",
+    "time_to_answer": 16207
+  },
+  {
+    "id": "c236b9ba-cfd5-416a-9b36-dd7f2d35473e",
+    "created_at": "2026-06-06T17:34:30.04162+00:00",
+    "lead_id": "ed67b2fd-6229-47fc-93cc-771de26be718",
+    "question_key": "espiritual",
+    "answer_value": "medo-abandono",
+    "answer_text": "Tenho medo de que Deus me abandone ou algo grave aconteça.",
+    "time_to_answer": 16207
+  },
+  {
+    "id": "61c3c038-11d1-4f1d-8638-68e552934ed6",
+    "created_at": "2026-06-06T17:34:30.04162+00:00",
+    "lead_id": "ed67b2fd-6229-47fc-93cc-771de26be718",
+    "question_key": "desejo",
+    "answer_value": "dormir",
+    "answer_text": "Dormir uma noite inteira sem acordar de madrugada.",
+    "time_to_answer": 16207
+  },
+  {
+    "id": "89bde7fe-eeba-4d5f-8297-017bf98bb135",
+    "created_at": "2026-06-06T17:48:23.225848+00:00",
+    "lead_id": "8a833035-c68e-4421-8563-813b7adc3ef0",
+    "question_key": "situacao",
+    "answer_value": "casada-filhos-pequenos",
+    "answer_text": "Sou casada e tenho filhos pequenos (0-12 anos)",
+    "time_to_answer": 6709
+  },
+  {
+    "id": "e3ec4ee2-edcd-412e-bd81-9a2ca5602686",
+    "created_at": "2026-06-06T17:48:23.225848+00:00",
+    "lead_id": "8a833035-c68e-4421-8563-813b7adc3ef0",
+    "question_key": "risco",
+    "answer_value": "dificil",
+    "answer_text": "Tenho tido dias muito difíceis, mas consigo continuar",
+    "time_to_answer": 6709
+  },
+  {
+    "id": "836c17e1-2aa7-4554-8cfd-4600aecbf09e",
+    "created_at": "2026-06-06T17:48:23.225848+00:00",
+    "lead_id": "8a833035-c68e-4421-8563-813b7adc3ef0",
+    "question_key": "sintoma",
+    "answer_value": "peito",
+    "answer_text": "Peito apertado, respiração curta, sensação de que algo ruim vai acontecer",
+    "time_to_answer": 6709
+  },
+  {
+    "id": "ea4bb01b-3b59-4a66-ae18-c3460bfabbfb",
+    "created_at": "2026-06-06T17:48:23.225848+00:00",
+    "lead_id": "8a833035-c68e-4421-8563-813b7adc3ef0",
+    "question_key": "comportamento",
+    "answer_value": "cenarios",
+    "answer_text": "Imagino cenários ruins. Crio diálogos difíceis na cabeça antes de acontecer.",
+    "time_to_answer": 6709
+  },
+  {
+    "id": "53491be9-8811-4036-b982-c13c9c58b57f",
+    "created_at": "2026-06-06T17:48:23.225848+00:00",
+    "lead_id": "8a833035-c68e-4421-8563-813b7adc3ef0",
+    "question_key": "frase",
+    "answer_value": "nao-parar",
+    "answer_text": "“Eu não posso parar. Tem gente dependendo de mim.”",
+    "time_to_answer": 6709
+  },
+  {
+    "id": "647523e6-28d1-4171-a9b0-31b5a5cb116b",
+    "created_at": "2026-06-06T17:48:23.225848+00:00",
+    "lead_id": "8a833035-c68e-4421-8563-813b7adc3ef0",
+    "question_key": "espiritual",
+    "answer_value": "medo-abandono",
+    "answer_text": "Tenho medo de que Deus me abandone ou algo grave aconteça.",
+    "time_to_answer": 6709
+  },
+  {
+    "id": "1f3eb5b0-d660-4289-ae1f-f2f97a820600",
+    "created_at": "2026-06-06T17:48:23.225848+00:00",
+    "lead_id": "8a833035-c68e-4421-8563-813b7adc3ef0",
+    "question_key": "desejo",
+    "answer_value": "dormir",
+    "answer_text": "Dormir uma noite inteira sem acordar de madrugada.",
+    "time_to_answer": 6709
+  },
+  {
+    "id": "e26215d4-57f0-4d0a-8d4d-b3f1730fe20f",
+    "created_at": "2026-06-06T20:31:26.929705+00:00",
+    "lead_id": "6710110d-152c-4883-b55a-eaaa7adbf5d5",
+    "question_key": "situacao",
+    "answer_value": "casada-sem-filhos",
+    "answer_text": "Sou casada, sem filhos (ou tentando)",
+    "time_to_answer": 23440
+  },
+  {
+    "id": "b6ec05d1-d6b0-41c1-96bc-1fb8984231d4",
+    "created_at": "2026-06-06T20:31:26.929705+00:00",
+    "lead_id": "6710110d-152c-4883-b55a-eaaa7adbf5d5",
+    "question_key": "risco",
+    "answer_value": "sombrios",
+    "answer_text": "Pensamentos sombrios têm aparecido com frequência",
+    "time_to_answer": 23440
+  },
+  {
+    "id": "c43899df-0a87-4d41-954d-55f298c71c22",
+    "created_at": "2026-06-06T20:31:26.929705+00:00",
+    "lead_id": "6710110d-152c-4883-b55a-eaaa7adbf5d5",
+    "question_key": "sintoma",
+    "answer_value": "",
+    "answer_text": "",
+    "time_to_answer": 23440
+  },
+  {
+    "id": "19231caa-1b9d-4ad9-a6b6-08fce89914f6",
+    "created_at": "2026-06-06T20:31:26.929705+00:00",
+    "lead_id": "6710110d-152c-4883-b55a-eaaa7adbf5d5",
+    "question_key": "comportamento",
+    "answer_value": "oracao",
+    "answer_text": "Oro pedindo perdão. Releio versículos. Tento confiar mais. E não passa.",
+    "time_to_answer": 23440
+  },
+  {
+    "id": "e44444ec-12c9-4c2c-8c56-cfa837d7a84c",
+    "created_at": "2026-06-06T20:31:26.929705+00:00",
+    "lead_id": "6710110d-152c-4883-b55a-eaaa7adbf5d5",
+    "question_key": "frase",
+    "answer_value": "pior",
+    "answer_text": "“E se acontecer o pior?”",
+    "time_to_answer": 23440
+  },
+  {
+    "id": "f417713f-ea39-4002-97fa-ba643f7d549b",
+    "created_at": "2026-06-06T20:31:26.929705+00:00",
+    "lead_id": "6710110d-152c-4883-b55a-eaaa7adbf5d5",
+    "question_key": "espiritual",
+    "answer_value": "medo-abandono",
+    "answer_text": "Tenho medo de que Deus me abandone ou algo grave aconteça.",
+    "time_to_answer": 23440
+  },
+  {
+    "id": "af9a74e1-3bdc-45dc-aef4-f1f137cefd2e",
+    "created_at": "2026-06-06T20:31:26.929705+00:00",
+    "lead_id": "6710110d-152c-4883-b55a-eaaa7adbf5d5",
+    "question_key": "desejo",
+    "answer_value": "descansar",
+    "answer_text": "Conseguir parar e descansar sem sentir culpa.",
+    "time_to_answer": 23440
+  }
+]

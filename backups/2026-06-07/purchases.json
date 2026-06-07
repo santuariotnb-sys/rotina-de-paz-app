@@ -1,0 +1,406 @@
+[
+  {
+    "id": "f85c359a-4679-42d4-85c1-d73692a64269",
+    "lead_id": null,
+    "user_id": "174f8a39-5119-42a9-acb4-838d426fb7d9",
+    "external_id": null,
+    "transaction_id": "5LZV2QKV_10bd3984",
+    "product_name": "Rotina de Paz",
+    "product_type": "principal",
+    "gross_value": 4700,
+    "status": "confirmed",
+    "kirvano_offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+    "buyer_email": "chave.proverbio@gmail.com",
+    "utm_source": null,
+    "utm_campaign": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "0b6125dc-2775-401d-8abc-90676c29031c",
+        "6ba796b8-d3d1-4d56-bcf1-e7f493a23938"
+      ]
+    },
+    "created_at": "2026-06-06T00:28:55.602351+00:00"
+  },
+  {
+    "id": "e77053ff-49d1-467e-be00-9ebb506f2073",
+    "lead_id": null,
+    "user_id": "174f8a39-5119-42a9-acb4-838d426fb7d9",
+    "external_id": null,
+    "transaction_id": "5LZV2QKV_a64e5cf3",
+    "product_name": "Devocional 30 Dias com os Salmos",
+    "product_type": "order_bump",
+    "gross_value": 1890,
+    "status": "confirmed",
+    "kirvano_offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+    "buyer_email": "chave.proverbio@gmail.com",
+    "utm_source": null,
+    "utm_campaign": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "0b6125dc-2775-401d-8abc-90676c29031c",
+        "6ba796b8-d3d1-4d56-bcf1-e7f493a23938"
+      ]
+    },
+    "created_at": "2026-06-06T00:28:56.049184+00:00"
+  },
+  {
+    "id": "5ff06480-4171-4094-a25a-d62f92add360",
+    "lead_id": null,
+    "user_id": "b3b6ac53-97e0-4fe1-a2c2-26d0e58abf86",
+    "external_id": null,
+    "transaction_id": "5MV3N1Q9_10bd3984",
+    "product_name": "Rotina de Paz",
+    "product_type": "principal",
+    "gross_value": 4700,
+    "status": "confirmed",
+    "kirvano_offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+    "buyer_email": "legarcianarros17@gmail.com",
+    "utm_source": null,
+    "utm_campaign": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "0b6125dc-2775-401d-8abc-90676c29031c",
+        "9805e364-f28f-4575-82a1-b0786fb9d7da"
+      ]
+    },
+    "created_at": "2026-06-06T01:35:19.843176+00:00"
+  },
+  {
+    "id": "ff96afad-f776-42ca-b224-b82789e1d25a",
+    "lead_id": null,
+    "user_id": "b3b6ac53-97e0-4fe1-a2c2-26d0e58abf86",
+    "external_id": null,
+    "transaction_id": "5MV3N1Q9_1500605e",
+    "product_name": "Da Ansiedade à Gratidão",
+    "product_type": "order_bump",
+    "gross_value": 1990,
+    "status": "confirmed",
+    "kirvano_offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+    "buyer_email": "legarcianarros17@gmail.com",
+    "utm_source": null,
+    "utm_campaign": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "0b6125dc-2775-401d-8abc-90676c29031c",
+        "9805e364-f28f-4575-82a1-b0786fb9d7da"
+      ]
+    },
+    "created_at": "2026-06-06T01:35:20.648526+00:00"
+  },
+  {
+    "id": "8affd75b-dac1-4f49-a1c5-ef0ec9506ea1",
+    "lead_id": null,
+    "user_id": "5abdad84-40cc-44d2-a1a6-2f90fc3b5659",
+    "external_id": null,
+    "transaction_id": "82RY10Z1_b4de4d67",
+    "product_name": "Chave da Gratidão",
+    "product_type": "upsell",
+    "gross_value": 6700,
+    "status": "confirmed",
+    "kirvano_offer_id": "ca518c06-88d8-44a7-9487-7ca71d3e86d3",
+    "buyer_email": "guilherme_041@hotmail.com",
+    "utm_source": null,
+    "utm_campaign": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "ca518c06-88d8-44a7-9487-7ca71d3e86d3"
+      ]
+    },
+    "created_at": "2026-06-06T08:33:41.772037+00:00"
+  },
+  {
+    "id": "56c7ba94-e7c3-4a41-a1b4-9621ed7dc209",
+    "lead_id": null,
+    "user_id": "5abdad84-40cc-44d2-a1a6-2f90fc3b5659",
+    "external_id": null,
+    "transaction_id": "5Q1MPV3K_10bd3984",
+    "product_name": "Rotina de Paz",
+    "product_type": "principal",
+    "gross_value": 4700,
+    "status": "confirmed",
+    "kirvano_offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+    "buyer_email": "guilherme_041@hotmail.com",
+    "utm_source": null,
+    "utm_campaign": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "0b6125dc-2775-401d-8abc-90676c29031c"
+      ]
+    },
+    "created_at": "2026-06-06T08:26:54.136925+00:00"
+  },
+  {
+    "id": "884c5d48-c897-4548-b58b-25ca7b22d745",
+    "lead_id": null,
+    "user_id": "a2d5b1f6-a8cf-4f4d-b76d-3f18c48e96c1",
+    "external_id": null,
+    "transaction_id": "5Q1MP09D_10bd3984",
+    "product_name": "Rotina de Paz",
+    "product_type": "principal",
+    "gross_value": 4700,
+    "status": "confirmed",
+    "kirvano_offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+    "buyer_email": "tamires.lllaura@gmail.com",
+    "utm_source": null,
+    "utm_campaign": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "0b6125dc-2775-401d-8abc-90676c29031c"
+      ]
+    },
+    "created_at": "2026-06-06T12:41:45.615923+00:00"
+  },
+  {
+    "id": "1841929a-239f-41f0-89b4-3cd14dc68d8e",
+    "lead_id": null,
+    "user_id": "1ccfbc73-56dd-4b91-849a-143aee5fa2b4",
+    "external_id": null,
+    "transaction_id": "82RY1YZM_10bd3984",
+    "product_name": "Rotina de Paz",
+    "product_type": "principal",
+    "gross_value": 4700,
+    "status": "confirmed",
+    "kirvano_offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+    "buyer_email": "365.morandocomdeus@gmail.com",
+    "utm_source": null,
+    "utm_campaign": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "0b6125dc-2775-401d-8abc-90676c29031c"
+      ]
+    },
+    "created_at": "2026-06-06T15:55:42.344324+00:00"
+  },
+  {
+    "id": "4628a475-db7a-4dce-9353-7a5fa4972276",
+    "lead_id": null,
+    "user_id": "10169930-b802-44b3-887c-8d0d284115a2",
+    "external_id": null,
+    "transaction_id": "51WY136M_10bd3984",
+    "product_name": "Rotina de Paz",
+    "product_type": "principal",
+    "gross_value": 4700,
+    "status": "confirmed",
+    "kirvano_offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+    "buyer_email": "venda.real17@gmail.com",
+    "utm_source": null,
+    "utm_campaign": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "0b6125dc-2775-401d-8abc-90676c29031c",
+        "17dcc27c-215f-436e-a9b6-1a3b2cc007ef"
+      ]
+    },
+    "created_at": "2026-06-06T17:00:56.290706+00:00"
+  },
+  {
+    "id": "fc3c5459-6c57-422e-97dd-4f7a96c4343f",
+    "lead_id": null,
+    "user_id": "10169930-b802-44b3-887c-8d0d284115a2",
+    "external_id": null,
+    "transaction_id": "51WY136M_45b12e06",
+    "product_name": "Bíblia das Emoções",
+    "product_type": "order_bump",
+    "gross_value": 1690,
+    "status": "confirmed",
+    "kirvano_offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+    "buyer_email": "venda.real17@gmail.com",
+    "utm_source": null,
+    "utm_campaign": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "0b6125dc-2775-401d-8abc-90676c29031c",
+        "17dcc27c-215f-436e-a9b6-1a3b2cc007ef"
+      ]
+    },
+    "created_at": "2026-06-06T17:00:56.952609+00:00"
+  },
+  {
+    "id": "394019e8-df0a-4d0f-affd-9bacd8313192",
+    "lead_id": null,
+    "user_id": "10169930-b802-44b3-887c-8d0d284115a2",
+    "external_id": null,
+    "transaction_id": "57ZYRMLR_b4de4d67",
+    "product_name": "Chave da Gratidão",
+    "product_type": "downsell",
+    "gross_value": 6700,
+    "status": "confirmed",
+    "kirvano_offer_id": "e6fd35f3-ad96-4121-b6a9-1123468d5f9f",
+    "buyer_email": "venda.real17@gmail.com",
+    "utm_source": null,
+    "utm_campaign": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "e6fd35f3-ad96-4121-b6a9-1123468d5f9f"
+      ]
+    },
+    "created_at": "2026-06-06T17:29:53.962219+00:00"
+  },
+  {
+    "id": "877d2c60-a3ca-4a99-91ab-44cf97ecf850",
+    "lead_id": null,
+    "user_id": "b8b1560b-4998-4044-a7cb-e7457805f010",
+    "external_id": null,
+    "transaction_id": "8K4JDL6R_10bd3984",
+    "product_name": "Rotina de Paz",
+    "product_type": "principal",
+    "gross_value": 4700,
+    "status": "confirmed",
+    "kirvano_offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+    "buyer_email": "tamires.almeida900@gmail.com",
+    "utm_source": null,
+    "utm_campaign": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "0b6125dc-2775-401d-8abc-90676c29031c",
+        "6ba796b8-d3d1-4d56-bcf1-e7f493a23938"
+      ]
+    },
+    "created_at": "2026-06-06T17:42:29.776046+00:00"
+  },
+  {
+    "id": "2a60722f-1629-4c89-a628-47efb2668966",
+    "lead_id": null,
+    "user_id": "b8b1560b-4998-4044-a7cb-e7457805f010",
+    "external_id": null,
+    "transaction_id": "8K4JDL6R_a64e5cf3",
+    "product_name": "Devocional 30 Dias com os Salmos",
+    "product_type": "order_bump",
+    "gross_value": 1890,
+    "status": "confirmed",
+    "kirvano_offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+    "buyer_email": "tamires.almeida900@gmail.com",
+    "utm_source": null,
+    "utm_campaign": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "0b6125dc-2775-401d-8abc-90676c29031c",
+        "6ba796b8-d3d1-4d56-bcf1-e7f493a23938"
+      ]
+    },
+    "created_at": "2026-06-06T17:42:30.478126+00:00"
+  },
+  {
+    "id": "914867ec-7291-4b4f-a686-bf921aa3dc52",
+    "lead_id": null,
+    "user_id": "b8b1560b-4998-4044-a7cb-e7457805f010",
+    "external_id": null,
+    "transaction_id": "82RY1D63_b4de4d67",
+    "product_name": "Chave da Gratidão",
+    "product_type": "downsell",
+    "gross_value": 6700,
+    "status": "confirmed",
+    "kirvano_offer_id": "e6fd35f3-ad96-4121-b6a9-1123468d5f9f",
+    "buyer_email": "tamires.almeida900@gmail.com",
+    "utm_source": null,
+    "utm_campaign": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "e6fd35f3-ad96-4121-b6a9-1123468d5f9f"
+      ]
+    },
+    "created_at": "2026-06-06T17:45:24.966904+00:00"
+  },
+  {
+    "id": "43c06026-c47b-4833-9498-286b44444b8a",
+    "lead_id": null,
+    "user_id": "3c1d75a6-b1ab-4e7e-9ca7-b8195b288b75",
+    "external_id": null,
+    "transaction_id": "X99J2VKE_10bd3984",
+    "product_name": "Rotina de Paz",
+    "product_type": "principal",
+    "gross_value": 4700,
+    "status": "confirmed",
+    "kirvano_offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+    "buyer_email": "guhgs.pereira@yahoo.com.br",
+    "utm_source": null,
+    "utm_campaign": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "0b6125dc-2775-401d-8abc-90676c29031c"
+      ]
+    },
+    "created_at": "2026-06-06T17:51:18.329287+00:00"
+  },
+  {
+    "id": "b23fa1d5-8b66-4df4-ba95-9fa197c452a1",
+    "lead_id": null,
+    "user_id": "3c1d75a6-b1ab-4e7e-9ca7-b8195b288b75",
+    "external_id": null,
+    "transaction_id": "842Y1NZP_b4de4d67",
+    "product_name": "Chave da Gratidão",
+    "product_type": "downsell",
+    "gross_value": 6700,
+    "status": "confirmed",
+    "kirvano_offer_id": "e6fd35f3-ad96-4121-b6a9-1123468d5f9f",
+    "buyer_email": "guhgs.pereira@yahoo.com.br",
+    "utm_source": null,
+    "utm_campaign": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "e6fd35f3-ad96-4121-b6a9-1123468d5f9f"
+      ]
+    },
+    "created_at": "2026-06-06T17:52:36.61118+00:00"
+  },
+  {
+    "id": "359be193-365f-4066-9c3e-450c1b5431ad",
+    "lead_id": null,
+    "user_id": "6fb698de-c0d8-4fc8-bfc9-0e2dc9564463",
+    "external_id": null,
+    "transaction_id": "82RY97D7_10bd3984",
+    "product_name": "Rotina de Paz",
+    "product_type": "principal",
+    "gross_value": 4700,
+    "status": "confirmed",
+    "kirvano_offer_id": "0b6125dc-2775-401d-8abc-90676c29031c",
+    "buyer_email": "ricardo.bispopereira@gmail.com",
+    "utm_source": null,
+    "utm_campaign": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "0b6125dc-2775-401d-8abc-90676c29031c"
+      ]
+    },
+    "created_at": "2026-06-06T20:38:50.792144+00:00"
+  },
+  {
+    "id": "4611bf0b-63a3-4877-a4db-4c93d79c51cc",
+    "lead_id": null,
+    "user_id": "6fb698de-c0d8-4fc8-bfc9-0e2dc9564463",
+    "external_id": null,
+    "transaction_id": "842Y6JPV_b4de4d67",
+    "product_name": "Chave da Gratidão",
+    "product_type": "upsell",
+    "gross_value": 6700,
+    "status": "confirmed",
+    "kirvano_offer_id": "ca518c06-88d8-44a7-9487-7ca71d3e86d3",
+    "buyer_email": "ricardo.bispopereira@gmail.com",
+    "utm_source": null,
+    "utm_campaign": null,
+    "metadata": {
+      "event": "SALE_APPROVED",
+      "raw_offer_ids": [
+        "ca518c06-88d8-44a7-9487-7ca71d3e86d3"
+      ]
+    },
+    "created_at": "2026-06-06T20:39:31.138991+00:00"
+  }
+]

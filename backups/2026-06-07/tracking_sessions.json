@@ -1,0 +1,128 @@
+[
+  {
+    "external_id": "rls-reload-1780661273435",
+    "fbp": null,
+    "fbc": null,
+    "fbclid": null,
+    "client_ip": null,
+    "user_agent": null,
+    "created_at": "2026-06-05T12:07:53.484287+00:00"
+  },
+  {
+    "external_id": "test-conflict-1780661369912",
+    "fbp": null,
+    "fbc": null,
+    "fbclid": null,
+    "client_ip": null,
+    "user_agent": null,
+    "created_at": "2026-06-05T12:09:29.919122+00:00"
+  },
+  {
+    "external_id": "rpctest_1780710424439",
+    "fbp": "x",
+    "fbc": "y",
+    "fbclid": "z",
+    "client_ip": null,
+    "user_agent": "ua",
+    "created_at": "2026-06-06T01:47:04.478094+00:00"
+  },
+  {
+    "external_id": "qs_dc4f81a6-e91a-48c8-bdaf-7a9213d8debc",
+    "fbp": null,
+    "fbc": null,
+    "fbclid": null,
+    "client_ip": null,
+    "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5 Mobile/15E148 Safari/604.1",
+    "created_at": "2026-06-06T17:00:59.831487+00:00"
+  },
+  {
+    "external_id": "qs_8b883679-7fe1-4747-9ead-12c6c46d6f0d",
+    "fbp": "fb.2.1780765689472.683957324866487675",
+    "fbc": null,
+    "fbclid": null,
+    "client_ip": null,
+    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/147.0.7727.15 Safari/537.36",
+    "created_at": "2026-06-06T17:08:14.218581+00:00"
+  },
+  {
+    "external_id": "qs_a23aebc5-ee40-4c7f-9b20-d69ca16f6333",
+    "fbp": null,
+    "fbc": null,
+    "fbclid": null,
+    "client_ip": null,
+    "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5 Mobile/15E148 Safari/604.1",
+    "created_at": "2026-06-06T14:14:07.734599+00:00"
+  },
+  {
+    "external_id": "qs_babbf644-1555-4b07-b060-346244f0ca2d",
+    "fbp": "fb.2.1779772728072.574984904740392133",
+    "fbc": "fb.2.1780734161651.IwARteste4",
+    "fbclid": null,
+    "client_ip": null,
+    "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/149.0.7827.45 Mobile/15E148 Safari/604.1",
+    "created_at": "2026-06-05T17:07:55.624823+00:00"
+  },
+  {
+    "external_id": "qs_aaa2f543-f71b-41b8-acf4-0409ef495dc5",
+    "fbp": "fb.2.1780739390001.168727657711785251",
+    "fbc": "fb.2.1780765090355.IwARtestecapi5",
+    "fbclid": "IwARtestecapi5",
+    "client_ip": null,
+    "user_agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Mobile Safari/537.36",
+    "created_at": "2026-06-06T09:55:41.843711+00:00"
+  },
+  {
+    "external_id": "qs_670f0993-7668-412c-99cd-045dec302d8a",
+    "fbp": "fb.2.1779133614018.53026660622739443",
+    "fbc": "fb.2.1780767144981.IwARtestecapi5",
+    "fbclid": "IwARtestecapi5",
+    "client_ip": null,
+    "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 26_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/149.0.7827.45 Mobile/15E148 Safari/604.1",
+    "created_at": "2026-06-06T17:35:37.992784+00:00"
+  },
+  {
+    "external_id": "qs_6eee8898-1993-446d-9940-c4d57ed03c59",
+    "fbp": null,
+    "fbc": null,
+    "fbclid": null,
+    "client_ip": null,
+    "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5 Mobile/15E148 Safari/604.1",
+    "created_at": "2026-06-06T20:23:44.259468+00:00"
+  },
+  {
+    "external_id": "qs_9335bc06-4c08-47d1-a93a-2dd6af6082bb",
+    "fbp": "fb.2.1780777512578.878339715377411123",
+    "fbc": null,
+    "fbclid": null,
+    "client_ip": null,
+    "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/149.0.7827.45 Mobile/15E148 Safari/604.1",
+    "created_at": "2026-06-06T20:32:29.630516+00:00"
+  },
+  {
+    "external_id": "qs_223110a4-1a68-42c6-88b5-646ba9f35262",
+    "fbp": "fb.2.1780764926421.895384031258289477",
+    "fbc": null,
+    "fbclid": null,
+    "client_ip": null,
+    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/147.0.7727.15 Safari/537.36",
+    "created_at": "2026-06-06T16:55:30.786571+00:00"
+  },
+  {
+    "external_id": "qs_beeffc5a-0347-43bf-8ff0-adeb654d757f",
+    "fbp": null,
+    "fbc": null,
+    "fbclid": null,
+    "client_ip": null,
+    "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5 Mobile/15E148 Safari/604.1",
+    "created_at": "2026-06-06T15:53:40.24726+00:00"
+  },
+  {
+    "external_id": "qs_590437ba-49ba-4e51-9d69-341f0d663989",
+    "fbp": null,
+    "fbc": null,
+    "fbclid": null,
+    "client_ip": null,
+    "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5 Mobile/15E148 Safari/604.1",
+    "created_at": "2026-06-06T12:21:41.693538+00:00"
+  }
+]
