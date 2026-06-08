@@ -10,7 +10,7 @@ export const Route = createFileRoute("/app/louvores")({
   // Pré-carrega as faixas no intent/navegação → lista aparece sem "Carregando…".
   loader: ({ context }) => {
     const qc = (context as { queryClient: QueryClient }).queryClient;
-    return qc.ensureQueryData(louvoresQueryOptions);
+    void qc.ensureQueryData(louvoresQueryOptions);
   },
   component: LouvoresPage,
   pendingComponent: LouvoresSkeleton,

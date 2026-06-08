@@ -6,7 +6,7 @@ import { devocionaisQueryOptions } from "@/lib/app-queries";
 export const Route = createFileRoute("/app/devocionais")({
   loader: ({ context }) => {
     const qc = (context as { queryClient: QueryClient }).queryClient;
-    return qc.ensureQueryData(devocionaisQueryOptions);
+    void qc.ensureQueryData(devocionaisQueryOptions);
   },
   component: DevocionaisPage,
   pendingComponent: DevocionaisSkeleton,
