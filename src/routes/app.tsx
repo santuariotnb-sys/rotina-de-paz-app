@@ -14,7 +14,7 @@ import {
   type Student,
 } from "@/lib/student";
 import { getLegalStatus } from "@/lib/legal/legal.functions";
-import { ebooksQueryOptions, louvoresQueryOptions, devocionaisQueryOptions } from "@/lib/app-queries";
+import { ebooksQueryOptions, louvoresQueryOptions, devocionaisQueryOptions, entitlementsQueryOptions, checkoutsQueryOptions } from "@/lib/app-queries";
 
 // Lazy: tira o framer-motion (~40kb) do bundle inicial do /app. O player expandido só
 // carrega quando o usuário abre o FullPlayer.
@@ -86,10 +86,12 @@ function AppShell() {
       }
       if (cancelled) return;
       setAuthReady(true);
-      // Aquece o cache das abas em background → trocar de aba vira cache-hit instantâneo.
+      // Aquece o cache das abas + entitlements em background → cache-hit instantâneo.
       void queryClient.prefetchQuery(ebooksQueryOptions);
       void queryClient.prefetchQuery(louvoresQueryOptions);
       void queryClient.prefetchQuery(devocionaisQueryOptions);
+      void queryClient.prefetchQuery(entitlementsQueryOptions);
+      void queryClient.prefetchQuery(checkoutsQueryOptions);
     }).catch((e) => {
       // getSession rejeitou → não deixa preso no Splash; libera com estado local.
       console.error("[app] getSession falhou:", e);

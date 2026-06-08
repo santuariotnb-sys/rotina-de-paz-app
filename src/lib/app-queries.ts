@@ -5,6 +5,40 @@ import type { BookKey, Louvor } from "@/data/louvores";
 import type { Devocional } from "@/data/devocionais";
 import { supabase } from "@/integrations/supabase/client";
 
+// Query options exportados para prefetch no shell (app.tsx)
+export const entitlementsQueryOptions = {
+  queryKey: ["entitlements", "me"] as const,
+  queryFn: async (): Promise<Set<string>> => {
+    const { data: auth } = await supabase.auth.getUser();
+    if (!auth.user) return new Set();
+    const { data, error } = await supabase
+      .from("entitlements")
+      .select("product_id, status")
+      .eq("user_id", auth.user.id)
+      .eq("status", "active");
+    if (error) throw new Error(error.message);
+    return new Set((data ?? []).map((r) => r.product_id));
+  },
+  staleTime: 5 * 60_000,
+};
+
+export const checkoutsQueryOptions = {
+  queryKey: ["product-checkouts"] as const,
+  queryFn: async (): Promise<Map<string, string>> => {
+    const { data, error } = await supabase
+      .from("products")
+      .select("id, checkout_url")
+      .eq("status", "active");
+    if (error) throw new Error(error.message);
+    const map = new Map<string, string>();
+    for (const r of data ?? []) {
+      if (r.checkout_url) map.set(r.id, r.checkout_url);
+    }
+    return map;
+  },
+  staleTime: 5 * 60_000,
+};
+
 function formatDuration(seconds: number) {
   const m = Math.floor(seconds / 60);
   const s = Math.floor(seconds % 60);

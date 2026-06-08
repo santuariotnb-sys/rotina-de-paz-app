@@ -11,15 +11,25 @@ export const getEbookUrl = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator(z.object({ ebookId: z.string().uuid() }))
   .handler(async ({ data, context }) => {
-    const { data: ebook, error } = await supabaseAdmin
-      .from("ebooks")
-      .select("id, title, file_url, required_product_id")
-      .eq("id", data.ebookId)
-      .single();
+    // Busca ebook e entitlements em paralelo para reduzir latência
+    const [ebookRes, entRes] = await Promise.all([
+      supabaseAdmin
+        .from("ebooks")
+        .select("id, title, file_url, required_product_id")
+        .eq("id", data.ebookId)
+        .single(),
+      supabaseAdmin
+        .from("entitlements")
+        .select("product_id")
+        .eq("user_id", context.userId)
+        .eq("status", "active"),
+    ]);
 
-    if (error || !ebook) {
+    if (ebookRes.error || !ebookRes.data) {
       throw new Error("E-book não encontrado");
     }
+
+    const ebook = ebookRes.data;
 
     if (!ebook.file_url) {
       throw new Error("E-book sem arquivo disponível");
@@ -31,15 +41,8 @@ export const getEbookUrl = createServerFn({ method: "POST" })
     }
 
     // Verificar entitlement ativo
-    const { data: entitlement } = await supabaseAdmin
-      .from("entitlements")
-      .select("id")
-      .eq("user_id", context.userId)
-      .eq("product_id", ebook.required_product_id)
-      .eq("status", "active")
-      .maybeSingle();
-
-    if (!entitlement) {
+    const owned = new Set((entRes.data ?? []).map((r) => r.product_id));
+    if (!owned.has(ebook.required_product_id)) {
       throw new Error("Acesso não autorizado a este e-book");
     }
 
