@@ -127,7 +127,7 @@ function LoginPage() {
   };
 
   return (
-    <main className="rdp-app-bg min-h-dvh grid place-items-center px-5 py-10">
+    <main className="rdp-app-bg min-h-dvh w-full overflow-x-hidden grid place-items-center px-5 py-10">
       <div className="w-full max-w-md">
         <div className="text-center">
           <img src={logoSrc} alt="Rotina de Paz" width={96} height={96} className="mx-auto h-24 w-24" />

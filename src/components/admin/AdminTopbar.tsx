@@ -53,12 +53,12 @@ export function AdminTopbar({ admin, collapsed, onToggle, onMobileOpen }: Props)
         )}
       </button>
 
-      <div className="flex flex-1 items-center gap-2 rounded-xl bg-white/[0.05] px-3 py-1.5 ring-1 ring-white/10 backdrop-blur max-w-md">
-        <Search className="h-4 w-4 text-white/55" />
+      <div className="flex min-w-0 flex-1 items-center gap-2 rounded-xl bg-white/[0.05] px-3 py-1.5 ring-1 ring-white/10 backdrop-blur max-w-md">
+        <Search className="h-4 w-4 shrink-0 text-white/55" />
         <input
           type="search"
-          placeholder="Buscar leads, produtos, membros..."
-          className="flex-1 bg-transparent text-[13px] text-white outline-none placeholder:text-[#8A90A2]"
+          placeholder="Buscar..."
+          className="min-w-0 flex-1 bg-transparent text-[13px] text-white outline-none placeholder:text-[#8A90A2]"
           disabled
         />
         <kbd className="hidden rounded bg-white/10 px-1.5 py-0.5 text-[10px] font-medium text-white/70 sm:inline">

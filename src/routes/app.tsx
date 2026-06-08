@@ -118,7 +118,7 @@ function AppShell() {
 
   return (
     <PlayerProvider>
-      <main className="rdp-app-bg min-h-dvh max-w-[100vw] overflow-x-hidden">
+      <main className="rdp-app-bg min-h-dvh w-full overflow-x-hidden">
         <TopBar
           name={student?.name ?? null}
           email={email}
