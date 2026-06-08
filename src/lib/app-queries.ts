@@ -54,7 +54,7 @@ export const ebooksQueryOptions = {
   queryFn: async () => {
     const { data, error } = await supabase
       .from("ebooks")
-      .select("id, title, subtitle, category, price_cents, badge, cover_url, sort_order, required_product_id, description")
+      .select("id, title, subtitle, category, price_cents, badge, cover_url, sort_order, required_product_id, description, file_url")
       .eq("status", "active")
       .order("sort_order", { ascending: true });
     if (error) throw error;
