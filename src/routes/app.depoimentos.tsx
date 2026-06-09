@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useRef } from "react";
 import { Quote, Star } from "lucide-react";
-import { useFirstMount } from "@/hooks/useFirstMount";
 
 export const Route = createFileRoute("/app/depoimentos")({
   component: DepoimentosPage,
@@ -13,7 +13,9 @@ const ITEMS = [
 ];
 
 function DepoimentosPage() {
-  const first = useFirstMount();
+  const firstRef = useRef(true);
+  const first = firstRef.current;
+  firstRef.current = false;
   return (
     <div className={first ? "" : "rdp-no-anim"}>
       <div className="mt-6 text-center rdp-fade-up">

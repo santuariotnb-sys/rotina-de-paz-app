@@ -1,6 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { useFirstMount } from "@/hooks/useFirstMount";
+import { useEffect, useRef, useState } from "react";
 import { ChevronRight, Sun, Moon, Sparkles, Play, Crown } from "lucide-react";
 import volMorningSrc from "@/assets/volume-1-manha.webp";
 import volNightSrc from "@/assets/volume-2-noite.webp";
@@ -15,7 +14,9 @@ function PazHome() {
   const navigate = useNavigate();
   const [student, setStudent] = useState<Student | null>(null);
   const [progress, setProgress] = useState<Record<string, boolean>>({});
-  const first = useFirstMount();
+  const firstRef = useRef(true);
+  const first = firstRef.current;
+  firstRef.current = false;
 
   useEffect(() => {
     setStudent(loadStudent());

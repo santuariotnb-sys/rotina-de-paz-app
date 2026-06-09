@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { useFirstMount } from "@/hooks/useFirstMount";
+import { useRef, useState } from "react";
 import { useQuery, type QueryClient } from "@tanstack/react-query";
 import { BookOpen, ShoppingCart, ChevronRight, Loader2 } from "lucide-react";
 import { type Ebook } from "@/data/ebooks";
@@ -73,7 +72,9 @@ function EbooksPage() {
   const colecao = ebooks.filter((e) => e.category === "colecao");
   const bonus = ebooks.filter((e) => e.category === "bonus");
   const embreve = ebooks.filter((e) => e.category === "embreve");
-  const first = useFirstMount();
+  const firstRef = useRef(true);
+  const first = firstRef.current;
+  firstRef.current = false;
 
   return (
     <div className={first ? "" : "rdp-no-anim"}>
