@@ -15,6 +15,7 @@ function PazHome() {
   const navigate = useNavigate();
   const [student, setStudent] = useState<Student | null>(null);
   const [progress, setProgress] = useState<Record<string, boolean>>({});
+  const first = useFirstMount();
 
   useEffect(() => {
     setStudent(loadStudent());
@@ -28,7 +29,6 @@ function PazHome() {
   const arche = ARCHETYPES[student.archetype];
   const nextTurno: "manha" | "noite" = morningDone <= nightDone ? "manha" : "noite";
   const firstName = student.name?.split(" ")[0];
-  const first = useFirstMount();
 
   return (
     <div className={first ? "" : "rdp-no-anim"}>
