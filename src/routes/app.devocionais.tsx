@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useRef } from "react";
 import { useQuery, type QueryClient } from "@tanstack/react-query";
-import { useFirstMount } from "@/hooks/useFirstMount";
 import { Play } from "lucide-react";
 import { devocionaisQueryOptions } from "@/lib/app-queries";
 
@@ -15,7 +15,9 @@ export const Route = createFileRoute("/app/devocionais")({
 
 function DevocionaisPage() {
   const { data: items = [], isLoading } = useQuery(devocionaisQueryOptions);
-  const first = useFirstMount();
+  const firstRef = useRef(true);
+  const first = firstRef.current;
+  firstRef.current = false;
 
   return (
     <div className={first ? "" : "rdp-no-anim"}>

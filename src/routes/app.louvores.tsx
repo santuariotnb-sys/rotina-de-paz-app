@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
-import { useFirstMount } from "@/hooks/useFirstMount";
+import { useMemo, useRef, useState } from "react";
 import { useQuery, type QueryClient } from "@tanstack/react-query";
 import { Music, Pause, Play, Sparkles } from "lucide-react";
 import { BOOKS, type BookKey } from "@/data/louvores";
@@ -25,7 +24,9 @@ function LouvoresPage() {
 
   const list = useMemo(() => all.filter((l) => l.book === book), [all, book]);
 
-  const first = useFirstMount();
+  const firstRef = useRef(true);
+  const first = firstRef.current;
+  firstRef.current = false;
 
   return (
     <div className={first ? "" : "rdp-no-anim"}>
