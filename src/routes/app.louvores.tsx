@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
+import { useFirstMount } from "@/hooks/useFirstMount";
 import { useQuery, type QueryClient } from "@tanstack/react-query";
 import { Music, Pause, Play, Sparkles } from "lucide-react";
 import { BOOKS, type BookKey } from "@/data/louvores";
@@ -24,8 +25,10 @@ function LouvoresPage() {
 
   const list = useMemo(() => all.filter((l) => l.book === book), [all, book]);
 
+  const first = useFirstMount();
+
   return (
-    <>
+    <div className={first ? "" : "rdp-no-anim"}>
       <div className="mt-6 text-center rdp-fade-up">
         <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl border border-[color:var(--gold-warm)]/40 bg-white/70 text-[color:var(--gold-warm)]">
           <Music className="h-6 w-6" />
@@ -96,7 +99,7 @@ function LouvoresPage() {
           );
         })}
       </ol>
-    </>
+    </div>
   );
 }
 

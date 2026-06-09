@@ -1,5 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { useFirstMount } from "@/hooks/useFirstMount";
 import { ChevronRight, Sun, Moon, Sparkles, Play, Crown } from "lucide-react";
 import volMorningSrc from "@/assets/volume-1-manha.webp";
 import volNightSrc from "@/assets/volume-2-noite.webp";
@@ -27,9 +28,10 @@ function PazHome() {
   const arche = ARCHETYPES[student.archetype];
   const nextTurno: "manha" | "noite" = morningDone <= nightDone ? "manha" : "noite";
   const firstName = student.name?.split(" ")[0];
+  const first = useFirstMount();
 
   return (
-    <>
+    <div className={first ? "" : "rdp-no-anim"}>
       {/* Continuar jornada */}
       <div className="mt-5 rdp-fade-up rdp-light-card rounded-3xl p-4 sm:p-5">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
@@ -88,7 +90,7 @@ function PazHome() {
           done={nightDone}
         />
       </div>
-    </>
+    </div>
   );
 }
 

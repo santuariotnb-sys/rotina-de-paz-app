@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, type QueryClient } from "@tanstack/react-query";
+import { useFirstMount } from "@/hooks/useFirstMount";
 import { Play } from "lucide-react";
 import { devocionaisQueryOptions } from "@/lib/app-queries";
 
@@ -14,9 +15,10 @@ export const Route = createFileRoute("/app/devocionais")({
 
 function DevocionaisPage() {
   const { data: items = [], isLoading } = useQuery(devocionaisQueryOptions);
+  const first = useFirstMount();
 
   return (
-    <>
+    <div className={first ? "" : "rdp-no-anim"}>
       <div className="mt-6 text-center rdp-fade-up">
         <p className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-warm)]">Jornada de Transformação</p>
         <h1 className="mt-1 font-display text-4xl rdp-title-gradient">Devocionais de Fé</h1>
@@ -51,7 +53,7 @@ function DevocionaisPage() {
           </Link>
         ))}
       </div>
-    </>
+    </div>
   );
 }
 
