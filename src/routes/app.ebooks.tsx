@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { useFirstMount } from "@/hooks/useFirstMount";
 import { useQuery, type QueryClient } from "@tanstack/react-query";
 import { BookOpen, ShoppingCart, ChevronRight, Loader2 } from "lucide-react";
 import { type Ebook } from "@/data/ebooks";
@@ -72,9 +73,10 @@ function EbooksPage() {
   const colecao = ebooks.filter((e) => e.category === "colecao");
   const bonus = ebooks.filter((e) => e.category === "bonus");
   const embreve = ebooks.filter((e) => e.category === "embreve");
+  const first = useFirstMount();
 
   return (
-    <>
+    <div className={first ? "" : "rdp-no-anim"}>
       <div className="mt-6 text-center rdp-fade-up">
         <p className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-warm)]">Biblioteca</p>
         <h1 className="mt-1 font-display text-4xl rdp-title-gradient">E-books</h1>
@@ -92,7 +94,7 @@ function EbooksPage() {
       <Shelf title="Bonus inclusos" items={bonus} owned={owned} checkouts={checkouts} />
       <Shelf title="Colecao Rotina de Paz" items={colecao} owned={owned} checkouts={checkouts} />
       <Shelf title="Em breve" items={embreve} owned={owned} checkouts={checkouts} />
-    </>
+    </div>
   );
 }
 
@@ -230,6 +232,8 @@ function EbookCard({
           <img
             src={e.coverUrl}
             alt={e.title}
+            width={400}
+            height={600}
             loading="lazy"
             decoding="async"
             className="absolute inset-0 h-full w-full object-contain"

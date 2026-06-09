@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Quote, Star } from "lucide-react";
+import { useFirstMount } from "@/hooks/useFirstMount";
 
 export const Route = createFileRoute("/app/depoimentos")({
   component: DepoimentosPage,
@@ -12,8 +13,9 @@ const ITEMS = [
 ];
 
 function DepoimentosPage() {
+  const first = useFirstMount();
   return (
-    <>
+    <div className={first ? "" : "rdp-no-anim"}>
       <div className="mt-6 text-center rdp-fade-up">
         <p className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-warm)]">Comunidade</p>
         <h1 className="mt-1 font-display text-4xl rdp-title-gradient">Depoimentos</h1>
@@ -33,6 +35,6 @@ function DepoimentosPage() {
           </li>
         ))}
       </ol>
-    </>
+    </div>
   );
 }

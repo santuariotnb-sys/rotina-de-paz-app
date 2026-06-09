@@ -836,7 +836,9 @@ html, body { overflow-x: hidden; width: 100%; }
   background: linear-gradient(90deg, transparent, var(--line-gold), transparent);
 }
 @keyframes rdp-fade-up { 0% {opacity:0; transform: translateY(8px);} 100% {opacity:1; transform: translateY(0);} }
-.rdp-fade-up { animation: rdp-fade-up 500ms ease-out both; }
+.rdp-fade-up { animation: rdp-fade-up 250ms ease-out both; }
+.rdp-no-anim,
+.rdp-no-anim .rdp-fade-up { animation: none !important; opacity: 1; transform: none; }
 @keyframes rdp-pulse-gold {
   0%,100% { box-shadow: 0 0 0 0 rgba(201,168,118,0.55); }
   70% { box-shadow: 0 0 0 12px rgba(201,168,118,0); }
