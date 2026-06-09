@@ -25,8 +25,8 @@ export const getRouter = () => {
     // Skeleton aparece em ~100ms (default era 1000ms → tela congelava 1s ao trocar de aba).
     // Com cache quente (prefetch no shell) o loader resolve na hora e nem chega a mostrar.
     defaultPendingMs: 100,
-    // Mínimo de exibição do skeleton (evita flash) sem somar latência perceptível.
-    defaultPendingMinMs: 300,
+    // Cache quente: skeleton nem aparece. Cache frio: skeleton por quanto o loader precisar.
+    defaultPendingMinMs: 0,
   });
 
   return router;
