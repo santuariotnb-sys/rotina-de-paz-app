@@ -3,16 +3,7 @@ import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { processKirvanoPayload } from "./kirvano.server";
-
-async function assertAdmin(userId: string) {
-  const { data, error } = await supabaseAdmin
-    .from("admin_users")
-    .select("id")
-    .eq("user_id", userId)
-    .maybeSingle();
-  if (error) throw new Error(error.message);
-  if (!data) throw new Error("Acesso negado: apenas admins.");
-}
+import { assertAdmin } from "./server-auth";
 
 export const replayWebhookLog = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])

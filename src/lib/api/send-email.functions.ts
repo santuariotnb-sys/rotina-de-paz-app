@@ -2,19 +2,10 @@ import { createServerFn } from "@tanstack/react-start";
 import { Resend } from "resend";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { supabaseAdmin } from "@/integrations/supabase/client.server";
+import { assertAdmin } from "@/lib/admin/server-auth";
 
 const FROM = "Rotina de Paz <noreply@rotinadepaz.com.br>";
 const SUPPORT_EMAIL = "rotinadepaz.suporte@gmail.com";
-
-async function assertAdmin(userId: string) {
-  const { data, error } = await supabaseAdmin
-    .from("admin_users")
-    .select("id")
-    .eq("user_id", userId)
-    .maybeSingle();
-  if (error || !data) throw new Error("Unauthorized");
-}
 
 function escapeHtml(str: string): string {
   return str
