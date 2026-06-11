@@ -124,6 +124,8 @@ function AdminConfigPage() {
 
       <TestEventSection />
 
+      <InstallmentConfigSection />
+
       <GlassCard className="p-5">
         <h2 className="text-[15px] font-semibold text-[var(--adm-navy-deep)]">Próximos passos</h2>
         <p className="mt-1 text-[12px] text-[var(--adm-text-muted)]">
@@ -254,6 +256,140 @@ function TestEventSection() {
           <p className="mt-0.5">{result.message}</p>
         </div>
       )}
+    </GlassCard>
+  );
+}
+
+function InstallmentConfigSection() {
+  const [rate, setRate] = useState("");
+  const [freeCount, setFreeCount] = useState("");
+  const [maxInst, setMaxInst] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+  const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
+
+  // checkout schema — typed client doesn't know it, cast through unknown
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const ckClient = (supabase as any).schema("checkout");
+
+  useEffect(() => {
+    ckClient
+      .from("checkout_config")
+      .select("key, value")
+      .in("key", ["installment_interest_rate", "installment_free_count", "installment_max"])
+      .then(({ data }: { data: { key: string; value: string }[] | null }) => {
+        for (const r of (data ?? [])) {
+          const v = typeof r.value === "string" ? r.value : String(r.value);
+          if (r.key === "installment_interest_rate") setRate(v);
+          if (r.key === "installment_free_count") setFreeCount(v);
+          if (r.key === "installment_max") setMaxInst(v);
+        }
+        setLoaded(true);
+      });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  async function save() {
+    setSaving(true);
+    setMsg(null);
+    try {
+      const updates = [
+        { key: "installment_interest_rate", value: JSON.stringify(rate) },
+        { key: "installment_free_count", value: JSON.stringify(freeCount) },
+        { key: "installment_max", value: JSON.stringify(maxInst) },
+      ];
+      for (const u of updates) {
+        const { error } = await ckClient
+          .from("checkout_config")
+          .update({ value: u.value, updated_at: new Date().toISOString(), updated_by: "admin" })
+          .eq("key", u.key);
+        if (error) throw new Error(`${u.key}: ${error.message}`);
+      }
+      setMsg({ ok: true, text: "Configuração salva. O checkout e quiz refletem imediatamente." });
+    } catch (e) {
+      setMsg({ ok: false, text: e instanceof Error ? e.message : "Falha ao salvar." });
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  if (!loaded) return null;
+
+  return (
+    <GlassCard className="p-5">
+      <div className="flex items-center gap-3">
+        <div className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 text-white">
+          <Zap className="h-5 w-5" />
+        </div>
+        <div>
+          <h2 className="text-[15px] font-semibold text-[var(--adm-navy-deep)]">Parcelas e Juros</h2>
+          <p className="text-[12px] text-[var(--adm-text-muted)]">
+            Configuração de parcelas no checkout. Alterações refletem imediatamente, sem deploy.
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-4 grid gap-3 sm:grid-cols-3">
+        <div>
+          <label className="block text-[11px] uppercase tracking-wide text-[var(--adm-text-muted)]">
+            Taxa de juros (%/mês)
+          </label>
+          <input
+            type="number"
+            step="0.01"
+            min="0"
+            value={rate}
+            onChange={(e) => setRate(e.target.value)}
+            className="adm-input mt-1"
+            placeholder="2.99"
+          />
+          <p className="mt-0.5 text-[10px] text-[var(--adm-text-muted)]">Juros simples por mês</p>
+        </div>
+        <div>
+          <label className="block text-[11px] uppercase tracking-wide text-[var(--adm-text-muted)]">
+            Parcelas sem juros
+          </label>
+          <input
+            type="number"
+            min="1"
+            max="12"
+            value={freeCount}
+            onChange={(e) => setFreeCount(e.target.value)}
+            className="adm-input mt-1"
+            placeholder="3"
+          />
+          <p className="mt-0.5 text-[10px] text-[var(--adm-text-muted)]">1× até N× sem juros</p>
+        </div>
+        <div>
+          <label className="block text-[11px] uppercase tracking-wide text-[var(--adm-text-muted)]">
+            Máximo de parcelas
+          </label>
+          <input
+            type="number"
+            min="1"
+            max="12"
+            value={maxInst}
+            onChange={(e) => setMaxInst(e.target.value)}
+            className="adm-input mt-1"
+            placeholder="12"
+          />
+        </div>
+      </div>
+
+      <div className="mt-4 flex items-center gap-3">
+        <button
+          onClick={save}
+          disabled={saving}
+          className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-[#3B5BFD] to-[#2745D8] px-4 py-2 text-[13px] font-semibold text-white shadow-md hover:brightness-110 disabled:opacity-60"
+        >
+          {saving ? "Salvando…" : "Salvar configuração"}
+        </button>
+        {msg && (
+          <span className={`text-[12px] ${msg.ok ? "text-emerald-600" : "text-rose-600"}`}>
+            {msg.text}
+          </span>
+        )}
+      </div>
     </GlassCard>
   );
 }
