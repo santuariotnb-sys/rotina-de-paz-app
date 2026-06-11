@@ -19,6 +19,7 @@ type ProductRow = {
   description: string | null;
   cover_url: string | null;
   price_cents: number;
+  anchor_price_cents: number | null;
   currency: string;
   status: "draft" | "active" | "archived";
   kind: "method" | "course" | "ebook" | "bundle" | "other";
@@ -26,6 +27,10 @@ type ProductRow = {
   created_at: string;
   updated_at: string;
   checkout_url: string | null;
+  offer_headline: string | null;
+  offer_subtext: string | null;
+  offer_badge: string | null;
+  offer_urgency: string | null;
 };
 
 type OfferRow = {
@@ -108,7 +113,7 @@ function AdminProductsPage() {
             Fase 2
           </p>
           <h1 className="mt-1 text-2xl font-semibold text-[var(--adm-navy-deep)]">
-            Produtos &amp; Kirvano
+            Produtos Primordia
           </h1>
           <p className="mt-1 text-[13px] text-[var(--adm-text-muted)]">
             Cadastre produtos, vincule ofertas da Kirvano e libere acesso automaticamente após o pagamento.
@@ -262,11 +267,16 @@ function ProductEditor({
     description: product?.description ?? "",
     cover_url: product?.cover_url ?? "",
     price_cents: product?.price_cents ?? 0,
+    anchor_price_cents: product?.anchor_price_cents ?? "",
     currency: product?.currency ?? "BRL",
     status: product?.status ?? "draft",
     kind: product?.kind ?? "method",
     content_ref: JSON.stringify(product?.content_ref ?? {}, null, 2),
     checkout_url: product?.checkout_url ?? "",
+    offer_headline: product?.offer_headline ?? "",
+    offer_subtext: product?.offer_subtext ?? "",
+    offer_badge: product?.offer_badge ?? "",
+    offer_urgency: product?.offer_urgency ?? "",
   });
   const [err, setErr] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
@@ -288,11 +298,16 @@ function ProductEditor({
         description: form.description || null,
         cover_url: form.cover_url || null,
         price_cents: Number(form.price_cents) || 0,
+        anchor_price_cents: form.anchor_price_cents ? Number(form.anchor_price_cents) : null,
         currency: form.currency,
         status: form.status,
         kind: form.kind,
         content_ref: contentRef as never,
         checkout_url: form.checkout_url.trim() || null,
+        offer_headline: form.offer_headline.trim() || null,
+        offer_subtext: form.offer_subtext.trim() || null,
+        offer_badge: form.offer_badge.trim() || null,
+        offer_urgency: form.offer_urgency.trim() || null,
       };
       if (!payload.slug || !payload.name) throw new Error("Slug e nome são obrigatórios.");
 
@@ -398,6 +413,55 @@ function ProductEditor({
             className="adm-input"
           />
         </Field>
+        <hr className="border-slate-200/60" />
+        <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-[var(--adm-text-muted)]">
+          Copy da Oferta
+        </p>
+        <Field label="Preço âncora (centavos)" hint={`Pré-visualização: ${brl(Number(form.anchor_price_cents) || 0)}`}>
+          <input
+            type="number"
+            min={0}
+            value={form.anchor_price_cents}
+            onChange={(e) => setForm({ ...form, anchor_price_cents: e.target.value })}
+            placeholder="Ex: 19700"
+            className="adm-input"
+          />
+        </Field>
+        <Field label="Offer headline" hint="Título principal da oferta no checkout">
+          <input
+            value={form.offer_headline}
+            onChange={(e) => setForm({ ...form, offer_headline: e.target.value })}
+            placeholder="Ex: Oferta especial de lançamento"
+            className="adm-input"
+          />
+        </Field>
+        <Field label="Offer subtext" hint="Subtítulo ou descrição curta abaixo do headline">
+          <textarea
+            rows={2}
+            value={form.offer_subtext}
+            onChange={(e) => setForm({ ...form, offer_subtext: e.target.value })}
+            placeholder="Ex: Acesso vitalício + bônus exclusivos"
+            className="adm-input resize-y"
+          />
+        </Field>
+        <Field label="Offer badge" hint="Badge/selo exibido no card (ex: MAIS VENDIDO)">
+          <input
+            value={form.offer_badge}
+            onChange={(e) => setForm({ ...form, offer_badge: e.target.value })}
+            placeholder="Ex: MAIS VENDIDO"
+            className="adm-input"
+          />
+        </Field>
+        <Field label="Offer urgency" hint="Texto de urgência exibido na oferta">
+          <input
+            value={form.offer_urgency}
+            onChange={(e) => setForm({ ...form, offer_urgency: e.target.value })}
+            placeholder="Ex: Últimas vagas com desconto"
+            className="adm-input"
+          />
+        </Field>
+        <hr className="border-slate-200/60" />
+
         <Field label="Content ref (JSON)" hint='Qual módulo do app esse produto libera. Ex: {"method":"rotina-de-paz"}'>
           <textarea
             rows={4}

@@ -495,6 +495,7 @@ export type Database = {
       }
       products: {
         Row: {
+          anchor_price_cents: number | null
           checkout_url: string | null
           content_ref: Json
           cover_url: string | null
@@ -504,12 +505,17 @@ export type Database = {
           id: string
           kind: string
           name: string
+          offer_badge: string | null
+          offer_headline: string | null
+          offer_subtext: string | null
+          offer_urgency: string | null
           price_cents: number
           slug: string
           status: string
           updated_at: string
         }
         Insert: {
+          anchor_price_cents?: number | null
           checkout_url?: string | null
           content_ref?: Json
           cover_url?: string | null
@@ -519,12 +525,17 @@ export type Database = {
           id?: string
           kind?: string
           name: string
+          offer_badge?: string | null
+          offer_headline?: string | null
+          offer_subtext?: string | null
+          offer_urgency?: string | null
           price_cents?: number
           slug: string
           status?: string
           updated_at?: string
         }
         Update: {
+          anchor_price_cents?: number | null
           checkout_url?: string | null
           content_ref?: Json
           cover_url?: string | null
@@ -534,6 +545,10 @@ export type Database = {
           id?: string
           kind?: string
           name?: string
+          offer_badge?: string | null
+          offer_headline?: string | null
+          offer_subtext?: string | null
+          offer_urgency?: string | null
           price_cents?: number
           slug?: string
           status?: string
