@@ -82,6 +82,7 @@ function AdminProductsPage() {
   const [search, setSearch] = useState("");
   const [editing, setEditing] = useState<ProductRow | "new" | null>(null);
   const [offersFor, setOffersFor] = useState<ProductRow | null>(null);
+  const [priceOffersFor, setPriceOffersFor] = useState<ProductRow | null>(null);
 
   const { data: products = [], isLoading, error } = useQuery({
     queryKey: ["admin", "products"],
@@ -198,12 +199,20 @@ function AdminProductsPage() {
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-1.5">
                         <button
+                          onClick={() => setPriceOffersFor(p)}
+                          className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-[12px] text-emerald-600 hover:bg-emerald-50"
+                          title="Variações de preço/oferta"
+                        >
+                          <Package className="h-3.5 w-3.5" />
+                          Variações
+                        </button>
+                        <button
                           onClick={() => setOffersFor(p)}
                           className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-[12px] text-[var(--adm-accent)] hover:bg-blue-50"
                           title="Vincular ofertas Kirvano"
                         >
                           <LinkIcon className="h-3.5 w-3.5" />
-                          Ofertas
+                          Kirvano
                         </button>
                         <button
                           onClick={() => setEditing(p)}
@@ -244,6 +253,12 @@ function AdminProductsPage() {
         <OfferEditor
           product={offersFor}
           onClose={() => setOffersFor(null)}
+        />
+      )}
+      {priceOffersFor && (
+        <PriceOfferEditor
+          product={priceOffersFor}
+          onClose={() => setPriceOffersFor(null)}
         />
       )}
     </div>
@@ -595,6 +610,285 @@ function OfferEditor({ product, onClose }: { product: ProductRow; onClose: () =>
         </div>
       </div>
     </Drawer>
+  );
+}
+
+// ---------------- Price Offer editor (drawer) ----------------
+type PriceOfferRow = {
+  id: string;
+  product_id: string;
+  offer_key: string;
+  price_cents: number;
+  anchor_price_cents: number | null;
+  offer_headline: string | null;
+  offer_subtext: string | null;
+  badge: string | null;
+  urgency_text: string | null;
+  active: boolean;
+  is_default: boolean;
+};
+
+async function listPriceOffers(productId: string): Promise<PriceOfferRow[]> {
+  const { data, error } = await supabase
+    .from("product_offers")
+    .select("*")
+    .eq("product_id", productId)
+    .order("is_default", { ascending: false })
+    .order("created_at", { ascending: true });
+  if (error) throw new Error(error.message);
+  return (data ?? []) as PriceOfferRow[];
+}
+
+function PriceOfferEditor({ product, onClose }: { product: ProductRow; onClose: () => void }) {
+  const qc = useQueryClient();
+  const { data: offers = [], isLoading } = useQuery({
+    queryKey: ["admin", "price-offers", product.id],
+    queryFn: () => listPriceOffers(product.id),
+  });
+  const [editingOffer, setEditingOffer] = useState<PriceOfferRow | "new" | null>(null);
+
+  const toggle = useMutation({
+    mutationFn: async ({ id, active }: { id: string; active: boolean }) => {
+      const { error } = await supabase.from("product_offers").update({ active }).eq("id", id);
+      if (error) throw new Error(error.message);
+      await logAdminAction("price_offer.toggle", { resourceType: "product_offer", resourceId: id, metadata: { active } });
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["admin", "price-offers", product.id] }),
+  });
+
+  const del = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from("product_offers").delete().eq("id", id);
+      if (error) throw new Error(error.message);
+      await logAdminAction("price_offer.delete", { resourceType: "product_offer", resourceId: id });
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["admin", "price-offers", product.id] }),
+  });
+
+  return (
+    <Drawer onClose={onClose} title={`Variações · ${product.name}`}>
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <p className="text-[12px] text-[var(--adm-text-muted)]">
+            Cada variação tem seu preço e copy. Use <code className="rounded bg-slate-100 px-1 text-[11px]">?oferta=key</code> na URL do quiz.
+          </p>
+          <button
+            onClick={() => setEditingOffer("new")}
+            className="inline-flex items-center gap-1 rounded-lg bg-[var(--adm-navy-deep)] px-3 py-1.5 text-[12px] font-semibold text-white hover:brightness-110"
+          >
+            <Plus className="h-3.5 w-3.5" />
+            Nova
+          </button>
+        </div>
+
+        <div className="rounded-xl border border-slate-200/70 bg-white">
+          {isLoading ? (
+            <p className="p-4 text-[12px] text-[var(--adm-text-muted)]">Carregando…</p>
+          ) : offers.length === 0 ? (
+            <p className="p-4 text-[12px] text-[var(--adm-text-muted)]">Nenhuma variação ainda.</p>
+          ) : (
+            <ul className="divide-y divide-slate-100">
+              {offers.map((o) => (
+                <li key={o.id} className="flex items-center justify-between gap-3 px-3 py-2.5">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2">
+                      <p className="font-mono text-[12px] text-[var(--adm-navy-deep)]">{o.offer_key}</p>
+                      {o.is_default && (
+                        <span className="rounded-full bg-blue-100 px-1.5 py-0.5 text-[10px] font-medium text-blue-700">
+                          DEFAULT
+                        </span>
+                      )}
+                      {!o.active && (
+                        <span className="rounded-full bg-slate-200 px-1.5 py-0.5 text-[10px] font-medium text-slate-600">
+                          INATIVA
+                        </span>
+                      )}
+                    </div>
+                    <p className="mt-0.5 text-[11px] text-[var(--adm-text-muted)]">
+                      {brl(o.price_cents)}
+                      {o.anchor_price_cents ? ` (de ${brl(o.anchor_price_cents)})` : ""}
+                      {o.offer_headline ? ` · ${o.offer_headline}` : ""}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <button
+                      onClick={() => toggle.mutate({ id: o.id, active: !o.active })}
+                      className={`rounded-md px-2 py-1 text-[11px] ${o.active ? "text-amber-600 hover:bg-amber-50" : "text-emerald-600 hover:bg-emerald-50"}`}
+                    >
+                      {o.active ? "Desativar" : "Ativar"}
+                    </button>
+                    <button
+                      onClick={() => setEditingOffer(o)}
+                      className="rounded-md px-2 py-1 text-[11px] text-[var(--adm-navy-deep)] hover:bg-slate-100"
+                    >
+                      Editar
+                    </button>
+                    {!o.is_default && (
+                      <button
+                        onClick={() => { if (confirm(`Apagar oferta "${o.offer_key}"?`)) del.mutate(o.id); }}
+                        className="rounded-md p-1 text-rose-500 hover:bg-rose-50"
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
+                      </button>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+
+      {editingOffer && (
+        <PriceOfferForm
+          product={product}
+          offer={editingOffer === "new" ? null : editingOffer}
+          onClose={() => setEditingOffer(null)}
+          onSaved={() => {
+            qc.invalidateQueries({ queryKey: ["admin", "price-offers", product.id] });
+            setEditingOffer(null);
+          }}
+        />
+      )}
+    </Drawer>
+  );
+}
+
+function PriceOfferForm({
+  product,
+  offer,
+  onClose,
+  onSaved,
+}: {
+  product: ProductRow;
+  offer: PriceOfferRow | null;
+  onClose: () => void;
+  onSaved: () => void;
+}) {
+  const isNew = !offer;
+  const [form, setForm] = useState({
+    offer_key: offer?.offer_key ?? "",
+    price_cents: offer?.price_cents ?? product.price_cents,
+    anchor_price_cents: offer?.anchor_price_cents ?? product.anchor_price_cents ?? "",
+    offer_headline: offer?.offer_headline ?? "",
+    offer_subtext: offer?.offer_subtext ?? "",
+    badge: offer?.badge ?? "",
+    urgency_text: offer?.urgency_text ?? "",
+    is_default: offer?.is_default ?? false,
+  });
+  const [err, setErr] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
+
+  async function submit(e: React.FormEvent) {
+    e.preventDefault();
+    setErr(null);
+    setSaving(true);
+    try {
+      const key = form.offer_key.trim().toLowerCase().replace(/[^a-z0-9_-]/g, "-");
+      if (!key) throw new Error("Chave da oferta é obrigatória.");
+      if (!form.price_cents || Number(form.price_cents) <= 0) throw new Error("Preço inválido.");
+
+      const payload = {
+        product_id: product.id,
+        offer_key: key,
+        price_cents: Number(form.price_cents),
+        anchor_price_cents: form.anchor_price_cents ? Number(form.anchor_price_cents) : null,
+        offer_headline: form.offer_headline.trim() || null,
+        offer_subtext: form.offer_subtext.trim() || null,
+        badge: form.badge.trim() || null,
+        urgency_text: form.urgency_text.trim() || null,
+        is_default: form.is_default,
+        active: true,
+      };
+
+      if (isNew) {
+        const { error } = await supabase.from("product_offers").insert(payload);
+        if (error) throw new Error(error.message);
+        await logAdminAction("price_offer.create", { resourceType: "product_offer", resourceId: product.id, metadata: { offer_key: key } });
+      } else {
+        const { error } = await supabase.from("product_offers").update(payload).eq("id", offer!.id);
+        if (error) throw new Error(error.message);
+        await logAdminAction("price_offer.update", { resourceType: "product_offer", resourceId: offer!.id });
+      }
+      onSaved();
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : "Falha ao salvar.");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/50 backdrop-blur-sm">
+      <div className="adm-fade-up w-full max-w-md rounded-2xl bg-white p-5 shadow-2xl">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-[14px] font-semibold text-[var(--adm-navy-deep)]">
+            {isNew ? "Nova variação" : `Editar · ${offer?.offer_key}`}
+          </h3>
+          <button onClick={onClose} className="rounded-md p-1 text-slate-500 hover:bg-slate-100">
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+        <form onSubmit={submit} className="space-y-3">
+          <Field label="Chave (URL-friendly)" required hint="ex: baixa27, black, promo-junho">
+            <input
+              value={form.offer_key}
+              onChange={(e) => setForm({ ...form, offer_key: e.target.value })}
+              className="adm-input"
+              required
+              disabled={!isNew && offer?.is_default}
+            />
+          </Field>
+          <div className="grid grid-cols-2 gap-3">
+            <Field label="Preço (centavos)" required hint={brl(Number(form.price_cents) || 0)}>
+              <input
+                type="number" min={0}
+                value={form.price_cents}
+                onChange={(e) => setForm({ ...form, price_cents: Number(e.target.value) })}
+                className="adm-input" required
+              />
+            </Field>
+            <Field label="Âncora (centavos)" hint={brl(Number(form.anchor_price_cents) || 0)}>
+              <input
+                type="number" min={0}
+                value={form.anchor_price_cents}
+                onChange={(e) => setForm({ ...form, anchor_price_cents: e.target.value })}
+                className="adm-input"
+              />
+            </Field>
+          </div>
+          <Field label="Headline">
+            <input value={form.offer_headline} onChange={(e) => setForm({ ...form, offer_headline: e.target.value })} className="adm-input" />
+          </Field>
+          <Field label="Subtexto">
+            <textarea rows={2} value={form.offer_subtext} onChange={(e) => setForm({ ...form, offer_subtext: e.target.value })} className="adm-input resize-y" />
+          </Field>
+          <div className="grid grid-cols-2 gap-3">
+            <Field label="Badge">
+              <input value={form.badge} onChange={(e) => setForm({ ...form, badge: e.target.value })} className="adm-input" placeholder="PROMO" />
+            </Field>
+            <Field label="Urgência">
+              <input value={form.urgency_text} onChange={(e) => setForm({ ...form, urgency_text: e.target.value })} className="adm-input" />
+            </Field>
+          </div>
+
+          {err && <p className="rounded-lg bg-rose-50 px-3 py-2 text-[12px] text-rose-600">{err}</p>}
+
+          <div className="flex justify-end gap-2 pt-2">
+            <button type="button" onClick={onClose} className="rounded-lg px-4 py-2 text-[13px] text-[var(--adm-text-muted)] hover:bg-slate-100">
+              Cancelar
+            </button>
+            <button
+              type="submit" disabled={saving}
+              className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-br from-[#3B5BFD] to-[#2745D8] px-4 py-2 text-[13px] font-semibold text-white shadow-md transition hover:brightness-110 disabled:opacity-60"
+            >
+              <Save className="h-3.5 w-3.5" />
+              {saving ? "Salvando…" : "Salvar"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 }
 

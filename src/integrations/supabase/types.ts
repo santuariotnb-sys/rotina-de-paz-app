@@ -461,6 +461,59 @@ export type Database = {
         }
         Relationships: []
       }
+      product_offers: {
+        Row: {
+          id: string
+          product_id: string
+          offer_key: string
+          price_cents: number
+          anchor_price_cents: number | null
+          offer_headline: string | null
+          offer_subtext: string | null
+          badge: string | null
+          urgency_text: string | null
+          active: boolean
+          is_default: boolean
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          product_id: string
+          offer_key: string
+          price_cents: number
+          anchor_price_cents?: number | null
+          offer_headline?: string | null
+          offer_subtext?: string | null
+          badge?: string | null
+          urgency_text?: string | null
+          active?: boolean
+          is_default?: boolean
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          product_id?: string
+          offer_key?: string
+          price_cents?: number
+          anchor_price_cents?: number | null
+          offer_headline?: string | null
+          offer_subtext?: string | null
+          badge?: string | null
+          urgency_text?: string | null
+          active?: boolean
+          is_default?: boolean
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_offers_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       product_kirvano_offers: {
         Row: {
           created_at: string
