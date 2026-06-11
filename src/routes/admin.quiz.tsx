@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { BarChart3, Download, PieChart as PieIcon, TrendingUp, Users } from "lucide-react";
 import {
   BarChart,
@@ -25,6 +26,11 @@ import {
   type Period,
   sinceISO,
 } from "@/lib/admin/constants";
+import { getQuizFunnel } from "@/lib/admin/quiz-funnel.functions";
+import {
+  getCheckoutFunnel,
+  getFullFunnel,
+} from "@/lib/admin/checkout-funnel.functions";
 
 export const Route = createFileRoute("/admin/quiz")({
   component: AdminQuizPage,
@@ -58,6 +64,7 @@ type QuizResponse = {
   question_key: string;
   answer_value: string;
   answer_text: string;
+  time_to_answer: number | null;
   created_at: string;
 };
 
@@ -111,6 +118,24 @@ function AdminQuizPage() {
       if (error) throw error;
       return (data ?? []) as { buyer_email: string | null; status: string }[];
     },
+  });
+
+  const fetchFunnel = useServerFn(getQuizFunnel);
+  const { data: funnelSteps = [], isLoading: loadingFunnel } = useQuery({
+    queryKey: ["adm-quiz-funnel", period.label],
+    queryFn: () => fetchFunnel({ data: { days: period.days ?? 9999 } }),
+  });
+
+  const fetchCheckoutFunnel = useServerFn(getCheckoutFunnel);
+  const { data: checkoutSteps = [] } = useQuery({
+    queryKey: ["adm-checkout-funnel", period.label],
+    queryFn: () => fetchCheckoutFunnel({ data: { days: period.days ?? 9999 } }),
+  });
+
+  const fetchFullFunnel = useServerFn(getFullFunnel);
+  const { data: fullFunnelSteps = [] } = useQuery({
+    queryKey: ["adm-full-funnel", period.label],
+    queryFn: () => fetchFullFunnel({ data: { days: period.days ?? 9999 } }),
   });
 
   const isLoading = loadingR || loadingL;
@@ -257,6 +282,64 @@ function AdminQuizPage() {
     });
   }, [responses, kpis.uniqueLeads]);
 
+  // Funnel KPIs — beacon-only cohort (always decreasing)
+  const funnelKpis = useMemo(() => {
+    if (funnelSteps.length === 0) return null;
+    const arrival = funnelSteps.find((s) => s.stage === "arrival");
+    const lastQ = funnelSteps.find((s) => s.stage === "q_desejo");
+    const contact = funnelSteps.find((s) => s.stage === "contact");
+
+    // Leak point: biggest drop — ignore steps where the PREVIOUS step had < 2
+    // reached (artifact of newly-instrumented stages with no data yet)
+    const leakPoint =
+      funnelSteps
+        .filter((s, i) => {
+          if (s.drop_pct <= 0) return false;
+          const prev = i > 0 ? funnelSteps[i - 1] : null;
+          return prev != null && prev.reached >= 2;
+        })
+        .sort((a, b) => b.drop_pct - a.drop_pct)[0] ?? null;
+
+    return {
+      arrivals: arrival?.reached ?? 0,
+      completedQuiz: lastQ?.reached ?? 0,
+      completionRate:
+        arrival && lastQ && arrival.reached > 0
+          ? Math.round((lastQ.reached / arrival.reached) * 100)
+          : 0,
+      emailsCaptured: contact?.reached ?? 0,
+      leakPoint,
+    };
+  }, [funnelSteps]);
+
+  // Checkout funnel KPIs
+  const checkoutKpis = useMemo(() => {
+    if (checkoutSteps.length === 0) return null;
+    const view = checkoutSteps.find((s) => s.stage === "view");
+    const purchase = checkoutSteps.find((s) => s.stage === "purchase");
+    const decline = checkoutSteps.find((s) => s.stage === "decline");
+
+    const leakPoint =
+      checkoutSteps
+        .filter((s, i) => {
+          if (s.drop_pct <= 0) return false;
+          const prev = i > 0 ? checkoutSteps[i - 1] : null;
+          return prev != null && prev.reached >= 2;
+        })
+        .sort((a, b) => b.drop_pct - a.drop_pct)[0] ?? null;
+
+    return {
+      views: view?.reached ?? 0,
+      purchases: purchase?.reached ?? 0,
+      conversionRate:
+        view && purchase && view.reached > 0
+          ? Math.round((purchase.reached / view.reached) * 100)
+          : 0,
+      declines: decline?.reached ?? 0,
+      leakPoint,
+    };
+  }, [checkoutSteps]);
+
   const handleExportCsv = () => {
     const rows = leads.map((l) => ({
       id: l.id,
@@ -370,9 +453,117 @@ function AdminQuizPage() {
             )}
           </GlassCard>
 
+          {/* Funil de Abandono (quiz_funnel_events) */}
+          <GlassCard>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+                <TrendingUp className="h-5 w-5" />
+                Funil de Abandono
+              </h2>
+              <span className="text-xs text-zinc-400">
+                Dados de abandono desde 11/06/2026
+              </span>
+            </div>
+
+            {funnelSteps.length > 0 ? (
+              <>
+                {/* KPI row — beacon-only cohort */}
+                <div className="grid grid-cols-2 gap-3 mb-6 sm:grid-cols-4">
+                  <KpiCard
+                    label="Chegaram"
+                    value={funnelKpis?.arrivals ?? 0}
+                    icon={<Users className="h-4 w-4" />}
+                  />
+                  <KpiCard
+                    label="Completaram quiz"
+                    value={funnelKpis?.completedQuiz ?? 0}
+                    hint={funnelKpis?.completionRate ? `${funnelKpis.completionRate}% dos que chegaram` : undefined}
+                    icon={<TrendingUp className="h-4 w-4" />}
+                  />
+                  <KpiCard
+                    label="Deram email"
+                    value={funnelKpis?.emailsCaptured ?? 0}
+                    icon={<Users className="h-4 w-4" />}
+                  />
+                  {funnelKpis?.leakPoint && (
+                    <KpiCard
+                      label="Maior queda"
+                      value={`−${funnelKpis.leakPoint.drop_pct}%`}
+                      hint={funnelKpis.leakPoint.label}
+                      accent="rose"
+                      icon={<BarChart3 className="h-4 w-4" />}
+                    />
+                  )}
+                </div>
+
+                {/* Funnel bar chart */}
+                <ResponsiveContainer width="100%" height={320}>
+                  <BarChart data={funnelSteps} layout="vertical" margin={{ left: 120 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#333" />
+                    <XAxis type="number" stroke="#888" />
+                    <YAxis
+                      type="category"
+                      dataKey="label"
+                      stroke="#888"
+                      width={110}
+                      tick={{ fontSize: 12 }}
+                    />
+                    <Tooltip
+                      contentStyle={{ background: "#1a1a2e", border: "1px solid #333" }}
+                      formatter={(value: number, name: string) => {
+                        if (name === "reached") return [value, "Alcançaram"];
+                        return [value, name];
+                      }}
+                      labelFormatter={(label) => label}
+                    />
+                    <Bar dataKey="reached" fill="#3B82F6" radius={[0, 4, 4, 0]}>
+                      {funnelSteps.map((entry) => (
+                        <Cell
+                          key={entry.stage}
+                          fill={
+                            entry.drop_pct > 30
+                              ? "#EF4444"
+                              : entry.drop_pct > 15
+                                ? "#F59E0B"
+                                : "#3B82F6"
+                          }
+                        />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+
+                {/* Drop annotations */}
+                <div className="mt-3 space-y-1">
+                  {funnelSteps
+                    .filter((s) => s.drop_pct > 0)
+                    .map((s) => (
+                      <div key={s.stage} className="flex items-center gap-2 text-xs">
+                        <span
+                          className={`font-mono ${s.drop_pct > 30 ? "text-red-400" : s.drop_pct > 15 ? "text-yellow-400" : "text-zinc-400"}`}
+                        >
+                          −{s.drop_pct}%
+                        </span>
+                        <span className="text-zinc-500">{s.label}</span>
+                      </div>
+                    ))}
+                </div>
+              </>
+            ) : (
+              <p className="text-zinc-500 text-sm">
+                Sem dados de funil ainda. Os beacons começaram a coletar em 11/06/2026.
+              </p>
+            )}
+          </GlassCard>
+
           {/* Alcance por Pergunta */}
           <GlassCard>
-            <h2 className="mb-4 text-lg font-semibold text-white">Alcance por Pergunta</h2>
+            <h2 className="mb-4 text-lg font-semibold text-white flex items-center gap-2">
+              Respostas por Pergunta
+              <span className="text-xs font-normal text-zinc-500">
+                (dados pós-quiz — todos planos por construção)
+              </span>
+            </h2>
             <p className="mb-3 text-[12px] text-[#8A90A2]">
               % de leads que respondeu cada etapa (com persistência em lote, 100% indica que todos
               completaram)
@@ -523,6 +714,178 @@ function AdminQuizPage() {
                 </BarChart>
               </ResponsiveContainer>
             </div>
+          </GlassCard>
+
+          {/* ═══════════════════════════════════════════════════ */}
+          {/* Funil do Checkout                                  */}
+          {/* ═══════════════════════════════════════════════════ */}
+          <GlassCard>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+                <TrendingUp className="h-5 w-5" />
+                Funil do Checkout
+              </h2>
+              <span className="text-xs text-zinc-400">
+                Dados desde o deploy do canário
+              </span>
+            </div>
+
+            {checkoutSteps.length > 0 && checkoutSteps.some((s) => s.reached > 0) ? (
+              <>
+                <div className="grid grid-cols-2 gap-3 mb-6 sm:grid-cols-4">
+                  <KpiCard
+                    label="Chegaram"
+                    value={checkoutKpis?.views ?? 0}
+                    icon={<Users className="h-4 w-4" />}
+                  />
+                  <KpiCard
+                    label="Compraram"
+                    value={checkoutKpis?.purchases ?? 0}
+                    icon={<TrendingUp className="h-4 w-4" />}
+                    accent="green"
+                  />
+                  <KpiCard
+                    label="Conversão"
+                    value={`${checkoutKpis?.conversionRate ?? 0}%`}
+                    icon={<BarChart3 className="h-4 w-4" />}
+                  />
+                  {checkoutKpis?.leakPoint && (
+                    <KpiCard
+                      label="Maior queda"
+                      value={`−${checkoutKpis.leakPoint.drop_pct}%`}
+                      hint={checkoutKpis.leakPoint.label}
+                      accent="rose"
+                      icon={<BarChart3 className="h-4 w-4" />}
+                    />
+                  )}
+                </div>
+
+                <ResponsiveContainer width="100%" height={280}>
+                  <BarChart data={checkoutSteps} layout="vertical" margin={{ left: 140 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#333" />
+                    <XAxis type="number" stroke="#888" />
+                    <YAxis
+                      type="category"
+                      dataKey="label"
+                      stroke="#888"
+                      width={130}
+                      tick={{ fontSize: 12 }}
+                    />
+                    <Tooltip
+                      contentStyle={{ background: "#1a1a2e", border: "1px solid #333" }}
+                      formatter={(value: number, name: string) => {
+                        if (name === "reached") return [value, "Alcançaram"];
+                        return [value, name];
+                      }}
+                    />
+                    <Bar dataKey="reached" fill="#10B981" radius={[0, 4, 4, 0]}>
+                      {checkoutSteps.map((entry) => (
+                        <Cell
+                          key={entry.stage}
+                          fill={
+                            entry.drop_pct > 30
+                              ? "#EF4444"
+                              : entry.drop_pct > 15
+                                ? "#F59E0B"
+                                : "#10B981"
+                          }
+                        />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+
+                <div className="mt-3 space-y-1">
+                  {checkoutSteps
+                    .filter((s) => s.drop_pct > 0)
+                    .map((s) => (
+                      <div key={s.stage} className="flex items-center gap-2 text-xs">
+                        <span
+                          className={`font-mono ${s.drop_pct > 30 ? "text-red-400" : s.drop_pct > 15 ? "text-yellow-400" : "text-zinc-400"}`}
+                        >
+                          −{s.drop_pct}%
+                        </span>
+                        <span className="text-zinc-500">{s.label}</span>
+                      </div>
+                    ))}
+                </div>
+              </>
+            ) : (
+              <p className="text-zinc-500 text-sm">
+                Sem dados de checkout ainda. Os beacons coletam após o canário.
+              </p>
+            )}
+          </GlassCard>
+
+          {/* ═══════════════════════════════════════════════════ */}
+          {/* Funil Completo (Quiz → Compra)                    */}
+          {/* ═══════════════════════════════════════════════════ */}
+          <GlassCard>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+                <TrendingUp className="h-5 w-5" />
+                Funil Completo (Quiz → Compra)
+              </h2>
+              <span className="text-xs text-zinc-400">
+                Ponta a ponta por session_id
+              </span>
+            </div>
+
+            {fullFunnelSteps.length > 0 && fullFunnelSteps.some((s) => s.reached > 0) ? (
+              <>
+                <ResponsiveContainer width="100%" height={360}>
+                  <BarChart data={fullFunnelSteps} layout="vertical" margin={{ left: 140 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#333" />
+                    <XAxis type="number" stroke="#888" />
+                    <YAxis
+                      type="category"
+                      dataKey="label"
+                      stroke="#888"
+                      width={130}
+                      tick={{ fontSize: 12 }}
+                    />
+                    <Tooltip
+                      contentStyle={{ background: "#1a1a2e", border: "1px solid #333" }}
+                      formatter={(value: number, name: string) => {
+                        if (name === "reached") return [value, "Alcançaram"];
+                        return [value, name];
+                      }}
+                    />
+                    <Bar dataKey="reached" fill="#8B5CF6" radius={[0, 4, 4, 0]}>
+                      {fullFunnelSteps.map((entry) => (
+                        <Cell
+                          key={entry.stage}
+                          fill={
+                            entry.stage.startsWith("c_")
+                              ? entry.drop_pct > 30 ? "#EF4444" : entry.drop_pct > 15 ? "#F59E0B" : "#10B981"
+                              : entry.drop_pct > 30 ? "#EF4444" : entry.drop_pct > 15 ? "#F59E0B" : "#3B82F6"
+                          }
+                        />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+
+                <div className="mt-3 space-y-1">
+                  {fullFunnelSteps
+                    .filter((s) => s.drop_pct > 0)
+                    .map((s) => (
+                      <div key={s.stage} className="flex items-center gap-2 text-xs">
+                        <span
+                          className={`font-mono ${s.drop_pct > 30 ? "text-red-400" : s.drop_pct > 15 ? "text-yellow-400" : "text-zinc-400"}`}
+                        >
+                          −{s.drop_pct}%
+                        </span>
+                        <span className="text-zinc-500">{s.label}</span>
+                      </div>
+                    ))}
+                </div>
+              </>
+            ) : (
+              <p className="text-zinc-500 text-sm">
+                Sem dados ponta a ponta. Requer quiz + checkout instrumentados com session_id compartilhado.
+              </p>
+            )}
           </GlassCard>
         </>
       )}
