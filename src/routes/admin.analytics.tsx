@@ -23,15 +23,14 @@ import {
   PERIODS,
   type Period,
 } from "@/lib/admin/constants";
+import type { TopSegment, QuizConversionRow } from "@/lib/admin/analytics";
 import {
-  fetchTopSegments,
-  fetchFunnel,
-  fetchRevenueBreakdown,
-  fetchQuizConversion,
-  fetchCohortWeekly,
-  type TopSegment,
-  type QuizConversionRow,
-} from "@/lib/admin/analytics";
+  getTopSegments,
+  getFunnel,
+  getRevenueBreakdown,
+  getQuizConversion,
+  getCohortWeekly,
+} from "@/lib/admin/analytics.functions";
 
 export const Route = createFileRoute("/admin/analytics")({
   component: AdminAnalyticsPage,
@@ -71,27 +70,27 @@ function AdminAnalyticsPage() {
 
   const { data: funnel, isLoading: loadingF } = useQuery({
     queryKey: ["analytics-funnel", days],
-    queryFn: () => fetchFunnel(days),
+    queryFn: () => getFunnel({ data: { days } }),
   });
 
   const { data: segments = [], isLoading: loadingS } = useQuery({
     queryKey: ["analytics-segments", days],
-    queryFn: () => fetchTopSegments(days),
+    queryFn: () => getTopSegments({ data: { days } }),
   });
 
   const { data: revenue = [], isLoading: loadingR } = useQuery({
     queryKey: ["analytics-revenue", days],
-    queryFn: () => fetchRevenueBreakdown(days),
+    queryFn: () => getRevenueBreakdown({ data: { days } }),
   });
 
   const { data: quizConv = [], isLoading: loadingQ } = useQuery({
     queryKey: ["analytics-quiz-conv", days],
-    queryFn: () => fetchQuizConversion(days),
+    queryFn: () => getQuizConversion({ data: { days } }),
   });
 
   const { data: cohort = [] } = useQuery({
     queryKey: ["analytics-cohort"],
-    queryFn: () => fetchCohortWeekly(12),
+    queryFn: () => getCohortWeekly({ data: { weeks: 12 } }),
   });
 
   const isLoading = loadingF || loadingS || loadingR || loadingQ;
