@@ -26,34 +26,25 @@ function AdminOverview() {
     staleTime: 30_000,
   });
 
+  // Receita de PURCHASES (fonte canônica), não entitlements × price_cents
   const { data: sales, isLoading: salesLoading } = useQuery({
     queryKey: ["admin", "overview", "sales"],
     queryFn: async () => {
       const todayStart = new Date();
       todayStart.setHours(0, 0, 0, 0);
-      const [{ data: products }, { data: allEnts }] = await Promise.all([
-        supabase.from("products").select("id, price_cents"),
-        supabase
-          .from("entitlements")
-          .select("product_id, status, granted_at")
-          .eq("status", "active"),
+      const sb = supabase as any;
+      const [allRes, todayRes] = await Promise.all([
+        sb.from("purchases").select("gross_value").eq("status", "confirmed"),
+        sb.from("purchases").select("gross_value").eq("status", "confirmed").gte("created_at", todayStart.toISOString()),
       ]);
-      const priceById = new Map<string, number>();
-      for (const p of products ?? []) priceById.set(p.id, p.price_cents ?? 0);
-      let today = 0;
-      let total = 0;
-      let todayCount = 0;
-      let totalCount = 0;
-      for (const e of allEnts ?? []) {
-        const price = priceById.get(e.product_id) ?? 0;
-        total += price;
-        totalCount++;
-        if (new Date(e.granted_at) >= todayStart) {
-          today += price;
-          todayCount++;
-        }
-      }
-      return { today, total, todayCount, totalCount };
+      const total = (allRes.data ?? []).reduce((s: number, r: { gross_value: number }) => s + (r.gross_value ?? 0), 0);
+      const today = (todayRes.data ?? []).reduce((s: number, r: { gross_value: number }) => s + (r.gross_value ?? 0), 0);
+      return {
+        today,
+        total,
+        todayCount: (todayRes.data ?? []).length,
+        totalCount: (allRes.data ?? []).length,
+      };
     },
     staleTime: 30_000,
   });
@@ -108,7 +99,7 @@ function AdminOverview() {
           loading={salesLoading}
           icon={<DollarSign className="h-5 w-5" />}
           accent="amber"
-          hint={`${sales?.todayCount ?? 0} aprovações desde 00:00`}
+          hint={`${sales?.todayCount ?? 0} vendas confirmadas hoje`}
         />
         <KpiCard
           label="Vendas totais"
@@ -116,7 +107,7 @@ function AdminOverview() {
           loading={salesLoading}
           icon={<TrendingUp className="h-5 w-5" />}
           accent="green"
-          hint={`${sales?.totalCount ?? 0} acessos ativos acumulados`}
+          hint={`${sales?.totalCount ?? 0} vendas confirmadas total`}
         />
       </section>
 
@@ -127,7 +118,7 @@ function AdminOverview() {
           loading={isLoading}
           icon={<Users className="h-5 w-5" />}
           accent="blue"
-          hint="Respostas totais capturadas"
+          hint="Leads únicos capturados no quiz"
         />
         <KpiCard
           label="Membros"
@@ -143,7 +134,7 @@ function AdminOverview() {
           loading={isLoading}
           icon={<Activity className="h-5 w-5" />}
           accent="amber"
-          hint="Desde 00:00"
+          hint="Leads novos desde 00:00"
         />
         <KpiCard
           label="Arquétipos detectados"

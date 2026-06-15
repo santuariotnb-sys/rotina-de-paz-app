@@ -107,17 +107,29 @@ export async function sendMetaCapiPurchase(
     const fullName: string | null = payload?.customer?.name ?? null;
     const firstName = fullName ? String(fullName).trim().split(/\s+/)[0] : null;
     const lastName = fullName ? String(fullName).trim().split(/\s+/).slice(1).join(" ") : null;
-    // phone_number vem do Kirvano em E.164 (ex: "5519987333333"). Normaliza para só dígitos.
+    // phone_number vem do Kirvano em E.164 (ex: "5519987333333"). Normaliza para E.164 canônico.
     const rawPhone: string | null =
       payload?.customer?.phone_number ?? payload?.customer?.phone ?? payload?.customer?.cellphone ?? null;
-    const phoneDigits = rawPhone ? rawPhone.replace(/\D/g, "") : null;
+    let phoneDigits = rawPhone ? rawPhone.replace(/\D/g, "") : null;
+    if (phoneDigits) {
+      // Remove leading zero (ex: 019987... → 19987...)
+      if (phoneDigits.startsWith("0")) phoneDigits = phoneDigits.slice(1);
+      // Números BR sem DDI (10-11 dígitos) → prefixar 55
+      if (phoneDigits.length >= 10 && phoneDigits.length <= 11) {
+        phoneDigits = "55" + phoneDigits;
+      }
+    }
     // fbp/fbc: tracking_session primeiro; fallback nos cookies do payload Kirvano.
     // O payload traz cookies.fbclid (não cookies.fbc) — construímos fbc no formato Meta:
     // fb.1.{timestamp_ms}.{fbclid}
     const fbp: string | null = ts?.fbp ?? cookies?.fbp ?? null;
     const cookieFbclid: string | null = cookies?.fbclid ?? null;
+    // Fix: se cookieFbclid já está em formato fbc (fb.1.xxx.yyy), usar como está.
+    // Antes re-empacotava cegamente → fbc double-wrap inválido que o Meta rejeitava.
     const fbcFromCookie: string | null = cookieFbclid
-      ? `fb.1.${Date.now()}.${cookieFbclid}`
+      ? cookieFbclid.startsWith("fb.")
+        ? cookieFbclid
+        : `fb.1.${Date.now()}.${cookieFbclid}`
       : null;
     const fbc: string | null = ts?.fbc ?? fbcFromCookie ?? cookies?.fbc ?? null;
     const ip: string | null = payload?.ip ?? ts?.client_ip ?? null;
@@ -140,7 +152,8 @@ export async function sendMetaCapiPurchase(
       content_name: opts.productNames.join(", ") || "Rotina de Paz",
     };
     if (value !== undefined) custom_data.value = value;
-    if (opts.productIds?.length) custom_data.content_ids = opts.productIds;
+    // content_ids padronizado: slug legível (consistente com client) em vez de UUIDs internos
+    custom_data.content_ids = ["rotina-de-paz"];
 
     const event: Record<string, unknown> = {
       event_name: "Purchase",
