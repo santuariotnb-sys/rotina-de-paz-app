@@ -107,6 +107,10 @@ export async function sendMetaCapiPurchase(
     const fullName: string | null = payload?.customer?.name ?? null;
     const firstName = fullName ? String(fullName).trim().split(/\s+/)[0] : null;
     const lastName = fullName ? String(fullName).trim().split(/\s+/).slice(1).join(" ") : null;
+    // phone_number vem do Kirvano em E.164 (ex: "5519987333333"). Normaliza para só dígitos.
+    const rawPhone: string | null =
+      payload?.customer?.phone_number ?? payload?.customer?.phone ?? payload?.customer?.cellphone ?? null;
+    const phoneDigits = rawPhone ? rawPhone.replace(/\D/g, "") : null;
     // fbp/fbc: tracking_session primeiro; fallback nos cookies do payload Kirvano.
     // O payload traz cookies.fbclid (não cookies.fbc) — construímos fbc no formato Meta:
     // fb.1.{timestamp_ms}.{fbclid}
@@ -121,6 +125,7 @@ export async function sendMetaCapiPurchase(
 
     const user_data: Record<string, unknown> = {};
     const em = sha256(email); if (em) user_data.em = [em];
+    const ph = sha256(phoneDigits); if (ph) user_data.ph = [ph];
     const fn = sha256(firstName); if (fn) user_data.fn = [fn];
     const ln = sha256(lastName); if (ln) user_data.ln = [ln];
     if (fbp) user_data.fbp = fbp;
@@ -152,7 +157,7 @@ export async function sendMetaCapiPurchase(
 
     // Log estruturado: rastreabilidade do que saiu para o Meta (sem dados sensíveis)
     console.log(
-      `[meta-capi] Purchase → event_id=${event_id} fbc=${fbc ?? "MISSING"} fbp=${fbp ?? "MISSING"} ip=${ip ? "YES" : "NO"} ua=${ts?.user_agent ? "YES" : "NO"} externalId=${externalId ?? "NONE"} ts_match=${ts ? "YES" : "NO"} fbclid_cookie=${cookieFbclid ? "YES" : "NO"}`,
+      `[meta-capi] Purchase → event_id=${event_id} fbc=${fbc ?? "MISSING"} fbp=${fbp ?? "MISSING"} ph=${phoneDigits ? "YES" : "NO"} ip=${ip ? "YES" : "NO"} ua=${ts?.user_agent ? "YES" : "NO"} externalId=${externalId ?? "NONE"} ts_match=${ts ? "YES" : "NO"} fbclid_cookie=${cookieFbclid ? "YES" : "NO"}`,
     );
 
     const res = await fetch(
