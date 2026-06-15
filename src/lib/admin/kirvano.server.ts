@@ -302,6 +302,8 @@ export async function processKirvanoPayload(payload: KirvanoPayload): Promise<Ki
           status: "confirmed",
           kirvano_offer_id: offerIds[0],
           buyer_email: email,
+          // external_id (qs_*) do quiz → chave de join lead↔purchase para atribuição
+          src: utm?.src ?? null,
           utm_source: utm?.utm_source ?? null,
           utm_campaign: utm?.utm_campaign ?? null,
           utm_medium: utm?.utm_medium ?? null,
