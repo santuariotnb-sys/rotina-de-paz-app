@@ -16,13 +16,20 @@ CREATE TABLE IF NOT EXISTS public.checkout_config (
   updated_at timestamptz DEFAULT now()
 );
 INSERT INTO public.checkout_config (key, value, description)
-VALUES ('production_start_at', '2026-06-14T00:00:00Z', 'Linha de corte: dados antes disso são legado/teste')
+VALUES ('production_start_at', '2026-06-08T00:00:00Z', 'Linha de corte: dados antes disso são legado/teste')
 ON CONFLICT (key) DO NOTHING;
 
--- 3. Backfill: marcar dados antes da linha de corte como teste
-UPDATE public.leads SET is_test = true WHERE created_at < '2026-06-14T00:00:00Z';
-UPDATE public.purchases SET is_test = true WHERE created_at < '2026-06-14T00:00:00Z';
-UPDATE public.quiz_funnel_events SET is_test = true WHERE created_at < '2026-06-14T00:00:00Z';
+-- 3. Backfill: marcar compras de teste por denylist de email (NÃO por data)
+-- production_start_at é filtro de baseline separado, não teste.
+UPDATE public.purchases SET is_test = true
+WHERE buyer_email IN ('henrique.voinvicta@gmail.com', 'guilherme.claude@gmail.com');
+UPDATE public.leads SET is_test = true
+WHERE email IN ('henrique.voinvicta@gmail.com', 'guilherme.claude@gmail.com');
+
+-- Denylist persistida para referência futura
+INSERT INTO public.checkout_config (key, value, description)
+VALUES ('test_emails', 'henrique.voinvicta@gmail.com,guilherme.claude@gmail.com', 'Emails de teste do dono — is_test=true')
+ON CONFLICT (key) DO NOTHING;
 
 -- 4a. external_id (qs_*) em leads — chave de join lead↔purchase↔tracking_session
 ALTER TABLE public.leads ADD COLUMN IF NOT EXISTS external_id text;
