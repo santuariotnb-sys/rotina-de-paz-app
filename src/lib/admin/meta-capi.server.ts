@@ -150,6 +150,11 @@ export async function sendMetaCapiPurchase(
     const body: Record<string, unknown> = { data: [event] };
     if (TEST_CODE) body.test_event_code = TEST_CODE;
 
+    // Log estruturado: rastreabilidade do que saiu para o Meta (sem dados sensíveis)
+    console.log(
+      `[meta-capi] Purchase → event_id=${event_id} fbc=${fbc ?? "MISSING"} fbp=${fbp ?? "MISSING"} ip=${ip ? "YES" : "NO"} ua=${ts?.user_agent ? "YES" : "NO"} externalId=${externalId ?? "NONE"} ts_match=${ts ? "YES" : "NO"} fbclid_cookie=${cookieFbclid ? "YES" : "NO"}`,
+    );
+
     const res = await fetch(
       `https://graph.facebook.com/${API_VERSION}/${PIXEL_ID}/events?access_token=${encodeURIComponent(CAPI_TOKEN)}`,
       {
