@@ -107,9 +107,15 @@ export async function sendMetaCapiPurchase(
     const fullName: string | null = payload?.customer?.name ?? null;
     const firstName = fullName ? String(fullName).trim().split(/\s+/)[0] : null;
     const lastName = fullName ? String(fullName).trim().split(/\s+/).slice(1).join(" ") : null;
-    // fbp/fbc: tracking_session primeiro; fallback nos cookies que o Kirvano manda no payload
+    // fbp/fbc: tracking_session primeiro; fallback nos cookies do payload Kirvano.
+    // O payload traz cookies.fbclid (não cookies.fbc) — construímos fbc no formato Meta:
+    // fb.1.{timestamp_ms}.{fbclid}
     const fbp: string | null = ts?.fbp ?? cookies?.fbp ?? null;
-    const fbc: string | null = ts?.fbc ?? cookies?.fbc ?? null;
+    const cookieFbclid: string | null = cookies?.fbclid ?? null;
+    const fbcFromCookie: string | null = cookieFbclid
+      ? `fb.1.${Date.now()}.${cookieFbclid}`
+      : null;
+    const fbc: string | null = ts?.fbc ?? fbcFromCookie ?? cookies?.fbc ?? null;
     const ip: string | null = payload?.ip ?? ts?.client_ip ?? null;
     const value = parseBRL(payload?.total_price);
 

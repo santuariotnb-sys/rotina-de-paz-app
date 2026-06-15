@@ -292,6 +292,7 @@ export async function processKirvanoPayload(payload: KirvanoPayload): Promise<Ki
           offerLabel = offerRow?.label ?? null;
         }
 
+        const utm = (payload as any).utm as Record<string, string> | undefined;
         await (supabaseAdmin as any).from("purchases").upsert({
           transaction_id: txId ? `${txId}_${product_id.slice(0, 8)}` : null,
           user_id: userId,
@@ -301,6 +302,11 @@ export async function processKirvanoPayload(payload: KirvanoPayload): Promise<Ki
           status: "confirmed",
           kirvano_offer_id: offerIds[0],
           buyer_email: email,
+          utm_source: utm?.utm_source ?? null,
+          utm_campaign: utm?.utm_campaign ?? null,
+          utm_medium: utm?.utm_medium ?? null,
+          utm_content: utm?.utm_content ?? null,
+          utm_term: utm?.utm_term ?? null,
           metadata: { event: eventName, raw_offer_ids: offerIds },
         }, { onConflict: "transaction_id" });
       }
