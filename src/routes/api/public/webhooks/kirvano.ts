@@ -37,9 +37,9 @@ async function logEvent(opts: {
   processed: boolean;
   error?: string | null;
   requestIp: string | null;
-}): Promise<void> {
+}): Promise<string | null> {
   try {
-    await supabaseAdmin.from("webhook_logs").insert({
+    const { data } = await supabaseAdmin.from("webhook_logs").insert({
       source: "kirvano",
       event_type: opts.eventType,
       payload: (() => {
@@ -55,9 +55,11 @@ async function logEvent(opts: {
       processed_at: opts.processed ? new Date().toISOString() : null,
       error: opts.error ?? null,
       request_ip: opts.requestIp,
-    });
+    }).select("id").single();
+    return data?.id ?? null;
   } catch (e) {
     console.error("[kirvano-webhook] falha ao gravar webhook_logs", e);
+    return null;
   }
 }
 
@@ -129,13 +131,32 @@ export const Route = createFileRoute("/api/public/webhooks/kirvano")({
 
           const eventType = (parsed.event as string | undefined) ?? (parsed.type as string | undefined) ?? null;
 
+          // Inserir log ANTES de processar → pegar id para vincular capi_status
+          const logId = await logEvent({ rawBody, payload: parsed, signature, signatureValid: valid, eventType, processed: false, error: null, requestIp });
+
           try {
-            const result = await processKirvanoPayload(parsed);
-            await logEvent({ rawBody, payload: parsed, signature, signatureValid: valid, eventType, processed: result.matched, error: result.matched ? null : (result.note ?? "Não processado"), requestIp });
+            const result = await processKirvanoPayload(parsed, logId);
+            // Atualizar log com resultado do processamento + capi_status
+            if (logId) {
+              await supabaseAdmin.from("webhook_logs").update({
+                processed: result.matched,
+                processed_at: result.matched ? new Date().toISOString() : null,
+                error: result.matched ? null : (result.note ?? "Não processado"),
+                capi_status: result.capiStatus ?? null,
+                capi_error: result.capiError ?? null,
+                capi_retries: result.capiStatus ? 1 : 0,
+                capi_last_attempt: result.capiStatus ? new Date().toISOString() : null,
+              } as any).eq("id", logId);
+            }
             return Response.json({ ok: true, result });
           } catch (e) {
             const msg = e instanceof Error ? e.message : String(e);
-            await logEvent({ rawBody, payload: parsed, signature, signatureValid: valid, eventType, processed: false, error: msg, requestIp });
+            if (logId) {
+              await supabaseAdmin.from("webhook_logs").update({
+                processed: false,
+                error: msg,
+              } as any).eq("id", logId);
+            }
             // 500 para Kirvano retentar em erros transientes (Supabase fora, rede).
             // Idempotência do upsert em entitlements(user_id,product_id) protege contra duplicação.
             return Response.json({ ok: false, error: "processing_failed" }, { status: 500 });
