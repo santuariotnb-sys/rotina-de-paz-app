@@ -24,9 +24,41 @@ UPDATE public.leads SET is_test = true WHERE created_at < '2026-06-14T00:00:00Z'
 UPDATE public.purchases SET is_test = true WHERE created_at < '2026-06-14T00:00:00Z';
 UPDATE public.quiz_funnel_events SET is_test = true WHERE created_at < '2026-06-14T00:00:00Z';
 
--- 4. src (external_id / qs_*) em purchases — chave de join lead↔compra
+-- 4a. external_id (qs_*) em leads — chave de join lead↔purchase↔tracking_session
+ALTER TABLE public.leads ADD COLUMN IF NOT EXISTS external_id text;
+COMMENT ON COLUMN public.leads.external_id IS 'external_id (qs_*) do quiz — chave de join lead↔purchase↔tracking_session';
+
+-- 4b. src (external_id / qs_*) em purchases — chave de join lead↔compra
 ALTER TABLE public.purchases ADD COLUMN IF NOT EXISTS src text;
 COMMENT ON COLUMN public.purchases.src IS 'external_id (qs_*) do quiz tracking session — chave de join lead↔purchase para atribuição';
+
+-- 4c. persist_lead atualizada para aceitar p_external_id
+DROP FUNCTION IF EXISTS public.persist_lead(text,text,jsonb,text,text,boolean,text,text,text,text,text,text,text);
+CREATE OR REPLACE FUNCTION public.persist_lead(
+  p_name text DEFAULT NULL, p_archetype text DEFAULT NULL, p_scores jsonb DEFAULT NULL,
+  p_desire text DEFAULT NULL, p_situation text DEFAULT NULL, p_risk_flag boolean DEFAULT false,
+  p_utm_source text DEFAULT NULL, p_utm_medium text DEFAULT NULL, p_utm_campaign text DEFAULT NULL,
+  p_utm_content text DEFAULT NULL, p_utm_term text DEFAULT NULL, p_fbclid text DEFAULT NULL,
+  p_gclid text DEFAULT NULL, p_external_id text DEFAULT NULL
+)
+RETURNS uuid LANGUAGE plpgsql SECURITY DEFINER SET search_path TO 'public', 'pg_temp'
+AS $function$
+DECLARE v_id uuid;
+BEGIN
+  INSERT INTO leads (
+    name, archetype, scores, desire, situation, risk_flag,
+    utm_source, utm_medium, utm_campaign, utm_content, utm_term,
+    fbclid, gclid, external_id
+  ) VALUES (
+    p_name, p_archetype, p_scores, p_desire, p_situation, p_risk_flag,
+    p_utm_source, p_utm_medium, p_utm_campaign, p_utm_content, p_utm_term,
+    p_fbclid, p_gclid, p_external_id
+  ) RETURNING id INTO v_id;
+  RETURN v_id;
+END;
+$function$;
+GRANT EXECUTE ON FUNCTION public.persist_lead TO anon;
+GRANT EXECUTE ON FUNCTION public.persist_lead TO authenticated;
 
 -- 5. Views canônicas — fonte única de verdade
 CREATE OR REPLACE VIEW public.vendas_reais AS
