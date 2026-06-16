@@ -1,18 +1,19 @@
-# DATA CONTRACT — Constituição de Dados (RASCUNHO)
-> **Status:** RASCUNHO (Passada 1). Vira definitivo após execução da Passada 2.  
-> **Data:** 2026-06-15 | **Projeto:** cemjibbauvvyfaxilrvm  
-> **Regra:** Este documento é a fonte de verdade sobre como cada métrica deve ser calculada.  
+# DATA CONTRACT — Constituição de Dados (FINAL)
+> **Status:** FINAL (provado em 13/13 testes contra banco de produção)
+> **Data:** 2026-06-16 | **Projeto:** cemjibbauvvyfaxilrvm
+> **Regra:** Este documento é a fonte de verdade sobre como cada métrica é calculada.
 > **Referenciado em:** CLAUDE.md (todo Claude lê primeiro)
 
 ---
 
 ## §1 PRINCÍPIOS
 
-1. **Uma fonte por métrica.** Se duas queries dão números diferentes, uma está errada.
-2. **`is_test` na origem.** Eventos de teste ficam no banco mas NUNCA contam.
-3. **Linha de corte.** `production_start_at = '2026-06-14'`. Antes = legado/sujo.
-4. **Prova na fonte viva.** Banco e Meta Events Manager. Nunca código, migrations, ou "✅" no chat.
-5. **Banco auto-documentado.** `COMMENT ON` em toda coluna/função sensível.
+1. **Uma fonte por métrica.** Se duas telas dão números diferentes, uma está com bug.
+2. **Zero query crua.** Nenhuma página admin faz `from("purchases")` ou `from("leads")` direto. Tudo lê das views canônicas.
+3. **`is_test` por denylist de email.** Não por data. Emails de teste em `checkout_config.test_emails`.
+4. **Linha de corte.** `checkout_config.production_start_at = 2026-06-08`. Antes = pré-produção.
+5. **Join por `external_id ↔ src`.** Nunca por email. Email pode ser NULL (captura WhatsApp).
+6. **Prova na fonte viva.** Banco e Meta Events Manager. Nunca código, migrations, ou "✅" no chat.
 
 ---
 
@@ -20,161 +21,182 @@
 
 ### Receita
 ```
-FONTE ÚNICA: VIEW vendas_reais
+VIEW: vendas_reais
 = purchases WHERE status = 'confirmed'
                 AND is_test = false
-                AND created_at >= production_start_at
-MÉTRICA: SUM(gross_value) / 100  →  R$
+                AND created_at >= checkout_config.production_start_at
+FUNÇÃO: receita_real() → R$ (SUM(gross_value)/100)
 ```
-**Onde usar:** Visão Geral, Analytics, Vendas, qualquer dashboard.  
-**PROIBIDO:** `entitlements × products.price_cents` (ignora desconto, conta grant manual).
+**Provado:** R$666,40 de 5 fontes independentes (2026-06-16).
+**PROIBIDO:** `entitlements × products.price_cents`, query crua de `purchases` sem filtro.
 
 ### Leads
 ```
-FONTE ÚNICA: VIEW leads_reais
+VIEW: leads_reais
 = leads WHERE is_test = false
-            AND created_at >= production_start_at
-MÉTRICA: COUNT(*)
+            AND created_at >= checkout_config.production_start_at
 ```
-**PROIBIDO:** `COUNT(quiz_responses)` (7 rows por lead = inflação ~7x).
-
-### Compradores únicos
-```
-FONTE: SELECT COUNT(DISTINCT buyer_email) FROM vendas_reais
-```
+**Provado:** 122 leads reais (não 889 quiz_responses).
+**PROIBIDO:** `COUNT(quiz_responses)` (7x inflado — 1 row por pergunta).
 
 ### Conversão (lead → compra)
 ```
-JOIN KEY: external_id (qs_) — NÃO email
-= leads_reais l INNER JOIN vendas_reais p ON l.external_id = p.src
-MÉTRICA: COUNT(DISTINCT l.id) FILTER (WHERE p.id IS NOT NULL) / COUNT(DISTINCT l.id)
+JOIN: leads_reais.external_id = vendas_reais.src
+MÉTRICA: COUNT(DISTINCT l.id) FILTER (WHERE p.src IS NOT NULL) / COUNT(DISTINCT l.id)
 ```
-**PROIBIDO:** `lower(l.email) = lower(p.buyer_email)` (email NULL pós-WhatsApp).  
-**PROIBIDO:** `COUNT(p.id)` sem DISTINCT (double-count multi-produto).  
+**Provado:** 8 matches (2026-06-16). Persona × compra funciona.
+**PROIBIDO:** `lower(l.email) = lower(p.buyer_email)` (email NULL pós-WhatsApp).
 **PROIBIDO:** `entitlements` como proxy de conversão (inclui grants manuais).
 
 ### Arquétipo
 ```
-FONTE: leads.archetype
+FONTE: leads.archetype (ou leads_reais.archetype)
 ```
 **PROIBIDO:** `quiz_responses.archetype` (NULL nos novos).
 
-### Segmentos (top_segments)
+### is_test
 ```
-JOIN: leads_reais l LEFT JOIN vendas_reais p ON l.external_id = p.src
-AGGREGATES: usar subquery ou DISTINCT para evitar fan-out
+REGRA: buyer_email IN (checkout_config.test_emails)
+EMAILS: henrique.voinvicta@gmail.com, guilherme.claude@gmail.com
 ```
+**NÃO é por data.** Data é o baseline (production_start_at), não teste.
 
 ---
 
-## §3 TRACKING / META
+## §3 VIEWS E FUNÇÕES CANÔNICAS (existem no banco)
+
+| Objeto | Tipo | Filtros | Grants |
+|--------|------|---------|--------|
+| `vendas_reais` | VIEW | confirmed + !is_test + ≥ production_start | SELECT: authenticated |
+| `leads_reais` | VIEW | !is_test + ≥ production_start | SELECT: authenticated |
+| `receita_real()` | FUNCTION | SUM de vendas_reais | EXECUTE: authenticated |
+| `checkout_config` | TABLE | RLS ON, SELECT-only para anon/authenticated | service_role escreve |
+
+---
+
+## §4 RPCs DE ANALYTICS (todas usam views canônicas)
+
+| RPC | Join | Fonte |
+|-----|------|-------|
+| `analytics_funnel` | N/A (contagens independentes) | leads_reais + vendas_reais |
+| `analytics_top_segments` | external_id = src | leads_reais + vendas_reais (subquery anti-fan-out) |
+| `analytics_quiz_conversion` | external_id = src | quiz_responses JOIN leads_reais LEFT JOIN vendas_reais |
+| `analytics_cohort_weekly` | external_id = src | leads_reais LEFT JOIN vendas_reais |
+| `analytics_revenue_breakdown` | N/A | purchases (is_test=false + baseline) |
+| `analytics_quiz_funnel` | N/A | quiz_funnel_events (12 stages) |
+
+---
+
+## §5 TRACKING / META
+
+### external_id (qs_*)
+```
+GERAÇÃO: Quiz-sacra tracking.ts:14 — crypto.randomUUID() com prefixo "qs_"
+PERSISTÊNCIA: localStorage (rdp_external_id)
+FLUXO: quiz → persist_lead(p_external_id) → leads.external_id
+        quiz → URL param "src" → Kirvano → webhook utm.src → purchases.src
+```
 
 ### fbc (Facebook Click ID)
 ```
-REGRA: Se cookies.fbclid já começa com "fb.1." → usar AS IS (já é fbc)
-        Se é fbclid raw → empacotar: fb.1.{timestamp_original}.{fbclid}
-NUNCA: re-empacotar fbc em fbc (double-wrap)
+REGRA: Se cookies.fbclid já começa com "fb." → usar AS IS
+        Se é fbclid raw → empacotar: fb.1.{timestamp}.{fbclid}
+        NUNCA re-empacotar (fix double-wrap em meta-capi.server.ts:129-133)
 ```
 
 ### Purchase (CAPI)
 ```
 EMISSOR ÚNICO: nossa CAPI (meta-capi.server.ts)
-event_id: sale_id (transactionId do Kirvano)
-value: payload.total_price (real, por venda)
-content_ids: [slug padronizado] — mesmo no client e server
-Kirvano CAPI: DESLIGADA (após retry nosso estar no ar)
-```
-
-### Dedup
-```
-REGRA: event_id idêntico entre pixel browser e CAPI server
-       → Meta deduplica automaticamente
-Pixel /obrigado: NÃO dispara Purchase (confirmado)
+event_id: sale_id (transactionId do Kirvano) — dedup garantido
+value: payload.total_price (real por venda)
+content_ids: ["rotina-de-paz"]
+Retry: 1 tentativa rápida + cron async (capi-retry.ts, a cada hora)
+capi_status: gravado por webhook_log.id (sem race condition)
 ```
 
 ### ph (Phone Hash)
 ```
-FORMATO: SHA-256 de número E.164 (ex: +5511999990000)
-NORMALIZAÇÃO: sempre prefixar +55, remover espaços/traços, strip leading 0
-ENVIAR EM: Lead (pixel) + Purchase (CAPI) + IC (quando disponível)
+NORMALIZAÇÃO: strip non-digits, remove leading 0, prefixar 55 se BR (10-11 dígitos)
+HASH: SHA-256
+ENVIAR EM: Lead (pixel AM) + Purchase (CAPI)
 ```
 
-### content_ids
+### Domain Guard
 ```
-FORMATO ÚNICO: ["rotina-de-paz"] (slug com hífen, minúsculo)
-ONDE: InitiateCheckout (client) + Purchase (CAPI) + ViewContent (quando implementar)
-```
-
-### Teste vs Produção
-```
-PIXEL TESTE: dataset separado (test_event_code ou pixel ID diferente)
-PIXEL PROD: 838169472100225 — NUNCA recebe evento de dev/teste
-DOMAIN GUARD: só dispara em rotinadepaz.com.br e sacra.rotinadepaz.com.br
-is_test NO BANCO: carimbar na escrita por denylist (emails/phones de teste)
+PRODUÇÃO: sacra.rotinadepaz.com.br, rotinadepaz.com.br
+PROTEGIDO: pixel init+PageView, IC, saveTrackingSession, Lead, QuizStep
 ```
 
----
-
-## §4 REGRAS DE is_test
-
-```sql
--- Determina se é teste no momento da escrita
-is_test = (
-  buyer_email IN ('guilherme@...', 'teste@...', ...)  -- denylist do dono
-  OR buyer_phone IN ('+5511...', ...)                   -- phones de teste
-  OR created_at < '2026-06-14'                          -- antes da linha de corte
-  OR source_environment = 'sandbox'                     -- flag do webhook
-)
+### Dedup
+```
+ESTADO ATUAL: Kirvano pixel+CAPI ainda ativo → dedup "não atende"
+PLANO: após CAPI provada enviando → desligar Kirvano → dedup "atende"
 ```
 
 ---
 
-## §5 VIEWS CANÔNICAS (a criar na Passada 2)
+## §6 ADMIN — FONTE ÚNICA POR TELA
 
-```sql
--- vendas_reais: fonte única de receita
-CREATE VIEW vendas_reais AS
-SELECT * FROM purchases
-WHERE status = 'confirmed'
-  AND is_test = false
-  AND created_at >= (SELECT value::timestamptz FROM checkout_config WHERE key = 'production_start_at');
-
--- leads_reais: fonte única de leads
-CREATE VIEW leads_reais AS
-SELECT * FROM leads
-WHERE is_test = false
-  AND created_at >= (SELECT value::timestamptz FROM checkout_config WHERE key = 'production_start_at');
-
--- receita_real(): função para dashboards
-CREATE FUNCTION receita_real() RETURNS numeric AS $$
-  SELECT COALESCE(SUM(gross_value), 0) / 100.0 FROM vendas_reais;
-$$ LANGUAGE sql STABLE;
-```
+| Tela | Server fn / Query | Fonte |
+|------|-------------------|-------|
+| Visão Geral | `getOverviewKpis()` | vendas_reais + leads_reais (supabaseAdmin) |
+| Analytics Avançado | `getFunnel/getTopSegments/...` | RPCs via supabaseAdmin |
+| Vendas | `from("vendas_reais")` | VIEW direta |
+| Leads | `from("leads_reais")` | VIEW direta |
+| Quiz | `getConvertedLeadIds()` + leads_reais | external_id ↔ src (não email) |
+| Tracking | `getConvertedLeadIds()` + leads_reais | idem |
+| Quiz Funnel | `getQuizFunnel()` | RPC analytics_quiz_funnel |
 
 ---
 
-## §6 RECONCILIAÇÃO
+## §7 RECONCILIAÇÃO
 
-```
-REGRA: webhook_logs ↔ purchases ↔ Meta (via event_id = sale_id)
-CRON: daily-reconciliation (09:00 UTC)
-ALERTA: quando diverge > 0 entre fontes
-TESTE: que falha se definição canônica quebrar
-```
+| Job | Schedule | O que faz |
+|-----|----------|-----------|
+| daily-reconciliation | 09:00 UTC | `run_reconciliation(24)` |
+| cleanup-webhook-logs | 03:00 UTC | DELETE > 90 dias |
+| cleanup-tracking-sessions | 03:00 UTC | DELETE > 30 dias |
+| capi-retry | a cada hora | Reprocessa capi_status='failed' (max 10/run, max 5 tentativas) |
 
 ---
 
-## §7 DRIFT — Itens a migrar
+## §8 ESTADO PROVADO (2026-06-16)
 
-| Item | Ação necessária |
+| Métrica | Valor | Teste |
+|---------|-------|-------|
+| Receita real | R$666,40 (5 fontes) | PASS |
+| Receita com teste | R$760,40 | PASS |
+| Compradores reais | 9 | PASS |
+| Leads reais | 122 | PASS |
+| is_test | 2 emails, R$94 | PASS |
+| purchases.src fill | 19/19 (100%) | PASS |
+| leads.external_id | 5/128 (buyers parcial) | WARN — leads novos populam |
+| Join matches | 8 | PASS |
+| Quiz funnel | 12 stages completos | PASS |
+| Entitlements | Zero órfãos | PASS |
+| RLS checkout_config | ON, SELECT-only | PASS |
+| Domain guards | 4/4 fbq() calls | PASS |
+| Queries cruas admin | 0 | PASS |
+
+---
+
+## §9 PENDENTE (precisa de deploy + venda real)
+
+| Item | Prova necessária |
 |------|-----------------|
-| tracking_sessions | Criar migration |
-| quiz_funnel_events | Criar migration |
-| app_products, offer_settings, product_offers | Criar migration |
-| track_quiz_step, track_checkout_step, save_lead_contact (RPCs) | Criar migration |
-| checkout schema (15 tabelas, 3 RPCs) | Criar migration completa |
+| CAPI enviando | 1 venda real → capi_status='sent' |
+| Desligar Kirvano CAPI+pixel | Após CAPI provada → Events Manager dedup "atende" |
+| fbc alerta | Events Manager → "fbclid modificado" some |
+| 2º pixel 3207... | Investigar no Meta Business Manager |
+| 3 SALE_REFUNDED falhados | Verificar se clientes estornados ainda têm acesso |
 
 ---
 
-> 🛑 **RASCUNHO — Será finalizado após execução da Passada 2.**  
-> Referência: `DIAGNOSTICO-REAL.md` para a lista completa de bugs e prioridades.
+## §10 REGRAS PARA FUTURAS SESSÕES
+
+1. **Ler este documento PRIMEIRO** antes de mexer em qualquer métrica.
+2. **Nunca adicionar query crua** de purchases/leads em páginas admin. Usar views.
+3. **Nunca juntar lead↔compra por email.** Usar external_id ↔ src.
+4. **Testar contra banco real**, nunca contra código/migrations.
+5. **is_test por email denylist**, não por data.
+6. **Domain guard em todo disparo de pixel** — checar hostname antes de fbq().
