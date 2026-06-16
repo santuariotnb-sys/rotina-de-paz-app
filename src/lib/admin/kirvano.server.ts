@@ -277,15 +277,20 @@ export async function processKirvanoPayload(payload: KirvanoPayload, _webhookLog
       const useRealPaid = productIds.length === 1 && paidCents != null;
 
       // Resolve lead_id pelo external_id (qs_*) — uma vez antes do loop
+      // try/catch próprio: falha aqui NÃO pode derrubar o purchase upsert
       const utmSrc = ((payload as any).utm as Record<string, string> | undefined)?.src ?? null;
       let resolvedLeadId: string | null = null;
       if (utmSrc) {
-        const { data: leadRow } = await (supabaseAdmin as any)
-          .from("leads")
-          .select("id")
-          .eq("external_id", utmSrc)
-          .maybeSingle();
-        resolvedLeadId = (leadRow as any)?.id ?? null;
+        try {
+          const { data: leadRow } = await (supabaseAdmin as any)
+            .from("leads")
+            .select("id")
+            .eq("external_id", utmSrc)
+            .maybeSingle();
+          resolvedLeadId = (leadRow as any)?.id ?? null;
+        } catch {
+          // lead_id é secundário — segue com NULL
+        }
       }
 
       for (const product_id of productIds) {
