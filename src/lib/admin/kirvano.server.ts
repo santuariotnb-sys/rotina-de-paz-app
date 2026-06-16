@@ -275,6 +275,19 @@ export async function processKirvanoPayload(payload: KirvanoPayload, _webhookLog
       // double-count, então preferimos o preço de catálogo por produto.
       const paidCents = extractPaidTotalCents(payload);
       const useRealPaid = productIds.length === 1 && paidCents != null;
+
+      // Resolve lead_id pelo external_id (qs_*) — uma vez antes do loop
+      const utmSrc = ((payload as any).utm as Record<string, string> | undefined)?.src ?? null;
+      let resolvedLeadId: string | null = null;
+      if (utmSrc) {
+        const { data: leadRow } = await (supabaseAdmin as any)
+          .from("leads")
+          .select("id")
+          .eq("external_id", utmSrc)
+          .maybeSingle();
+        resolvedLeadId = (leadRow as any)?.id ?? null;
+      }
+
       for (const product_id of productIds) {
         const { data: prod } = await supabaseAdmin
           .from("products")
@@ -306,6 +319,7 @@ export async function processKirvanoPayload(payload: KirvanoPayload, _webhookLog
           buyer_email: email,
           // external_id (qs_*) do quiz → chave de join lead↔purchase para atribuição
           src: utm?.src ?? null,
+          lead_id: resolvedLeadId,
           utm_source: utm?.utm_source ?? null,
           utm_campaign: utm?.utm_campaign ?? null,
           utm_medium: utm?.utm_medium ?? null,
