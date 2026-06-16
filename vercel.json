@@ -4,6 +4,10 @@
     {
       "path": "/api/cron/reconciliation",
       "schedule": "0 9 * * *"
+    },
+    {
+      "path": "/api/cron/capi-retry",
+      "schedule": "0 * * * *"
     }
   ],
   "headers": [
