@@ -31,6 +31,7 @@ import {
   getCheckoutFunnel,
   getFullFunnel,
 } from "@/lib/admin/checkout-funnel.functions";
+import { getConvertedLeadIds } from "@/lib/admin/conversion.functions";
 
 export const Route = createFileRoute("/admin/quiz")({
   component: AdminQuizPage,
@@ -97,8 +98,9 @@ function AdminQuizPage() {
   const { data: leads = [], isLoading: loadingL } = useQuery({
     queryKey: ["adm-quiz-leads", period.label],
     queryFn: async (): Promise<Lead[]> => {
-      const { data, error } = await supabase
-        .from("leads")
+      const sb = supabase as any;
+      const { data, error } = await sb
+        .from("leads_reais")
         .select("id, archetype, email, created_at")
         .gte("created_at", since)
         .order("created_at", { ascending: false })
@@ -108,16 +110,10 @@ function AdminQuizPage() {
     },
   });
 
-  const { data: entitlements = [] } = useQuery({
-    queryKey: ["adm-quiz-entitlements"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("entitlements")
-        .select("buyer_email, status")
-        .eq("status", "active");
-      if (error) throw error;
-      return (data ?? []) as { buyer_email: string | null; status: string }[];
-    },
+  const fetchConvertedIds = useServerFn(getConvertedLeadIds);
+  const { data: convertedLeadIds = [] } = useQuery({
+    queryKey: ["adm-quiz-converted-leads"],
+    queryFn: () => fetchConvertedIds(),
   });
 
   const fetchFunnel = useServerFn(getQuizFunnel);
@@ -182,22 +178,17 @@ function AdminQuizPage() {
       .sort((a, b) => b.count - a.count);
   }, [responses, selectedQ]);
 
-  // Conversão por arquétipo
+  // Conversão por arquétipo (via vendas_reais ↔ leads_reais.external_id)
+  const convertedSet = useMemo(() => new Set(convertedLeadIds), [convertedLeadIds]);
+
   const conversionByArchetype = useMemo(() => {
-    const buyerEmails = new Set(
-      entitlements.filter((e) => e.buyer_email).map((e) => e.buyer_email!.toLowerCase()),
-    );
     const archCounts: Record<string, { total: number; converted: number }> = {};
     for (const l of leads) {
       const arch = l.archetype ?? "sem_arquetipo";
       if (!archCounts[arch]) archCounts[arch] = { total: 0, converted: 0 };
       archCounts[arch].total++;
+      if (convertedSet.has(l.id)) archCounts[arch].converted++;
     }
-    // Cruzar leads com email → entitlements (precisa buscar email dos leads)
-    // Simplificação: usa contagem de leads por arquétipo + total convertidos global
-    const totalLeads = leads.length || 1;
-    const totalConverted = buyerEmails.size;
-    const globalRate = totalConverted / totalLeads;
 
     return Object.entries(archCounts).map(([arch, { total }]) => ({
       name: ARCHETYPE_LABELS[arch] ?? arch,
@@ -205,7 +196,7 @@ function AdminQuizPage() {
       pct: Math.round((total / (leads.length || 1)) * 100),
       color: ARCHETYPE_COLORS[arch] ?? "#6B7280",
     }));
-  }, [leads, entitlements]);
+  }, [leads, convertedSet]);
 
   // Donut arquétipos
   const donutData = useMemo(() => {
@@ -221,23 +212,14 @@ function AdminQuizPage() {
     }));
   }, [leads]);
 
-  // Funil de jornada
+  // Funil de jornada (conversão via vendas_reais ↔ leads_reais.external_id)
   const journeyFunnel = useMemo(() => {
     const totalLeads = leads.length;
     const withResponses = new Set(responses.map((r) => r.lead_id)).size;
     const completed = kpis.completedQuizzes;
-    const withEmail = leads.filter((l) => l.archetype).length; // archetype = completou processamento
-    const leadsWithEmail = leads.filter((l) => responses.some((r) => r.lead_id === l.id)).length;
-    // Leads que viraram compradores
-    const buyerEmails = new Set(
-      entitlements.filter((e) => e.buyer_email).map((e) => e.buyer_email!.toLowerCase()),
-    );
-    const leadEmails = leads
-      .map((l) => l.id)
-      .filter((id) => {
-        const lead = leads.find((x) => x.id === id);
-        return lead && buyerEmails.has(lead.email?.toLowerCase() ?? "");
-      });
+
+    // Leads que viraram compradores (via convertedSet do server function)
+    const converted = leads.filter((l) => convertedSet.has(l.id)).length;
 
     // Tempo médio do quiz (time_to_answer é o tempo total por lead no formato batch)
     const timePerLead: Record<string, number> = {};
@@ -252,10 +234,10 @@ function AdminQuizPage() {
       withResponses,
       completed,
       emailCaptured: leads.filter((l) => l.email).length,
-      converted: leadEmails.length,
+      converted,
       avgTimeSec: Math.round(avgTimeMs / 1000),
     };
-  }, [leads, responses, kpis.completedQuizzes, entitlements]);
+  }, [leads, responses, kpis.completedQuizzes, convertedSet]);
 
   // Distribuição de respostas por pergunta (para funil de perguntas)
   const questionReach = useMemo(() => {

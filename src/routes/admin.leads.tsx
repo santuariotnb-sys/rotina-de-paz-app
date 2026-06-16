@@ -62,8 +62,9 @@ function AdminLeadsPage() {
   const { data: leads = [], isLoading } = useQuery({
     queryKey: ["adm-leads", period.label],
     queryFn: async (): Promise<Lead[]> => {
-      const { data, error } = await supabase
-        .from("leads")
+      const sb = supabase as any;
+      const { data, error } = await sb
+        .from("leads_reais")
         .select(
           "id, name, email, archetype, desire, situation, risk_flag, utm_source, utm_campaign, created_at",
         )

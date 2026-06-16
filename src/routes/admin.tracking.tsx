@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import {
   Radio,
   Facebook,
@@ -29,6 +30,7 @@ import {
   sinceISO,
 } from "@/lib/admin/constants";
 import { downloadCsv } from "@/lib/admin/csv";
+import { getConvertedLeadIds } from "@/lib/admin/conversion.functions";
 
 export const Route = createFileRoute("/admin/tracking")({
   component: AdminTrackingPage,
@@ -47,10 +49,6 @@ type Lead = {
   created_at: string;
 };
 
-type EntitlementMini = {
-  buyer_email: string | null;
-};
-
 function AdminTrackingPage() {
   const [period, setPeriod] = useState<Period>(PERIODS[1]);
   const [search, setSearch] = useState("");
@@ -60,8 +58,9 @@ function AdminTrackingPage() {
   const { data: leads = [], isLoading } = useQuery({
     queryKey: ["adm-tracking-leads", period.label],
     queryFn: async (): Promise<Lead[]> => {
-      const { data, error } = await supabase
-        .from("leads")
+      const sb = supabase as any;
+      const { data, error } = await sb
+        .from("leads_reais")
         .select(
           "id, name, email, archetype, utm_source, utm_medium, utm_campaign, utm_content, utm_term, created_at",
         )
@@ -73,28 +72,17 @@ function AdminTrackingPage() {
     },
   });
 
-  const { data: buyerEmails = [] } = useQuery({
-    queryKey: ["adm-tracking-buyers"],
-    queryFn: async (): Promise<EntitlementMini[]> => {
-      const { data, error } = await supabase
-        .from("entitlements")
-        .select("buyer_email")
-        .eq("status", "active");
-      if (error) throw new Error(error.message);
-      return (data ?? []) as EntitlementMini[];
-    },
+  // Conversão via vendas_reais ↔ leads_reais.external_id (server function)
+  const fetchConvertedIds = useServerFn(getConvertedLeadIds);
+  const { data: convertedLeadIds = [] } = useQuery({
+    queryKey: ["adm-tracking-converted-leads"],
+    queryFn: () => fetchConvertedIds(),
   });
 
-  const buyerSet = useMemo(() => {
-    const s = new Set<string>();
-    for (const e of buyerEmails) {
-      if (e.buyer_email) s.add(e.buyer_email.toLowerCase());
-    }
-    return s;
-  }, [buyerEmails]);
+  const convertedSet = useMemo(() => new Set(convertedLeadIds), [convertedLeadIds]);
 
   function didConvert(lead: Lead): boolean {
-    return !!lead.email && buyerSet.has(lead.email.toLowerCase());
+    return convertedSet.has(lead.id);
   }
 
   const kpis = useMemo(() => {
@@ -113,7 +101,7 @@ function AdminTrackingPage() {
     }
     const rate = leads.length > 0 ? ((converted / leads.length) * 100).toFixed(1) : "0";
     return { withUtm, fb, google, rate: `${rate}%` };
-  }, [leads, buyerSet]);
+  }, [leads, convertedSet]);
 
   const sourceChart = useMemo(() => {
     const counts: Record<string, number> = {};
