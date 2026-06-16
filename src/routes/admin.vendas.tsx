@@ -41,8 +41,9 @@ function AdminVendasPage() {
   const { data: purchases = [], isLoading } = useQuery({
     queryKey: ["adm-vendas-purchases", period.label],
     queryFn: async (): Promise<Purchase[]> => {
-      const { data, error } = await supabase
-        .from("purchases")
+      const sb = supabase as any;
+      const { data, error } = await sb
+        .from("vendas_reais")
         .select(
           "id, transaction_id, product_name, product_type, gross_value, status, buyer_email, kirvano_offer_id, created_at",
         )

@@ -1,11 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { Users, Gem, Activity, Sparkles, DollarSign, Download, TrendingUp } from "lucide-react";
 import { KpiCard } from "@/components/admin/KpiCard";
 import { GlassCard } from "@/components/admin/GlassCard";
 import { downloadCsv } from "@/lib/admin/csv";
-import { fetchOverviewKpis } from "@/lib/admin/queries";
-import { supabase } from "@/integrations/supabase/client";
+import { getOverviewKpis } from "@/lib/admin/overview.functions";
 
 export const Route = createFileRoute("/admin/")({
   component: AdminOverview,
@@ -20,38 +20,16 @@ const ARCH_LABELS: Record<string, { name: string; color: string }> = {
 };
 
 function AdminOverview() {
+  const fetchKpis = useServerFn(getOverviewKpis);
   const { data, isLoading } = useQuery({
     queryKey: ["admin", "overview"],
-    queryFn: fetchOverviewKpis,
-    staleTime: 30_000,
-  });
-
-  // Receita de PURCHASES (fonte canônica), não entitlements × price_cents
-  const { data: sales, isLoading: salesLoading } = useQuery({
-    queryKey: ["admin", "overview", "sales"],
-    queryFn: async () => {
-      const todayStart = new Date();
-      todayStart.setHours(0, 0, 0, 0);
-      const sb = supabase as any;
-      const [allRes, todayRes] = await Promise.all([
-        sb.from("purchases").select("gross_value").eq("status", "confirmed"),
-        sb.from("purchases").select("gross_value").eq("status", "confirmed").gte("created_at", todayStart.toISOString()),
-      ]);
-      const total = (allRes.data ?? []).reduce((s: number, r: { gross_value: number }) => s + (r.gross_value ?? 0), 0);
-      const today = (todayRes.data ?? []).reduce((s: number, r: { gross_value: number }) => s + (r.gross_value ?? 0), 0);
-      return {
-        today,
-        total,
-        todayCount: (todayRes.data ?? []).length,
-        totalCount: (allRes.data ?? []).length,
-      };
-    },
+    queryFn: () => fetchKpis(),
     staleTime: 30_000,
   });
 
   const brl = (cents: number) =>
     new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(
-      (cents ?? 0) / 100,
+      cents ?? 0,
     );
 
   const breakdown = data?.archetypeBreakdown ?? {};
@@ -95,19 +73,19 @@ function AdminOverview() {
       <section className="grid gap-4 sm:grid-cols-2">
         <KpiCard
           label="Vendas de hoje"
-          value={brl(sales?.today ?? 0)}
-          loading={salesLoading}
+          value={brl(data?.revenueToday ?? 0)}
+          loading={isLoading}
           icon={<DollarSign className="h-5 w-5" />}
           accent="amber"
-          hint={`${sales?.todayCount ?? 0} vendas confirmadas hoje`}
+          hint={`${data?.purchasesToday ?? 0} vendas confirmadas hoje`}
         />
         <KpiCard
           label="Vendas totais"
-          value={brl(sales?.total ?? 0)}
-          loading={salesLoading}
+          value={brl(data?.totalRevenue ?? 0)}
+          loading={isLoading}
           icon={<TrendingUp className="h-5 w-5" />}
           accent="green"
-          hint={`${sales?.totalCount ?? 0} vendas confirmadas total`}
+          hint={`${data?.totalPurchases ?? 0} vendas confirmadas total`}
         />
       </section>
 
@@ -129,8 +107,8 @@ function AdminOverview() {
           hint="Contas criadas no app"
         />
         <KpiCard
-          label="Respostas hoje"
-          value={data?.responsesToday ?? 0}
+          label="Leads hoje"
+          value={data?.leadsToday ?? 0}
           loading={isLoading}
           icon={<Activity className="h-5 w-5" />}
           accent="amber"
