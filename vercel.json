@@ -7,7 +7,7 @@
     },
     {
       "path": "/api/cron/capi-retry",
-      "schedule": "0 * * * *"
+      "schedule": "0 */6 * * *"
     }
   ],
   "headers": [
