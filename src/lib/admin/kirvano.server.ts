@@ -169,6 +169,8 @@ export type KirvanoProcessResult = {
   revoked: string[];
   userId?: string;
   note?: string;
+  capiStatus?: string;
+  capiError?: string | null;
 };
 
 function inferProductType(label: string | null): string {
@@ -184,7 +186,7 @@ function inferProductType(label: string | null): string {
  * Processa o payload já validado e cria/revoga entitlements.
  * Não relança — chamador decide o status do webhook_log.
  */
-export async function processKirvanoPayload(payload: KirvanoPayload): Promise<KirvanoProcessResult> {
+export async function processKirvanoPayload(payload: KirvanoPayload, _webhookLogId?: string | null): Promise<KirvanoProcessResult> {
   const eventName = String(payload.event ?? payload.type ?? "").trim();
   const isApproved = APPROVED_EVENTS.has(eventName);
   const isRevoke = REVOKE_EVENTS.has(eventName);
@@ -316,9 +318,11 @@ export async function processKirvanoPayload(payload: KirvanoPayload): Promise<Ki
       console.error("[analytics] falha ao registrar purchase (não-bloqueante):", err);
     }
 
-    // Meta CAPI Purchase — fonte de verdade do evento (event_id = sale_id → dedup).
-    // Não-bloqueante: nunca derruba o fulfillment. Reenvio do mesmo webhook não duplica
-    // no Meta porque o event_id é o mesmo sale_id.
+    // Meta CAPI Purchase — 1 tentativa rápida (8s timeout).
+    // Se falha, marca capiStatus='failed' → cron async reprocessa.
+    // Seguro: event_id = sale_id → Meta deduplica nossos próprios reenvios.
+    let capiStatus: string | undefined;
+    let capiError: string | null = null;
     try {
       const { data: prods } = await supabaseAdmin
         .from("products")
@@ -326,14 +330,22 @@ export async function processKirvanoPayload(payload: KirvanoPayload): Promise<Ki
         .in("id", productIds);
       const productNames = (prods ?? []).map((p) => p.name);
       const capi = await sendMetaCapiPurchase(payload, { transactionId: txId, productNames, productIds });
-      if (!capi.sent && capi.error !== "missing_credentials") {
+      if (capi.sent) {
+        capiStatus = "sent";
+      } else if (capi.error === "missing_credentials") {
+        capiStatus = "skipped";
+      } else {
+        capiStatus = "failed";
+        capiError = capi.error ?? "unknown";
         console.error(`[meta-capi] Purchase NÃO enviado (sale ${txId}): ${capi.error}`);
       }
     } catch (err) {
+      capiStatus = "failed";
+      capiError = err instanceof Error ? err.message : String(err);
       console.error("[meta-capi] erro inesperado (não-bloqueante):", err);
     }
 
-    return { matched: true, granted: productIds, revoked: [], userId };
+    return { matched: true, granted: productIds, revoked: [], userId, capiStatus, capiError };
   }
 
   // REVOKE
