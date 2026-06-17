@@ -36,11 +36,22 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
     a.crossOrigin = "anonymous";
     audioRef.current = a;
 
+    // Throttle: atualiza progress no máximo 1× a cada 250ms via rAF,
+    // evitando re-render da árvore inteira a cada ~250ms do timeupdate nativo.
+    let rafId = 0;
+    let lastUpdate = 0;
     const onTime = () => {
-      if (a.duration) {
-        setProgress(a.currentTime / a.duration);
-        setDuration(a.duration);
-      }
+      const now = performance.now();
+      if (now - lastUpdate < 250) return;
+      if (rafId) return; // já tem um rAF pendente
+      rafId = requestAnimationFrame(() => {
+        rafId = 0;
+        lastUpdate = performance.now();
+        if (a.duration) {
+          setProgress(a.currentTime / a.duration);
+          setDuration(a.duration);
+        }
+      });
     };
     const onEnd = () => playNextRef.current?.();
     const onPlay = () => setPlaying(true);
@@ -66,6 +77,7 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
     a.addEventListener("pause", onPause);
     a.addEventListener("error", onError);
     return () => {
+      if (rafId) cancelAnimationFrame(rafId);
       a.pause();
       a.removeEventListener("timeupdate", onTime);
       a.removeEventListener("loadedmetadata", onTime);

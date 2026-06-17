@@ -9,6 +9,27 @@ import { getEbookUrl } from "@/lib/api/content.functions";
 import { toast } from "sonner";
 import { ebooksQueryOptions } from "@/lib/app-queries";
 
+/** Reescreve cover_url do Supabase Storage para usar o endpoint de image transform.
+ *  Resultado: ~30-50 KB WebP em vez de 2-3 MB PNG full-res. */
+function optimizedCoverUrl(raw: string | null): string | null {
+  if (!raw) return null;
+  try {
+    const u = new URL(raw);
+    // Só transforma URLs do Supabase Storage (/storage/v1/object/public/...)
+    const objectPrefix = "/storage/v1/object/public/";
+    if (!u.pathname.startsWith(objectPrefix)) return raw;
+    const storagePath = u.pathname.slice(objectPrefix.length);
+    u.pathname = `/storage/v1/render/image/public/${storagePath}`;
+    u.searchParams.set("width", "400");
+    u.searchParams.set("height", "600");
+    u.searchParams.set("resize", "contain");
+    u.searchParams.set("quality", "75");
+    return u.toString();
+  } catch {
+    return raw;
+  }
+}
+
 export const Route = createFileRoute("/app/ebooks")({
   loader: ({ context }) => {
     const qc = (context as { queryClient: QueryClient }).queryClient;
@@ -231,7 +252,7 @@ function EbookCard({
       <div className="relative aspect-[2/3] overflow-hidden rounded-2xl bg-[#F5ECD9] shadow-[0_12px_30px_-15px_rgba(117,97,127,0.45)] transition group-hover:-translate-y-1">
         {e.coverUrl ? (
           <img
-            src={e.coverUrl}
+            src={optimizedCoverUrl(e.coverUrl)!}
             alt={e.title}
             width={400}
             height={600}
