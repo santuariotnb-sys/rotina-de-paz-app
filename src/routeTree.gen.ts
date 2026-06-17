@@ -37,6 +37,7 @@ import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminLeadsRouteImport } from './routes/admin.leads'
 import { Route as AdminEbooksRouteImport } from './routes/admin.ebooks'
 import { Route as AdminCursosRouteImport } from './routes/admin.cursos'
+import { Route as AdminCrmRouteImport } from './routes/admin.crm'
 import { Route as AdminConfigRouteImport } from './routes/admin.config'
 import { Route as AdminClientesRouteImport } from './routes/admin.clientes'
 import { Route as AdminAudiosRouteImport } from './routes/admin.audios'
@@ -45,7 +46,7 @@ import { Route as AdminAcessosRouteImport } from './routes/admin.acessos'
 import { Route as AppVolumeTurnoRouteImport } from './routes/app.volume.$turno'
 import { Route as AppSuporteTicketIdRouteImport } from './routes/app.suporte.$ticketId'
 import { Route as AppDevocionalSlugRouteImport } from './routes/app.devocional.$slug'
-import { Route as ApiPublicWebhooksKirvanoRouteImport } from './routes/api/public/webhooks/kirvano'
+import { Route as ApiCrmUnsubscribeRouteImport } from './routes/api.crm.unsubscribe'
 
 const TermosDeUsoRoute = TermosDeUsoRouteImport.update({
   id: '/termos-de-uso',
@@ -187,6 +188,11 @@ const AdminCursosRoute = AdminCursosRouteImport.update({
   path: '/cursos',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminCrmRoute = AdminCrmRouteImport.update({
+  id: '/crm',
+  path: '/crm',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminConfigRoute = AdminConfigRouteImport.update({
   id: '/config',
   path: '/config',
@@ -227,12 +233,11 @@ const AppDevocionalSlugRoute = AppDevocionalSlugRouteImport.update({
   path: '/devocional/$slug',
   getParentRoute: () => AppRoute,
 } as any)
-const ApiPublicWebhooksKirvanoRoute =
-  ApiPublicWebhooksKirvanoRouteImport.update({
-    id: '/api/public/webhooks/kirvano',
-    path: '/api/public/webhooks/kirvano',
-    getParentRoute: () => rootRouteImport,
-  } as any)
+const ApiCrmUnsubscribeRoute = ApiCrmUnsubscribeRouteImport.update({
+  id: '/api/crm/unsubscribe',
+  path: '/api/crm/unsubscribe',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -249,6 +254,7 @@ export interface FileRoutesByFullPath {
   '/admin/audios': typeof AdminAudiosRoute
   '/admin/clientes': typeof AdminClientesRoute
   '/admin/config': typeof AdminConfigRoute
+  '/admin/crm': typeof AdminCrmRoute
   '/admin/cursos': typeof AdminCursosRoute
   '/admin/ebooks': typeof AdminEbooksRoute
   '/admin/leads': typeof AdminLeadsRoute
@@ -268,10 +274,10 @@ export interface FileRoutesByFullPath {
   '/app/suporte': typeof AppSuporteRouteWithChildren
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
+  '/api/crm/unsubscribe': typeof ApiCrmUnsubscribeRoute
   '/app/devocional/$slug': typeof AppDevocionalSlugRoute
   '/app/suporte/$ticketId': typeof AppSuporteTicketIdRoute
   '/app/volume/$turno': typeof AppVolumeTurnoRoute
-  '/api/public/webhooks/kirvano': typeof ApiPublicWebhooksKirvanoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -286,6 +292,7 @@ export interface FileRoutesByTo {
   '/admin/audios': typeof AdminAudiosRoute
   '/admin/clientes': typeof AdminClientesRoute
   '/admin/config': typeof AdminConfigRoute
+  '/admin/crm': typeof AdminCrmRoute
   '/admin/cursos': typeof AdminCursosRoute
   '/admin/ebooks': typeof AdminEbooksRoute
   '/admin/leads': typeof AdminLeadsRoute
@@ -305,10 +312,10 @@ export interface FileRoutesByTo {
   '/app/suporte': typeof AppSuporteRouteWithChildren
   '/admin': typeof AdminIndexRoute
   '/app': typeof AppIndexRoute
+  '/api/crm/unsubscribe': typeof ApiCrmUnsubscribeRoute
   '/app/devocional/$slug': typeof AppDevocionalSlugRoute
   '/app/suporte/$ticketId': typeof AppSuporteTicketIdRoute
   '/app/volume/$turno': typeof AppVolumeTurnoRoute
-  '/api/public/webhooks/kirvano': typeof ApiPublicWebhooksKirvanoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -326,6 +333,7 @@ export interface FileRoutesById {
   '/admin/audios': typeof AdminAudiosRoute
   '/admin/clientes': typeof AdminClientesRoute
   '/admin/config': typeof AdminConfigRoute
+  '/admin/crm': typeof AdminCrmRoute
   '/admin/cursos': typeof AdminCursosRoute
   '/admin/ebooks': typeof AdminEbooksRoute
   '/admin/leads': typeof AdminLeadsRoute
@@ -345,10 +353,10 @@ export interface FileRoutesById {
   '/app/suporte': typeof AppSuporteRouteWithChildren
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
+  '/api/crm/unsubscribe': typeof ApiCrmUnsubscribeRoute
   '/app/devocional/$slug': typeof AppDevocionalSlugRoute
   '/app/suporte/$ticketId': typeof AppSuporteTicketIdRoute
   '/app/volume/$turno': typeof AppVolumeTurnoRoute
-  '/api/public/webhooks/kirvano': typeof ApiPublicWebhooksKirvanoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -367,6 +375,7 @@ export interface FileRouteTypes {
     | '/admin/audios'
     | '/admin/clientes'
     | '/admin/config'
+    | '/admin/crm'
     | '/admin/cursos'
     | '/admin/ebooks'
     | '/admin/leads'
@@ -386,10 +395,10 @@ export interface FileRouteTypes {
     | '/app/suporte'
     | '/admin/'
     | '/app/'
+    | '/api/crm/unsubscribe'
     | '/app/devocional/$slug'
     | '/app/suporte/$ticketId'
     | '/app/volume/$turno'
-    | '/api/public/webhooks/kirvano'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -404,6 +413,7 @@ export interface FileRouteTypes {
     | '/admin/audios'
     | '/admin/clientes'
     | '/admin/config'
+    | '/admin/crm'
     | '/admin/cursos'
     | '/admin/ebooks'
     | '/admin/leads'
@@ -423,10 +433,10 @@ export interface FileRouteTypes {
     | '/app/suporte'
     | '/admin'
     | '/app'
+    | '/api/crm/unsubscribe'
     | '/app/devocional/$slug'
     | '/app/suporte/$ticketId'
     | '/app/volume/$turno'
-    | '/api/public/webhooks/kirvano'
   id:
     | '__root__'
     | '/'
@@ -443,6 +453,7 @@ export interface FileRouteTypes {
     | '/admin/audios'
     | '/admin/clientes'
     | '/admin/config'
+    | '/admin/crm'
     | '/admin/cursos'
     | '/admin/ebooks'
     | '/admin/leads'
@@ -462,10 +473,10 @@ export interface FileRouteTypes {
     | '/app/suporte'
     | '/admin/'
     | '/app/'
+    | '/api/crm/unsubscribe'
     | '/app/devocional/$slug'
     | '/app/suporte/$ticketId'
     | '/app/volume/$turno'
-    | '/api/public/webhooks/kirvano'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -478,7 +489,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   TermoDeCienciaRoute: typeof TermoDeCienciaRoute
   TermosDeUsoRoute: typeof TermosDeUsoRoute
-  ApiPublicWebhooksKirvanoRoute: typeof ApiPublicWebhooksKirvanoRoute
+  ApiCrmUnsubscribeRoute: typeof ApiCrmUnsubscribeRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -679,6 +690,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCursosRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/crm': {
+      id: '/admin/crm'
+      path: '/crm'
+      fullPath: '/admin/crm'
+      preLoaderRoute: typeof AdminCrmRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/config': {
       id: '/admin/config'
       path: '/config'
@@ -735,11 +753,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDevocionalSlugRouteImport
       parentRoute: typeof AppRoute
     }
-    '/api/public/webhooks/kirvano': {
-      id: '/api/public/webhooks/kirvano'
-      path: '/api/public/webhooks/kirvano'
-      fullPath: '/api/public/webhooks/kirvano'
-      preLoaderRoute: typeof ApiPublicWebhooksKirvanoRouteImport
+    '/api/crm/unsubscribe': {
+      id: '/api/crm/unsubscribe'
+      path: '/api/crm/unsubscribe'
+      fullPath: '/api/crm/unsubscribe'
+      preLoaderRoute: typeof ApiCrmUnsubscribeRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -751,6 +769,7 @@ interface AdminRouteChildren {
   AdminAudiosRoute: typeof AdminAudiosRoute
   AdminClientesRoute: typeof AdminClientesRoute
   AdminConfigRoute: typeof AdminConfigRoute
+  AdminCrmRoute: typeof AdminCrmRoute
   AdminCursosRoute: typeof AdminCursosRoute
   AdminEbooksRoute: typeof AdminEbooksRoute
   AdminLeadsRoute: typeof AdminLeadsRoute
@@ -772,6 +791,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminAudiosRoute: AdminAudiosRoute,
   AdminClientesRoute: AdminClientesRoute,
   AdminConfigRoute: AdminConfigRoute,
+  AdminCrmRoute: AdminCrmRoute,
   AdminCursosRoute: AdminCursosRoute,
   AdminEbooksRoute: AdminEbooksRoute,
   AdminLeadsRoute: AdminLeadsRoute,
@@ -835,18 +855,8 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   TermoDeCienciaRoute: TermoDeCienciaRoute,
   TermosDeUsoRoute: TermosDeUsoRoute,
-  ApiPublicWebhooksKirvanoRoute: ApiPublicWebhooksKirvanoRoute,
+  ApiCrmUnsubscribeRoute: ApiCrmUnsubscribeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
