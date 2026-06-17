@@ -27,6 +27,8 @@ function friendlyAuthError(e: unknown): string {
     return "Seu e-mail ainda não foi confirmado. Verifique sua caixa de entrada.";
   if (/rate limit|too many requests|429/i.test(s))
     return "Muitas tentativas. Aguarde 1 minuto e tente de novo.";
+  if (/for security purposes|you can only request this after|after \d+ seconds|email rate limit|over_email_send/i.test(s))
+    return "Aguarde alguns segundos antes de tentar de novo.";
   if (
     /failed to fetch|load failed|network|timeout|aborted/i.test(s) ||
     e instanceof TypeError
