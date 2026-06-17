@@ -24,6 +24,12 @@ function LouvoresPage() {
 
   const list = useMemo(() => all.filter((l) => l.book === book), [all, book]);
 
+  const counts = useMemo(() => {
+    const m = new Map<string, number>();
+    for (const l of all) m.set(l.book, (m.get(l.book) ?? 0) + 1);
+    return m;
+  }, [all]);
+
   const firstRef = useRef(true);
   const first = firstRef.current;
   firstRef.current = false;
@@ -42,7 +48,7 @@ function LouvoresPage() {
       {/* Filtros */}
       <div className="mt-6 flex flex-wrap justify-center gap-2">
         {BOOKS.map((b) => {
-          const count = all.filter((l) => l.book === b.key).length;
+          const count = counts.get(b.key) ?? 0;
           const active = b.key === book;
           return (
             <button key={b.key} onClick={() => setBook(b.key)} className={`rdp-chip ${active ? "rdp-chip-active" : ""}`}>
@@ -66,14 +72,19 @@ function LouvoresPage() {
         )}
         {list.map((t, i) => {
           const isCurrent = current?.id === t.id;
+          const animate = first && i < 12; // só anima os 12 primeiros no mount inicial
           return (
             <li key={t.id}
-              className={`flex items-center gap-3 rounded-2xl border p-3 transition rdp-fade-up ${
+              className={`flex items-center gap-3 rounded-2xl border p-3 transition ${animate ? "rdp-fade-up" : ""} ${
                 isCurrent
                   ? "border-[color:var(--gold-warm)]/60 bg-gradient-to-r from-white to-[color:var(--rose-soft)]/30 shadow-[0_8px_20px_-12px_rgba(201,168,118,0.4)]"
                   : "border-[color:var(--rose-dust)]/25 bg-white/70 hover:border-[color:var(--gold-warm)]/40"
               }`}
-              style={{ animationDelay: `${i * 35}ms` }}
+              style={{
+                ...(animate ? { animationDelay: `${i * 35}ms` } : {}),
+                contentVisibility: "auto",
+                containIntrinsicSize: "0 76px",
+              } as React.CSSProperties}
             >
               <span className="grid h-10 w-10 shrink-0 place-items-center font-mono text-[12px] text-[color:var(--amethyst)]/70">
                 {isCurrent && isPlaying ? <Equalizer /> : String(i + 1).padStart(2, "0")}
