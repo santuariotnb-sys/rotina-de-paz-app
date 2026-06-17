@@ -8,7 +8,7 @@ const processUnsubscribe = createServerFn({ method: "GET" })
     return { token };
   })
   .handler(async ({ data }) => {
-    const { processOptOut } = await import("@/lib/admin/crm.functions");
+    const { processOptOut } = await import("@/lib/admin/crm-unsub.server");
     return processOptOut(data.token);
   });
 
