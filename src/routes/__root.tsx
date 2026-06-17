@@ -5,10 +5,13 @@ import {
   createRootRouteWithContext,
   HeadContent,
   Scripts,
+  useNavigate,
 } from "@tanstack/react-router";
+import { useEffect } from "react";
 
 import appCss from "../styles.css?url";
 import { ErrorFallback } from "@/components/app/ErrorFallback";
+import { supabase } from "@/integrations/supabase/client";
 
 function NotFoundComponent() {
   return (
@@ -79,6 +82,20 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const navigate = useNavigate();
+
+  // Global: se o Supabase disparar PASSWORD_RECOVERY em qualquer rota,
+  // redireciona pra /reset-password (garante que o link do email funciona
+  // mesmo que o Supabase redirecione pro / ou /app em vez de /reset-password).
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const { data: sub } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "PASSWORD_RECOVERY") {
+        navigate({ to: "/reset-password" });
+      }
+    });
+    return () => sub.subscription.unsubscribe();
+  }, [navigate]);
 
   return (
     <QueryClientProvider client={queryClient}>

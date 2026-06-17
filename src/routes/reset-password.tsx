@@ -52,8 +52,16 @@ function ResetPasswordPage() {
       if (error) throw error;
       setOk(true);
       setTimeout(() => navigate({ to: "/app" }), 1200);
-    } catch (e: any) {
-      setErr(e?.message || "Não foi possível redefinir a senha.");
+    } catch (e: unknown) {
+      const msg = (e as any)?.message ?? "";
+      if (/weak password|at least/i.test(msg))
+        setErr("Senha muito fraca — use pelo menos 6 caracteres.");
+      else if (/same password|identical/i.test(msg))
+        setErr("Use uma senha diferente da anterior.");
+      else if (/failed to fetch|load failed|network|timeout/i.test(msg) || e instanceof TypeError)
+        setErr("Não conseguimos conectar. Confira sua internet e tente de novo.");
+      else
+        setErr("Não foi possível redefinir a senha. Tente de novo.");
     } finally {
       setLoading(false);
     }
