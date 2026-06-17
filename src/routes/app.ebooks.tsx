@@ -115,7 +115,7 @@ function Shelf({
   return (
     <section className="mt-8 rdp-fade-up">
       <h3 className="mb-3 font-display text-xl text-[color:var(--deep-purple)]">{title}</h3>
-      <div className="relative">
+      <div className="relative overflow-x-clip">
         <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 scrollbar-none" style={{ WebkitOverflowScrolling: "touch" }}>
           {items.map((e) => {
             const unlocked = isUnlocked(owned, e.requiredProductId);

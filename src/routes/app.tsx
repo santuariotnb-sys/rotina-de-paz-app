@@ -120,7 +120,7 @@ function AppShell() {
 
   return (
     <PlayerProvider>
-      <main className="rdp-app-bg min-h-dvh w-full overflow-x-hidden">
+      <main className="rdp-app-bg min-h-dvh w-full overflow-x-clip">
         <TopBar
           name={student?.name ?? null}
           email={email}
@@ -130,7 +130,7 @@ function AppShell() {
             navigate({ to: "/login" });
           }}
         />
-        <section className="mx-auto w-full max-w-5xl overflow-x-hidden px-4 pb-36 md:pb-28" style={{ paddingBottom: "calc(9rem + env(safe-area-inset-bottom, 0px))" }}>
+        <section className="mx-auto w-full max-w-5xl overflow-x-clip px-4 pb-36 md:pb-28" style={{ paddingBottom: "calc(9rem + env(safe-area-inset-bottom, 0px))" }}>
           <Outlet />
         </section>
         <MiniPlayer />
