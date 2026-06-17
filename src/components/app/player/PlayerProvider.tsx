@@ -1,4 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 import type { Louvor } from "@/data/louvores";
 
 type Ctx = {
@@ -45,11 +46,25 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
     const onPlay = () => setPlaying(true);
     const onPause = () => setPlaying(false);
 
+    const onError = () => {
+      const code = a.error?.code;
+      // MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED (4) or network (2)
+      if (code === 2) {
+        toast.error("Não consegui carregar este louvor. Confira sua conexão.");
+      } else if (code === 4) {
+        toast.error("Este louvor não está disponível no momento.");
+      } else {
+        toast.error("Não consegui tocar este louvor. Toque pra tentar de novo.");
+      }
+      setPlaying(false);
+    };
+
     a.addEventListener("timeupdate", onTime);
     a.addEventListener("loadedmetadata", onTime);
     a.addEventListener("ended", onEnd);
     a.addEventListener("play", onPlay);
     a.addEventListener("pause", onPause);
+    a.addEventListener("error", onError);
     return () => {
       a.pause();
       a.removeEventListener("timeupdate", onTime);
@@ -57,6 +72,7 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
       a.removeEventListener("ended", onEnd);
       a.removeEventListener("play", onPlay);
       a.removeEventListener("pause", onPause);
+      a.removeEventListener("error", onError);
     };
   }, []);
 
@@ -99,13 +115,31 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
       setDuration(0);
       a.load();
     }
-    a.play().catch(() => {});
+    // Guard: src vazio = áudio indisponível no banco
+    if (!track.src) {
+      toast.error("Áudio indisponível para esta faixa.");
+      return;
+    }
+    a.play().catch((e: DOMException) => {
+      if (e.name === "NotAllowedError") {
+        toast("Toque no ▶ pra começar a ouvir.", { icon: "🔇" });
+      }
+      // Outros erros (rede) são tratados pelo listener 'error' no <audio>
+    });
   }, []);
 
   const toggle = useCallback(() => {
     const a = audioRef.current;
     if (!a || !current) return;
-    if (a.paused) a.play().catch(() => {}); else a.pause();
+    if (a.paused) {
+      a.play().catch((e: DOMException) => {
+        if (e.name === "NotAllowedError") {
+          toast("Toque no ▶ pra começar a ouvir.", { icon: "🔇" });
+        }
+      });
+    } else {
+      a.pause();
+    }
   }, [current]);
 
   const next = useCallback(() => {
