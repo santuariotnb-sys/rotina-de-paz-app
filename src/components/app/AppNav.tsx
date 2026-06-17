@@ -14,7 +14,7 @@ import {
 
 // Carimbo de versão — bump a cada deploy pra confirmar (no aparelho do usuário) qual
 // build está realmente carregada. Aparece na TopBar: "Círculo da Paz · <APP_BUILD>".
-export const APP_BUILD = "v06jun-5";
+export const APP_BUILD = "v17jun-1";
 
 const items = [
   { to: "/app",              label: "Paz",         icon: Layers,  match: (p: string) => p === "/app" || p.startsWith("/app/volume") },
