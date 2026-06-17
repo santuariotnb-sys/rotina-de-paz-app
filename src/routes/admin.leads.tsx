@@ -5,7 +5,7 @@ import {
   Users,
   CalendarCheck,
   AlertTriangle,
-  Mail,
+  MessageCircle,
   Download,
   Search,
 } from "lucide-react";
@@ -216,7 +216,7 @@ function AdminLeadsPage() {
         <KpiCard
           label="Com WhatsApp"
           value={kpis.withWhatsapp}
-          icon={<Mail className="h-4 w-4" />}
+          icon={<MessageCircle className="h-4 w-4" />}
           accent="amber"
           loading={isLoading}
         />
