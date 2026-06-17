@@ -5,7 +5,7 @@ export default function MiniPlayer() {
   const { current, isPlaying, progress, toggle, next, setExpanded, close } = usePlayer();
   if (!current) return null;
   return (
-    <div className="fixed inset-x-0 z-30 mx-auto max-w-3xl px-3 sm:bottom-3" style={{ bottom: "calc(4rem + env(safe-area-inset-bottom, 0px))" }}>
+    <div className="fixed inset-x-0 z-30 mx-auto max-w-3xl px-3 sm:bottom-3" style={{ bottom: "calc(5rem + env(safe-area-inset-bottom, 0px))" }}>
       <div
         className="flex items-center gap-3 rounded-2xl border border-[color:var(--gold-warm)]/40 bg-white/95 px-3 py-2 shadow-[0_12px_30px_-12px_rgba(117,97,127,0.45)] backdrop-blur"
       >
