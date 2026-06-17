@@ -100,7 +100,7 @@ function AdminAnalyticsPage() {
     return [
       { label: "Leads", value: funnel.total_leads, color: "#6B7280" },
       { label: "Quiz completo", value: funnel.with_archetype, color: "#8B5CF6" },
-      { label: "Com email", value: funnel.with_email, color: "#3B82F6" },
+      { label: "Com WhatsApp", value: funnel.with_whatsapp, color: "#3B82F6" },
       { label: "Compraram", value: funnel.purchasers, color: "#10B981" },
       { label: "Upsell", value: funnel.upsell_buyers, color: "#F59E0B" },
       { label: "Downsell", value: funnel.downsell_buyers, color: "#EF4444" },
@@ -119,7 +119,7 @@ function AdminAnalyticsPage() {
       situacao: SITUATION_LABELS[s.situation] ?? s.situation,
       desejo: DESIRE_LABELS[s.desire] ?? s.desire,
       leads: s.total_leads,
-      com_email: s.with_email,
+      com_whatsapp: s.with_whatsapp,
       compradores: s.purchasers,
       taxa_conv: `${(s.conv_rate * 100).toFixed(1)}%`,
       receita_brl: (s.revenue / 100).toFixed(2),

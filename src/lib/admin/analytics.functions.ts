@@ -46,7 +46,7 @@ export const getFunnel = createServerFn({ method: "GET" })
     return (row ?? {
       total_leads: 0,
       with_archetype: 0,
-      with_email: 0,
+      with_whatsapp: 0,
       purchasers: 0,
       upsell_buyers: 0,
       downsell_buyers: 0,

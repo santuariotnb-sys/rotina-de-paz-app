@@ -73,6 +73,7 @@ type Lead = {
   id: string;
   archetype: string | null;
   email: string | null;
+  whatsapp: string | null;
   created_at: string;
 };
 
@@ -101,7 +102,7 @@ function AdminQuizPage() {
       const sb = supabase as any;
       const { data, error } = await sb
         .from("leads_reais")
-        .select("id, archetype, email, created_at")
+        .select("id, archetype, email, whatsapp, created_at")
         .gte("created_at", since)
         .order("created_at", { ascending: false })
         .limit(2000);
@@ -212,32 +213,9 @@ function AdminQuizPage() {
     }));
   }, [leads]);
 
-  // Funil de jornada (conversão via vendas_reais ↔ leads_reais.external_id)
-  const journeyFunnel = useMemo(() => {
-    const totalLeads = leads.length;
-    const withResponses = new Set(responses.map((r) => r.lead_id)).size;
-    const completed = kpis.completedQuizzes;
-
-    // Leads que viraram compradores (via convertedSet do server function)
-    const converted = leads.filter((l) => convertedSet.has(l.id)).length;
-
-    // Tempo médio do quiz (time_to_answer é o tempo total por lead no formato batch)
-    const timePerLead: Record<string, number> = {};
-    for (const r of responses) {
-      if (!timePerLead[r.lead_id]) timePerLead[r.lead_id] = r.time_to_answer ?? 0;
-    }
-    const times = Object.values(timePerLead).filter((t) => t > 0);
-    const avgTimeMs = times.length > 0 ? times.reduce((a, b) => a + b, 0) / times.length : 0;
-
-    return {
-      totalLeads,
-      withResponses,
-      completed,
-      emailCaptured: leads.filter((l) => l.email).length,
-      converted,
-      avgTimeSec: Math.round(avgTimeMs / 1000),
-    };
-  }, [leads, responses, kpis.completedQuizzes, convertedSet]);
+  // Forward-only cutoff: contact_gate data starts from this date
+  // (track_quiz_step allowlist was fixed on 2026-06-17)
+  const CONTACT_GATE_SINCE = "17/jun/2026";
 
   // Distribuição de respostas por pergunta (para funil de perguntas)
   const questionReach = useMemo(() => {
@@ -269,7 +247,7 @@ function AdminQuizPage() {
     if (funnelSteps.length === 0) return null;
     const arrival = funnelSteps.find((s) => s.stage === "arrival");
     const lastQ = funnelSteps.find((s) => s.stage === "q_desejo");
-    const contact = funnelSteps.find((s) => s.stage === "contact");
+    const contact = funnelSteps.find((s) => s.stage === "contact_gate");
 
     // Leak point: biggest drop — ignore steps where the PREVIOUS step had < 2
     // reached (artifact of newly-instrumented stages with no data yet)
@@ -289,7 +267,7 @@ function AdminQuizPage() {
         arrival && lastQ && arrival.reached > 0
           ? Math.round((lastQ.reached / arrival.reached) * 100)
           : 0,
-      emailsCaptured: contact?.reached ?? 0,
+      whatsappCapturedBeacon: contact?.reached ?? 0,
       leakPoint,
     };
   }, [funnelSteps]);
@@ -405,51 +383,21 @@ function AdminQuizPage() {
             />
           </div>
 
-          {/* Funil de Jornada */}
-          <GlassCard>
-            <h2 className="mb-4 text-lg font-semibold text-white">Funil de Jornada</h2>
-            <div className="grid grid-cols-3 gap-3 sm:grid-cols-5">
-              {[
-                { label: "Leads", value: journeyFunnel.totalLeads },
-                { label: "Responderam", value: journeyFunnel.withResponses },
-                { label: "Completaram", value: journeyFunnel.completed },
-                { label: "Email capturado", value: journeyFunnel.emailCaptured },
-                { label: "Compraram", value: journeyFunnel.converted },
-              ].map((step, i, arr) => (
-                <div key={step.label} className="text-center">
-                  <p className="text-2xl font-bold text-white">{step.value}</p>
-                  <p className="mt-1 text-[11px] text-[#8A90A2]">{step.label}</p>
-                  {i > 0 && arr[i - 1].value > 0 && (
-                    <p className="mt-0.5 text-[10px] text-[#6366F1]">
-                      {Math.round((step.value / arr[i - 1].value) * 100)}% do anterior
-                    </p>
-                  )}
-                </div>
-              ))}
-            </div>
-            {journeyFunnel.avgTimeSec > 0 && (
-              <p className="mt-4 text-[12px] text-[#8A90A2]">
-                Tempo médio do quiz:{" "}
-                <strong className="text-white">{journeyFunnel.avgTimeSec}s</strong>
-              </p>
-            )}
-          </GlassCard>
-
-          {/* Funil de Abandono (quiz_funnel_events) */}
+          {/* Funil do Quiz — Página a Página (beacon-based, DISTINCT session_id) */}
           <GlassCard>
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-white flex items-center gap-2">
                 <TrendingUp className="h-5 w-5" />
-                Funil de Abandono
+                Funil do Quiz — Página a Página
               </h2>
               <span className="text-xs text-zinc-400">
-                Dados de abandono desde 11/06/2026
+                Beacons desde 11/jun · DISTINCT por sessão
               </span>
             </div>
 
             {funnelSteps.length > 0 ? (
               <>
-                {/* KPI row — beacon-only cohort */}
+                {/* KPI row */}
                 <div className="grid grid-cols-2 gap-3 mb-6 sm:grid-cols-4">
                   <KpiCard
                     label="Chegaram"
@@ -463,8 +411,9 @@ function AdminQuizPage() {
                     icon={<TrendingUp className="h-4 w-4" />}
                   />
                   <KpiCard
-                    label="Deram email"
-                    value={funnelKpis?.emailsCaptured ?? 0}
+                    label="Deram WhatsApp"
+                    value={funnelKpis?.whatsappCapturedBeacon ?? 0}
+                    hint={`Populando desde ${CONTACT_GATE_SINCE}`}
                     icon={<Users className="h-4 w-4" />}
                   />
                   {funnelKpis?.leakPoint && (
@@ -478,58 +427,75 @@ function AdminQuizPage() {
                   )}
                 </div>
 
-                {/* Funnel bar chart */}
-                <ResponsiveContainer width="100%" height={320}>
-                  <BarChart data={funnelSteps} layout="vertical" margin={{ left: 120 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-                    <XAxis type="number" stroke="#888" />
-                    <YAxis
-                      type="category"
-                      dataKey="label"
-                      stroke="#888"
-                      width={110}
-                      tick={{ fontSize: 12 }}
-                    />
-                    <Tooltip
-                      contentStyle={{ background: "#1a1a2e", border: "1px solid #333" }}
-                      formatter={(value: number, name: string) => {
-                        if (name === "reached") return [value, "Alcançaram"];
-                        return [value, name];
-                      }}
-                      labelFormatter={(label) => label}
-                    />
-                    <Bar dataKey="reached" fill="#3B82F6" radius={[0, 4, 4, 0]}>
-                      {funnelSteps.map((entry) => (
-                        <Cell
-                          key={entry.stage}
-                          fill={
-                            entry.drop_pct > 30
-                              ? "#EF4444"
-                              : entry.drop_pct > 15
-                                ? "#F59E0B"
-                                : "#3B82F6"
-                          }
-                        />
-                      ))}
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
+                {/* Funnel table — 1 number per step, clear drop */}
+                <div className="space-y-1">
+                  {funnelSteps.map((step, i) => {
+                    const prevReached = i > 0 ? funnelSteps[i - 1].reached : 0;
+                    const topReached = funnelSteps[0]?.reached ?? 1;
+                    const pctOfTop = topReached > 0 ? Math.round((step.reached / topReached) * 100) : 0;
+                    const isContactGate = step.stage === "contact_gate";
+                    // Forward-only: contact_gate has sparse historical data, flag it
+                    const isForwardOnly = isContactGate && step.reached < (prevReached * 0.1);
 
-                {/* Drop annotations */}
-                <div className="mt-3 space-y-1">
-                  {funnelSteps
-                    .filter((s) => s.drop_pct > 0)
-                    .map((s) => (
-                      <div key={s.stage} className="flex items-center gap-2 text-xs">
-                        <span
-                          className={`font-mono ${s.drop_pct > 30 ? "text-red-400" : s.drop_pct > 15 ? "text-yellow-400" : "text-zinc-400"}`}
-                        >
-                          −{s.drop_pct}%
+                    return (
+                      <div
+                        key={step.stage}
+                        className={`flex items-center gap-3 rounded-lg px-3 py-2 ${
+                          isForwardOnly ? "bg-amber-500/5 border border-amber-500/20" : "bg-white/[0.02]"
+                        }`}
+                      >
+                        {/* Bar width proportional to top */}
+                        <div className="w-28 sm:w-40 truncate text-[12px] text-white">
+                          {step.label}
+                          {isForwardOnly && (
+                            <span className="ml-1.5 text-[10px] text-amber-400">(novo)</span>
+                          )}
+                        </div>
+                        <div className="flex-1">
+                          <div className="h-2 rounded-full bg-[#1A1F2E]">
+                            <div
+                              className={`h-2 rounded-full transition-all duration-500 ${
+                                isForwardOnly
+                                  ? "bg-amber-500/50"
+                                  : step.drop_pct > 30
+                                    ? "bg-red-500"
+                                    : step.drop_pct > 15
+                                      ? "bg-yellow-500"
+                                      : "bg-blue-500"
+                              }`}
+                              style={{ width: `${Math.max(pctOfTop, 1)}%` }}
+                            />
+                          </div>
+                        </div>
+                        <span className="w-12 text-right text-[12px] font-mono font-semibold text-white">
+                          {step.reached}
                         </span>
-                        <span className="text-zinc-500">{s.label}</span>
+                        <span className="w-12 text-right text-[11px] font-mono text-zinc-500">
+                          {pctOfTop}%
+                        </span>
+                        {i > 0 && !isForwardOnly && step.drop_pct > 0 && (
+                          <span
+                            className={`w-14 text-right text-[11px] font-mono ${
+                              step.drop_pct > 30 ? "text-red-400" : step.drop_pct > 15 ? "text-yellow-400" : "text-zinc-500"
+                            }`}
+                          >
+                            −{step.drop_pct}%
+                          </span>
+                        )}
+                        {(i === 0 || isForwardOnly || step.drop_pct <= 0) && (
+                          <span className="w-14" />
+                        )}
                       </div>
-                    ))}
+                    );
+                  })}
                 </div>
+
+                {/* Forward-only explanation */}
+                {funnelSteps.some((s) => s.stage === "contact_gate" && s.reached < 10) && (
+                  <p className="mt-3 text-[11px] text-amber-400/70">
+                    A etapa "WhatsApp capturado" está populando desde {CONTACT_GATE_SINCE} (dados anteriores foram perdidos por um bug na ingestão, já corrigido). Os números consolidam conforme novos visitantes passam pelo quiz.
+                  </p>
+                )}
               </>
             ) : (
               <p className="text-zinc-500 text-sm">
@@ -574,6 +540,9 @@ function AdminQuizPage() {
           {/* Distribuição de arquétipos */}
           <GlassCard>
             <h2 className="mb-4 text-lg font-semibold text-white">Distribuição de Arquétipos</h2>
+            <p className="mb-3 text-[11px] text-amber-400/70">
+              Arquétipo × venda não disponível — apenas 3.7% dos leads têm external_id para atribuição. Consolida conforme o volume cresce.
+            </p>
             <div className="flex flex-col items-center gap-6 md:flex-row">
               <div className="h-64 w-full max-w-xs">
                 <ResponsiveContainer width="100%" height="100%">

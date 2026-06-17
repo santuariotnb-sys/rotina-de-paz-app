@@ -44,6 +44,7 @@ type Lead = {
   id: string;
   name: string | null;
   email: string | null;
+  whatsapp: string | null;
   archetype: string | null;
   desire: string | null;
   situation: string | null;
@@ -66,7 +67,7 @@ function AdminLeadsPage() {
       const { data, error } = await sb
         .from("leads_reais")
         .select(
-          "id, name, email, archetype, desire, situation, risk_flag, utm_source, utm_campaign, created_at",
+          "id, name, email, whatsapp, archetype, desire, situation, risk_flag, utm_source, utm_campaign, created_at",
         )
         .gte("created_at", since)
         .order("created_at", { ascending: false })
@@ -77,20 +78,20 @@ function AdminLeadsPage() {
   });
 
   const todayStart = useMemo(
-    () => new Date(new Date().setHours(0, 0, 0, 0)).toISOString(),
+    () => sinceISO(PERIODS[0]),
     [],
   );
 
   const kpis = useMemo(() => {
     let today = 0;
     let risk = 0;
-    let withEmail = 0;
+    let withWhatsapp = 0;
     for (const l of leads) {
       if (l.created_at >= todayStart) today++;
       if (l.risk_flag) risk++;
-      if (l.email) withEmail++;
+      if (l.whatsapp) withWhatsapp++;
     }
-    return { total: leads.length, today, risk, withEmail };
+    return { total: leads.length, today, risk, withWhatsapp };
   }, [leads, todayStart]);
 
   const donutData = useMemo(() => {
@@ -213,8 +214,8 @@ function AdminLeadsPage() {
           loading={isLoading}
         />
         <KpiCard
-          label="Com email"
-          value={kpis.withEmail}
+          label="Com WhatsApp"
+          value={kpis.withWhatsapp}
           icon={<Mail className="h-4 w-4" />}
           accent="amber"
           loading={isLoading}

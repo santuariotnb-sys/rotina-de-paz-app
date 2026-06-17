@@ -18,9 +18,9 @@ export const getOverviewKpis = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }): Promise<OverviewKpis> => {
     await assertAdmin(context.userId);
-    const todayStart = new Date();
-    todayStart.setHours(0, 0, 0, 0);
-    const todayISO = todayStart.toISOString();
+    // Meia-noite em BRT (America/Sao_Paulo = UTC-3 fixo, sem horário de verão)
+    const todaySP = new Date().toLocaleDateString("sv", { timeZone: "America/Sao_Paulo" });
+    const todayISO = todaySP + "T03:00:00.000Z";
 
     // Views canônicas — fonte única de verdade (já filtram is_test e production_start_at)
     const sb = supabaseAdmin as any;

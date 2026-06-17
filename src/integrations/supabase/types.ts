@@ -359,10 +359,15 @@ export type Database = {
       leads: {
         Row: {
           archetype: string | null
+          consent_timestamp: string | null
           created_at: string
           desire: string | null
           email: string | null
+          external_id: string | null
+          fbclid: string | null
+          gclid: string | null
           id: string
+          is_test: boolean
           ip: string | null
           name: string | null
           referrer: string | null
@@ -376,13 +381,19 @@ export type Database = {
           utm_medium: string | null
           utm_source: string | null
           utm_term: string | null
+          whatsapp: string | null
         }
         Insert: {
           archetype?: string | null
+          consent_timestamp?: string | null
           created_at?: string
           desire?: string | null
           email?: string | null
+          external_id?: string | null
+          fbclid?: string | null
+          gclid?: string | null
           id?: string
+          is_test?: boolean
           ip?: string | null
           name?: string | null
           referrer?: string | null
@@ -396,13 +407,19 @@ export type Database = {
           utm_medium?: string | null
           utm_source?: string | null
           utm_term?: string | null
+          whatsapp?: string | null
         }
         Update: {
           archetype?: string | null
+          consent_timestamp?: string | null
           created_at?: string
           desire?: string | null
           email?: string | null
+          external_id?: string | null
+          fbclid?: string | null
+          gclid?: string | null
           id?: string
+          is_test?: boolean
           ip?: string | null
           name?: string | null
           referrer?: string | null
@@ -416,6 +433,7 @@ export type Database = {
           utm_medium?: string | null
           utm_source?: string | null
           utm_term?: string | null
+          whatsapp?: string | null
         }
         Relationships: []
       }

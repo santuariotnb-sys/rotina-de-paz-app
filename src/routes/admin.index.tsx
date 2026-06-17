@@ -24,7 +24,6 @@ function AdminOverview() {
   const { data, isLoading } = useQuery({
     queryKey: ["admin", "overview"],
     queryFn: () => fetchKpis(),
-    staleTime: 30_000,
   });
 
   const brl = (cents: number) =>

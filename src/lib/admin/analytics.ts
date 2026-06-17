@@ -9,7 +9,7 @@ export type TopSegment = {
   situation: string;
   desire: string;
   total_leads: number;
-  with_email: number;
+  with_whatsapp: number;
   purchasers: number;
   conv_rate: number;
   revenue: number;
@@ -18,7 +18,7 @@ export type TopSegment = {
 export type FunnelData = {
   total_leads: number;
   with_archetype: number;
-  with_email: number;
+  with_whatsapp: number;
   purchasers: number;
   upsell_buyers: number;
   downsell_buyers: number;
