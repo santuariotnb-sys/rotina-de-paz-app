@@ -154,10 +154,10 @@ function AdminVendasPage() {
   }
 
   return (
-    <div className="adm-fade-up space-y-6">
+    <div className="adm-fade-up min-w-0 space-y-6">
       {/* Header */}
       <header className="flex flex-wrap items-end justify-between gap-4">
-        <div>
+        <div className="min-w-0">
           <p
             className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#8B7355]"
             style={{ fontFamily: '"Cormorant Garamond", serif' }}
@@ -165,28 +165,28 @@ function AdminVendasPage() {
             Primordia · Vendas
           </p>
           <h1
-            className="mt-1 text-3xl font-semibold text-[#1A1D26]"
+            className="mt-1 text-2xl font-semibold text-[#1A1D26] sm:text-3xl"
             style={{ fontFamily: '"Cormorant Garamond", serif', letterSpacing: "0.01em" }}
           >
             Faturamento
           </h1>
           <p className="mt-2 text-[13px] text-[#4B5060]">
-            Vendas aprovadas pela Kirvano — receita, funil de ofertas e ticket médio.
+            Vendas aprovadas pela Kirvano — receita, funil e ticket médio.
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={handleExport}
             className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-[12px] font-medium text-white/70 hover:bg-white/10"
           >
             <Download className="h-3.5 w-3.5" /> CSV
           </button>
-          <div className="inline-flex rounded-lg border border-white/10 bg-white/5 p-0.5">
+          <div className="inline-flex flex-wrap rounded-lg border border-white/10 bg-white/5 p-0.5">
             {PERIODS.map((p) => (
               <button
                 key={p.label}
                 onClick={() => setPeriod(p)}
-                className={`rounded-md px-3 py-1.5 text-[12px] font-semibold transition ${
+                className={`rounded-md px-2.5 py-1.5 text-[11px] font-semibold transition sm:px-3 sm:text-[12px] ${
                   period.label === p.label
                     ? "bg-white/15 text-white"
                     : "text-white/50 hover:text-white/70"
@@ -318,7 +318,7 @@ function AdminVendasPage() {
               <BarChart
                 data={byProduct}
                 layout="vertical"
-                margin={{ left: 0, right: 20 }}
+                margin={{ left: 0, right: 10 }}
               >
                 <CartesianGrid
                   strokeDasharray="3 3"
@@ -327,7 +327,7 @@ function AdminVendasPage() {
                 />
                 <XAxis
                   type="number"
-                  tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 11 }}
+                  tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 10 }}
                   axisLine={false}
                   tickLine={false}
                   tickFormatter={(v) => `R$${v}`}
@@ -335,10 +335,10 @@ function AdminVendasPage() {
                 <YAxis
                   type="category"
                   dataKey="name"
-                  tick={{ fill: "rgba(255,255,255,0.6)", fontSize: 11 }}
+                  tick={{ fill: "rgba(255,255,255,0.6)", fontSize: 10 }}
                   axisLine={false}
                   tickLine={false}
-                  width={140}
+                  width={100}
                 />
                 <Tooltip
                   contentStyle={tooltipStyle}
@@ -411,71 +411,129 @@ function AdminVendasPage() {
             Nenhuma venda registrada nesse período.
           </p>
         ) : (
-          <div className="max-h-[480px] overflow-y-auto">
-            <table className="w-full text-sm">
-              <thead className="sticky top-0 bg-[#1A1B1F]/95 text-left text-[10px] uppercase tracking-wider text-white/40">
-                <tr>
-                  <th className="px-5 py-3">Produto</th>
-                  <th className="px-4 py-3">Tipo</th>
-                  <th className="px-4 py-3">Comprador</th>
-                  <th className="px-4 py-3">Status</th>
-                  <th className="px-4 py-3 text-right">Valor</th>
-                  <th className="px-4 py-3 text-right">Data</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-white/[0.04]">
-                {purchases.map((p) => {
-                  const isConfirmed = p.status === "confirmed";
-                  const typeConfig = TYPE_CONFIG[p.product_type ?? "principal"];
-                  return (
-                    <tr key={p.id} className="text-white/70">
-                      <td className="px-5 py-3">
-                        <span className="text-[13px] font-medium text-white">
-                          {p.product_name ?? "—"}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3">
-                        <span
-                          className="rounded-md px-2 py-0.5 text-[10px] font-semibold"
-                          style={{
-                            backgroundColor: `${typeConfig?.color ?? "#6B7280"}20`,
-                            color: typeConfig?.color ?? "#6B7280",
-                          }}
-                        >
-                          {typeConfig?.label ?? p.product_type ?? "—"}
-                        </span>
-                      </td>
-                      <td className="max-w-[160px] truncate px-4 py-3 text-[12px] text-white/50">
-                        {p.buyer_email ?? "—"}
-                      </td>
-                      <td className="px-4 py-3">
-                        <span
-                          className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${
-                            isConfirmed
-                              ? "bg-emerald-500/15 text-emerald-400"
-                              : "bg-red-500/15 text-red-400"
-                          }`}
-                        >
-                          {isConfirmed ? "Aprovada" : p.status}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-right tabular-nums text-[13px] font-semibold text-white">
-                        {brl(p.gross_value ?? 0)}
-                      </td>
-                      <td className="px-4 py-3 text-right text-[12px] text-white/40">
-                        {new Date(p.created_at).toLocaleString("pt-BR", {
-                          day: "2-digit",
-                          month: "2-digit",
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+          <>
+          {/* Mobile: card list / Desktop: table */}
+          <div className="hidden sm:block">
+            <div className="max-h-[480px] overflow-auto">
+              <table className="w-full min-w-[600px] text-sm">
+                <thead className="sticky top-0 bg-[#1A1B1F]/95 text-left text-[10px] uppercase tracking-wider text-white/40">
+                  <tr>
+                    <th className="px-5 py-3">Produto</th>
+                    <th className="px-4 py-3">Tipo</th>
+                    <th className="px-4 py-3">Comprador</th>
+                    <th className="px-4 py-3">Status</th>
+                    <th className="px-4 py-3 text-right">Valor</th>
+                    <th className="px-4 py-3 text-right">Data</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/[0.04]">
+                  {purchases.map((p) => {
+                    const isConfirmed = p.status === "confirmed";
+                    const typeConfig = TYPE_CONFIG[p.product_type ?? "principal"];
+                    return (
+                      <tr key={p.id} className="text-white/70">
+                        <td className="px-5 py-3">
+                          <span className="text-[13px] font-medium text-white">
+                            {p.product_name ?? "—"}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3">
+                          <span
+                            className="whitespace-nowrap rounded-md px-2 py-0.5 text-[10px] font-semibold"
+                            style={{
+                              backgroundColor: `${typeConfig?.color ?? "#6B7280"}20`,
+                              color: typeConfig?.color ?? "#6B7280",
+                            }}
+                          >
+                            {typeConfig?.label ?? p.product_type ?? "—"}
+                          </span>
+                        </td>
+                        <td className="max-w-[160px] truncate px-4 py-3 text-[12px] text-white/50">
+                          {p.buyer_email ?? "—"}
+                        </td>
+                        <td className="px-4 py-3">
+                          <span
+                            className={`whitespace-nowrap rounded-full px-2 py-0.5 text-[10px] font-semibold ${
+                              isConfirmed
+                                ? "bg-emerald-500/15 text-emerald-400"
+                                : "bg-red-500/15 text-red-400"
+                            }`}
+                          >
+                            {isConfirmed ? "Aprovada" : p.status}
+                          </span>
+                        </td>
+                        <td className="whitespace-nowrap px-4 py-3 text-right tabular-nums text-[13px] font-semibold text-white">
+                          {brl(p.gross_value ?? 0)}
+                        </td>
+                        <td className="whitespace-nowrap px-4 py-3 text-right text-[12px] text-white/40">
+                          {new Date(p.created_at).toLocaleString("pt-BR", {
+                            day: "2-digit",
+                            month: "2-digit",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           </div>
+
+          {/* Mobile card list */}
+          <div className="divide-y divide-white/[0.04] sm:hidden">
+            {purchases.map((p) => {
+              const isConfirmed = p.status === "confirmed";
+              const typeConfig = TYPE_CONFIG[p.product_type ?? "principal"];
+              return (
+                <div key={p.id} className="px-4 py-3 space-y-1.5">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-[13px] font-medium text-white">
+                        {p.product_name ?? "—"}
+                      </p>
+                      <p className="truncate text-[11px] text-white/40">
+                        {p.buyer_email ?? "—"}
+                      </p>
+                    </div>
+                    <span className="shrink-0 tabular-nums text-[14px] font-semibold text-white">
+                      {brl(p.gross_value ?? 0)}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span
+                      className="rounded-md px-1.5 py-0.5 text-[10px] font-semibold"
+                      style={{
+                        backgroundColor: `${typeConfig?.color ?? "#6B7280"}20`,
+                        color: typeConfig?.color ?? "#6B7280",
+                      }}
+                    >
+                      {typeConfig?.label ?? p.product_type ?? "—"}
+                    </span>
+                    <span
+                      className={`rounded-full px-1.5 py-0.5 text-[10px] font-semibold ${
+                        isConfirmed
+                          ? "bg-emerald-500/15 text-emerald-400"
+                          : "bg-red-500/15 text-red-400"
+                      }`}
+                    >
+                      {isConfirmed ? "Aprovada" : p.status}
+                    </span>
+                    <span className="ml-auto text-[11px] text-white/30">
+                      {new Date(p.created_at).toLocaleString("pt-BR", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          </>
         )}
       </GlassCard>
     </div>
