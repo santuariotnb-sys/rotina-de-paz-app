@@ -1,5 +1,5 @@
-import { Outlet, createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { Outlet, createFileRoute, redirect, useNavigate, useRouterState } from "@tanstack/react-router";
+import { useEffect, useRef, useState } from "react";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminTopbar } from "@/components/admin/AdminTopbar";
 import { getCurrentAdmin, type AdminRecord } from "@/lib/admin/auth";
@@ -80,6 +80,19 @@ function AdminLayout() {
     );
   }
 
+  // View Transition on route change
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const prevPath = useRef(pathname);
+  const mainRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (prevPath.current === pathname) return;
+    prevPath.current = pathname;
+
+    if (!document.startViewTransition || !mainRef.current) return;
+    document.startViewTransition();
+  }, [pathname]);
+
   return (
     <div data-scope="admin" className="adm-bg relative min-h-dvh overflow-x-hidden">
       <div className="relative z-10 flex min-h-dvh">
@@ -96,7 +109,7 @@ function AdminLayout() {
             onToggle={toggleCollapsed}
             onMobileOpen={() => setMobileOpen(true)}
           />
-          <main className="flex-1 overflow-x-hidden px-4 py-6 lg:px-8 lg:py-8">
+          <main ref={mainRef} className="adm-page-content flex-1 overflow-x-hidden px-4 py-6 lg:px-8 lg:py-8">
             <Outlet />
           </main>
         </div>
