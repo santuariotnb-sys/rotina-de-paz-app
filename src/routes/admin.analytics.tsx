@@ -121,8 +121,8 @@ function AdminAnalyticsPage() {
       leads: s.total_leads,
       com_whatsapp: s.with_whatsapp,
       compradores: s.purchasers,
-      taxa_conv: `${(s.conv_rate * 100).toFixed(1)}%`,
-      receita_brl: (s.revenue / 100).toFixed(2),
+      taxa_conv: `${Number(s.conv_rate).toFixed(1)}%`,
+      receita_brl: Number(s.revenue).toFixed(2),
     }));
     downloadCsv(
       rows,
