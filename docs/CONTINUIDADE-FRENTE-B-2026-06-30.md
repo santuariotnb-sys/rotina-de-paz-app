@@ -9,6 +9,43 @@
 > 4. `docs/AUDIT-AUTONOMO-2026-06-30.md` (estado real auditado, 47 achados)
 > 5. `docs/PROGRESS-AUTONOMO-2026-06-30.md` (log do que foi feito)
 
+## RESUMO EXECUTIVO (estrutura completa · objetivo · o que foi feito)
+
+### A — Estrutura completa do ecossistema
+**Jornada do usuário (o funil):**
+`Anúncio Meta → LP (rotinadepaz.com.br) e/ou Quiz Sacra → responde o quiz → vira lead → clica no CTA → checkout Kirvano (domínio externo) → compra → webhook Kirvano → libera entitlement → acesso no App (área de membros) → Admin gerencia/analisa tudo.`
+
+**Camadas técnicas (onde cada coisa roda):**
+- **LP estática + checkout React** — `~/rotina-de-paz` → Cloudflare Pages. Tracking via `public/rdp-tracking.js` (IIFE) + `src/lib/{attribution,track-event}.ts`.
+- **Quiz Sacra** — fonte em `~/Quiz-sacra`, build vira `~/rotina-de-paz/public/quiz.html`. Identidade em `src/lib/tracking.ts`.
+- **App + Admin** (TanStack Router) — `~/rotina-de-paz-app` → Vercel. CAPI server-side em `src/lib/admin/meta-capi.server.ts`; webhook Kirvano em `src/lib/admin/kirvano.server.ts`.
+- **Edge function `track-event`** (Supabase) — grava `tracking_sessions` + relay CAPI.
+- **Banco** — Supabase `cemjibbauvvyfaxilrvm` (COMPARTILHADO com o Quiz).
+- **Meta** — Pixel `863734499693171` (browser) + CAPI (servidor).
+
+**Modelo de dados (principais tabelas/views):** `leads`, `quiz_funnel_events` (tem `is_test`), `tracking_sessions` (beacon: external_id/fbp/fbc/fbclid/client_ip/ua), `purchases` + view `vendas_reais`, `leads_reais`, `receita_real`, `entitlements` (acessos), `webhook_logs` (+ `capi_status`). RPCs de funil/analytics: `analytics_quiz_funnel`, `analytics_full_funnel`, `analytics_checkout_funnel`, `analytics_top_segments`. ⚠️ `checkout.checkout_funnel_events` NÃO tem `is_test`.
+
+### B — Objetivo (o que estamos construindo)
+Tracking **100% fiel ao real, sem inflar**, pronto para quando subir tráfego. Concretamente, os **5 pilares**:
+1. **Espinha de identidade única** (`external_id = rp_<uuid>`) do 1º toque à compra, em cookie de domínio-raiz `.rotinadepaz.com.br` → liga lead↔sessão↔checkout↔venda↔acesso.
+2. **Captura server-side** de `client_ip` (CF-Connecting-IP) + User-Agent → sobe o EMQ.
+3. **Dedup correto** Pixel↔CAPI por `event_id` compartilhado; compra usa `event_id = order_id` da Kirvano.
+4. **Travessia até a Kirvano** (domínio externo): decorar URL do checkout + *stitching* no webhook.
+5. **Fonte de verdade única**: funil por JOIN (nunca UNION), `COUNT(DISTINCT external_id)`, filtra `is_test`, receita real-only; mídia Meta reconciliada por `order_id` (nunca somada).
+**Resultado esperado:** EMQ alto, atribuição lead→venda fechada, captura de todos os leads/respostas/entradas-saídas/liberações/checkout — coerentes e rastreáveis no Admin.
+
+### C — O que JÁ foi feito (verificado no prod)
+- ✅ **Spec + arquitetura aprovados** (5 pilares, roadmap Sprint 0→A→B→D→C) — `fa77e24`.
+- ✅ **Sprint 0 inteiro (4 bugs)** corrigidos, aplicados no prod e verificados:
+  - #1 revoke de acesso (`984326a`) · #2 CSV 100× (`527de0b`) · #3 funis ignoram `is_test` (`f113b19`) · #4 RLS de tracking (`527de0b`).
+- ✅ **B1 Passo 1** — espinha de identidade semeada (cookie `rdp_eid` + `getOrCreateExternalId()`), aditivo, na LP (`f732aa0`).
+- ✅ **B5** — schema de tracking versionado + índices `external_id`/`src` (`3e93bcd`).
+- ✅ **Auditoria das 5 superfícies** (47 achados) + **planos turnkey A/B/D/C** (`4b2ce40`) + harness de execução autônoma + memória do projeto atualizada.
+
+**Falta (o coração do EMQ/dedup):** propagar o `external_id` em todos os payloads, IP/UA server-side, decorar checkout, stitching no webhook, dedup Lead/IC, e então o dashboard de gargalos (D). Detalhe por passo abaixo.
+
+---
+
 ## 0. Postura (como um sênior trabalha aqui — NÃO negociável)
 - **Nunca confie, verifique no banco vivo.** Migrations locais ESTÃO DESSINCRONIZADAS do prod. O
   estado real só se conhece consultando o banco (`sb-query.mjs`, SELECT). Já aconteceu de a migration
