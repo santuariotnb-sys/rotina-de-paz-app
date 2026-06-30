@@ -293,6 +293,24 @@ export async function processKirvanoPayload(payload: KirvanoPayload, _webhookLog
         }
       }
 
+      // is_test: marca compra de teste pela denylist (checkout_config.test_emails) — fonte única.
+      // Sem isto a compra entra is_test=false e cai em vendas_reais (sujaria a métrica). (G4)
+      let isTest = false;
+      try {
+        const { data: cfg } = await (supabaseAdmin as any)
+          .from("checkout_config")
+          .select("value")
+          .eq("key", "test_emails")
+          .maybeSingle();
+        const testEmails = String((cfg as any)?.value ?? "")
+          .split(",")
+          .map((e: string) => e.trim().toLowerCase())
+          .filter(Boolean);
+        isTest = !!email && testEmails.includes(email.toLowerCase());
+      } catch {
+        // config indisponível → mantém isTest=false (não bloqueia fulfillment)
+      }
+
       for (const product_id of productIds) {
         const { data: prod } = await supabaseAdmin
           .from("products")
@@ -320,6 +338,7 @@ export async function processKirvanoPayload(payload: KirvanoPayload, _webhookLog
           product_type: inferProductType(offerLabel),
           gross_value: useRealPaid ? paidCents : prod.price_cents,
           status: "confirmed",
+          is_test: isTest,
           kirvano_offer_id: offerIds[0],
           buyer_email: email,
           // external_id (qs_*) do quiz → chave de join lead↔purchase para atribuição

@@ -144,7 +144,9 @@ export async function sendMetaCapiPurchase(
     if (fbc) user_data.fbc = fbc;
     if (ip) user_data.client_ip_address = ip;
     if (ts?.user_agent) user_data.client_user_agent = ts.user_agent;
-    const extHash = sha256(externalId); if (extHash) user_data.external_id = extHash;
+    // external_id CRU (sem hash) para casar com o pixel client, que envia qs_* em texto.
+    // Hashear só no server quebra o match/dedup de pessoa entre pixel e CAPI. (G1)
+    if (externalId) user_data.external_id = externalId;
 
     const custom_data: Record<string, unknown> = {
       currency: "BRL",
