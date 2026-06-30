@@ -46,7 +46,9 @@ import { Route as AdminAcessosRouteImport } from './routes/admin.acessos'
 import { Route as AppVolumeTurnoRouteImport } from './routes/app.volume.$turno'
 import { Route as AppSuporteTicketIdRouteImport } from './routes/app.suporte.$ticketId'
 import { Route as AppDevocionalSlugRouteImport } from './routes/app.devocional.$slug'
+import { Route as ApiCronCapiRetryRouteImport } from './routes/api/cron/capi-retry'
 import { Route as ApiCrmUnsubscribeRouteImport } from './routes/api.crm.unsubscribe'
+import { Route as ApiPublicWebhooksKirvanoRouteImport } from './routes/api/public/webhooks/kirvano'
 
 const TermosDeUsoRoute = TermosDeUsoRouteImport.update({
   id: '/termos-de-uso',
@@ -233,11 +235,22 @@ const AppDevocionalSlugRoute = AppDevocionalSlugRouteImport.update({
   path: '/devocional/$slug',
   getParentRoute: () => AppRoute,
 } as any)
+const ApiCronCapiRetryRoute = ApiCronCapiRetryRouteImport.update({
+  id: '/api/cron/capi-retry',
+  path: '/api/cron/capi-retry',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiCrmUnsubscribeRoute = ApiCrmUnsubscribeRouteImport.update({
   id: '/api/crm/unsubscribe',
   path: '/api/crm/unsubscribe',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicWebhooksKirvanoRoute =
+  ApiPublicWebhooksKirvanoRouteImport.update({
+    id: '/api/public/webhooks/kirvano',
+    path: '/api/public/webhooks/kirvano',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -275,9 +288,11 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
   '/api/crm/unsubscribe': typeof ApiCrmUnsubscribeRoute
+  '/api/cron/capi-retry': typeof ApiCronCapiRetryRoute
   '/app/devocional/$slug': typeof AppDevocionalSlugRoute
   '/app/suporte/$ticketId': typeof AppSuporteTicketIdRoute
   '/app/volume/$turno': typeof AppVolumeTurnoRoute
+  '/api/public/webhooks/kirvano': typeof ApiPublicWebhooksKirvanoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -313,9 +328,11 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminIndexRoute
   '/app': typeof AppIndexRoute
   '/api/crm/unsubscribe': typeof ApiCrmUnsubscribeRoute
+  '/api/cron/capi-retry': typeof ApiCronCapiRetryRoute
   '/app/devocional/$slug': typeof AppDevocionalSlugRoute
   '/app/suporte/$ticketId': typeof AppSuporteTicketIdRoute
   '/app/volume/$turno': typeof AppVolumeTurnoRoute
+  '/api/public/webhooks/kirvano': typeof ApiPublicWebhooksKirvanoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -354,9 +371,11 @@ export interface FileRoutesById {
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
   '/api/crm/unsubscribe': typeof ApiCrmUnsubscribeRoute
+  '/api/cron/capi-retry': typeof ApiCronCapiRetryRoute
   '/app/devocional/$slug': typeof AppDevocionalSlugRoute
   '/app/suporte/$ticketId': typeof AppSuporteTicketIdRoute
   '/app/volume/$turno': typeof AppVolumeTurnoRoute
+  '/api/public/webhooks/kirvano': typeof ApiPublicWebhooksKirvanoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -396,9 +415,11 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/app/'
     | '/api/crm/unsubscribe'
+    | '/api/cron/capi-retry'
     | '/app/devocional/$slug'
     | '/app/suporte/$ticketId'
     | '/app/volume/$turno'
+    | '/api/public/webhooks/kirvano'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -434,9 +455,11 @@ export interface FileRouteTypes {
     | '/admin'
     | '/app'
     | '/api/crm/unsubscribe'
+    | '/api/cron/capi-retry'
     | '/app/devocional/$slug'
     | '/app/suporte/$ticketId'
     | '/app/volume/$turno'
+    | '/api/public/webhooks/kirvano'
   id:
     | '__root__'
     | '/'
@@ -474,9 +497,11 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/app/'
     | '/api/crm/unsubscribe'
+    | '/api/cron/capi-retry'
     | '/app/devocional/$slug'
     | '/app/suporte/$ticketId'
     | '/app/volume/$turno'
+    | '/api/public/webhooks/kirvano'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -490,6 +515,8 @@ export interface RootRouteChildren {
   TermoDeCienciaRoute: typeof TermoDeCienciaRoute
   TermosDeUsoRoute: typeof TermosDeUsoRoute
   ApiCrmUnsubscribeRoute: typeof ApiCrmUnsubscribeRoute
+  ApiCronCapiRetryRoute: typeof ApiCronCapiRetryRoute
+  ApiPublicWebhooksKirvanoRoute: typeof ApiPublicWebhooksKirvanoRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -753,11 +780,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDevocionalSlugRouteImport
       parentRoute: typeof AppRoute
     }
+    '/api/cron/capi-retry': {
+      id: '/api/cron/capi-retry'
+      path: '/api/cron/capi-retry'
+      fullPath: '/api/cron/capi-retry'
+      preLoaderRoute: typeof ApiCronCapiRetryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/crm/unsubscribe': {
       id: '/api/crm/unsubscribe'
       path: '/api/crm/unsubscribe'
       fullPath: '/api/crm/unsubscribe'
       preLoaderRoute: typeof ApiCrmUnsubscribeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/webhooks/kirvano': {
+      id: '/api/public/webhooks/kirvano'
+      path: '/api/public/webhooks/kirvano'
+      fullPath: '/api/public/webhooks/kirvano'
+      preLoaderRoute: typeof ApiPublicWebhooksKirvanoRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -856,7 +897,19 @@ const rootRouteChildren: RootRouteChildren = {
   TermoDeCienciaRoute: TermoDeCienciaRoute,
   TermosDeUsoRoute: TermosDeUsoRoute,
   ApiCrmUnsubscribeRoute: ApiCrmUnsubscribeRoute,
+  ApiCronCapiRetryRoute: ApiCronCapiRetryRoute,
+  ApiPublicWebhooksKirvanoRoute: ApiPublicWebhooksKirvanoRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
