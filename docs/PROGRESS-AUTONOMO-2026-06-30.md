@@ -51,6 +51,38 @@ Estado planejado (detalhe + abordagem no plano entregue ao dono):
 
 ---
 
+## PLANOS TURNKEY A/B/D/C — ✅ ENTREGUES
+
+- Documento: `docs/PLANO-EXEC-ABDC-2026-06-30.md` (passo a passo, arquivos, SQL, verificação por frente).
+- Frente A: medir EMQ/cobertura CAPI/atribuição (baseline, read-only).
+- Frente B: 5 pilares — B1 identidade (`external_id rp_<uuid>` cookie domínio-raiz), B2 IP server-side, B3 stitching webhook, B4 dedup, B5 schema DDL, B6 Lead/IC no CAPI.
+- Frente D: dashboard de gargalos por JOIN (novo RPC, filtra is_test, liga a vendas_reais).
+- Frente C: eventos finos + compras in-app plugáveis.
+
+---
+
+## FRENTE B — B1 Passo 1 (espinha de identidade) — ✅ FEITO, VERIFICADO, COMMITADO (LP)
+
+> Passo SEGURO e REVERSÍVEL: gerar/persistir `external_id = rp_<uuid>` no 1º toque, ADITIVO.
+
+- **Onde:** repo LP `~/rotina-de-paz` (Cloudflare). Commit `f732aa0`.
+  - `public/rdp-tracking.js` (IIFE — quiz.html + LP HTML): novo `getOrCreateExternalId()` + `window.rdpTrack.externalId`.
+  - `src/lib/attribution.ts` (checkout React): novo `export getOrCreateExternalId()`.
+- **Comportamento:** cookie domínio-raiz `rdp_eid` (`Domain=.rotinadepaz.com.br; SameSite=Lax; Secure; 2 anos`) + localStorage `rdp_external_id`. Resolução preserva continuidade: cookie > localStorage legado (`qs_…`/`rp_…`) > deriva de `rdp_visitor_id` existente > novo `rp_<uuid>`.
+- **Por que é seguro:** puramente aditivo — **nada lê `rdp_eid` ainda**, nenhum payload muda, sem deploy forçado. Em host sem o eTLD+1 (preview `*.pages.dev`, localhost) grava cookie de host (sem `Domain`) — silencioso. Falha de cookie → cai em localStorage.
+- **Verificação (real):**
+  - Mock de cookie do `rdp-tracking.test.ts` corrigido para fazer **append** (como browser real) em vez de clobber — revelou que setar `document.cookie` num mock flat apagava `_fbp/_fbc`; em browser real apenas adiciona.
+  - +2 testes no IIFE (deriva `rp_<visitorId>`; reusa cookie existente) e novo `attribution-external-id.test.ts` (6 testes: 1º toque, estabilidade, reuso cookie, reuso legado `qs_`, derivação de visitor_id, escrita de cookie).
+  - Suite LP **254 testes verdes** (era 246); `tsc -b` limpo; `npm run build` ok (quiz.html + dist/rdp-tracking.js regenerados com o novo código).
+- **NÃO deployado** (guardrail: deploy é passo separado, após decisão do dono / janela segura). O dist local já reflete a mudança caso queira subir via wrangler.
+
+### Próximos passos B1 (não feitos nesta rodada — documentados no plano)
+- B1.2 propagar `external_id` em TODOS os payloads (edge `track-event` grava em `tracking_sessions`; pixel/CAPI usam como identidade) e migrar leitura `rdp_visitor_id` → `getOrCreateExternalId()`.
+- B1.3 decorar URL do checkout Kirvano com `src=<external_id>`+fbp/fbc/fbclid.
+- Quiz fonte (`~/Quiz-sacra/src/lib/tracking.ts`) usa `rdp_external_id=qs_<uuid>` em localStorage; o cookie `rdp_eid` do IIFE já o reusa (continuidade preservada). Unificar no B1.2.
+
+---
+
 ## Pendências / TODOs para o dono (registrados, não chutados)
 
 - `checkout.checkout_funnel_events` sem `is_test` nem identidade — marcar sessões de teste no checkout é pré-requisito para filtrar o ramo de checkout do funil (fora do Sprint 0).
