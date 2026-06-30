@@ -22,7 +22,7 @@ type LogRow = {
   payload: unknown;
   capi_status: "sent" | "failed" | "skipped" | null;
   capi_error: string | null;
-  capi_retries: number;
+  capi_retries: number | null;
   capi_last_attempt: string | null;
 };
 
@@ -138,7 +138,7 @@ function WebhookLogsPage() {
                       )}
                       {l.capi_status === "failed" && (
                         <span className="rounded-full bg-rose-100 px-2 py-0.5 text-[10px] font-semibold text-rose-700">
-                          Meta ✗{l.capi_retries > 1 ? ` (${l.capi_retries}×)` : ""}
+                          Meta ✗{(l.capi_retries ?? 0) > 1 ? ` (${l.capi_retries}×)` : ""}
                         </span>
                       )}
                       {l.capi_status === "skipped" && (
