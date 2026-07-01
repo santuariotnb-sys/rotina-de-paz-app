@@ -7,7 +7,11 @@ import { sendMetaCapiPurchase } from "./meta-capi.server";
  * Validação HMAC-SHA256 em tempo constante.
  * Compara o hex computado a partir do raw body com a assinatura recebida.
  */
-export function verifyKirvanoSignature(rawBody: string, signature: string | null, secret: string): boolean {
+export function verifyKirvanoSignature(
+  rawBody: string,
+  signature: string | null,
+  secret: string,
+): boolean {
   if (!signature || !secret) return false;
 
   // 1. Tentar HMAC-SHA256 (padrão seguro)
@@ -16,14 +20,18 @@ export function verifyKirvanoSignature(rawBody: string, signature: string | null
   if (received.length === expected.length) {
     try {
       if (timingSafeEqual(Buffer.from(received, "hex"), Buffer.from(expected, "hex"))) return true;
-    } catch { /* fall through to plain comparison */ }
+    } catch {
+      /* fall through to plain comparison */
+    }
   }
 
   // 2. Fallback: comparação direta de token estático (Kirvano pode enviar plain token)
   if (signature.length === secret.length) {
     try {
       return timingSafeEqual(Buffer.from(signature), Buffer.from(secret));
-    } catch { return false; }
+    } catch {
+      return false;
+    }
   }
 
   return false;
@@ -93,19 +101,43 @@ function extractOfferIds(payload: KirvanoPayload): string[] {
 
 function extractCustomerEmail(payload: KirvanoPayload): string | null {
   return (
-    pick<string>(payload, "data.customer.email", "data.buyer.email", "data.email", "customer.email", "buyer.email", "email") ?? null
+    pick<string>(
+      payload,
+      "data.customer.email",
+      "data.buyer.email",
+      "data.email",
+      "customer.email",
+      "buyer.email",
+      "email",
+    ) ?? null
   );
 }
 
 function extractCustomerName(payload: KirvanoPayload): string | null {
   return (
-    pick<string>(payload, "data.customer.name", "data.buyer.name", "customer.name", "buyer.name", "data.customer.full_name") ?? null
+    pick<string>(
+      payload,
+      "data.customer.name",
+      "data.buyer.name",
+      "customer.name",
+      "buyer.name",
+      "data.customer.full_name",
+    ) ?? null
   );
 }
 
 function extractTransactionId(payload: KirvanoPayload): string | null {
   return (
-    pick<string>(payload, "data.id", "data.transaction_id", "data.transaction.id", "data.sale_id", "sale_id", "id", "transaction_id") ?? null
+    pick<string>(
+      payload,
+      "data.id",
+      "data.transaction_id",
+      "data.transaction.id",
+      "data.sale_id",
+      "sale_id",
+      "id",
+      "transaction_id",
+    ) ?? null
   );
 }
 
@@ -155,7 +187,9 @@ async function ensureUserForEmail(email: string, name: string | null): Promise<s
 
   if (created.error) {
     // Se já existe, recuperar via RPC direta (sem limite de paginação)
-    const { data: userId } = await (supabaseAdmin as any).rpc("get_user_id_by_email", { p_email: email });
+    const { data: userId } = await (supabaseAdmin as any).rpc("get_user_id_by_email", {
+      p_email: email,
+    });
     if (userId) return userId as string;
     throw new Error(`Não foi possível obter/criar usuário para ${email}: ${created.error.message}`);
   }
@@ -186,13 +220,21 @@ function inferProductType(label: string | null): string {
  * Processa o payload já validado e cria/revoga entitlements.
  * Não relança — chamador decide o status do webhook_log.
  */
-export async function processKirvanoPayload(payload: KirvanoPayload, _webhookLogId?: string | null): Promise<KirvanoProcessResult> {
+export async function processKirvanoPayload(
+  payload: KirvanoPayload,
+  _webhookLogId?: string | null,
+): Promise<KirvanoProcessResult> {
   const eventName = String(payload.event ?? payload.type ?? "").trim();
   const isApproved = APPROVED_EVENTS.has(eventName);
   const isRevoke = REVOKE_EVENTS.has(eventName);
 
   if (!isApproved && !isRevoke) {
-    return { matched: false, granted: [], revoked: [], note: `Evento ignorado: ${eventName || "(vazio)"}` };
+    return {
+      matched: false,
+      granted: [],
+      revoked: [],
+      note: `Evento ignorado: ${eventName || "(vazio)"}`,
+    };
   }
 
   const offerIds = extractOfferIds(payload);
@@ -200,7 +242,8 @@ export async function processKirvanoPayload(payload: KirvanoPayload, _webhookLog
   const txId = extractTransactionId(payload);
   const name = extractCustomerName(payload);
 
-  if (offerIds.length === 0) return { matched: false, granted: [], revoked: [], note: "Sem offer_id no payload." };
+  if (offerIds.length === 0)
+    return { matched: false, granted: [], revoked: [], note: "Sem offer_id no payload." };
   if (!email) return { matched: false, granted: [], revoked: [], note: "Sem email do comprador." };
 
   // Resolve produto(s) a partir das ofertas
@@ -212,7 +255,12 @@ export async function processKirvanoPayload(payload: KirvanoPayload, _webhookLog
 
   const productIds = Array.from(new Set((offers ?? []).map((o) => o.product_id)));
   if (productIds.length === 0) {
-    return { matched: false, granted: [], revoked: [], note: `Nenhum produto vinculado às offers ${offerIds.join(", ")}` };
+    return {
+      matched: false,
+      granted: [],
+      revoked: [],
+      note: `Nenhum produto vinculado às offers ${offerIds.join(", ")}`,
+    };
   }
 
   const userId = await ensureUserForEmail(email, name);
@@ -230,7 +278,9 @@ export async function processKirvanoPayload(payload: KirvanoPayload, _webhookLog
 
     const activatable = productIds.filter((pid) => !refundedSet.has(pid));
     if (refundedSet.size > 0) {
-      console.warn(`[kirvano] Skipping re-activation of ${refundedSet.size} refunded entitlement(s) for ${email}: ${[...refundedSet].join(", ")}`);
+      console.warn(
+        `[kirvano] Skipping re-activation of ${refundedSet.size} refunded entitlement(s) for ${email}: ${[...refundedSet].join(", ")}`,
+      );
     }
 
     if (activatable.length > 0) {
@@ -262,7 +312,9 @@ export async function processKirvanoPayload(payload: KirvanoPayload, _webhookLog
       const result = await sendWelcomeEmail({ email, name, productNames });
       if (!result.sent) {
         // ERROR (não warn) — comprador pagou mas pode não ter recebido acesso por email
-        console.error(`[kirvano] WELCOME EMAIL FALHOU para ${email}: ${result.error}. Comprador pode precisar usar "Esqueci a senha" para acessar.`);
+        console.error(
+          `[kirvano] WELCOME EMAIL FALHOU para ${email}: ${result.error}. Comprador pode precisar usar "Esqueci a senha" para acessar.`,
+        );
       }
     } catch (e) {
       console.error(`[kirvano] WELCOME EMAIL ERRO para ${email}:`, e);
@@ -331,26 +383,29 @@ export async function processKirvanoPayload(payload: KirvanoPayload, _webhookLog
         }
 
         const utm = (payload as any).utm as Record<string, string> | undefined;
-        await (supabaseAdmin as any).from("purchases").upsert({
-          transaction_id: txId ? `${txId}_${product_id.slice(0, 8)}` : null,
-          user_id: userId,
-          product_name: prod.name,
-          product_type: inferProductType(offerLabel),
-          gross_value: useRealPaid ? paidCents : prod.price_cents,
-          status: "confirmed",
-          is_test: isTest,
-          kirvano_offer_id: offerIds[0],
-          buyer_email: email,
-          // external_id (qs_*) do quiz → chave de join lead↔purchase para atribuição
-          src: utm?.src ?? null,
-          lead_id: resolvedLeadId,
-          utm_source: utm?.utm_source ?? null,
-          utm_campaign: utm?.utm_campaign ?? null,
-          utm_medium: utm?.utm_medium ?? null,
-          utm_content: utm?.utm_content ?? null,
-          utm_term: utm?.utm_term ?? null,
-          metadata: { event: eventName, raw_offer_ids: offerIds },
-        }, { onConflict: "transaction_id" });
+        await (supabaseAdmin as any).from("purchases").upsert(
+          {
+            transaction_id: txId ? `${txId}_${product_id.slice(0, 8)}` : null,
+            user_id: userId,
+            product_name: prod.name,
+            product_type: inferProductType(offerLabel),
+            gross_value: useRealPaid ? paidCents : prod.price_cents,
+            status: "confirmed",
+            is_test: isTest,
+            kirvano_offer_id: offerIds[0],
+            buyer_email: email,
+            // external_id (qs_*) do quiz → chave de join lead↔purchase para atribuição
+            src: utm?.src ?? null,
+            lead_id: resolvedLeadId,
+            utm_source: utm?.utm_source ?? null,
+            utm_campaign: utm?.utm_campaign ?? null,
+            utm_medium: utm?.utm_medium ?? null,
+            utm_content: utm?.utm_content ?? null,
+            utm_term: utm?.utm_term ?? null,
+            metadata: { event: eventName, raw_offer_ids: offerIds },
+          },
+          { onConflict: "transaction_id" },
+        );
       }
     } catch (err) {
       console.error("[analytics] falha ao registrar purchase (não-bloqueante):", err);
@@ -367,7 +422,11 @@ export async function processKirvanoPayload(payload: KirvanoPayload, _webhookLog
         .select("name")
         .in("id", productIds);
       const productNames = (prods ?? []).map((p) => p.name);
-      const capi = await sendMetaCapiPurchase(payload, { transactionId: txId, productNames, productIds });
+      const capi = await sendMetaCapiPurchase(payload, {
+        transactionId: txId,
+        productNames,
+        productIds,
+      });
       if (capi.sent) {
         capiStatus = "sent";
       } else if (capi.error === "missing_credentials") {

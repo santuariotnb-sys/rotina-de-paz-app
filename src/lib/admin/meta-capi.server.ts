@@ -109,7 +109,10 @@ export async function sendMetaCapiPurchase(
     const lastName = fullName ? String(fullName).trim().split(/\s+/).slice(1).join(" ") : null;
     // phone_number vem do Kirvano em E.164 (ex: "5519987333333"). Normaliza para E.164 canônico.
     const rawPhone: string | null =
-      payload?.customer?.phone_number ?? payload?.customer?.phone ?? payload?.customer?.cellphone ?? null;
+      payload?.customer?.phone_number ??
+      payload?.customer?.phone ??
+      payload?.customer?.cellphone ??
+      null;
     let phoneDigits = rawPhone ? rawPhone.replace(/\D/g, "") : null;
     if (phoneDigits) {
       // Remove leading zero (ex: 019987... → 19987...)
@@ -136,10 +139,14 @@ export async function sendMetaCapiPurchase(
     const value = parseBRL(payload?.total_price);
 
     const user_data: Record<string, unknown> = {};
-    const em = sha256(email); if (em) user_data.em = [em];
-    const ph = sha256(phoneDigits); if (ph) user_data.ph = [ph];
-    const fn = sha256(firstName); if (fn) user_data.fn = [fn];
-    const ln = sha256(lastName); if (ln) user_data.ln = [ln];
+    const em = sha256(email);
+    if (em) user_data.em = [em];
+    const ph = sha256(phoneDigits);
+    if (ph) user_data.ph = [ph];
+    const fn = sha256(firstName);
+    if (fn) user_data.fn = [fn];
+    const ln = sha256(lastName);
+    if (ln) user_data.ln = [ln];
     if (fbp) user_data.fbp = fbp;
     if (fbc) user_data.fbc = fbc;
     if (ip) user_data.client_ip_address = ip;
@@ -186,7 +193,10 @@ export async function sendMetaCapiPurchase(
     );
     const json = (await res.json().catch(() => ({}))) as Record<string, unknown>;
     if (!res.ok) {
-      return { sent: false, error: redact(`HTTP ${res.status}: ${JSON.stringify(json).slice(0, 250)}`) };
+      return {
+        sent: false,
+        error: redact(`HTTP ${res.status}: ${JSON.stringify(json).slice(0, 250)}`),
+      };
     }
     return { sent: true };
   } catch (e) {
