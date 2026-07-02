@@ -320,6 +320,10 @@ export async function processKirvanoPayload(
       console.error(`[kirvano] WELCOME EMAIL ERRO para ${email}:`, e);
     }
 
+    // is_test hoisted: precisa ser visível no bloco de analytics (purchases) E no bloco
+    // CAPI abaixo, para gatear o envio de Purchase de compras de QA ao Meta. (#1)
+    let isTest = false;
+
     // Analytics: registrar purchase (isolado — nunca derruba fulfillment)
     try {
       // Valor real pago neste webhook. Só usamos como gross_value quando há um único
@@ -347,7 +351,7 @@ export async function processKirvanoPayload(
 
       // is_test: marca compra de teste pela denylist (checkout_config.test_emails) — fonte única.
       // Sem isto a compra entra is_test=false e cai em vendas_reais (sujaria a métrica). (G4)
-      let isTest = false;
+      // (isTest declarado acima do try de analytics para o bloco CAPI também enxergar) (#1)
       try {
         const { data: cfg } = await (supabaseAdmin as any)
           .from("checkout_config")
@@ -416,30 +420,37 @@ export async function processKirvanoPayload(
     // Seguro: event_id = sale_id → Meta deduplica nossos próprios reenvios.
     let capiStatus: string | undefined;
     let capiError: string | null = null;
-    try {
-      const { data: prods } = await supabaseAdmin
-        .from("products")
-        .select("name")
-        .in("id", productIds);
-      const productNames = (prods ?? []).map((p) => p.name);
-      const capi = await sendMetaCapiPurchase(payload, {
-        transactionId: txId,
-        productNames,
-        productIds,
-      });
-      if (capi.sent) {
-        capiStatus = "sent";
-      } else if (capi.error === "missing_credentials") {
-        capiStatus = "skipped";
-      } else {
+    if (isTest) {
+      // Compra de QA (email em test_emails) — NÃO envia Purchase real ao Meta.
+      // Com test_event_code removido, enviar poluiria as conversões reais. O cron
+      // capi-retry só reprocessa 'failed', então 'skipped_test' nunca é reenviado. (#1)
+      capiStatus = "skipped_test";
+    } else {
+      try {
+        const { data: prods } = await supabaseAdmin
+          .from("products")
+          .select("name")
+          .in("id", productIds);
+        const productNames = (prods ?? []).map((p) => p.name);
+        const capi = await sendMetaCapiPurchase(payload, {
+          transactionId: txId,
+          productNames,
+          productIds,
+        });
+        if (capi.sent) {
+          capiStatus = "sent";
+        } else if (capi.error === "missing_credentials") {
+          capiStatus = "skipped";
+        } else {
+          capiStatus = "failed";
+          capiError = capi.error ?? "unknown";
+          console.error(`[meta-capi] Purchase NÃO enviado (sale ${txId}): ${capi.error}`);
+        }
+      } catch (err) {
         capiStatus = "failed";
-        capiError = capi.error ?? "unknown";
-        console.error(`[meta-capi] Purchase NÃO enviado (sale ${txId}): ${capi.error}`);
+        capiError = err instanceof Error ? err.message : String(err);
+        console.error("[meta-capi] erro inesperado (não-bloqueante):", err);
       }
-    } catch (err) {
-      capiStatus = "failed";
-      capiError = err instanceof Error ? err.message : String(err);
-      console.error("[meta-capi] erro inesperado (não-bloqueante):", err);
     }
 
     return { matched: true, granted: productIds, revoked: [], userId, capiStatus, capiError };

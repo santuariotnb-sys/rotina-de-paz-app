@@ -20,7 +20,7 @@ type LogRow = {
   error: string | null;
   created_at: string;
   payload: unknown;
-  capi_status: "sent" | "failed" | "skipped" | null;
+  capi_status: "sent" | "failed" | "skipped" | "skipped_test" | null;
   capi_error: string | null;
   capi_retries: number | null;
   capi_last_attempt: string | null;
@@ -51,9 +51,10 @@ function WebhookLogsPage() {
     onSuccess: () => qc.invalidateQueries({ queryKey: ["admin", "webhook-logs"] }),
   });
 
-  // Cobertura CAPI: entre os webhooks que tentaram enviar ao Meta (capi_status != null),
-  // quantos foram 'sent'. NULL = evento sem CAPI (não-venda), fora da conta.
-  const capiAttempts = logs.filter((l) => l.capi_status != null);
+  // Cobertura CAPI: entre os que REALMENTE tentaram entregar (sent|failed), quantos foram 'sent'.
+  // 'skipped' (sem credencial) e 'skipped_test' (compra de QA) NÃO são tentativa de entrega →
+  // ficam fora do denominador, senão QA/no-op derrubariam o % como se fosse falha. NULL idem.
+  const capiAttempts = logs.filter((l) => l.capi_status === "sent" || l.capi_status === "failed");
   const capiSent = capiAttempts.filter((l) => l.capi_status === "sent").length;
   const capiPct = capiAttempts.length ? Math.round((capiSent / capiAttempts.length) * 100) : null;
 
@@ -144,6 +145,11 @@ function WebhookLogsPage() {
                       {l.capi_status === "skipped" && (
                         <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-semibold text-slate-600">
                           Meta —
+                        </span>
+                      )}
+                      {l.capi_status === "skipped_test" && (
+                        <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-semibold text-slate-500">
+                          Meta — teste
                         </span>
                       )}
                     </div>
