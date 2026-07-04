@@ -127,7 +127,7 @@ function DevocionalPlayerPage() {
       </div>
 
       <div className="mt-3 text-center rdp-fade-up">
-        <p className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-warm)]">Devocional</p>
+        <p className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-ink)]">Devocional</p>
         <h1 className="mt-2 font-display text-4xl rdp-title-gradient">{course.title}</h1>
         {course.subtitle && (
           <p className="mt-1 text-[13px] text-[color:var(--amethyst)] italic">{course.subtitle}</p>
@@ -152,7 +152,7 @@ function DevocionalPlayerPage() {
             className="relative w-full aspect-video bg-gradient-to-br from-[#443A52] to-[#2C1F0B] grid place-items-center cursor-pointer"
           >
             <div className="text-center">
-              <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-white/95 text-[color:var(--gold-warm)] shadow-lg">
+              <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-white/95 text-[color:var(--gold-ink)] shadow-lg">
                 <Lock className="h-6 w-6" />
               </div>
               <p className="mt-3 text-[13px] font-semibold text-white">Aula bloqueada</p>
@@ -162,7 +162,7 @@ function DevocionalPlayerPage() {
         )}
 
         <div className="p-4">
-          <p className="text-[10px] uppercase tracking-[0.22em] text-[color:var(--gold-warm)]">
+          <p className="text-[10px] uppercase tracking-[0.22em] text-[color:var(--gold-ink)]">
             Aula {activeLesson?.lesson_index}
             {activeLesson?.is_free_preview && " · Prévia grátis"}
           </p>
@@ -230,7 +230,7 @@ function DevocionalPlayerPage() {
                 >
                   <div className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl border ${
                     isActive
-                      ? "border-[color:var(--gold-warm)]/60 bg-[color:var(--gold-warm)]/15 text-[color:var(--gold-warm)]"
+                      ? "border-[color:var(--gold-warm)]/60 bg-[color:var(--gold-warm)]/15 text-[color:var(--gold-ink)]"
                       : available
                         ? "border-[color:var(--amethyst)]/20 bg-white/50 text-[color:var(--amethyst)]"
                         : "border-[color:var(--amethyst)]/10 bg-white/30 text-[color:var(--amethyst)]/40"
@@ -239,9 +239,9 @@ function DevocionalPlayerPage() {
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
-                      <p className="text-[10px] uppercase tracking-[0.2em] text-[color:var(--gold-warm)]">Dia {l.lesson_index}</p>
+                      <p className="text-[10px] uppercase tracking-[0.2em] text-[color:var(--gold-ink)]">Dia {l.lesson_index}</p>
                       {l.is_free_preview && (
-                        <span className="rounded-full border border-[color:var(--gold-warm)]/40 bg-[color:var(--gold-warm)]/10 px-2 py-0.5 text-[9px] uppercase tracking-widest text-[color:var(--gold-warm)]">Grátis</span>
+                        <span className="rounded-full border border-[color:var(--gold-warm)]/40 bg-[color:var(--gold-warm)]/10 px-2 py-0.5 text-[9px] uppercase tracking-widest text-[color:var(--gold-ink)]">Grátis</span>
                       )}
                     </div>
                     <p className="mt-0.5 text-[13px] font-medium text-[color:var(--deep-purple)] truncate">{l.title}</p>
@@ -283,7 +283,7 @@ function OfferSection({ checkoutUrl, onCheckout }: { checkoutUrl: string | null;
   return (
     <div className="mt-4 rdp-light-card rounded-3xl p-5 space-y-5">
       <div className="text-center">
-        <p className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-warm)]">A Chave da Gratidão · 7 dias</p>
+        <p className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-ink)]">A Chave da Gratidão · 7 dias</p>
         <h3 className="mt-2 font-display text-2xl text-[color:var(--deep-purple)] leading-snug">
           E se a gratidão fosse a chave que falta pra sua paz?
         </h3>
@@ -293,18 +293,18 @@ function OfferSection({ checkoutUrl, onCheckout }: { checkoutUrl: string | null;
       </div>
 
       <div className="rounded-2xl border border-[color:var(--gold-warm)]/30 bg-white/60 p-4">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[color:var(--gold-warm)]">O que é</p>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[color:var(--gold-ink)]">O que é</p>
         <p className="mt-2 text-[13px] text-[color:var(--amethyst)] leading-relaxed">
           Um devocional em 7 videoaulas. Em cada uma, você é conduzida por um tema — do vale à escassez, da mágoa ao silêncio — pra descobrir, na prática e na Palavra, como a gratidão acalma a mente, fortalece a fé e muda o que você sente.
         </p>
       </div>
 
       <div className="rounded-2xl border border-[color:var(--gold-warm)]/30 bg-white/60 p-4">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[color:var(--gold-warm)]">O que você recebe</p>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[color:var(--gold-ink)]">O que você recebe</p>
         <ol className="mt-3 space-y-2">
           {lessons.map((l, i) => (
             <li key={i} className="flex gap-2.5 text-[13px] text-[color:var(--deep-purple)]">
-              <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full border border-[color:var(--gold-warm)]/40 bg-white/70 text-[10px] font-semibold text-[color:var(--gold-warm)]">{i + 1}</span>
+              <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full border border-[color:var(--gold-warm)]/40 bg-white/70 text-[10px] font-semibold text-[color:var(--gold-ink)]">{i + 1}</span>
               <span className="leading-relaxed">Dia {i + 1} — {l}</span>
             </li>
           ))}

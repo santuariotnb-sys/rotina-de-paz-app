@@ -52,7 +52,7 @@ function AcceptancePage() {
     <main className="rdp-app-bg min-h-dvh">
       <div className="mx-auto max-w-2xl px-4 py-8">
         <div className="text-center">
-          <p className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-warm)]">Circulo da Paz</p>
+          <p className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-ink)]">Circulo da Paz</p>
           <h1 className="mt-1 font-display text-3xl rdp-title-gradient">Antes de comecar</h1>
           <p className="mt-2 text-[13px] text-[color:var(--amethyst)]">
             Para acessar o conteudo, leia e aceite os termos abaixo.
@@ -93,7 +93,7 @@ function AcceptancePage() {
               checked={checked}
               onChange={(e) => setChecked(e.target.checked)}
               disabled={!scrolledToEnd}
-              className="mt-0.5 h-5 w-5 rounded border-2 border-[color:var(--gold-warm)] text-[color:var(--gold-warm)] accent-[color:var(--gold-warm)] disabled:opacity-40"
+              className="mt-0.5 h-5 w-5 rounded border-2 border-[color:var(--gold-warm)] text-[color:var(--gold-ink)] accent-[color:var(--gold-warm)] disabled:opacity-40"
             />
             <span className={"text-[13px] leading-relaxed " + (scrolledToEnd ? "text-[color:var(--deep-purple)]" : "text-[color:var(--amethyst)] opacity-60")}>
               Li e aceito os <strong>Termos de Uso</strong>, a <strong>Politica de Privacidade</strong> e o <strong>Termo de Ciencia e Responsabilidade</strong>.

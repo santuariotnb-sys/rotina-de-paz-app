@@ -1,4 +1,4 @@
-import avatarSrc from "@/assets/guide-avatar.jpg";
+import avatarSrc from "@/assets/guide-avatar.webp";
 import { motion } from "framer-motion";
 
 type Size = "hero" | "corner";

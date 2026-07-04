@@ -147,7 +147,7 @@ function TicketDetailPage() {
       <div className="mt-4 rdp-fade-up">
         <Link
           to="/app/suporte"
-          className="inline-flex items-center gap-1 text-[13px] text-[color:var(--amethyst)] hover:text-[color:var(--gold-warm)] transition"
+          className="inline-flex items-center gap-1 text-[13px] text-[color:var(--amethyst)] hover:text-[color:var(--gold-ink)] transition"
         >
           <ArrowLeft className="h-4 w-4" />
           Voltar ao suporte

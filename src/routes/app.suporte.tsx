@@ -77,10 +77,10 @@ function SuportePage() {
     <>
       {/* Header */}
       <div className="mt-6 text-center rdp-fade-up">
-        <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl border border-[color:var(--gold-warm)]/40 bg-white/70 text-[color:var(--gold-warm)]">
+        <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl border border-[color:var(--gold-warm)]/40 bg-white/70 text-[color:var(--gold-ink)]">
           <HeadsetIcon className="h-6 w-6" />
         </div>
-        <p className="mt-3 text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-warm)]">
+        <p className="mt-3 text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-ink)]">
           Ajuda
         </p>
         <h1 className="mt-1 font-display text-4xl rdp-title-gradient">Suporte</h1>
@@ -263,7 +263,7 @@ function NewTicketForm({ onSuccess }: { onSuccess: () => void }) {
                   : "border-[color:var(--rose-dust)]/25 bg-white/50 hover:border-[color:var(--gold-warm)]/40"
               }`}
             >
-              <cat.icon className={`h-4 w-4 shrink-0 ${active ? "text-[color:var(--gold-warm)]" : "text-[color:var(--amethyst)]"}`} />
+              <cat.icon className={`h-4 w-4 shrink-0 ${active ? "text-[color:var(--gold-ink)]" : "text-[color:var(--amethyst)]"}`} />
               <span className={active ? "text-[color:var(--deep-purple)] font-medium" : "text-[color:var(--amethyst)]"}>
                 {cat.label}
               </span>

@@ -50,13 +50,13 @@ export function SessionModal({
           <div className="flex items-center gap-3">
             <div className={`grid h-11 w-11 place-items-center rounded-xl border ${
               isMorning
-                ? "border-[color:var(--gold-warm)]/50 text-[color:var(--gold-warm)] bg-[color:var(--gold-warm)]/10"
+                ? "border-[color:var(--gold-warm)]/50 text-[color:var(--gold-ink)] bg-[color:var(--gold-warm)]/10"
                 : "border-[color:var(--lavender)]/60 text-[color:var(--amethyst)] bg-[color:var(--lavender)]/20"
             }`}>
               {isMorning ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </div>
             <div>
-              <p className="text-[10px] uppercase tracking-[0.22em] text-[color:var(--gold-warm)]">{dayTheme} · {session.duration} min</p>
+              <p className="text-[12px] uppercase tracking-[0.22em] text-[color:var(--gold-ink)]">{dayTheme} · {session.duration} min</p>
               <h3 className="mt-0.5 font-display text-2xl text-[color:var(--deep-purple)]">{session.title}</h3>
             </div>
           </div>
@@ -64,7 +64,7 @@ export function SessionModal({
 
           {audioState.kind === "ready" ? (
             <div className="mt-5 rounded-2xl border border-[color:var(--gold-warm)]/40 bg-white/70 p-4">
-              <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-[color:var(--gold-warm)]">
+              <div className="flex items-center gap-2 text-[12px] uppercase tracking-[0.22em] text-[color:var(--gold-ink)]">
                 <Headphones className="h-3.5 w-3.5" /> Áudio guiado · {audioState.audio.title}
               </div>
               <audio
@@ -77,21 +77,21 @@ export function SessionModal({
             </div>
           ) : audioState.kind === "loading" ? (
             <div className="mt-5 flex items-center gap-2 rounded-2xl border border-[color:var(--gold-warm)]/40 bg-white/70 p-4 text-[13px] text-[color:var(--amethyst)]">
-              <Loader2 className="h-4 w-4 animate-spin text-[color:var(--gold-warm)]" /> Carregando áudio guiado…
+              <Loader2 className="h-4 w-4 animate-spin text-[color:var(--gold-ink)]" /> Carregando áudio guiado…
             </div>
           ) : audioState.kind === "error" ? (
             <div className="mt-5 flex items-center justify-between gap-3 rounded-2xl border border-[color:var(--rose-dust)]/40 bg-[color:var(--rose-soft)]/30 p-4">
               <p className="text-[13px] text-[color:var(--deep-purple)]">Não consegui carregar o áudio agora.</p>
               <button
                 onClick={onRetry}
-                className="inline-flex items-center gap-1.5 rounded-full border border-[color:var(--gold-warm)]/50 bg-white/70 px-3 py-1.5 text-[12px] font-semibold text-[color:var(--gold-warm)] transition active:scale-95 hover:bg-white"
+                className="inline-flex items-center gap-1.5 rounded-full border border-[color:var(--gold-warm)]/50 bg-white/70 px-3 py-1.5 text-[12px] font-semibold text-[color:var(--gold-ink)] transition active:scale-95 hover:bg-white"
               >
                 <RefreshCw className="h-3.5 w-3.5" /> Tentar de novo
               </button>
             </div>
           ) : audioState.kind === "comingSoon" ? (
             <div className="mt-5 flex items-center gap-2 rounded-2xl border border-[color:var(--gold-warm)]/40 bg-white/70 p-4 text-[13px] text-[color:var(--amethyst)]">
-              <Headphones className="h-4 w-4 text-[color:var(--gold-warm)]" /> Áudio guiado desta sessão em breve.
+              <Headphones className="h-4 w-4 text-[color:var(--gold-ink)]" /> Áudio guiado desta sessão em breve.
             </div>
           ) : audioState.kind === "locked" ? (
             <a
@@ -104,7 +104,7 @@ export function SessionModal({
                 <Lock className="h-4 w-4" />
               </div>
               <div className="min-w-0 flex-1">
-                <p className="text-[10px] uppercase tracking-[0.22em] text-[#3B5BFD]">Áudio guiado premium</p>
+                <p className="text-[12px] uppercase tracking-[0.22em] text-[#3B5BFD]">Áudio guiado premium</p>
                 <p className="mt-0.5 text-[13px] font-semibold text-[color:var(--deep-purple)]">
                   Desbloqueie a versão guiada desta sessão
                 </p>
@@ -114,21 +114,21 @@ export function SessionModal({
           ) : null}
 
           <div className="mt-5 rounded-2xl border border-[color:var(--gold-warm)]/40 bg-white/60 p-4">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-[color:var(--gold-warm)]">{session.verse.ref}</p>
+            <p className="text-[12px] uppercase tracking-[0.22em] text-[color:var(--gold-ink)]">{session.verse.ref}</p>
             <p className="mt-1 font-display italic leading-relaxed text-[color:var(--deep-purple)]">"{session.verse.text}"</p>
           </div>
 
           <ol className="mt-5 space-y-3">
             {session.steps.map((s, i) => (
               <li key={i} className="flex gap-3">
-                <span className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full border border-[color:var(--gold-warm)]/40 bg-white/70 text-[11px] font-semibold text-[color:var(--gold-warm)]">{i + 1}</span>
+                <span className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full border border-[color:var(--gold-warm)]/40 bg-white/70 text-[12px] font-semibold text-[color:var(--gold-ink)]">{i + 1}</span>
                 <p className="text-[14px] leading-relaxed text-[color:var(--deep-purple)]/85">{s}</p>
               </li>
             ))}
           </ol>
 
           <div className="mt-6 rounded-2xl border border-[color:var(--rose-dust)]/40 bg-[color:var(--rose-soft)]/30 p-4 text-center">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-[color:var(--gold-warm)]">Selo</p>
+            <p className="text-[12px] uppercase tracking-[0.22em] text-[color:var(--gold-ink)]">Selo</p>
             <p className="mt-1 font-display italic text-[color:var(--deep-purple)]">{session.seal}</p>
           </div>
 

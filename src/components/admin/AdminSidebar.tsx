@@ -1,6 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect } from "react";
-import primordiaIcon from "@/assets/primordia-icon.png";
+import primordiaIcon from "@/assets/primordia-icon.webp";
 import {
   LayoutDashboard,
   Headphones,
