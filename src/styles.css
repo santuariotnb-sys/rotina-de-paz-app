@@ -826,7 +826,7 @@ html, body { overflow-x: clip; width: 100%; }
   background-image: linear-gradient(135deg, #D9C5A5 0%, #C9A876 100%);
 }
 .rdp-title-gradient {
-  background-image: linear-gradient(135deg, #D4A5B5 0%, #C4A8BC 30%, #C9A876 70%, #D9C5A5 100%);
+  background-image: linear-gradient(120deg, #9B5E74 0%, #7C5A86 34%, #A6792A 78%, #C9A876 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -964,18 +964,20 @@ body:has(.rdp-app-bg)::-webkit-scrollbar-thumb:hover {
 
 .rdp-app-bg {
   background:
-    radial-gradient(ellipse at top, rgba(212,165,181,0.22), transparent 55%),
-    radial-gradient(ellipse at bottom, rgba(196,168,188,0.18), transparent 60%),
-    linear-gradient(180deg, #FAF6F4 0%, #F4E7E4 100%);
+    radial-gradient(90% 55% at 82% -5%, rgba(201,168,118,0.26), transparent 60%),
+    radial-gradient(100% 50% at 10% 8%, rgba(212,165,181,0.30), transparent 62%),
+    radial-gradient(120% 60% at 50% 108%, rgba(124,90,134,0.20), transparent 60%),
+    linear-gradient(180deg, #FBF6F3 0%, #F3E3DF 58%, #EFDCE0 100%);
   color: var(--deep-purple);
 }
 .rdp-light-card {
-  background: linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(255,250,248,0.88) 100%);
-  border: 1px solid color-mix(in oklab, var(--rose-dust) 30%, transparent);
+  background: linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(255,249,246,0.9) 100%);
+  border: 1px solid color-mix(in oklab, var(--gold-warm) 26%, transparent);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.7),
-    0 12px 36px -22px rgba(117, 97, 127, 0.35);
-  backdrop-filter: blur(8px);
+    inset 0 1px 0 rgba(255,255,255,0.85),
+    0 2px 4px -2px rgba(68,58,82,0.10),
+    0 18px 44px -26px rgba(90, 60, 90, 0.45);
+  backdrop-filter: blur(10px);
 }
 .rdp-light-card-hover { transition: border-color 240ms ease, transform 240ms ease, box-shadow 240ms ease; }
 .rdp-light-card-hover:hover {

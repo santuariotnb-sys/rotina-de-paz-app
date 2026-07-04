@@ -171,7 +171,7 @@ export function BottomNav() {
   const reduce = useReducedMotion();
   return (
     <nav
-      className="fixed inset-x-0 bottom-0 z-30 border-t border-[color:var(--rose-dust)]/30 bg-white/90 backdrop-blur-xl md:hidden"
+      className="fixed inset-x-0 bottom-0 z-30 border-t border-[color:var(--gold-warm)]/25 bg-[#1A1326]/95 backdrop-blur-xl md:hidden"
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
     >
       <div className="mx-auto flex max-w-5xl items-stretch px-2 py-1.5">
@@ -190,16 +190,18 @@ export function BottomNav() {
                   <motion.div
                     layoutId="bottomNavPill"
                     className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#E8C9A0] to-[#C9A876] shadow-[0_6px_14px_-6px_rgba(201,168,118,0.55)]"
-                    transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 480, damping: 38 }}
+                    transition={
+                      reduce ? { duration: 0 } : { type: "spring", stiffness: 480, damping: 38 }
+                    }
                   />
                 )}
                 <Icon
-                  className={`relative h-5 w-5 ${active ? "text-[#2C1F0B]" : "text-[color:var(--amethyst)]"}`}
+                  className={`relative h-5 w-5 ${active ? "text-[#2C1F0B]" : "text-[color:var(--rose-dust)]/85"}`}
                   strokeWidth={active ? 2.4 : 2}
                 />
               </div>
               <p
-                className={`text-[11px] tracking-wide ${active ? "text-[color:var(--gold-ink)] font-semibold" : "text-[color:var(--amethyst)]/80"}`}
+                className={`text-[11px] tracking-wide ${active ? "text-[#E8C9A0] font-semibold" : "text-white/60"}`}
               >
                 {it.label}
               </p>
