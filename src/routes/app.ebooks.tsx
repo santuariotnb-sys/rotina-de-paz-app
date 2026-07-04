@@ -266,19 +266,10 @@ function EbookCard({
           </div>
         </>
       ) : (
-        <>
-          {/* cadeado discreto */}
-          <span className="absolute right-2 top-2 grid h-7 w-7 place-items-center rounded-full bg-black/40 text-white/90 backdrop-blur-sm">
-            <Lock className="h-3.5 w-3.5" />
-          </span>
-          {/* preço aparece só no gradiente inferior, elegante */}
-          <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-2 bg-gradient-to-t from-black/75 to-transparent px-3 pb-2.5 pt-9">
-            <span className="text-[13px] font-bold text-white drop-shadow">{e.price}</span>
-            <span className="rounded-full bg-white/90 px-2 py-0.5 text-[10px] font-semibold text-[#2C1F0B]">
-              Ver
-            </span>
-          </div>
-        </>
+        /* Bloqueado: só a capa + cadeado discreto. SEM preço no card. */
+        <span className="absolute right-2 top-2 grid h-7 w-7 place-items-center rounded-full bg-black/40 text-white/90 backdrop-blur-sm">
+          <Lock className="h-3.5 w-3.5" />
+        </span>
       )}
     </button>
   );
