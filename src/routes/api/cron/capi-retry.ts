@@ -15,7 +15,14 @@ const MAX_RETRIES_PER_RUN = 10;
 const MAX_CAPI_ATTEMPTS = 5;
 
 function extractTransactionId(payload: Record<string, unknown>): string | null {
-  for (const path of ["data.id", "data.transaction_id", "data.sale_id", "sale_id", "id", "transaction_id"]) {
+  for (const path of [
+    "data.id",
+    "data.transaction_id",
+    "data.sale_id",
+    "sale_id",
+    "id",
+    "transaction_id",
+  ]) {
     const parts = path.split(".");
     let cur: unknown = payload;
     for (const p of parts) {
@@ -35,13 +42,16 @@ export const Route = createFileRoute("/api/cron/capi-retry")({
   server: {
     handlers: {
       GET: async ({ request }) => {
-        // Proteger contra chamadas externas
+        // Proteger contra chamadas externas — fail-closed: sem secret configurado,
+        // o endpoint NÃO responde (evita cron público se CRON_SECRET for removido).
         const cronSecret = process.env.CRON_SECRET;
-        if (cronSecret) {
-          const auth = request.headers.get("authorization");
-          if (auth !== `Bearer ${cronSecret}`) {
-            return new Response("Unauthorized", { status: 401 });
-          }
+        if (!cronSecret) {
+          console.error("[capi-retry] CRITICAL: CRON_SECRET ausente — endpoint bloqueado");
+          return new Response("Cron secret not configured", { status: 503 });
+        }
+        const auth = request.headers.get("authorization");
+        if (auth !== `Bearer ${cronSecret}`) {
+          return new Response("Unauthorized", { status: 401 });
         }
 
         // Buscar failed com menos de MAX_CAPI_ATTEMPTS tentativas
@@ -88,7 +98,9 @@ export const Route = createFileRoute("/api/cron/capi-retry")({
           const root = (payload.data ?? payload) as Record<string, unknown>;
           const products = (root.products ?? root.items ?? []) as unknown[];
           const productNames = Array.isArray(products)
-            ? products.map((p: any) => p?.name ?? p?.product_name ?? "Rotina de Paz").filter(Boolean)
+            ? products
+                .map((p: any) => p?.name ?? p?.product_name ?? "Rotina de Paz")
+                .filter(Boolean)
             : ["Rotina de Paz"];
 
           try {
@@ -112,7 +124,9 @@ export const Route = createFileRoute("/api/cron/capi-retry")({
               console.log(`[capi-retry] ✓ sale ${txId} enviado (tentativa ${retries})`);
             } else {
               failed++;
-              console.error(`[capi-retry] ✗ sale ${txId} falhou (tentativa ${retries}): ${capi.error}`);
+              console.error(
+                `[capi-retry] ✗ sale ${txId} falhou (tentativa ${retries}): ${capi.error}`,
+              );
             }
           } catch (err) {
             failed++;

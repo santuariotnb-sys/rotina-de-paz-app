@@ -54,7 +54,9 @@ export const ebooksQueryOptions = {
   queryFn: async () => {
     const { data, error } = await supabase
       .from("ebooks")
-      .select("id, title, subtitle, category, price_cents, badge, cover_url, sort_order, required_product_id, description, file_url")
+      .select(
+        "id, title, subtitle, category, price_cents, badge, cover_url, sort_order, required_product_id, description",
+      )
       .eq("status", "active")
       .order("sort_order", { ascending: true });
     if (error) throw error;
@@ -67,7 +69,9 @@ export const louvoresQueryOptions = {
   queryFn: async (): Promise<Louvor[]> => {
     const { data, error } = await supabase
       .from("louvores")
-      .select("id, book, chapter_index, title, subtitle, duration_seconds, audio_url, is_bonus, sort_order")
+      .select(
+        "id, book, chapter_index, title, subtitle, duration_seconds, audio_url, is_bonus, sort_order",
+      )
       .order("book", { ascending: true })
       .order("sort_order", { ascending: true })
       .order("chapter_index", { ascending: true });
@@ -90,7 +94,9 @@ export const devocionaisQueryOptions = {
   queryFn: async (): Promise<DevExt[]> => {
     const { data, error } = await supabase
       .from("courses")
-      .select("id, title, subtitle, slug, days, modules, badge, cover_url, sort_order, required_product_id")
+      .select(
+        "id, title, subtitle, slug, days, modules, badge, cover_url, sort_order, required_product_id",
+      )
       .eq("status", "active")
       .eq("kind", "devocional")
       .order("sort_order", { ascending: true });

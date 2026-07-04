@@ -43,7 +43,6 @@ type EbookExt = Ebook & {
   requiredProductId: string | null;
   description: string | null;
   coverUrl: string | null;
-  fileUrl: string | null;
 };
 
 function mapEbooks(raw: any[]): EbookExt[] {
@@ -52,13 +51,13 @@ function mapEbooks(raw: any[]): EbookExt[] {
     title: r.title,
     subtitle: r.subtitle ?? "",
     category: (r.category ?? "bonus") as Ebook["category"],
-    price: r.price_cents > 0 ? `R$ ${(r.price_cents / 100).toFixed(2).replace(".", ",")}` : undefined,
+    price:
+      r.price_cents > 0 ? `R$ ${(r.price_cents / 100).toFixed(2).replace(".", ",")}` : undefined,
     badge: r.badge ?? undefined,
     cover: "",
     coverUrl: r.cover_url ?? null,
     requiredProductId: r.required_product_id ?? null,
     description: r.description ?? null,
-    fileUrl: r.file_url ?? null,
   }));
 }
 
@@ -74,7 +73,10 @@ function EbooksSkeleton() {
           <div className="h-5 w-40 rounded bg-[color:var(--deep-purple)]/10" />
           <div className="flex gap-3">
             {[1, 2, 3].map((j) => (
-              <div key={j} className="aspect-[2/3] w-[55vw] max-w-[200px] shrink-0 rounded-2xl bg-[#F5ECD9]" />
+              <div
+                key={j}
+                className="aspect-[2/3] w-[55vw] max-w-[200px] shrink-0 rounded-2xl bg-[#F5ECD9]"
+              />
             ))}
           </div>
         </div>
@@ -100,17 +102,25 @@ function EbooksPage() {
   return (
     <div className={first ? "" : "rdp-no-anim"}>
       <div className="mt-6 text-center rdp-fade-up">
-        <p className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-warm)]">Biblioteca</p>
+        <p className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-warm)]">
+          Biblioteca
+        </p>
         <h1 className="mt-1 font-display text-4xl rdp-title-gradient">E-books</h1>
-        <p className="mt-2 text-[13px] text-[color:var(--amethyst)]">Bonus inclusos e colecao Rotina de Paz</p>
+        <p className="mt-2 text-[13px] text-[color:var(--amethyst)]">
+          Bonus inclusos e colecao Rotina de Paz
+        </p>
       </div>
 
       {isLoading && (
-        <p className="mt-8 text-center text-[12px] text-[color:var(--amethyst)]">Carregando biblioteca...</p>
+        <p className="mt-8 text-center text-[12px] text-[color:var(--amethyst)]">
+          Carregando biblioteca...
+        </p>
       )}
 
       {!isLoading && ebooks.length === 0 && (
-        <p className="mt-8 text-center text-[12px] text-[color:var(--amethyst)]">Nenhum e-book disponivel ainda.</p>
+        <p className="mt-8 text-center text-[12px] text-[color:var(--amethyst)]">
+          Nenhum e-book disponivel ainda.
+        </p>
       )}
 
       <Shelf title="Bonus inclusos" items={bonus} owned={owned} checkouts={checkouts} />
@@ -121,7 +131,10 @@ function EbooksPage() {
 }
 
 function Shelf({
-  title, items, owned, checkouts,
+  title,
+  items,
+  owned,
+  checkouts,
 }: {
   title: string;
   items: EbookExt[];
@@ -130,14 +143,19 @@ function Shelf({
 }) {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const expandedEbook = expandedId ? items.find((e) => e.id === expandedId) : null;
-  const expandedBuyUrl = expandedEbook ? checkoutFor(checkouts, expandedEbook.requiredProductId) : null;
+  const expandedBuyUrl = expandedEbook
+    ? checkoutFor(checkouts, expandedEbook.requiredProductId)
+    : null;
 
   if (items.length === 0) return null;
   return (
     <section className="mt-8 rdp-fade-up">
       <h3 className="mb-3 font-display text-xl text-[color:var(--deep-purple)]">{title}</h3>
       <div className="relative overflow-x-clip">
-        <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 scrollbar-none" style={{ WebkitOverflowScrolling: "touch" }}>
+        <div
+          className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 scrollbar-none"
+          style={{ WebkitOverflowScrolling: "touch" }}
+        >
           {items.map((e) => {
             const unlocked = isUnlocked(owned, e.requiredProductId);
             const buyUrl = !unlocked ? checkoutFor(checkouts, e.requiredProductId) : null;
@@ -165,7 +183,9 @@ function Shelf({
       {expandedEbook && (
         <div className="mt-3 overflow-hidden rounded-2xl rdp-light-card shadow-[0_8px_24px_-12px_rgba(117,97,127,0.4)]">
           <div className="p-4">
-            <p className="font-display text-lg leading-tight text-[color:var(--deep-purple)]">{expandedEbook.title}</p>
+            <p className="font-display text-lg leading-tight text-[color:var(--deep-purple)]">
+              {expandedEbook.title}
+            </p>
             <p className="mt-2 text-[13px] leading-relaxed text-[color:var(--amethyst)]">
               {expandedEbook.description || expandedEbook.subtitle}
             </p>
@@ -194,7 +214,11 @@ function Shelf({
 }
 
 function EbookCard({
-  ebook: e, unlocked, buyUrl, isExpanded, onToggle,
+  ebook: e,
+  unlocked,
+  buyUrl,
+  isExpanded,
+  onToggle,
 }: {
   ebook: EbookExt;
   unlocked: boolean;
@@ -207,14 +231,8 @@ function EbookCard({
   async function handleReadClick() {
     if (loading) return;
 
-    // Fast path: URL já cacheada e ebook desbloqueado → abre instantâneo sem server call
-    if (e.fileUrl && unlocked) {
-      const win = window.open(e.fileUrl, "_blank", "noopener");
-      if (!win) window.location.assign(e.fileUrl);
-      return;
-    }
-
-    // Fallback: busca URL via server function (verificação server-side)
+    // Sempre via server function: a verificação de entitlement é server-side e a
+    // URL do arquivo nunca é entregue ao cliente na listagem (defense-in-depth).
     setLoading(true);
     toast.loading("Abrindo seu e-book…", { id: "ebook" });
     try {
@@ -247,7 +265,10 @@ function EbookCard({
       type="button"
       onClick={handleTap}
       disabled={loading}
-      className={"group block w-[55vw] max-w-[200px] shrink-0 snap-center text-left transition-transform " + (isExpanded ? "scale-[0.96] opacity-80" : "")}
+      className={
+        "group block w-[55vw] max-w-[200px] shrink-0 snap-center text-left transition-transform " +
+        (isExpanded ? "scale-[0.96] opacity-80" : "")
+      }
     >
       <div className="relative aspect-[2/3] overflow-hidden rounded-2xl bg-[#F5ECD9] shadow-[0_12px_30px_-15px_rgba(117,97,127,0.45)] transition group-hover:-translate-y-1">
         {e.coverUrl ? (
@@ -277,17 +298,25 @@ function EbookCard({
         {unlocked && (
           <div className="absolute inset-x-0 bottom-0 flex items-center justify-center bg-gradient-to-t from-black/70 to-transparent pb-3 pt-8">
             <span className="inline-flex items-center gap-1 rounded-full bg-white/90 px-3 py-1 text-[10px] font-semibold text-[color:var(--deep-purple)] shadow">
-              {loading ? <Loader2 className="h-3 w-3 animate-spin" /> : <BookOpen className="h-3 w-3" />}
+              {loading ? (
+                <Loader2 className="h-3 w-3 animate-spin" />
+              ) : (
+                <BookOpen className="h-3 w-3" />
+              )}
               {loading ? "Abrindo..." : "Ler agora"}
             </span>
           </div>
         )}
 
         {e.badge && (
-          <span className="absolute left-1.5 top-1.5 rounded-full bg-white/90 px-2 py-0.5 text-[8px] font-bold uppercase tracking-wider text-[color:var(--gold-warm)]">{e.badge}</span>
+          <span className="absolute left-1.5 top-1.5 rounded-full bg-white/90 px-2 py-0.5 text-[8px] font-bold uppercase tracking-wider text-[color:var(--gold-warm)]">
+            {e.badge}
+          </span>
         )}
       </div>
-      <p className="mt-1.5 text-[12px] font-medium leading-tight text-[color:var(--deep-purple)]">{e.title}</p>
+      <p className="mt-1.5 text-[12px] font-medium leading-tight text-[color:var(--deep-purple)]">
+        {e.title}
+      </p>
       {unlocked && <p className="text-[10px] font-semibold text-emerald-600">Liberado</p>}
     </button>
   );
