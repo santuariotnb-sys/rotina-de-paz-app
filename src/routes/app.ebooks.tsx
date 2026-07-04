@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import { useQuery, type QueryClient } from "@tanstack/react-query";
-import { BookOpen, ShoppingCart, ChevronRight, Loader2 } from "lucide-react";
+import { BookOpen, ShoppingCart, ChevronRight, Loader2, Library } from "lucide-react";
 import { type Ebook } from "@/data/ebooks";
 import { isUnlocked, useEntitlements } from "@/hooks/useEntitlements";
 import { checkoutFor, useProductCheckouts } from "@/hooks/useProductCheckouts";
@@ -15,7 +15,6 @@ function optimizedCoverUrl(raw: string | null): string | null {
   if (!raw) return null;
   try {
     const u = new URL(raw);
-    // Só transforma URLs do Supabase Storage (/storage/v1/object/public/...)
     const objectPrefix = "/storage/v1/object/public/";
     if (!u.pathname.startsWith(objectPrefix)) return raw;
     const storagePath = u.pathname.slice(objectPrefix.length);
@@ -63,19 +62,16 @@ function mapEbooks(raw: any[]): EbookExt[] {
 
 function EbooksSkeleton() {
   return (
-    <div className="mt-6 space-y-8 animate-pulse">
-      <div className="text-center">
-        <div className="mx-auto h-4 w-20 rounded bg-[color:var(--gold-warm)]/20" />
-        <div className="mx-auto mt-2 h-8 w-32 rounded bg-[color:var(--deep-purple)]/10" />
-      </div>
+    <div className="mt-5 animate-pulse">
+      <div className="-mx-4 h-36 rounded-b-[2rem] bg-[#1A1326]/90 sm:mx-0 sm:rounded-[2rem]" />
       {[1, 2].map((i) => (
-        <div key={i} className="space-y-3">
+        <div key={i} className="mt-7 space-y-3">
           <div className="h-5 w-40 rounded bg-[color:var(--deep-purple)]/10" />
           <div className="flex gap-3">
             {[1, 2, 3].map((j) => (
               <div
                 key={j}
-                className="aspect-[2/3] w-[55vw] max-w-[200px] shrink-0 rounded-2xl bg-[#F5ECD9]"
+                className="aspect-[2/3] w-[46vw] max-w-[180px] shrink-0 rounded-2xl bg-[#F5ECD9]"
               />
             ))}
           </div>
@@ -101,30 +97,34 @@ function EbooksPage() {
 
   return (
     <div className={first ? "" : "rdp-no-anim"}>
-      <div className="mt-6 text-center rdp-fade-up">
-        <p className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-ink)]">
-          Biblioteca
-        </p>
-        <h1 className="mt-1 font-display text-4xl rdp-title-gradient">E-books</h1>
-        <p className="mt-2 text-[13px] text-[color:var(--amethyst)]">
-          Bonus inclusos e colecao Rotina de Paz
-        </p>
-      </div>
+      {/* Header imersivo */}
+      <section className="rdp-fade-up relative -mx-4 mt-2 overflow-hidden rounded-b-[2rem] bg-[#1A1326] px-6 pb-7 pt-8 sm:mx-0 sm:mt-5 sm:rounded-[2rem] sm:px-8">
+        <div className="absolute inset-0 bg-[radial-gradient(90%_70%_at_85%_0%,rgba(201,168,118,0.30),transparent_60%),radial-gradient(80%_60%_at_0%_100%,rgba(212,165,181,0.22),transparent_60%)]" />
+        <div className="relative">
+          <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-[11px] uppercase tracking-[0.22em] text-[#E8C9A0] ring-1 ring-white/15">
+            <Library className="h-3.5 w-3.5" /> Biblioteca
+          </span>
+          <h1 className="mt-3 font-display text-[2.25rem] leading-[1.05] text-white">E-books</h1>
+          <p className="mt-1.5 text-[13px] text-white/70">
+            Bônus inclusos e a coleção Rotina de Paz
+          </p>
+        </div>
+      </section>
 
       {isLoading && (
-        <p className="mt-8 text-center text-[12px] text-[color:var(--amethyst)]">
-          Carregando biblioteca...
+        <p className="mt-8 text-center text-[13px] text-[color:var(--amethyst)]">
+          Carregando biblioteca…
         </p>
       )}
 
       {!isLoading && ebooks.length === 0 && (
-        <p className="mt-8 text-center text-[12px] text-[color:var(--amethyst)]">
-          Nenhum e-book disponivel ainda.
+        <p className="mt-8 text-center text-[13px] text-[color:var(--amethyst)]">
+          Nenhum e-book disponível ainda.
         </p>
       )}
 
-      <Shelf title="Bonus inclusos" items={bonus} owned={owned} checkouts={checkouts} />
-      <Shelf title="Colecao Rotina de Paz" items={colecao} owned={owned} checkouts={checkouts} />
+      <Shelf title="Bônus inclusos" items={bonus} owned={owned} checkouts={checkouts} />
+      <Shelf title="Coleção Rotina de Paz" items={colecao} owned={owned} checkouts={checkouts} />
       <Shelf title="Em breve" items={embreve} owned={owned} checkouts={checkouts} />
     </div>
   );
@@ -149,11 +149,16 @@ function Shelf({
 
   if (items.length === 0) return null;
   return (
-    <section className="mt-8 rdp-fade-up">
-      <h3 className="mb-3 font-display text-xl text-[color:var(--deep-purple)]">{title}</h3>
+    <section className="mt-7 rdp-fade-up">
+      <div className="mb-3 flex items-center gap-2">
+        <h3 className="font-display text-[1.35rem] text-[color:var(--deep-purple)]">{title}</h3>
+        <span className="rounded-full bg-[color:var(--rose-soft)]/45 px-2 py-0.5 text-[11px] font-semibold text-[color:var(--gold-ink)]">
+          {items.length}
+        </span>
+      </div>
       <div className="relative overflow-x-clip">
         <div
-          className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 scrollbar-none"
+          className="-mx-4 flex snap-x snap-mandatory gap-3.5 overflow-x-auto px-4 pb-3 scrollbar-none"
           style={{ WebkitOverflowScrolling: "touch" }}
         >
           {items.map((e) => {
@@ -171,19 +176,18 @@ function Shelf({
             );
           })}
         </div>
-        {/* Scroll indicator */}
         {items.length > 1 && (
-          <div className="pointer-events-none absolute right-0 top-0 flex h-[calc(100%-2rem)] w-10 items-center justify-center bg-gradient-to-l from-[#F9F5F0]/90 to-transparent">
-            <ChevronRight className="h-5 w-5 text-[color:var(--amethyst)] animate-pulse" />
+          <div className="pointer-events-none absolute right-0 top-0 flex h-[calc(100%-2rem)] w-10 items-center justify-center bg-gradient-to-l from-[#F3E3DF]/90 to-transparent">
+            <ChevronRight className="h-5 w-5 animate-pulse text-[color:var(--amethyst)]" />
           </div>
         )}
       </div>
 
-      {/* Offer panel — renders BELOW the carousel */}
+      {/* Painel de oferta — abaixo do carrossel */}
       {expandedEbook && (
-        <div className="mt-3 overflow-hidden rounded-2xl rdp-light-card shadow-[0_8px_24px_-12px_rgba(117,97,127,0.4)]">
+        <div className="mt-2 overflow-hidden rounded-2xl rdp-light-card">
           <div className="p-4">
-            <p className="font-display text-lg leading-tight text-[color:var(--deep-purple)]">
+            <p className="font-display text-xl leading-tight text-[color:var(--deep-purple)]">
               {expandedEbook.title}
             </p>
             <p className="mt-2 text-[13px] leading-relaxed text-[color:var(--amethyst)]">
@@ -194,7 +198,7 @@ function Shelf({
                 href={expandedBuyUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-3 inline-flex w-full items-center justify-center gap-1.5 rounded-full bg-gradient-to-br from-[#E8C9A0] to-[#C9A876] px-5 py-2.5 text-[13px] font-semibold text-[#2C1F0B] shadow-[0_6px_20px_-8px_rgba(201,168,118,0.55)] hover:brightness-110"
+                className="mt-3 inline-flex w-full items-center justify-center gap-1.5 rounded-2xl bg-gradient-to-br from-[#E8C9A0] to-[#C9A876] px-5 py-3 text-[14px] font-semibold text-[#2C1F0B] shadow-[0_8px_22px_-8px_rgba(201,168,118,0.6)] transition active:scale-[0.98]"
               >
                 Adquirir agora · {expandedEbook.price} <ChevronRight className="h-4 w-4" />
               </a>
@@ -202,7 +206,7 @@ function Shelf({
             <button
               type="button"
               onClick={() => setExpandedId(null)}
-              className="mt-2 w-full text-center text-[11px] text-[color:var(--amethyst)] underline underline-offset-2"
+              className="mt-2 w-full text-center text-[12px] text-[color:var(--amethyst)] underline underline-offset-2"
             >
               Fechar
             </button>
@@ -230,9 +234,8 @@ function EbookCard({
 
   async function handleReadClick() {
     if (loading) return;
-
-    // Sempre via server function: a verificação de entitlement é server-side e a
-    // URL do arquivo nunca é entregue ao cliente na listagem (defense-in-depth).
+    // Sempre via server function: verificação de entitlement server-side; a URL do
+    // arquivo nunca é entregue ao cliente na listagem (defense-in-depth).
     setLoading(true);
     toast.loading("Abrindo seu e-book…", { id: "ebook" });
     try {
@@ -253,11 +256,8 @@ function EbookCard({
   }
 
   function handleTap() {
-    if (unlocked) {
-      handleReadClick();
-    } else {
-      onToggle();
-    }
+    if (unlocked) handleReadClick();
+    else onToggle();
   }
 
   return (
@@ -266,11 +266,11 @@ function EbookCard({
       onClick={handleTap}
       disabled={loading}
       className={
-        "group block w-[55vw] max-w-[200px] shrink-0 snap-center text-left transition-transform " +
+        "group block w-[46vw] max-w-[180px] shrink-0 snap-center text-left transition-transform " +
         (isExpanded ? "scale-[0.96] opacity-80" : "")
       }
     >
-      <div className="relative aspect-[2/3] overflow-hidden rounded-2xl bg-[#F5ECD9] shadow-[0_12px_30px_-15px_rgba(117,97,127,0.45)] transition group-hover:-translate-y-1">
+      <div className="relative aspect-[2/3] overflow-hidden rounded-2xl bg-[#F5ECD9] shadow-[0_16px_34px_-18px_rgba(90,60,90,0.55)] ring-1 ring-black/5 transition duration-300 group-hover:-translate-y-1.5 group-hover:shadow-[0_22px_44px_-18px_rgba(90,60,90,0.6)]">
         {e.coverUrl ? (
           <img
             src={optimizedCoverUrl(e.coverUrl)!}
@@ -279,45 +279,52 @@ function EbookCard({
             height={600}
             loading="lazy"
             decoding="async"
-            className="absolute inset-0 h-full w-full object-contain"
+            className="absolute inset-0 h-full w-full object-cover"
           />
         ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-[#D4A5B5] to-[#C9A876]" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#7C5A86] via-[#B06B84] to-[#C9A876]" />
         )}
 
-        {/* Locked: price badge */}
+        {/* lombada sutil (cara de livro) */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-2 bg-gradient-to-r from-black/25 to-transparent" />
+
+        {/* Bloqueado: preço */}
         {!unlocked && e.price && (
-          <div className="absolute inset-x-0 bottom-0 flex items-center justify-center bg-gradient-to-t from-black/60 to-transparent pb-3 pt-8">
-            <span className="inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-bold text-[color:var(--deep-purple)] shadow">
+          <div className="absolute inset-x-0 bottom-0 flex items-center justify-center bg-gradient-to-t from-black/65 to-transparent pb-3 pt-9">
+            <span className="inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-bold text-[color:var(--deep-purple)] shadow">
               <ShoppingCart className="h-3 w-3 text-[color:var(--gold-ink)]" /> {e.price}
             </span>
           </div>
         )}
 
-        {/* Unlocked: Ler indicator */}
+        {/* Liberado: Ler */}
         {unlocked && (
-          <div className="absolute inset-x-0 bottom-0 flex items-center justify-center bg-gradient-to-t from-black/70 to-transparent pb-3 pt-8">
-            <span className="inline-flex items-center gap-1 rounded-full bg-white/90 px-3 py-1 text-[10px] font-semibold text-[color:var(--deep-purple)] shadow">
+          <div className="absolute inset-x-0 bottom-0 flex items-center justify-center bg-gradient-to-t from-black/70 to-transparent pb-3 pt-9">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-[12px] font-semibold text-[#2C1F0B] shadow">
               {loading ? (
-                <Loader2 className="h-3 w-3 animate-spin" />
+                <Loader2 className="h-3.5 w-3.5 animate-spin" />
               ) : (
-                <BookOpen className="h-3 w-3" />
+                <BookOpen className="h-3.5 w-3.5" />
               )}
-              {loading ? "Abrindo..." : "Ler agora"}
+              {loading ? "Abrindo…" : "Ler agora"}
             </span>
           </div>
         )}
 
         {e.badge && (
-          <span className="absolute left-1.5 top-1.5 rounded-full bg-white/90 px-2 py-0.5 text-[8px] font-bold uppercase tracking-wider text-[color:var(--gold-ink)]">
+          <span className="absolute left-2 top-2 rounded-full bg-white/95 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[color:var(--gold-ink)] shadow-sm">
             {e.badge}
           </span>
         )}
       </div>
-      <p className="mt-1.5 text-[12px] font-medium leading-tight text-[color:var(--deep-purple)]">
+      <p className="mt-2 text-[13px] font-medium leading-tight text-[color:var(--deep-purple)]">
         {e.title}
       </p>
-      {unlocked && <p className="text-[10px] font-semibold text-emerald-600">Liberado</p>}
+      {unlocked && (
+        <p className="mt-0.5 flex items-center gap-1 text-[11px] font-semibold text-emerald-600">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> Liberado
+        </p>
+      )}
     </button>
   );
 }
