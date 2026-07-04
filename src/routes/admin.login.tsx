@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Lock, Mail } from "lucide-react";
-import primordiaIcon from "@/assets/primordia-icon.png";
+import primordiaIcon from "@/assets/primordia-icon.webp";
 import { supabase } from "@/integrations/supabase/client";
 import { getCurrentAdmin } from "@/lib/admin/auth";
 import { logAdminAction } from "@/lib/admin/audit";

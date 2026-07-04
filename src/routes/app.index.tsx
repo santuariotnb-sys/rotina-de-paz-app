@@ -37,11 +37,11 @@ function PazHome() {
       <div className="mt-5 rdp-fade-up rdp-light-card rounded-3xl p-4 sm:p-5">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
           <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
-            <div className="grid h-10 w-10 sm:h-12 sm:w-12 shrink-0 place-items-center rounded-2xl border border-[color:var(--gold-warm)]/40 bg-white/70 text-[color:var(--gold-warm)]">
+            <div className="grid h-10 w-10 sm:h-12 sm:w-12 shrink-0 place-items-center rounded-2xl border border-[color:var(--gold-warm)]/40 bg-white/70 text-[color:var(--gold-ink)]">
               <Sparkles className="h-5 w-5 sm:h-6 sm:w-6" />
             </div>
             <div className="min-w-0 flex-1">
-              <p className="text-[10px] uppercase tracking-[0.22em] text-[color:var(--gold-warm)]">Próximo passo</p>
+              <p className="text-[10px] uppercase tracking-[0.22em] text-[color:var(--gold-ink)]">Próximo passo</p>
               <p className="mt-0.5 truncate font-display text-base sm:text-lg text-[color:var(--deep-purple)]">
                 Olá{firstName ? `, ${firstName}` : ""} · <span className="italic text-[color:var(--amethyst)]">{arche.name}</span>
               </p>
@@ -61,7 +61,7 @@ function PazHome() {
 
       {/* Header */}
       <div className="mt-10 text-center rdp-fade-up">
-        <p className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-warm)]">Método RP7</p>
+        <p className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-ink)]">Método RP7</p>
         <h1 className="mt-2 font-display text-4xl rdp-title-gradient">Sua Jornada de Paz</h1>
         <p className="mt-2 text-[14px] text-[color:var(--amethyst)] max-w-xl mx-auto">
           Escolha o volume para começar. Manhã ativa o corpo. Noite sela o dia.
@@ -114,7 +114,7 @@ function VolumeCard({ to, img, eyebrow, title, subtitle, icon, tone, done }: {
         <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
 
         {/* período (sup-esq) */}
-        <div className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/85 px-2.5 py-1 text-[10px] uppercase tracking-[0.22em] text-[color:var(--gold-warm)]">
+        <div className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/85 px-2.5 py-1 text-[10px] uppercase tracking-[0.22em] text-[color:var(--gold-ink)]">
           {icon} {tone === "morning" ? "Manhã" : "Noite"}
         </div>
 
@@ -129,7 +129,7 @@ function VolumeCard({ to, img, eyebrow, title, subtitle, icon, tone, done }: {
         </div>
       </div>
       <div className="p-5">
-        <p className="text-[10px] uppercase tracking-[0.24em] text-[color:var(--gold-warm)]">{eyebrow}</p>
+        <p className="text-[10px] uppercase tracking-[0.24em] text-[color:var(--gold-ink)]">{eyebrow}</p>
         <h3 className="mt-1 font-display text-2xl text-[color:var(--deep-purple)]">{title}</h3>
         <p className="mt-1 text-[13px] text-[color:var(--amethyst)]">{subtitle}</p>
         <div className="mt-4 flex items-center justify-between gap-3">
@@ -157,7 +157,7 @@ function ArchetypePicker({ onPick }: { onPick: (a: Archetype) => void }) {
       <div className="mt-6 grid gap-3 text-left">
         {list.map((a) => (
           <button key={a.id} onClick={() => onPick(a.id)} className="rdp-light-card rdp-light-card-hover rounded-2xl p-4 text-left">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-[color:var(--gold-warm)]">Padrão</p>
+            <p className="text-[10px] uppercase tracking-[0.22em] text-[color:var(--gold-ink)]">Padrão</p>
             <h3 className="mt-0.5 font-display text-xl text-[color:var(--deep-purple)]">{a.name}</h3>
             <p className="mt-1 text-[13px] text-[color:var(--amethyst)]">{a.subtitle}</p>
           </button>

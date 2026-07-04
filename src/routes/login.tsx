@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { ChevronRight, Mail, Lock, User, RefreshCw } from "lucide-react";
-import logoSrc from "@/assets/rotina-de-paz-logo.png";
+import logoSrc from "@/assets/rotina-de-paz-logo.webp";
 import { supabase } from "@/integrations/supabase/client";
 import { syncStudentWithProfile } from "@/lib/student";
 
@@ -350,7 +350,7 @@ function LoginPage() {
             <p className="mb-4 rounded-xl bg-[color:var(--rose-dust)]/15 px-4 py-2.5 text-[12px] text-[color:var(--amethyst)] leading-relaxed">
               Comprou? Use o e-mail da compra. Primeiro acesso? Toque em{" "}
               <button type="button" onClick={() => { setForgotEmail(email); setForgotOpen(true); }}
-                className="font-semibold text-[color:var(--gold-warm)] underline">
+                className="font-semibold text-[color:var(--gold-ink)] underline">
                 Esqueci a senha
               </button>{" "}
               pra criar a sua.
@@ -359,7 +359,7 @@ function LoginPage() {
 
           {mode === "signup" && (
             <label className="mb-4 block">
-              <span className="text-[11px] uppercase tracking-[0.2em] text-[color:var(--gold-warm)]">Nome</span>
+              <span className="text-[11px] uppercase tracking-[0.2em] text-[color:var(--gold-ink)]">Nome</span>
               <div className="mt-1.5 flex items-center gap-2 rounded-xl border border-[color:var(--rose-dust)]/40 bg-white/80 px-3 py-2.5">
                 <User className="h-4 w-4 text-[color:var(--amethyst)]" />
                 <input type="text" value={name} onChange={(e) => setName(e.target.value)}
@@ -371,7 +371,7 @@ function LoginPage() {
           )}
 
           <label className="block">
-            <span className="text-[11px] uppercase tracking-[0.2em] text-[color:var(--gold-warm)]">E-mail</span>
+            <span className="text-[11px] uppercase tracking-[0.2em] text-[color:var(--gold-ink)]">E-mail</span>
             <div className="mt-1.5 flex items-center gap-2 rounded-xl border border-[color:var(--rose-dust)]/40 bg-white/80 px-3 py-2.5">
               <Mail className="h-4 w-4 text-[color:var(--amethyst)]" />
               <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
@@ -382,7 +382,7 @@ function LoginPage() {
           </label>
 
           <label className="mt-4 block">
-            <span className="text-[11px] uppercase tracking-[0.2em] text-[color:var(--gold-warm)]">Senha</span>
+            <span className="text-[11px] uppercase tracking-[0.2em] text-[color:var(--gold-ink)]">Senha</span>
             <div className="mt-1.5 flex items-center gap-2 rounded-xl border border-[color:var(--rose-dust)]/40 bg-white/80 px-3 py-2.5">
               <Lock className="h-4 w-4 text-[color:var(--amethyst)]" />
               <input type="password" required value={pass} onChange={(e) => setPass(e.target.value)}
@@ -413,7 +413,7 @@ function LoginPage() {
           {mode === "login" && !loading && (
             <div className="mt-3 text-center">
               <button type="button" onClick={() => { setForgotEmail(email); setForgotOpen(true); }}
-                className="text-[12px] font-medium text-[color:var(--amethyst)] hover:text-[color:var(--gold-warm)] underline">
+                className="text-[12px] font-medium text-[color:var(--amethyst)] hover:text-[color:var(--gold-ink)] underline">
                 Esqueci minha senha
               </button>
             </div>
@@ -447,7 +447,7 @@ function LoginPage() {
                 Enviamos um link para você criar uma nova senha.
               </p>
               <label className="mt-4 block">
-                <span className="text-[11px] uppercase tracking-[0.2em] text-[color:var(--gold-warm)]">E-mail</span>
+                <span className="text-[11px] uppercase tracking-[0.2em] text-[color:var(--gold-ink)]">E-mail</span>
                 <div className="mt-1.5 flex items-center gap-2 rounded-xl border border-[color:var(--rose-dust)]/40 bg-white px-3 py-2.5">
                   <Mail className="h-4 w-4 text-[color:var(--amethyst)]" />
                   <input type="email" required autoFocus value={forgotEmail}

@@ -23,13 +23,13 @@ export default function FullPlayer() {
             <button onClick={() => setExpanded(false)} className="grid h-10 w-10 place-items-center rounded-full bg-white/70 text-[color:var(--deep-purple)] shadow-sm">
               <ChevronDown className="h-5 w-5" />
             </button>
-            <p className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-warm)]">Louvores do Reino</p>
+            <p className="text-[12px] uppercase tracking-[0.28em] text-[color:var(--gold-ink)]">Louvores do Reino</p>
             <div className="w-10" />
           </header>
 
           <div className="flex flex-1 flex-col items-center justify-center px-8">
             <div className="aspect-square w-full max-w-xs rounded-3xl bg-gradient-to-br from-[#D4A5B5] via-[#C4A8BC] to-[#C9A876] shadow-[0_30px_70px_-20px_rgba(117,97,127,0.55)]" />
-            <p className="mt-8 text-center text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-warm)]">{current.subtitle}</p>
+            <p className="mt-8 text-center text-[12px] uppercase tracking-[0.28em] text-[color:var(--gold-ink)]">{current.subtitle}</p>
             <h2 className="mt-1 text-center font-display text-3xl text-[color:var(--deep-purple)]">{current.title}</h2>
 
             <div className="mt-8 w-full max-w-md">
@@ -38,7 +38,7 @@ export default function FullPlayer() {
                 onChange={(e) => seek(Number(e.target.value) / 1000)}
                 className="w-full accent-[color:var(--gold-warm)]"
               />
-              <div className="mt-1 flex justify-between text-[11px] text-[color:var(--amethyst)]">
+              <div className="mt-1 flex justify-between text-[12px] text-[color:var(--amethyst)]">
                 <span>{fmt(progress * duration)}</span>
                 <span>{fmt(duration)}</span>
               </div>
@@ -56,7 +56,7 @@ export default function FullPlayer() {
               </button>
             </div>
 
-            <p className="mt-8 text-center text-[11px] text-[color:var(--amethyst)]/70">🔒 Continue tocando com a tela bloqueada</p>
+            <p className="mt-8 text-center text-[12px] text-[color:var(--amethyst)]/70">🔒 Continue tocando com a tela bloqueada</p>
           </div>
         </motion.div>
       )}

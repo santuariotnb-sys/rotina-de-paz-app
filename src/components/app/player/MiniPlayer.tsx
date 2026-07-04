@@ -18,7 +18,7 @@ export default function MiniPlayer() {
           </div>
           <div className="min-w-0 flex-1">
             <p className="truncate font-display text-sm text-[color:var(--deep-purple)]">{current.title}</p>
-            <p className="truncate text-[11px] text-[color:var(--amethyst)]">{current.subtitle} · {current.duration}</p>
+            <p className="truncate text-[12px] text-[color:var(--amethyst)]">{current.subtitle} · {current.duration}</p>
             <div className="mt-1 h-0.5 w-full overflow-hidden rounded-full bg-[color:var(--rose-soft)]/50">
               <div className="h-full rounded-full bg-gradient-to-r from-[#D4A5B5] to-[#C9A876]" style={{ width: `${progress * 100}%` }} />
             </div>

@@ -7,8 +7,7 @@
 /* Previne scroll horizontal em mobile (clip > hidden no iOS: não cria scroll container) */
 html, body { overflow-x: clip; width: 100%; }
 
-/* Google Fonts (Cormorant Garamond + Outfit) */
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600;700&display=swap");
+/* Fontes (Cormorant Garamond + Outfit) carregadas com preconnect no <head> (__root.tsx) */
 
 /* ============================================================
  * PRIMORDIAL DIGITAL — Admin scope
@@ -684,6 +683,9 @@ html, body { overflow-x: clip; width: 100%; }
   --lavender: #C4A8BC;
   --gold: #D9C5A5;
   --gold-warm: #C9A876;
+  /* Dourado-tinta: legível como TEXTO sobre creme (passa WCAG AA). O --gold-warm
+     continua para ORNAMENTO (bordas, fundos, gradientes, ícones). */
+  --gold-ink: #866412;
   --rose-dust: #D4A5B5;
   --rose-soft: #E8C9D1;
 

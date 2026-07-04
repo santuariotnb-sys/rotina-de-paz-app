@@ -102,7 +102,7 @@ function EbooksPage() {
   return (
     <div className={first ? "" : "rdp-no-anim"}>
       <div className="mt-6 text-center rdp-fade-up">
-        <p className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-warm)]">
+        <p className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-ink)]">
           Biblioteca
         </p>
         <h1 className="mt-1 font-display text-4xl rdp-title-gradient">E-books</h1>
@@ -289,7 +289,7 @@ function EbookCard({
         {!unlocked && e.price && (
           <div className="absolute inset-x-0 bottom-0 flex items-center justify-center bg-gradient-to-t from-black/60 to-transparent pb-3 pt-8">
             <span className="inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-bold text-[color:var(--deep-purple)] shadow">
-              <ShoppingCart className="h-3 w-3 text-[color:var(--gold-warm)]" /> {e.price}
+              <ShoppingCart className="h-3 w-3 text-[color:var(--gold-ink)]" /> {e.price}
             </span>
           </div>
         )}
@@ -309,7 +309,7 @@ function EbookCard({
         )}
 
         {e.badge && (
-          <span className="absolute left-1.5 top-1.5 rounded-full bg-white/90 px-2 py-0.5 text-[8px] font-bold uppercase tracking-wider text-[color:var(--gold-warm)]">
+          <span className="absolute left-1.5 top-1.5 rounded-full bg-white/90 px-2 py-0.5 text-[8px] font-bold uppercase tracking-wider text-[color:var(--gold-ink)]">
             {e.badge}
           </span>
         )}

@@ -37,10 +37,10 @@ function LouvoresPage() {
   return (
     <div className={first ? "" : "rdp-no-anim"}>
       <div className="mt-6 text-center rdp-fade-up">
-        <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl border border-[color:var(--gold-warm)]/40 bg-white/70 text-[color:var(--gold-warm)]">
+        <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl border border-[color:var(--gold-warm)]/40 bg-white/70 text-[color:var(--gold-ink)]">
           <Music className="h-6 w-6" />
         </div>
-        <p className="mt-3 text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-warm)]">Adoração Profunda</p>
+        <p className="mt-3 text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-ink)]">Adoração Profunda</p>
         <h1 className="mt-1 font-display text-4xl rdp-title-gradient">Louvores do Reino</h1>
         <p className="mt-2 text-[13px] text-[color:var(--amethyst)]">Faixas sagradas · Frequências de adoração e cura</p>
       </div>
@@ -59,8 +59,8 @@ function LouvoresPage() {
       </div>
 
       <div className="mt-6 flex items-center justify-between text-[12px] text-[color:var(--amethyst)]">
-        <span><strong className="text-[color:var(--deep-purple)]">{list.length}</strong> faixas <Sparkles className="inline h-3 w-3 text-[color:var(--gold-warm)]" /> Bônus</span>
-        {current && <span className="text-[color:var(--gold-warm)]">● Tocando</span>}
+        <span><strong className="text-[color:var(--deep-purple)]">{list.length}</strong> faixas <Sparkles className="inline h-3 w-3 text-[color:var(--gold-ink)]" /> Bônus</span>
+        {current && <span className="text-[color:var(--gold-ink)]">● Tocando</span>}
       </div>
 
       <ol className="mt-3 space-y-2">
@@ -102,7 +102,7 @@ function LouvoresPage() {
                 className={`grid h-10 w-10 place-items-center rounded-full transition ${
                   isCurrent
                     ? "bg-gradient-to-br from-[#E8C9A0] to-[#C9A876] text-[#2C1F0B] shadow-[0_6px_14px_-6px_rgba(201,168,118,0.6)]"
-                    : "border border-[color:var(--gold-warm)]/40 text-[color:var(--gold-warm)] hover:bg-[color:var(--rose-soft)]/30"
+                    : "border border-[color:var(--gold-warm)]/40 text-[color:var(--gold-ink)] hover:bg-[color:var(--rose-soft)]/30"
                 }`}
               >
                 {isCurrent && isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 fill-current" />}

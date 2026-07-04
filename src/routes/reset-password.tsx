@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ChevronRight, Lock } from "lucide-react";
-import logoSrc from "@/assets/rotina-de-paz-logo.png";
+import logoSrc from "@/assets/rotina-de-paz-logo.webp";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/reset-password")({
@@ -84,7 +84,7 @@ function ResetPasswordPage() {
           {expired && !ready && (
             <button
               onClick={() => navigate({ to: "/login" })}
-              className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-[color:var(--gold-warm)]/50 bg-white/70 px-4 py-2 text-[13px] font-semibold text-[color:var(--gold-warm)] transition active:scale-95 hover:bg-white"
+              className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-[color:var(--gold-warm)]/50 bg-white/70 px-4 py-2 text-[13px] font-semibold text-[color:var(--gold-ink)] transition active:scale-95 hover:bg-white"
             >
               Voltar ao login <ChevronRight className="h-4 w-4" />
             </button>
@@ -93,7 +93,7 @@ function ResetPasswordPage() {
 
         <form onSubmit={handleSubmit} className="mt-8 rdp-light-card rounded-3xl p-6">
           <label className="block">
-            <span className="text-[11px] uppercase tracking-[0.2em] text-[color:var(--gold-warm)]">Nova senha</span>
+            <span className="text-[11px] uppercase tracking-[0.2em] text-[color:var(--gold-ink)]">Nova senha</span>
             <div className="mt-1.5 flex items-center gap-2 rounded-xl border border-[color:var(--rose-dust)]/40 bg-white/80 px-3 py-2.5">
               <Lock className="h-4 w-4 text-[color:var(--amethyst)]" />
               <input type="password" required value={pass} onChange={(e) => setPass(e.target.value)}
@@ -103,7 +103,7 @@ function ResetPasswordPage() {
           </label>
 
           <label className="mt-4 block">
-            <span className="text-[11px] uppercase tracking-[0.2em] text-[color:var(--gold-warm)]">Repetir</span>
+            <span className="text-[11px] uppercase tracking-[0.2em] text-[color:var(--gold-ink)]">Repetir</span>
             <div className="mt-1.5 flex items-center gap-2 rounded-xl border border-[color:var(--rose-dust)]/40 bg-white/80 px-3 py-2.5">
               <Lock className="h-4 w-4 text-[color:var(--amethyst)]" />
               <input type="password" required value={pass2} onChange={(e) => setPass2(e.target.value)}

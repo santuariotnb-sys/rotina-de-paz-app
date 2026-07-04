@@ -114,7 +114,7 @@ function VolumePage() {
       </div>
 
       <div className="mt-3 text-center">
-        <p className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-warm)]">
+        <p className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-ink)]">
           {isMorning ? "Volume I · Ativação Matinal" : "Volume II · Selagem Noturna"}
         </p>
         <h1 className="mt-2 font-display text-4xl rdp-title-gradient">
@@ -127,11 +127,11 @@ function VolumePage() {
       <div className="mt-6 rdp-light-card rounded-3xl p-4 sm:p-5 rdp-fade-up">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
           <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
-            <div className="grid h-10 w-10 sm:h-12 sm:w-12 shrink-0 place-items-center rounded-2xl border border-[color:var(--gold-warm)]/40 bg-white/70 text-[color:var(--gold-warm)]">
+            <div className="grid h-10 w-10 sm:h-12 sm:w-12 shrink-0 place-items-center rounded-2xl border border-[color:var(--gold-warm)]/40 bg-white/70 text-[color:var(--gold-ink)]">
               {isMorning ? <Sun className="h-5 w-5 sm:h-6 sm:w-6" /> : <Moon className="h-5 w-5 sm:h-6 sm:w-6" />}
             </div>
             <div className="min-w-0 flex-1">
-              <p className="text-[10px] uppercase tracking-[0.22em] text-[color:var(--gold-warm)]">Próximo passo</p>
+              <p className="text-[10px] uppercase tracking-[0.22em] text-[color:var(--gold-ink)]">Próximo passo</p>
               <p className="mt-0.5 truncate font-display text-base sm:text-lg text-[color:var(--deep-purple)]">
                 Dia {nextDay.day} — {nextDay.theme}
               </p>
@@ -197,7 +197,7 @@ function DayRow({ day: d, time, done, isNext, onOpen, delay }: {
       <button onClick={onOpen} className="flex w-full items-center gap-4 text-left">
         <div className={`grid h-12 w-12 shrink-0 place-items-center rounded-xl border ${
           done
-            ? "border-[color:var(--gold-warm)]/60 bg-[color:var(--gold-warm)]/15 text-[color:var(--gold-warm)]"
+            ? "border-[color:var(--gold-warm)]/60 bg-[color:var(--gold-warm)]/15 text-[color:var(--gold-ink)]"
             : isNext
               ? "border-[color:var(--rose-dust)]/60 bg-[color:var(--rose-dust)]/15 text-[color:var(--rose-dust)] rdp-pulse-gold"
               : "border-[color:var(--amethyst)]/20 bg-white/50 text-[color:var(--amethyst)]/50"
@@ -206,13 +206,13 @@ function DayRow({ day: d, time, done, isNext, onOpen, delay }: {
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
-            <p className="text-[10px] uppercase tracking-[0.2em] text-[color:var(--gold-warm)]">Dia {d.day}</p>
-            {done && <span className="rounded-full border border-[color:var(--gold-warm)]/40 bg-[color:var(--gold-warm)]/10 px-2 py-0.5 text-[9px] uppercase tracking-widest text-[color:var(--gold-warm)]">Concluído</span>}
+            <p className="text-[10px] uppercase tracking-[0.2em] text-[color:var(--gold-ink)]">Dia {d.day}</p>
+            {done && <span className="rounded-full border border-[color:var(--gold-warm)]/40 bg-[color:var(--gold-warm)]/10 px-2 py-0.5 text-[9px] uppercase tracking-widest text-[color:var(--gold-ink)]">Concluído</span>}
           </div>
           <h3 className="mt-0.5 font-display text-lg text-[color:var(--deep-purple)] truncate">{d.theme}</h3>
           <p className="text-[12px] text-[color:var(--amethyst)] truncate">{session.focus}</p>
         </div>
-        <ChevronRight className="h-5 w-5 text-[color:var(--gold-warm)]" />
+        <ChevronRight className="h-5 w-5 text-[color:var(--gold-ink)]" />
       </button>
     </li>
   );

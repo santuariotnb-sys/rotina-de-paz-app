@@ -22,7 +22,7 @@ function DevocionaisPage() {
   return (
     <div className={first ? "" : "rdp-no-anim"}>
       <div className="mt-6 text-center rdp-fade-up">
-        <p className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-warm)]">Jornada de Transformação</p>
+        <p className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-ink)]">Jornada de Transformação</p>
         <h1 className="mt-1 font-display text-4xl rdp-title-gradient">Devocionais de Fé</h1>
         <p className="mt-2 text-[13px] text-[color:var(--amethyst)]">Jornadas em vídeo para crescimento espiritual</p>
       </div>
@@ -40,7 +40,7 @@ function DevocionaisPage() {
           <Link key={d.id} to="/app/devocional/$slug" params={{ slug: d.slug }} className="mx-auto block w-full max-w-[260px] overflow-hidden rounded-3xl rdp-light-card rdp-light-card-hover rdp-fade-up sm:max-w-none" style={{ animationDelay: `${i * 60}ms` }}>
             <div className="relative aspect-[3/4]" style={{ background: d.cover }}>
               <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
-              <span className="absolute left-3 top-3 rounded-full bg-white/90 px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-[color:var(--gold-warm)]">{d.badge}</span>
+              <span className="absolute left-3 top-3 rounded-full bg-white/90 px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-[color:var(--gold-ink)]">{d.badge}</span>
               <div className="absolute inset-x-4 bottom-4 text-white">
                 <p className="font-display text-2xl leading-tight">{d.title}</p>
               </div>

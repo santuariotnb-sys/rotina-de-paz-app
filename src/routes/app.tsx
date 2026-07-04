@@ -1,6 +1,6 @@
 import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
 import { lazy, Suspense, useEffect, useState } from "react";
-import logoSrc from "@/assets/rotina-de-paz-logo.png";
+import logoSrc from "@/assets/rotina-de-paz-logo.webp";
 import { TopBar, BottomNav } from "@/components/app/AppNav";
 import { PlayerProvider } from "@/components/app/player/PlayerProvider";
 import MiniPlayer from "@/components/app/player/MiniPlayer";
