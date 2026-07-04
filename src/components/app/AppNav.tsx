@@ -15,7 +15,7 @@ import {
 
 // Carimbo de versão — bump a cada deploy pra confirmar (no aparelho do usuário) qual
 // build está realmente carregada. Aparece na TopBar: "Círculo da Paz · <APP_BUILD>".
-export const APP_BUILD = "v04jul-4";
+export const APP_BUILD = "v04jul-5";
 
 const items = [
   {
@@ -74,57 +74,60 @@ export function TopBar({
               ROTINA DE PAZ
             </p>
             <p className="text-[11px] uppercase tracking-[0.24em] text-[color:var(--gold-ink)]">
-              NeuroFé <span className="text-[9px] font-normal tracking-normal text-[color:var(--amethyst)]/50">{APP_BUILD}</span>
+              NeuroFé{" "}
+              <span className="text-[9px] font-normal tracking-normal text-[color:var(--amethyst)]/50">
+                {APP_BUILD}
+              </span>
             </p>
           </div>
         </Link>
         <div className="flex items-center gap-2">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <button
-              aria-label="Abrir perfil"
-              className="grid h-9 w-9 place-items-center rounded-full border border-[color:var(--gold-warm)]/50 bg-white/80 text-[12px] font-semibold text-[color:var(--gold-ink)] transition hover:brightness-105 active:scale-95"
-            >
-              {(name?.[0] ?? "P").toUpperCase()}
-            </button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" sideOffset={8} className="w-56">
-            <DropdownMenuLabel className="flex flex-col gap-0.5">
-              <span className="font-semibold text-[color:var(--deep-purple)] truncate">
-                {name ?? "Membro"}
-              </span>
-              {email && (
-                <span className="text-xs font-normal text-[color:var(--amethyst)] truncate">
-                  {email}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                aria-label="Abrir perfil"
+                className="grid h-9 w-9 place-items-center rounded-full border border-[color:var(--gold-warm)]/50 bg-white/80 text-[12px] font-semibold text-[color:var(--gold-ink)] transition hover:brightness-105 active:scale-95"
+              >
+                {(name?.[0] ?? "P").toUpperCase()}
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" sideOffset={8} className="w-56">
+              <DropdownMenuLabel className="flex flex-col gap-0.5">
+                <span className="font-semibold text-[color:var(--deep-purple)] truncate">
+                  {name ?? "Membro"}
                 </span>
+                {email && (
+                  <span className="text-xs font-normal text-[color:var(--amethyst)] truncate">
+                    {email}
+                  </span>
+                )}
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {isAdmin && (
+                <DropdownMenuItem asChild>
+                  <Link to="/admin">
+                    <ShieldCheck className="mr-2 h-4 w-4" /> Painel Admin
+                  </Link>
+                </DropdownMenuItem>
               )}
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            {isAdmin && (
               <DropdownMenuItem asChild>
-                <Link to="/admin">
-                  <ShieldCheck className="mr-2 h-4 w-4" /> Painel Admin
+                <Link to="/app/suporte">
+                  <LifeBuoy className="mr-2 h-4 w-4" /> Suporte
                 </Link>
               </DropdownMenuItem>
-            )}
-            <DropdownMenuItem asChild>
-              <Link to="/app/suporte">
-                <LifeBuoy className="mr-2 h-4 w-4" /> Suporte
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onSelect={onLogout} className="text-red-600 focus:text-red-600">
-              <LogOut className="mr-2 h-4 w-4" /> Sair da conta
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-        <Link
-          to="/app/suporte"
-          aria-label="Suporte"
-          className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-[color:var(--gold-warm)]/45 bg-white/80 text-[color:var(--gold-ink)] transition hover:bg-[color:var(--rose-soft)]/30 active:scale-95"
-        >
-          <LifeBuoy className="h-[18px] w-[18px]" />
-        </Link>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onSelect={onLogout} className="text-red-600 focus:text-red-600">
+                <LogOut className="mr-2 h-4 w-4" /> Sair da conta
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <Link
+            to="/app/suporte"
+            aria-label="Suporte"
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-[color:var(--gold-warm)]/45 bg-white/80 text-[color:var(--gold-ink)] transition hover:bg-[color:var(--rose-soft)]/30 active:scale-95"
+          >
+            <LifeBuoy className="h-[18px] w-[18px]" />
+          </Link>
         </div>
       </div>
       <DesktopNav />
