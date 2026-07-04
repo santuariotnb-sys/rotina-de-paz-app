@@ -15,7 +15,7 @@ import {
 
 // Carimbo de versão — bump a cada deploy pra confirmar (no aparelho do usuário) qual
 // build está realmente carregada. Aparece na TopBar: "Círculo da Paz · <APP_BUILD>".
-export const APP_BUILD = "v04jul-5";
+export const APP_BUILD = "v04jul-6";
 
 const items = [
   {
@@ -124,9 +124,9 @@ export function TopBar({
           <Link
             to="/app/suporte"
             aria-label="Suporte"
-            className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-[color:var(--gold-warm)]/45 bg-white/80 text-[color:var(--gold-ink)] transition hover:bg-[color:var(--rose-soft)]/30 active:scale-95"
+            className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border border-[color:var(--gold-warm)]/50 bg-gradient-to-br from-[color:var(--rose-soft)]/45 to-[color:var(--gold-warm)]/20 px-3 text-[12px] font-semibold text-[color:var(--gold-ink)] shadow-[0_2px_8px_-3px_rgba(201,168,118,0.4)] transition hover:brightness-105 active:scale-95"
           >
-            <LifeBuoy className="h-[18px] w-[18px]" />
+            <LifeBuoy className="h-4 w-4" /> Suporte
           </Link>
         </div>
       </div>

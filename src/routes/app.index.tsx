@@ -43,7 +43,6 @@ function PazHome() {
 
   const morningDone = countDone(progress, "morning");
   const nightDone = countDone(progress, "night");
-  const arche = ARCHETYPES[student.archetype];
   const nextTurno: "manha" | "noite" = morningDone <= nightDone ? "manha" : "noite";
   const firstName = student.name?.split(" ")[0];
   const isMorning = nextTurno === "manha";
@@ -62,9 +61,10 @@ function PazHome() {
           width={1024}
           height={1024}
         />
-        {/* véu para legibilidade + atmosfera de santuário */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#2A2033]/92 via-[#2A2033]/55 to-[#2A2033]/25" />
-        <div className="absolute inset-0 bg-[radial-gradient(120%_80%_at_80%_0%,rgba(201,168,118,0.28),transparent_60%)]" />
+        {/* véu forte: a capa vira fundo atmosférico, sem competir com o texto por cima */}
+        <div className="absolute inset-0 bg-[#1A1326]/45" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#120C1C]/97 via-[#160F22]/85 to-[#160F22]/60" />
+        <div className="absolute inset-0 bg-[radial-gradient(120%_80%_at_80%_0%,rgba(201,168,118,0.22),transparent_60%)]" />
 
         <div className="relative flex min-h-[340px] flex-col justify-between p-6 sm:min-h-[300px] sm:p-8">
           <div className="flex items-center justify-between">
@@ -78,23 +78,19 @@ function PazHome() {
           </div>
 
           <div>
-            <p className="text-[12px] uppercase tracking-[0.24em] text-[#E8C9A0]">
-              Continue sua jornada
-            </p>
-            <h1 className="mt-1.5 font-display text-[2rem] leading-[1.1] text-white sm:text-4xl">
+            <h1 className="font-display text-[2rem] leading-[1.1] text-white sm:text-4xl">
               {greeting()}
               {firstName ? `, ${firstName}` : ""}.
             </h1>
-            <p className="mt-1.5 max-w-md text-[14px] text-white/75">
-              Seu padrão é <span className="italic text-[#E8C9A0]">{arche.name}</span>. Continue por{" "}
-              <strong className="font-semibold text-white">
+            <p className="mt-2 text-[14px] text-white/80">
+              Continue por{" "}
+              <strong className="font-semibold text-[#E8C9A0]">
                 {isMorning ? "Volume I — Despertar" : "Volume II — Repouso"}
               </strong>
-              .
             </p>
 
             {/* barra de progresso do volume atual */}
-            <div className="mt-4 flex items-center gap-3">
+            <div className="mt-5 flex items-center gap-3">
               <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/20">
                 <div
                   className="h-full rounded-full bg-gradient-to-r from-[#E8C9A0] to-[#C9A876]"
