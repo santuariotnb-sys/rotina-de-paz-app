@@ -4,8 +4,15 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Previne scroll horizontal em mobile (clip > hidden no iOS: não cria scroll container) */
-html, body { overflow-x: clip; width: 100%; }
+/* Previne scroll horizontal em mobile. hidden = fallback universal (aparelhos antigos
+   que não suportam `clip`); clip sobrescreve onde há suporte (iOS: não cria scroll
+   container e não quebra o sticky da TopBar). */
+html, body {
+  overflow-x: hidden;
+  overflow-x: clip;
+  width: 100%;
+  max-width: 100%;
+}
 
 /* Fontes (Cormorant Garamond + Outfit) carregadas com preconnect no <head> (__root.tsx) */
 
