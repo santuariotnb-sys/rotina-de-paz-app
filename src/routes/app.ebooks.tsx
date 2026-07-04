@@ -43,7 +43,6 @@ type EbookExt = Ebook & {
   requiredProductId: string | null;
   description: string | null;
   coverUrl: string | null;
-  fileUrl: string | null;
 };
 
 function mapEbooks(raw: any[]): EbookExt[] {
@@ -58,7 +57,6 @@ function mapEbooks(raw: any[]): EbookExt[] {
     coverUrl: r.cover_url ?? null,
     requiredProductId: r.required_product_id ?? null,
     description: r.description ?? null,
-    fileUrl: r.file_url ?? null,
   }));
 }
 
@@ -207,14 +205,8 @@ function EbookCard({
   async function handleReadClick() {
     if (loading) return;
 
-    // Fast path: URL já cacheada e ebook desbloqueado → abre instantâneo sem server call
-    if (e.fileUrl && unlocked) {
-      const win = window.open(e.fileUrl, "_blank", "noopener");
-      if (!win) window.location.assign(e.fileUrl);
-      return;
-    }
-
-    // Fallback: busca URL via server function (verificação server-side)
+    // Sempre via server function: a verificação de entitlement é server-side e a
+    // URL do arquivo nunca é entregue ao cliente na listagem (defense-in-depth).
     setLoading(true);
     toast.loading("Abrindo seu e-book…", { id: "ebook" });
     try {
