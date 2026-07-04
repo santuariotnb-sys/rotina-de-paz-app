@@ -15,7 +15,7 @@ import {
 
 // Carimbo de versão — bump a cada deploy pra confirmar (no aparelho do usuário) qual
 // build está realmente carregada. Aparece na TopBar: "Círculo da Paz · <APP_BUILD>".
-export const APP_BUILD = "v04jul-2";
+export const APP_BUILD = "v04jul-3";
 
 const items = [
   {
@@ -65,23 +65,20 @@ export function TopBar({
   return (
     <header className="sticky top-0 z-20 border-b border-[color:var(--rose-dust)]/45 bg-white/95 backdrop-blur-xl shadow-[0_4px_16px_-4px_rgba(68,58,82,0.15)]">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-3">
-        <Link to="/app" className="flex items-center gap-3">
-          <img
-            src={logoSrc}
-            alt=""
-            width={44}
-            height={44}
-            className="h-11 w-11 drop-shadow-[0_2px_6px_rgba(201,168,118,0.3)]"
-          />
+        <Link to="/app" className="flex items-center gap-2.5">
+          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-gradient-to-br from-[color:var(--rose-soft)]/70 to-[color:var(--gold-warm)]/30 ring-1 ring-[color:var(--gold-warm)]/45 shadow-[0_2px_8px_-2px_rgba(201,168,118,0.4)]">
+            <img src={logoSrc} alt="" width={38} height={38} className="h-[38px] w-[38px]" />
+          </span>
           <div className="leading-tight">
-            <p className="font-display text-[16px] font-semibold tracking-[0.22em] rdp-title-gradient">
+            <p className="font-display text-[16px] font-semibold tracking-[0.22em] text-[color:var(--deep-purple)]">
               ROTINA DE PAZ
             </p>
-            <p className="text-[12px] uppercase tracking-[0.22em] text-[color:var(--amethyst)]">
-              Círculo da Paz · {APP_BUILD}
+            <p className="text-[11px] uppercase tracking-[0.24em] text-[color:var(--gold-ink)]">
+              NeuroFé <span className="text-[9px] font-normal tracking-normal text-[color:var(--amethyst)]/50">{APP_BUILD}</span>
             </p>
           </div>
         </Link>
+        <div className="flex items-center gap-2">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button
@@ -121,6 +118,14 @@ export function TopBar({
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+        <Link
+          to="/app/suporte"
+          aria-label="Suporte"
+          className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-[color:var(--gold-warm)]/45 bg-white/80 text-[color:var(--gold-ink)] transition hover:bg-[color:var(--rose-soft)]/30 active:scale-95"
+        >
+          <LifeBuoy className="h-[18px] w-[18px]" />
+        </Link>
+        </div>
       </div>
       <DesktopNav />
     </header>
