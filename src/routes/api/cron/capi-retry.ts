@@ -35,13 +35,16 @@ export const Route = createFileRoute("/api/cron/capi-retry")({
   server: {
     handlers: {
       GET: async ({ request }) => {
-        // Proteger contra chamadas externas
+        // Proteger contra chamadas externas — fail-closed: sem secret configurado,
+        // o endpoint NÃO responde (evita cron público se CRON_SECRET for removido).
         const cronSecret = process.env.CRON_SECRET;
-        if (cronSecret) {
-          const auth = request.headers.get("authorization");
-          if (auth !== `Bearer ${cronSecret}`) {
-            return new Response("Unauthorized", { status: 401 });
-          }
+        if (!cronSecret) {
+          console.error("[capi-retry] CRITICAL: CRON_SECRET ausente — endpoint bloqueado");
+          return new Response("Cron secret not configured", { status: 503 });
+        }
+        const auth = request.headers.get("authorization");
+        if (auth !== `Bearer ${cronSecret}`) {
+          return new Response("Unauthorized", { status: 401 });
         }
 
         // Buscar failed com menos de MAX_CAPI_ATTEMPTS tentativas
