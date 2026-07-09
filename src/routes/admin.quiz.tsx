@@ -27,11 +27,9 @@ import {
   sinceISO,
 } from "@/lib/admin/constants";
 import { getQuizFunnel } from "@/lib/admin/quiz-funnel.functions";
-import {
-  getCheckoutFunnel,
-  getFullFunnel,
-} from "@/lib/admin/checkout-funnel.functions";
+import { getCheckoutFunnel, getFullFunnel } from "@/lib/admin/checkout-funnel.functions";
 import { getConvertedLeadIds } from "@/lib/admin/conversion.functions";
+import { useAdminQuiz } from "@/lib/admin/quiz-context";
 
 export const Route = createFileRoute("/admin/quiz")({
   component: AdminQuizPage,
@@ -81,31 +79,36 @@ function AdminQuizPage() {
   const [period, setPeriod] = useState<Period>(PERIODS[1]);
   const [selectedQ, setSelectedQ] = useState<string>("sintoma");
   const since = useMemo(() => sinceISO(period), [period]);
+  const { quizId } = useAdminQuiz();
 
   const { data: responses = [], isLoading: loadingR } = useQuery({
-    queryKey: ["adm-quiz-responses", period.label],
+    queryKey: ["adm-quiz-responses", period.label, quizId],
     queryFn: async (): Promise<QuizResponse[]> => {
-      const { data, error } = await supabase
+      let query = (supabase as any)
         .from("quiz_responses")
         .select("*")
         .gte("created_at", since)
         .order("created_at", { ascending: false })
         .limit(5000);
+      if (quizId) query = query.eq("quiz_id", quizId);
+      const { data, error } = await query;
       if (error) throw error;
       return (data ?? []) as unknown as QuizResponse[];
     },
   });
 
   const { data: leads = [], isLoading: loadingL } = useQuery({
-    queryKey: ["adm-quiz-leads", period.label],
+    queryKey: ["adm-quiz-leads", period.label, quizId],
     queryFn: async (): Promise<Lead[]> => {
       const sb = supabase as any;
-      const { data, error } = await sb
+      let query = sb
         .from("leads_reais")
         .select("id, archetype, email, whatsapp, created_at")
         .gte("created_at", since)
         .order("created_at", { ascending: false })
         .limit(2000);
+      if (quizId) query = query.eq("quiz_id", quizId);
+      const { data, error } = await query;
       if (error) throw error;
       return (data ?? []) as Lead[];
     },
@@ -113,26 +116,26 @@ function AdminQuizPage() {
 
   const fetchConvertedIds = useServerFn(getConvertedLeadIds);
   const { data: convertedLeadIds = [] } = useQuery({
-    queryKey: ["adm-quiz-converted-leads"],
-    queryFn: () => fetchConvertedIds(),
+    queryKey: ["adm-quiz-converted-leads", quizId],
+    queryFn: () => fetchConvertedIds({ data: { quizId } }),
   });
 
   const fetchFunnel = useServerFn(getQuizFunnel);
   const { data: funnelSteps = [], isLoading: loadingFunnel } = useQuery({
-    queryKey: ["adm-quiz-funnel", period.label],
-    queryFn: () => fetchFunnel({ data: { days: period.days ?? 9999 } }),
+    queryKey: ["adm-quiz-funnel", period.label, quizId],
+    queryFn: () => fetchFunnel({ data: { days: period.days ?? 9999, quizId } }),
   });
 
   const fetchCheckoutFunnel = useServerFn(getCheckoutFunnel);
   const { data: checkoutSteps = [] } = useQuery({
-    queryKey: ["adm-checkout-funnel", period.label],
-    queryFn: () => fetchCheckoutFunnel({ data: { days: period.days ?? 9999 } }),
+    queryKey: ["adm-checkout-funnel", period.label, quizId],
+    queryFn: () => fetchCheckoutFunnel({ data: { days: period.days ?? 9999, quizId } }),
   });
 
   const fetchFullFunnel = useServerFn(getFullFunnel);
   const { data: fullFunnelSteps = [] } = useQuery({
-    queryKey: ["adm-full-funnel", period.label],
-    queryFn: () => fetchFullFunnel({ data: { days: period.days ?? 9999 } }),
+    queryKey: ["adm-full-funnel", period.label, quizId],
+    queryFn: () => fetchFullFunnel({ data: { days: period.days ?? 9999, quizId } }),
   });
 
   const isLoading = loadingR || loadingL;
@@ -407,7 +410,11 @@ function AdminQuizPage() {
                   <KpiCard
                     label="Completaram quiz"
                     value={funnelKpis?.completedQuiz ?? 0}
-                    hint={funnelKpis?.completionRate ? `${funnelKpis.completionRate}% dos que chegaram` : undefined}
+                    hint={
+                      funnelKpis?.completionRate
+                        ? `${funnelKpis.completionRate}% dos que chegaram`
+                        : undefined
+                    }
                     icon={<TrendingUp className="h-4 w-4" />}
                   />
                   <KpiCard
@@ -432,16 +439,19 @@ function AdminQuizPage() {
                   {funnelSteps.map((step, i) => {
                     const prevReached = i > 0 ? funnelSteps[i - 1].reached : 0;
                     const topReached = funnelSteps[0]?.reached ?? 1;
-                    const pctOfTop = topReached > 0 ? Math.round((step.reached / topReached) * 100) : 0;
+                    const pctOfTop =
+                      topReached > 0 ? Math.round((step.reached / topReached) * 100) : 0;
                     const isContactGate = step.stage === "contact_gate";
                     // Forward-only: contact_gate has sparse historical data, flag it
-                    const isForwardOnly = isContactGate && step.reached < (prevReached * 0.1);
+                    const isForwardOnly = isContactGate && step.reached < prevReached * 0.1;
 
                     return (
                       <div
                         key={step.stage}
                         className={`flex items-center gap-3 rounded-lg px-3 py-2 ${
-                          isForwardOnly ? "bg-amber-500/5 border border-amber-500/20" : "bg-white/[0.02]"
+                          isForwardOnly
+                            ? "bg-amber-500/5 border border-amber-500/20"
+                            : "bg-white/[0.02]"
                         }`}
                       >
                         {/* Bar width proportional to top */}
@@ -476,7 +486,11 @@ function AdminQuizPage() {
                         {i > 0 && !isForwardOnly && step.drop_pct > 0 && (
                           <span
                             className={`w-14 text-right text-[11px] font-mono ${
-                              step.drop_pct > 30 ? "text-red-400" : step.drop_pct > 15 ? "text-yellow-400" : "text-zinc-500"
+                              step.drop_pct > 30
+                                ? "text-red-400"
+                                : step.drop_pct > 15
+                                  ? "text-yellow-400"
+                                  : "text-zinc-500"
                             }`}
                           >
                             −{step.drop_pct}%
@@ -493,7 +507,9 @@ function AdminQuizPage() {
                 {/* Forward-only explanation */}
                 {funnelSteps.some((s) => s.stage === "contact_gate" && s.reached < 10) && (
                   <p className="mt-3 text-[11px] text-amber-400/70">
-                    A etapa "WhatsApp capturado" está populando desde {CONTACT_GATE_SINCE} (dados anteriores foram perdidos por um bug na ingestão, já corrigido). Os números consolidam conforme novos visitantes passam pelo quiz.
+                    A etapa "WhatsApp capturado" está populando desde {CONTACT_GATE_SINCE} (dados
+                    anteriores foram perdidos por um bug na ingestão, já corrigido). Os números
+                    consolidam conforme novos visitantes passam pelo quiz.
                   </p>
                 )}
               </>
@@ -541,7 +557,8 @@ function AdminQuizPage() {
           <GlassCard>
             <h2 className="mb-4 text-lg font-semibold text-white">Distribuição de Arquétipos</h2>
             <p className="mb-3 text-[11px] text-amber-400/70">
-              Arquétipo × venda não disponível — apenas 3.7% dos leads têm external_id para atribuição. Consolida conforme o volume cresce.
+              Arquétipo × venda não disponível — apenas 3.7% dos leads têm external_id para
+              atribuição. Consolida conforme o volume cresce.
             </p>
             <div className="flex flex-col items-center gap-6 md:flex-row">
               <div className="h-64 w-full max-w-xs">
@@ -676,9 +693,7 @@ function AdminQuizPage() {
                 <TrendingUp className="h-5 w-5" />
                 Funil do Checkout
               </h2>
-              <span className="text-xs text-zinc-400">
-                Dados desde o deploy do canário
-              </span>
+              <span className="text-xs text-zinc-400">Dados desde o deploy do canário</span>
             </div>
 
             {checkoutSteps.length > 0 && checkoutSteps.some((s) => s.reached > 0) ? (
@@ -777,9 +792,7 @@ function AdminQuizPage() {
                 <TrendingUp className="h-5 w-5" />
                 Funil Completo (Quiz → Compra)
               </h2>
-              <span className="text-xs text-zinc-400">
-                Ponta a ponta por session_id
-              </span>
+              <span className="text-xs text-zinc-400">Ponta a ponta por session_id</span>
             </div>
 
             {fullFunnelSteps.length > 0 && fullFunnelSteps.some((s) => s.reached > 0) ? (
@@ -808,8 +821,16 @@ function AdminQuizPage() {
                           key={entry.stage}
                           fill={
                             entry.stage.startsWith("c_")
-                              ? entry.drop_pct > 30 ? "#EF4444" : entry.drop_pct > 15 ? "#F59E0B" : "#10B981"
-                              : entry.drop_pct > 30 ? "#EF4444" : entry.drop_pct > 15 ? "#F59E0B" : "#3B82F6"
+                              ? entry.drop_pct > 30
+                                ? "#EF4444"
+                                : entry.drop_pct > 15
+                                  ? "#F59E0B"
+                                  : "#10B981"
+                              : entry.drop_pct > 30
+                                ? "#EF4444"
+                                : entry.drop_pct > 15
+                                  ? "#F59E0B"
+                                  : "#3B82F6"
                           }
                         />
                       ))}
@@ -834,7 +855,8 @@ function AdminQuizPage() {
               </>
             ) : (
               <p className="text-zinc-500 text-sm">
-                Sem dados ponta a ponta. Requer quiz + checkout instrumentados com session_id compartilhado.
+                Sem dados ponta a ponta. Requer quiz + checkout instrumentados com session_id
+                compartilhado.
               </p>
             )}
           </GlassCard>

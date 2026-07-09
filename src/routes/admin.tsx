@@ -2,15 +2,13 @@ import { Outlet, createFileRoute, redirect, useNavigate } from "@tanstack/react-
 import { useEffect, useState } from "react";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminTopbar } from "@/components/admin/AdminTopbar";
+import { AdminQuizProvider } from "@/lib/admin/quiz-context";
 import { getCurrentAdmin, type AdminRecord } from "@/lib/admin/auth";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
-    meta: [
-      { title: "Primordia · Painel" },
-      { name: "robots", content: "noindex,nofollow" },
-    ],
+    meta: [{ title: "Primordia · Painel" }, { name: "robots", content: "noindex,nofollow" }],
   }),
   component: AdminLayout,
 });
@@ -37,7 +35,8 @@ function AdminLayout() {
   // reading the pathname directly to avoid extra route wiring.
   useEffect(() => {
     let alive = true;
-    const isLoginRoute = typeof window !== "undefined" && window.location.pathname.startsWith("/admin/login");
+    const isLoginRoute =
+      typeof window !== "undefined" && window.location.pathname.startsWith("/admin/login");
     if (isLoginRoute) {
       setState("login");
       return;
@@ -89,17 +88,19 @@ function AdminLayout() {
           mobileOpen={mobileOpen}
           onMobileClose={() => setMobileOpen(false)}
         />
-        <div className="flex min-w-0 flex-1 flex-col">
-          <AdminTopbar
-            admin={admin}
-            collapsed={collapsed}
-            onToggle={toggleCollapsed}
-            onMobileOpen={() => setMobileOpen(true)}
-          />
-          <main className="adm-page-content flex-1 overflow-x-hidden px-4 py-6 lg:px-8 lg:py-8">
-            <Outlet />
-          </main>
-        </div>
+        <AdminQuizProvider>
+          <div className="flex min-w-0 flex-1 flex-col">
+            <AdminTopbar
+              admin={admin}
+              collapsed={collapsed}
+              onToggle={toggleCollapsed}
+              onMobileOpen={() => setMobileOpen(true)}
+            />
+            <main className="adm-page-content flex-1 overflow-x-hidden px-4 py-6 lg:px-8 lg:py-8">
+              <Outlet />
+            </main>
+          </div>
+        </AdminQuizProvider>
       </div>
     </div>
   );

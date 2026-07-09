@@ -1,14 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import {
-  Users,
-  CalendarCheck,
-  AlertTriangle,
-  MessageCircle,
-  Download,
-  Search,
-} from "lucide-react";
+import { Users, CalendarCheck, AlertTriangle, MessageCircle, Download, Search } from "lucide-react";
 import {
   PieChart,
   Pie,
@@ -35,6 +28,7 @@ import {
   sinceISO,
 } from "@/lib/admin/constants";
 import { downloadCsv } from "@/lib/admin/csv";
+import { useAdminQuiz } from "@/lib/admin/quiz-context";
 
 export const Route = createFileRoute("/admin/leads")({
   component: AdminLeadsPage,
@@ -57,14 +51,15 @@ type Lead = {
 function AdminLeadsPage() {
   const [period, setPeriod] = useState<Period>(PERIODS[1]);
   const [search, setSearch] = useState("");
+  const { quizId } = useAdminQuiz();
 
   const since = useMemo(() => sinceISO(period), [period]);
 
   const { data: leads = [], isLoading } = useQuery({
-    queryKey: ["adm-leads", period.label],
+    queryKey: ["adm-leads", period.label, quizId],
     queryFn: async (): Promise<Lead[]> => {
       const sb = supabase as any;
-      const { data, error } = await sb
+      let query = sb
         .from("leads_reais")
         .select(
           "id, name, email, whatsapp, archetype, desire, situation, risk_flag, utm_source, utm_campaign, created_at",
@@ -72,15 +67,14 @@ function AdminLeadsPage() {
         .gte("created_at", since)
         .order("created_at", { ascending: false })
         .limit(1000);
+      if (quizId) query = query.eq("quiz_id", quizId);
+      const { data, error } = await query;
       if (error) throw new Error(error.message);
       return (data ?? []) as Lead[];
     },
   });
 
-  const todayStart = useMemo(
-    () => sinceISO(PERIODS[0]),
-    [],
-  );
+  const todayStart = useMemo(() => sinceISO(PERIODS[0]), []);
 
   const kpis = useMemo(() => {
     let today = 0;
@@ -158,9 +152,7 @@ function AdminLeadsPage() {
           <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55">
             Fase 4
           </p>
-          <h1 className="mt-1 text-2xl font-semibold text-white">
-            Leads do Quiz
-          </h1>
+          <h1 className="mt-1 text-2xl font-semibold text-white">Leads do Quiz</h1>
           <p className="mt-1 text-[13px] text-white/55">
             Análise e distribuição dos leads capturados pelo Quiz Sacra.
           </p>
@@ -225,13 +217,9 @@ function AdminLeadsPage() {
       {/* Charts */}
       <div className="grid gap-4 lg:grid-cols-2">
         <GlassCard className="p-5">
-          <h2 className="mb-4 text-[15px] font-semibold text-white">
-            Distribuição por Arquétipo
-          </h2>
+          <h2 className="mb-4 text-[15px] font-semibold text-white">Distribuição por Arquétipo</h2>
           {donutData.length === 0 ? (
-            <p className="py-10 text-center text-[13px] text-white/40">
-              Sem dados no período.
-            </p>
+            <p className="py-10 text-center text-[13px] text-white/40">Sem dados no período.</p>
           ) : (
             <ResponsiveContainer width="100%" height={260}>
               <PieChart>
@@ -270,13 +258,9 @@ function AdminLeadsPage() {
         </GlassCard>
 
         <GlassCard className="p-5">
-          <h2 className="mb-4 text-[15px] font-semibold text-white">
-            Leads por Dia
-          </h2>
+          <h2 className="mb-4 text-[15px] font-semibold text-white">Leads por Dia</h2>
           {barData.length === 0 ? (
-            <p className="py-10 text-center text-[13px] text-white/40">
-              Sem dados no período.
-            </p>
+            <p className="py-10 text-center text-[13px] text-white/40">Sem dados no período.</p>
           ) : (
             <ResponsiveContainer width="100%" height={260}>
               <BarChart data={barData}>
@@ -321,9 +305,7 @@ function AdminLeadsPage() {
       {/* Table */}
       <GlassCard className="overflow-hidden p-0">
         <header className="flex items-center justify-between border-b border-white/5 px-5 py-3">
-          <h2 className="text-[15px] font-semibold text-white">
-            Todos os leads
-          </h2>
+          <h2 className="text-[15px] font-semibold text-white">Todos os leads</h2>
           <div className="relative">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-white/40" />
             <input
@@ -335,9 +317,7 @@ function AdminLeadsPage() {
           </div>
         </header>
         {isLoading ? (
-          <p className="px-5 py-10 text-center text-[13px] text-white/40">
-            Carregando…
-          </p>
+          <p className="px-5 py-10 text-center text-[13px] text-white/40">Carregando…</p>
         ) : filtered.length === 0 ? (
           <p className="px-5 py-10 text-center text-[13px] text-white/40">
             {search ? "Nenhum lead encontrado." : "Nenhum lead no período."}
