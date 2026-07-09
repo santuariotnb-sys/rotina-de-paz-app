@@ -1,6 +1,14 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { LogOut, Menu, PanelLeftClose, PanelLeftOpen, ArrowLeft, ListFilter } from "lucide-react";
+import {
+  LogOut,
+  Menu,
+  PanelLeftClose,
+  PanelLeftOpen,
+  ArrowLeft,
+  LayoutGrid,
+  ChevronDown,
+} from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { logAdminAction } from "@/lib/admin/audit";
 import type { AdminRecord } from "@/lib/admin/auth";
@@ -51,13 +59,32 @@ export function AdminTopbar({ admin, collapsed, onToggle, onMobileOpen }: Props)
         {collapsed ? <PanelLeftOpen className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
       </button>
 
-      <div className="flex min-w-0 flex-1 items-center gap-2 rounded-xl bg-white/[0.05] px-3 py-1.5 ring-1 ring-white/10 backdrop-blur max-w-md">
-        <ListFilter className="h-4 w-4 shrink-0 text-white/55" />
+      {/* Workspace (quiz) selector — camada visual estilizada + <select> nativo transparente por cima */}
+      <label
+        className={`group relative mr-auto flex cursor-pointer items-center gap-2 rounded-xl px-2.5 py-1.5 ring-1 backdrop-blur transition ${
+          quizId
+            ? "bg-violet-500/15 ring-violet-400/40 hover:ring-violet-400/60"
+            : "bg-white/[0.05] ring-white/10 hover:ring-white/20"
+        }`}
+        title="Selecionar workspace (quiz) para filtrar as métricas"
+      >
+        <LayoutGrid
+          className={`h-4 w-4 shrink-0 ${quizId ? "text-violet-300" : "text-white/55"}`}
+        />
+        <span className="hidden text-[10px] font-semibold uppercase tracking-wide text-white/40 sm:block">
+          Workspace
+        </span>
+        <span
+          className={`max-w-[42vw] truncate text-[13px] font-medium sm:max-w-none ${quizId ? "text-white" : "text-white/70"}`}
+        >
+          {quizId ? (quizzes.find((q) => q.id === quizId)?.name ?? quizId) : "Todos os quizzes"}
+        </span>
+        <ChevronDown className="h-3.5 w-3.5 shrink-0 text-white/40 transition group-hover:text-white/70" />
         <select
           value={quizId ?? ""}
           onChange={(e) => setQuizId(e.target.value || null)}
-          className="min-w-0 flex-1 bg-transparent text-[13px] text-white outline-none [&>option]:bg-[#1A1B1F] [&>option]:text-white"
-          title="Filtrar métricas por quiz"
+          className="absolute inset-0 cursor-pointer opacity-0 [&>option]:bg-[#1A1B1F] [&>option]:text-white"
+          aria-label="Filtrar métricas por quiz"
         >
           <option value="">Todos os quizzes</option>
           {quizzes.map((q) => (
@@ -66,7 +93,7 @@ export function AdminTopbar({ admin, collapsed, onToggle, onMobileOpen }: Props)
             </option>
           ))}
         </select>
-      </div>
+      </label>
 
       <div className="flex items-center gap-2.5">
         <Link
