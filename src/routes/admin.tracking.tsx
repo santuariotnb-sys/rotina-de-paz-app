@@ -38,6 +38,7 @@ import {
 } from "@/lib/admin/constants";
 import { downloadCsv } from "@/lib/admin/csv";
 import { getConvertedLeadIds } from "@/lib/admin/conversion.functions";
+import { useAdminQuiz } from "@/lib/admin/quiz-context";
 
 export const Route = createFileRoute("/admin/tracking")({
   component: AdminTrackingPage,
@@ -81,7 +82,12 @@ function cleanCampaignName(medium: string | null): string {
 /** Extract clean ad creative name from utm_content */
 function cleanAdName(content: string | null): string {
   if (!content) return "—";
-  return content.replace(/\|?\d{15,}/g, "").replace(/[_|]+$/, "").trim() || content;
+  return (
+    content
+      .replace(/\|?\d{15,}/g, "")
+      .replace(/[_|]+$/, "")
+      .trim() || content
+  );
 }
 
 const PLATFORM_COLORS: Record<string, string> = {
@@ -104,14 +110,15 @@ const tooltipStyle = {
 function AdminTrackingPage() {
   const [period, setPeriod] = useState<Period>(PERIODS[1]);
   const [search, setSearch] = useState("");
+  const { quizId } = useAdminQuiz();
 
   const since = useMemo(() => sinceISO(period), [period]);
 
   const { data: leads = [], isLoading } = useQuery({
-    queryKey: ["adm-tracking-leads", period.label],
+    queryKey: ["adm-tracking-leads", period.label, quizId],
     queryFn: async (): Promise<Lead[]> => {
       const sb = supabase as any;
-      const { data, error } = await sb
+      let query = sb
         .from("leads_reais")
         .select(
           "id, name, email, archetype, utm_source, utm_medium, utm_campaign, utm_content, utm_term, created_at",
@@ -119,6 +126,8 @@ function AdminTrackingPage() {
         .gte("created_at", since)
         .order("created_at", { ascending: false })
         .limit(1000);
+      if (quizId) query = query.eq("quiz_id", quizId);
+      const { data, error } = await query;
       if (error) throw new Error(error.message);
       return (data ?? []) as Lead[];
     },
@@ -126,8 +135,8 @@ function AdminTrackingPage() {
 
   const fetchConvertedIds = useServerFn(getConvertedLeadIds);
   const { data: convertedLeadIds = [] } = useQuery({
-    queryKey: ["adm-tracking-converted-leads"],
-    queryFn: () => fetchConvertedIds(),
+    queryKey: ["adm-tracking-converted-leads", quizId],
+    queryFn: () => fetchConvertedIds({ data: { quizId } }),
   });
 
   const convertedSet = useMemo(() => new Set(convertedLeadIds), [convertedLeadIds]);
@@ -335,14 +344,10 @@ function AdminTrackingPage() {
         <GlassCard className="p-5">
           <div className="mb-4 flex items-center gap-2">
             <Radio className="h-4 w-4 text-white/50" />
-            <h2 className="text-[15px] font-semibold text-white">
-              Por plataforma
-            </h2>
+            <h2 className="text-[15px] font-semibold text-white">Por plataforma</h2>
           </div>
           {platformData.length === 0 ? (
-            <p className="py-10 text-center text-[13px] text-white/40">
-              Sem dados no período.
-            </p>
+            <p className="py-10 text-center text-[13px] text-white/40">Sem dados no período.</p>
           ) : (
             <div className="flex items-center gap-6">
               <ResponsiveContainer width={160} height={160}>
@@ -395,9 +400,7 @@ function AdminTrackingPage() {
         <GlassCard className="p-5">
           <div className="mb-4 flex items-center gap-2">
             <Target className="h-4 w-4 text-white/50" />
-            <h2 className="text-[15px] font-semibold text-white">
-              Top campanhas
-            </h2>
+            <h2 className="text-[15px] font-semibold text-white">Top campanhas</h2>
           </div>
           {campaignChart.length === 0 ? (
             <p className="py-10 text-center text-[13px] text-white/40">
@@ -405,11 +408,7 @@ function AdminTrackingPage() {
             </p>
           ) : (
             <ResponsiveContainer width="100%" height={240}>
-              <BarChart
-                data={campaignChart}
-                layout="vertical"
-                margin={{ left: 0, right: 20 }}
-              >
+              <BarChart data={campaignChart} layout="vertical" margin={{ left: 0, right: 20 }}>
                 <CartesianGrid
                   strokeDasharray="3 3"
                   stroke="rgba(255,255,255,0.06)"
@@ -444,9 +443,7 @@ function AdminTrackingPage() {
         <GlassCard className="p-5">
           <div className="mb-4 flex items-center gap-2">
             <BarChart3 className="h-4 w-4 text-white/50" />
-            <h2 className="text-[15px] font-semibold text-white">
-              Top criativos
-            </h2>
+            <h2 className="text-[15px] font-semibold text-white">Top criativos</h2>
           </div>
           {adChart.length === 0 ? (
             <p className="py-10 text-center text-[13px] text-white/40">
@@ -454,11 +451,7 @@ function AdminTrackingPage() {
             </p>
           ) : (
             <ResponsiveContainer width="100%" height={240}>
-              <BarChart
-                data={adChart}
-                layout="vertical"
-                margin={{ left: 0, right: 20 }}
-              >
+              <BarChart data={adChart} layout="vertical" margin={{ left: 0, right: 20 }}>
                 <CartesianGrid
                   strokeDasharray="3 3"
                   stroke="rgba(255,255,255,0.06)"
@@ -490,9 +483,7 @@ function AdminTrackingPage() {
         <GlassCard className="p-5">
           <div className="mb-4 flex items-center gap-2">
             <Users className="h-4 w-4 text-white/50" />
-            <h2 className="text-[15px] font-semibold text-white">
-              Arquétipo × Plataforma
-            </h2>
+            <h2 className="text-[15px] font-semibold text-white">Arquétipo × Plataforma</h2>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
@@ -552,9 +543,7 @@ function AdminTrackingPage() {
       {/* Leads table */}
       <GlassCard className="overflow-hidden p-0">
         <header className="flex items-center justify-between border-b border-white/5 px-5 py-3">
-          <h2 className="text-[15px] font-semibold text-white">
-            Leads ({filtered.length})
-          </h2>
+          <h2 className="text-[15px] font-semibold text-white">Leads ({filtered.length})</h2>
           <div className="relative">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-white/40" />
             <input
@@ -566,9 +555,7 @@ function AdminTrackingPage() {
           </div>
         </header>
         {isLoading ? (
-          <p className="px-5 py-10 text-center text-[13px] text-white/40">
-            Carregando…
-          </p>
+          <p className="px-5 py-10 text-center text-[13px] text-white/40">Carregando…</p>
         ) : filtered.length === 0 ? (
           <p className="px-5 py-10 text-center text-[13px] text-white/40">
             {search ? "Nenhum lead encontrado." : "Nenhum lead no período."}

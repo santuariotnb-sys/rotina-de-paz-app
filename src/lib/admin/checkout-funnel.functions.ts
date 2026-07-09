@@ -13,6 +13,7 @@ export type FunnelStep = {
 
 const daysSchema = z.object({
   days: z.number().int().min(0).max(3650).default(30),
+  quizId: z.string().nullish(),
 });
 
 export const getCheckoutFunnel = createServerFn({ method: "GET" })
@@ -21,10 +22,10 @@ export const getCheckoutFunnel = createServerFn({ method: "GET" })
   .handler(async ({ data, context }): Promise<FunnelStep[]> => {
     await assertAdmin(context.userId);
 
-    const { data: rows, error } = await (supabaseAdmin.rpc as any)(
-      "analytics_checkout_funnel",
-      { p_days: data.days },
-    );
+    const { data: rows, error } = await (supabaseAdmin.rpc as any)("analytics_checkout_funnel", {
+      p_days: data.days,
+      p_quiz_id: data.quizId ?? null,
+    });
     if (error) throw new Error(error.message);
     return (rows ?? []) as FunnelStep[];
   });
@@ -35,10 +36,10 @@ export const getFullFunnel = createServerFn({ method: "GET" })
   .handler(async ({ data, context }): Promise<FunnelStep[]> => {
     await assertAdmin(context.userId);
 
-    const { data: rows, error } = await (supabaseAdmin.rpc as any)(
-      "analytics_full_funnel",
-      { p_days: data.days },
-    );
+    const { data: rows, error } = await (supabaseAdmin.rpc as any)("analytics_full_funnel", {
+      p_days: data.days,
+      p_quiz_id: data.quizId ?? null,
+    });
     if (error) throw new Error(error.message);
     return (rows ?? []) as FunnelStep[];
   });

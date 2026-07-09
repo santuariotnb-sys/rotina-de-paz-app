@@ -1,9 +1,10 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { LogOut, Search, Menu, PanelLeftClose, PanelLeftOpen, ArrowLeft } from "lucide-react";
+import { LogOut, Menu, PanelLeftClose, PanelLeftOpen, ArrowLeft, ListFilter } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { logAdminAction } from "@/lib/admin/audit";
 import type { AdminRecord } from "@/lib/admin/auth";
+import { useAdminQuiz } from "@/lib/admin/quiz-context";
 
 type Props = {
   admin: AdminRecord;
@@ -15,6 +16,7 @@ type Props = {
 export function AdminTopbar({ admin, collapsed, onToggle, onMobileOpen }: Props) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const { quizId, setQuizId, quizzes } = useAdminQuiz();
 
   const handleLogout = async () => {
     setLoading(true);
@@ -46,24 +48,24 @@ export function AdminTopbar({ admin, collapsed, onToggle, onMobileOpen }: Props)
         className="hidden h-9 w-9 place-items-center rounded-lg text-white/70 hover:bg-white/10 lg:grid"
         title={collapsed ? "Expandir menu" : "Recolher menu"}
       >
-        {collapsed ? (
-          <PanelLeftOpen className="h-4 w-4" />
-        ) : (
-          <PanelLeftClose className="h-4 w-4" />
-        )}
+        {collapsed ? <PanelLeftOpen className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
       </button>
 
       <div className="flex min-w-0 flex-1 items-center gap-2 rounded-xl bg-white/[0.05] px-3 py-1.5 ring-1 ring-white/10 backdrop-blur max-w-md">
-        <Search className="h-4 w-4 shrink-0 text-white/55" />
-        <input
-          type="search"
-          placeholder="Buscar..."
-          className="min-w-0 flex-1 bg-transparent text-[13px] text-white outline-none placeholder:text-[#8A90A2]"
-          disabled
-        />
-        <kbd className="hidden rounded bg-white/10 px-1.5 py-0.5 text-[10px] font-medium text-white/70 sm:inline">
-          em breve
-        </kbd>
+        <ListFilter className="h-4 w-4 shrink-0 text-white/55" />
+        <select
+          value={quizId ?? ""}
+          onChange={(e) => setQuizId(e.target.value || null)}
+          className="min-w-0 flex-1 bg-transparent text-[13px] text-white outline-none [&>option]:bg-[#1A1B1F] [&>option]:text-white"
+          title="Filtrar métricas por quiz"
+        >
+          <option value="">Todos os quizzes</option>
+          {quizzes.map((q) => (
+            <option key={q.id} value={q.id}>
+              {q.name}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="flex items-center gap-2.5">
@@ -74,9 +76,7 @@ export function AdminTopbar({ admin, collapsed, onToggle, onMobileOpen }: Props)
           <ArrowLeft className="h-3.5 w-3.5" /> App
         </Link>
         <div className="hidden text-right md:block">
-          <p className="text-[12px] font-semibold text-white leading-tight">
-            {admin.name}
-          </p>
+          <p className="text-[12px] font-semibold text-white leading-tight">{admin.name}</p>
           <p className="text-[11px] text-white/55 leading-tight">{admin.email}</p>
         </div>
         <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-white/90 to-white/60 text-[12px] font-semibold text-[#1A1B1F] shadow-[0_8px_18px_-4px_rgba(0,0,0,0.45)]">
