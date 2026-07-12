@@ -29,6 +29,18 @@ function sha256(value: string | null | undefined): string | undefined {
   return createHash("sha256").update(norm).digest("hex");
 }
 
+/** Normaliza cidade/estado ao padrão do Meta: sem acento, sem espaço/pontuação, minúsculo. */
+function normLoc(value: string | null): string | null {
+  if (!value) return null;
+  // NFD decompõe o acento (ã → a + diacrítico); o strip de não-alfanuméricos abaixo
+  // remove espaços, pontuação E os diacríticos → "São Paulo" vira "saopaulo".
+  const n = value
+    .normalize("NFD")
+    .replace(/[^a-zA-Z0-9]/g, "")
+    .toLowerCase();
+  return n || null;
+}
+
 /** "R$ 1.067,00" | "67,00" | "67.00" | 67 → number. Tolera pt-BR e formato com ponto decimal. */
 function parseBRL(value: unknown): number | undefined {
   if (typeof value === "number") return isNaN(value) ? undefined : value;
@@ -144,7 +156,9 @@ export async function sendMetaCapiPurchase(
     const state = addr?.state != null ? String(addr.state) : null;
     const zipDigits = addr?.zipcode != null ? String(addr.zipcode).replace(/\D/g, "") : null;
     const cpfDigits =
-      payload?.customer?.document != null ? String(payload.customer.document).replace(/\D/g, "") : null;
+      payload?.customer?.document != null
+        ? String(payload.customer.document).replace(/\D/g, "")
+        : null;
 
     const user_data: Record<string, unknown> = {};
     const em = sha256(email);
@@ -156,9 +170,9 @@ export async function sendMetaCapiPurchase(
     const ln = sha256(lastName);
     if (ln) user_data.ln = [ln];
     // Endereço hasheado (só quando presente) + country fixo 'br' (funil BR) → mais sinais de match.
-    const ct = sha256(city);
+    const ct = sha256(normLoc(city));
     if (ct) user_data.ct = [ct];
-    const st = sha256(state);
+    const st = sha256(normLoc(state));
     if (st) user_data.st = [st];
     const zp = sha256(zipDigits);
     if (zp) user_data.zp = [zp];
