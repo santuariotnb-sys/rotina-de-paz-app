@@ -138,6 +138,14 @@ export async function sendMetaCapiPurchase(
     const ip: string | null = payload?.ip ?? ts?.client_ip ?? null;
     const value = parseBRL(payload?.total_price);
 
+    // Endereço + documento do payload Kirvano → EMQ (advanced matching). Só entram quando presentes.
+    const addr = (payload?.customer?.address ?? {}) as Record<string, unknown>;
+    const city = addr?.city != null ? String(addr.city) : null;
+    const state = addr?.state != null ? String(addr.state) : null;
+    const zipDigits = addr?.zipcode != null ? String(addr.zipcode).replace(/\D/g, "") : null;
+    const cpfDigits =
+      payload?.customer?.document != null ? String(payload.customer.document).replace(/\D/g, "") : null;
+
     const user_data: Record<string, unknown> = {};
     const em = sha256(email);
     if (em) user_data.em = [em];
@@ -147,13 +155,26 @@ export async function sendMetaCapiPurchase(
     if (fn) user_data.fn = [fn];
     const ln = sha256(lastName);
     if (ln) user_data.ln = [ln];
+    // Endereço hasheado (só quando presente) + country fixo 'br' (funil BR) → mais sinais de match.
+    const ct = sha256(city);
+    if (ct) user_data.ct = [ct];
+    const st = sha256(state);
+    if (st) user_data.st = [st];
+    const zp = sha256(zipDigits);
+    if (zp) user_data.zp = [zp];
+    const country = sha256("br");
+    if (country) user_data.country = [country];
     if (fbp) user_data.fbp = fbp;
     if (fbc) user_data.fbc = fbc;
     if (ip) user_data.client_ip_address = ip;
     if (ts?.user_agent) user_data.client_user_agent = ts.user_agent;
-    // external_id CRU (sem hash) para casar com o pixel client, que envia qs_* em texto.
-    // Hashear só no server quebra o match/dedup de pessoa entre pixel e CAPI. (G1)
-    if (externalId) user_data.external_id = externalId;
+    // external_id: qs_* CRU (casa com o pixel client, dedup de pessoa — G1) + CPF hasheado
+    // como identificador adicional (Meta aceita array; CPF é PII → sempre hasheado).
+    const externalIds: string[] = [];
+    if (externalId) externalIds.push(externalId);
+    const cpfHash = sha256(cpfDigits);
+    if (cpfHash) externalIds.push(cpfHash);
+    if (externalIds.length) user_data.external_id = externalIds;
 
     const custom_data: Record<string, unknown> = {
       currency: "BRL",
@@ -179,7 +200,7 @@ export async function sendMetaCapiPurchase(
 
     // Log estruturado: rastreabilidade do que saiu para o Meta (sem dados sensíveis)
     console.log(
-      `[meta-capi] Purchase → event_id=${event_id} fbc=${fbc ?? "MISSING"} fbp=${fbp ?? "MISSING"} ph=${phoneDigits ? "YES" : "NO"} ip=${ip ? "YES" : "NO"} ua=${ts?.user_agent ? "YES" : "NO"} externalId=${externalId ?? "NONE"} ts_match=${ts ? "YES" : "NO"} fbclid_cookie=${cookieFbclid ? "YES" : "NO"}`,
+      `[meta-capi] Purchase → event_id=${event_id} fbc=${fbc ?? "MISSING"} fbp=${fbp ?? "MISSING"} ph=${phoneDigits ? "YES" : "NO"} ip=${ip ? "YES" : "NO"} ua=${ts?.user_agent ? "YES" : "NO"} externalId=${externalId ?? "NONE"} ts_match=${ts ? "YES" : "NO"} fbclid_cookie=${cookieFbclid ? "YES" : "NO"} addr=${zp ? "YES" : "NO"} cpf=${cpfHash ? "YES" : "NO"}`,
     );
 
     const res = await fetch(
