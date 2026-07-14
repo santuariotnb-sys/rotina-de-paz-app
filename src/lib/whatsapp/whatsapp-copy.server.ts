@@ -1,65 +1,34 @@
-// Gera as variaveis do template quiz_resultado por lead, via Claude structured output.
-// {{1}} = nome (limpo), {{2}} = frase-eco personalizada (1 linha, tom NeuroFe).
-// Usa JSON schema puro (nao o helper de Zod) p/ nao depender da versao do zod do repo.
-import Anthropic from "@anthropic-ai/sdk";
-
-const client = new Anthropic(); // le ANTHROPIC_API_KEY
-
-// Padrao da skill claude-api. Alto volume + baixa complexidade -> pode trocar por
-// "claude-haiku-4-5" via env para cortar custo. Ambos suportam structured outputs.
-const MODEL = process.env.WHATSAPP_COPY_MODEL ?? "claude-opus-4-8";
+// Gera as variaveis do template quiz_resultado por lead — SEM chamar API externa.
+// Decisao do dono: nao usar Claude/Anthropic aqui (custo). Copies fixas por arquetipo.
+// {{1}} = primeiro nome (capitalizado), {{2}} = frase-eco estatica por arquetipo.
 
 export type ResultVariables = { nome: string; frase_arquetipo: string };
 
-const SCHEMA = {
-  type: "object",
-  properties: {
-    nome: { type: "string" }, // {{1}} so o primeiro nome, capitalizado
-    frase_arquetipo: { type: "string" }, // {{2}} frase-eco por arquetipo/desejo
-  },
-  required: ["nome", "frase_arquetipo"],
-  additionalProperties: false,
-} as const;
+// Frases por arquetipo (tom NeuroFe, 1 linha, sem emoji, <=90 chars, com acentos).
+const ARCHETYPE_PHRASES: Record<string, string> = {
+  vigilante: "O alarme pode se calar: Deus cuida de você mesmo quando você não vigia.",
+  sobrecarga: "Você não precisa carregar tudo sozinha — Ele quer levar o seu peso.",
+  culposa: "A culpa não vem de Deus. Ele te olha com ternura, não com cobrança.",
+  antecipatoria: "O amanhã já tem dono. Hoje, Deus quer te dar a sua paz.",
+};
+const DEFAULT_PHRASE = "Você não está sozinha — Deus quer devolver a sua paz.";
 
-const SYSTEM = [
-  "Voce escreve DUAS variaveis para um template de WhatsApp da Rotina de Paz",
-  "(publico: mulheres cristas 45-60, ansiedade, buscam sentir Deus).",
-  "nome: apenas o primeiro nome da pessoa, capitalizado (ex 'Ana'). Se nao houver, use 'amiga'.",
-  "frase_arquetipo: UMA frase acolhedora e biblica (sem exagero), conectada ao arquetipo/desejo,",
-  "em uma unica linha, sem emoji, sem quebra de linha, no maximo ~90 caracteres.",
-].join(" ");
-
-// WhatsApp rejeita variaveis com \n, \t ou 4+ espacos seguidos.
-function clean(s: string): string {
-  return s.replace(/\s+/g, " ").trim().slice(0, 120);
+function firstName(name: string | null): string {
+  const raw = (name ?? "").trim().split(/\s+/)[0] ?? "";
+  if (!raw) return "amiga";
+  return raw.charAt(0).toUpperCase() + raw.slice(1).toLowerCase();
 }
 
-export async function generateResultVariables(lead: {
+// Sincrono (sem API). O cron faz `await` — inofensivo sobre valor nao-Promise.
+export function generateResultVariables(lead: {
   name: string | null;
   archetype: string | null;
   desire: string | null;
   situation: string | null;
-}): Promise<ResultVariables> {
-  const res = await client.messages.create({
-    model: MODEL,
-    max_tokens: 1024,
-    thinking: { type: "disabled" }, // tarefa simples; aceito no Opus 4.8
-    output_config: {
-      effort: "low",
-      format: { type: "json_schema", schema: SCHEMA },
-    },
-    system: SYSTEM,
-    messages: [{ role: "user", content: JSON.stringify(lead) }],
-  } as Anthropic.MessageCreateParamsNonStreaming);
-
-  const text = res.content.find((b) => b.type === "text");
-  if (!text || text.type !== "text") throw new Error("claude_no_text");
-  let out: Partial<ResultVariables>;
-  try {
-    out = JSON.parse(text.text) as Partial<ResultVariables>;
-  } catch {
-    throw new Error("claude_parse_failed");
-  }
-  if (!out.nome || !out.frase_arquetipo) throw new Error("claude_missing_fields");
-  return { nome: clean(out.nome), frase_arquetipo: clean(out.frase_arquetipo) };
+}): ResultVariables {
+  const key = (lead.archetype ?? "").trim().toLowerCase();
+  return {
+    nome: firstName(lead.name),
+    frase_arquetipo: ARCHETYPE_PHRASES[key] ?? DEFAULT_PHRASE,
+  };
 }
