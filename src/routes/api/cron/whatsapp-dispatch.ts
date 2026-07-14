@@ -8,6 +8,9 @@ import { generateResultVariables } from "@/lib/whatsapp/whatsapp-copy.server";
 // CRON_SECRET. Roda a cada minuto (granularidade minima da Vercel).
 
 const LANG = process.env.WHATSAPP_LANG ?? "pt_BR";
+// Se o template tem header de IMAGEM, hospede a imagem (link publico) e ponha
+// aqui. Vazio = template so-texto (comportamento antigo, sem header).
+const HEADER_IMAGE_URL = process.env.WHATSAPP_RESULT_IMAGE_URL || undefined;
 const MAX_PER_RUN = 15;
 const MAX_ATTEMPTS = 3;
 
@@ -72,6 +75,7 @@ export const Route = createFileRoute("/api/cron/whatsapp-dispatch")({
               template: row.template,
               lang: LANG,
               variables: [vars.nome, vars.frase_arquetipo],
+              headerImageUrl: HEADER_IMAGE_URL,
             });
 
             if (res.ok) {
