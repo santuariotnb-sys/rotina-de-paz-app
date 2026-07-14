@@ -46,8 +46,10 @@ import { Route as AdminAcessosRouteImport } from './routes/admin.acessos'
 import { Route as AppVolumeTurnoRouteImport } from './routes/app.volume.$turno'
 import { Route as AppSuporteTicketIdRouteImport } from './routes/app.suporte.$ticketId'
 import { Route as AppDevocionalSlugRouteImport } from './routes/app.devocional.$slug'
+import { Route as ApiCronWhatsappDispatchRouteImport } from './routes/api/cron/whatsapp-dispatch'
 import { Route as ApiCronCapiRetryRouteImport } from './routes/api/cron/capi-retry'
 import { Route as ApiCrmUnsubscribeRouteImport } from './routes/api.crm.unsubscribe'
+import { Route as ApiPublicWhatsappEnqueueResultRouteImport } from './routes/api/public/whatsapp/enqueue-result'
 import { Route as ApiPublicWebhooksKirvanoRouteImport } from './routes/api/public/webhooks/kirvano'
 
 const TermosDeUsoRoute = TermosDeUsoRouteImport.update({
@@ -235,6 +237,11 @@ const AppDevocionalSlugRoute = AppDevocionalSlugRouteImport.update({
   path: '/devocional/$slug',
   getParentRoute: () => AppRoute,
 } as any)
+const ApiCronWhatsappDispatchRoute = ApiCronWhatsappDispatchRouteImport.update({
+  id: '/api/cron/whatsapp-dispatch',
+  path: '/api/cron/whatsapp-dispatch',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiCronCapiRetryRoute = ApiCronCapiRetryRouteImport.update({
   id: '/api/cron/capi-retry',
   path: '/api/cron/capi-retry',
@@ -245,6 +252,12 @@ const ApiCrmUnsubscribeRoute = ApiCrmUnsubscribeRouteImport.update({
   path: '/api/crm/unsubscribe',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicWhatsappEnqueueResultRoute =
+  ApiPublicWhatsappEnqueueResultRouteImport.update({
+    id: '/api/public/whatsapp/enqueue-result',
+    path: '/api/public/whatsapp/enqueue-result',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicWebhooksKirvanoRoute =
   ApiPublicWebhooksKirvanoRouteImport.update({
     id: '/api/public/webhooks/kirvano',
@@ -289,10 +302,12 @@ export interface FileRoutesByFullPath {
   '/app/': typeof AppIndexRoute
   '/api/crm/unsubscribe': typeof ApiCrmUnsubscribeRoute
   '/api/cron/capi-retry': typeof ApiCronCapiRetryRoute
+  '/api/cron/whatsapp-dispatch': typeof ApiCronWhatsappDispatchRoute
   '/app/devocional/$slug': typeof AppDevocionalSlugRoute
   '/app/suporte/$ticketId': typeof AppSuporteTicketIdRoute
   '/app/volume/$turno': typeof AppVolumeTurnoRoute
   '/api/public/webhooks/kirvano': typeof ApiPublicWebhooksKirvanoRoute
+  '/api/public/whatsapp/enqueue-result': typeof ApiPublicWhatsappEnqueueResultRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -329,10 +344,12 @@ export interface FileRoutesByTo {
   '/app': typeof AppIndexRoute
   '/api/crm/unsubscribe': typeof ApiCrmUnsubscribeRoute
   '/api/cron/capi-retry': typeof ApiCronCapiRetryRoute
+  '/api/cron/whatsapp-dispatch': typeof ApiCronWhatsappDispatchRoute
   '/app/devocional/$slug': typeof AppDevocionalSlugRoute
   '/app/suporte/$ticketId': typeof AppSuporteTicketIdRoute
   '/app/volume/$turno': typeof AppVolumeTurnoRoute
   '/api/public/webhooks/kirvano': typeof ApiPublicWebhooksKirvanoRoute
+  '/api/public/whatsapp/enqueue-result': typeof ApiPublicWhatsappEnqueueResultRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -372,10 +389,12 @@ export interface FileRoutesById {
   '/app/': typeof AppIndexRoute
   '/api/crm/unsubscribe': typeof ApiCrmUnsubscribeRoute
   '/api/cron/capi-retry': typeof ApiCronCapiRetryRoute
+  '/api/cron/whatsapp-dispatch': typeof ApiCronWhatsappDispatchRoute
   '/app/devocional/$slug': typeof AppDevocionalSlugRoute
   '/app/suporte/$ticketId': typeof AppSuporteTicketIdRoute
   '/app/volume/$turno': typeof AppVolumeTurnoRoute
   '/api/public/webhooks/kirvano': typeof ApiPublicWebhooksKirvanoRoute
+  '/api/public/whatsapp/enqueue-result': typeof ApiPublicWhatsappEnqueueResultRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -416,10 +435,12 @@ export interface FileRouteTypes {
     | '/app/'
     | '/api/crm/unsubscribe'
     | '/api/cron/capi-retry'
+    | '/api/cron/whatsapp-dispatch'
     | '/app/devocional/$slug'
     | '/app/suporte/$ticketId'
     | '/app/volume/$turno'
     | '/api/public/webhooks/kirvano'
+    | '/api/public/whatsapp/enqueue-result'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -456,10 +477,12 @@ export interface FileRouteTypes {
     | '/app'
     | '/api/crm/unsubscribe'
     | '/api/cron/capi-retry'
+    | '/api/cron/whatsapp-dispatch'
     | '/app/devocional/$slug'
     | '/app/suporte/$ticketId'
     | '/app/volume/$turno'
     | '/api/public/webhooks/kirvano'
+    | '/api/public/whatsapp/enqueue-result'
   id:
     | '__root__'
     | '/'
@@ -498,10 +521,12 @@ export interface FileRouteTypes {
     | '/app/'
     | '/api/crm/unsubscribe'
     | '/api/cron/capi-retry'
+    | '/api/cron/whatsapp-dispatch'
     | '/app/devocional/$slug'
     | '/app/suporte/$ticketId'
     | '/app/volume/$turno'
     | '/api/public/webhooks/kirvano'
+    | '/api/public/whatsapp/enqueue-result'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -516,7 +541,9 @@ export interface RootRouteChildren {
   TermosDeUsoRoute: typeof TermosDeUsoRoute
   ApiCrmUnsubscribeRoute: typeof ApiCrmUnsubscribeRoute
   ApiCronCapiRetryRoute: typeof ApiCronCapiRetryRoute
+  ApiCronWhatsappDispatchRoute: typeof ApiCronWhatsappDispatchRoute
   ApiPublicWebhooksKirvanoRoute: typeof ApiPublicWebhooksKirvanoRoute
+  ApiPublicWhatsappEnqueueResultRoute: typeof ApiPublicWhatsappEnqueueResultRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -780,6 +807,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDevocionalSlugRouteImport
       parentRoute: typeof AppRoute
     }
+    '/api/cron/whatsapp-dispatch': {
+      id: '/api/cron/whatsapp-dispatch'
+      path: '/api/cron/whatsapp-dispatch'
+      fullPath: '/api/cron/whatsapp-dispatch'
+      preLoaderRoute: typeof ApiCronWhatsappDispatchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/cron/capi-retry': {
       id: '/api/cron/capi-retry'
       path: '/api/cron/capi-retry'
@@ -792,6 +826,13 @@ declare module '@tanstack/react-router' {
       path: '/api/crm/unsubscribe'
       fullPath: '/api/crm/unsubscribe'
       preLoaderRoute: typeof ApiCrmUnsubscribeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/whatsapp/enqueue-result': {
+      id: '/api/public/whatsapp/enqueue-result'
+      path: '/api/public/whatsapp/enqueue-result'
+      fullPath: '/api/public/whatsapp/enqueue-result'
+      preLoaderRoute: typeof ApiPublicWhatsappEnqueueResultRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/webhooks/kirvano': {
@@ -898,7 +939,9 @@ const rootRouteChildren: RootRouteChildren = {
   TermosDeUsoRoute: TermosDeUsoRoute,
   ApiCrmUnsubscribeRoute: ApiCrmUnsubscribeRoute,
   ApiCronCapiRetryRoute: ApiCronCapiRetryRoute,
+  ApiCronWhatsappDispatchRoute: ApiCronWhatsappDispatchRoute,
   ApiPublicWebhooksKirvanoRoute: ApiPublicWebhooksKirvanoRoute,
+  ApiPublicWhatsappEnqueueResultRoute: ApiPublicWhatsappEnqueueResultRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
