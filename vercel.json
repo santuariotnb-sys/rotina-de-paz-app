@@ -8,10 +8,6 @@
     {
       "path": "/api/cron/capi-retry",
       "schedule": "0 10 * * *"
-    },
-    {
-      "path": "/api/cron/whatsapp-dispatch",
-      "schedule": "* * * * *"
     }
   ],
   "headers": [

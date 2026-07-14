@@ -4,8 +4,9 @@ import { sendTemplate } from "@/lib/whatsapp/whatsapp-cloud.server";
 import { generateResultVariables } from "@/lib/whatsapp/whatsapp-copy.server";
 
 // Cron: pega envios vencidos (send_after <= now) e pendentes, gera as variaveis
-// com o Claude e envia via WhatsApp Cloud API. Vercel envia GET, protegido por
-// CRON_SECRET. Roda a cada minuto (granularidade minima da Vercel).
+// (estaticas por arquetipo) e envia via WhatsApp Cloud API. Protegido por
+// CRON_SECRET (Bearer). Disparado a cada minuto pelo pg_cron do Supabase (Vercel
+// Hobby nao permite cron sub-diario) — ver docs/superpowers/whatsapp-pgcron-setup.md.
 
 const LANG = process.env.WHATSAPP_LANG ?? "pt_BR";
 // Se o template tem header de IMAGEM, hospede a imagem (link publico) e ponha
