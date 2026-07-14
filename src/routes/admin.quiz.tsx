@@ -27,6 +27,7 @@ import {
   sinceISO,
 } from "@/lib/admin/constants";
 import { getQuizFunnel } from "@/lib/admin/quiz-funnel.functions";
+import { getQuizResponses } from "@/lib/admin/quiz-responses.functions";
 import { getCheckoutFunnel, getFullFunnel } from "@/lib/admin/checkout-funnel.functions";
 import { getConvertedLeadIds } from "@/lib/admin/conversion.functions";
 import { useAdminQuiz } from "@/lib/admin/quiz-context";
@@ -81,20 +82,11 @@ function AdminQuizPage() {
   const since = useMemo(() => sinceISO(period), [period]);
   const { quizId } = useAdminQuiz();
 
+  const fetchResponses = useServerFn(getQuizResponses);
   const { data: responses = [], isLoading: loadingR } = useQuery({
     queryKey: ["adm-quiz-responses", period.label, quizId],
-    queryFn: async (): Promise<QuizResponse[]> => {
-      let query = (supabase as any)
-        .from("quiz_responses")
-        .select("*")
-        .gte("created_at", since)
-        .order("created_at", { ascending: false })
-        .limit(5000);
-      if (quizId) query = query.eq("quiz_id", quizId);
-      const { data, error } = await query;
-      if (error) throw error;
-      return (data ?? []) as unknown as QuizResponse[];
-    },
+    queryFn: () =>
+      fetchResponses({ data: { sinceISO: since, quizId, limit: 5000 } }) as Promise<QuizResponse[]>,
   });
 
   const { data: leads = [], isLoading: loadingL } = useQuery({
