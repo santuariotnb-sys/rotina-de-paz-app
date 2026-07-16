@@ -11,7 +11,10 @@ const daysSchema = z.object({
 });
 
 function effectiveDays(days: number): number {
-  return days === 0 ? 1 : days;
+  // days=0 = "Hoje". As RPCs agora tratam p_days=0 como meia-noite BRT (F3 da
+  // engrenagem), então NÃO remapeamos mais 0→1 — o remap dava janela rolante de
+  // 24h (o "Hoje 45"). Identidade alinha com o relógio único (sinceISO).
+  return days;
 }
 
 export const getTopSegments = createServerFn({ method: "GET" })
