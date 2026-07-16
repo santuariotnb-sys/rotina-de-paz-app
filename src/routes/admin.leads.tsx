@@ -45,8 +45,41 @@ type Lead = {
   risk_flag: boolean;
   utm_source: string | null;
   utm_campaign: string | null;
+  external_id: string | null;
   created_at: string;
 };
+
+// Dedup por sessão: o quiz reaberto gerava 1 linha de lead NOVA por visita
+// (ex.: 1 pessoa = 6 linhas). O fix de origem já está no client (persist_lead
+// guardado por external_id); aqui, no admin, colapsamos o histórico em 1 linha
+// por external_id — read-side puro, o banco NÃO é tocado. Mantém a linha mais
+// completa (WhatsApp > email > nome > mais recente). Linhas sem external_id
+// (legado) ficam individuais (não dá pra saber a sessão).
+function leadScore(l: Lead): number {
+  return (l.whatsapp ? 4 : 0) + (l.email ? 2 : 0) + (l.name && l.name.trim() ? 1 : 0);
+}
+function dedupeBySession(rows: Lead[]): Lead[] {
+  const best = new Map<string, Lead>();
+  const orphans: Lead[] = [];
+  for (const l of rows) {
+    if (!l.external_id) {
+      orphans.push(l);
+      continue;
+    }
+    const cur = best.get(l.external_id);
+    if (!cur) {
+      best.set(l.external_id, l);
+      continue;
+    }
+    const sl = leadScore(l);
+    const sc = leadScore(cur);
+    const better = sl !== sc ? sl > sc : l.created_at > cur.created_at;
+    if (better) best.set(l.external_id, l);
+  }
+  return [...best.values(), ...orphans].sort((a, b) =>
+    a.created_at < b.created_at ? 1 : -1,
+  );
+}
 
 function AdminLeadsPage() {
   const [period, setPeriod] = useState<Period>(PERIODS[1]);
@@ -55,14 +88,14 @@ function AdminLeadsPage() {
 
   const since = useMemo(() => sinceISO(period), [period]);
 
-  const { data: leads = [], isLoading } = useQuery({
+  const { data: rawLeads = [], isLoading } = useQuery({
     queryKey: ["adm-leads", period.label, quizId],
     queryFn: async (): Promise<Lead[]> => {
       const sb = supabase as any;
       let query = sb
         .from("leads_reais")
         .select(
-          "id, name, email, whatsapp, archetype, desire, situation, risk_flag, utm_source, utm_campaign, created_at",
+          "id, name, email, whatsapp, archetype, desire, situation, risk_flag, utm_source, utm_campaign, external_id, created_at",
         )
         .gte("created_at", since)
         .order("created_at", { ascending: false })
@@ -73,6 +106,9 @@ function AdminLeadsPage() {
       return (data ?? []) as Lead[];
     },
   });
+
+  // 1 lead por sessão (external_id) — KPIs, gráficos e tabela usam este `leads`.
+  const leads = useMemo(() => dedupeBySession(rawLeads), [rawLeads]);
 
   const todayStart = useMemo(() => sinceISO(PERIODS[0]), []);
 
