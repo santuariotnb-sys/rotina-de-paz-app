@@ -5,7 +5,6 @@ import {
   DollarSign,
   Download,
   TrendingUp,
-  Undo2,
   Zap,
   ExternalLink,
   ShoppingBag,
@@ -13,15 +12,7 @@ import {
   ArrowDownRight,
   Package,
 } from "lucide-react";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { supabase } from "@/integrations/supabase/client";
 import { GlassCard } from "@/components/admin/GlassCard";
 import { KpiCard } from "@/components/admin/KpiCard";
@@ -45,9 +36,7 @@ type Purchase = {
 };
 
 function brl(cents: number) {
-  return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(
-    cents / 100,
-  );
+  return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(cents / 100);
 }
 
 const TYPE_CONFIG: Record<string, { label: string; color: string; icon: typeof Package }> = {
@@ -90,17 +79,14 @@ function AdminVendasPage() {
   const kpis = useMemo(() => {
     let approved = 0;
     let revenue = 0;
-    let refunded = 0;
     for (const p of purchases) {
       if (p.status === "confirmed") {
         approved++;
         revenue += p.gross_value ?? 0;
-      } else if (p.status === "refunded" || p.status === "chargeback") {
-        refunded++;
       }
     }
     const aov = approved > 0 ? revenue / approved : 0;
-    return { approved, revenue, refunded, total: purchases.length, aov };
+    return { approved, revenue, total: purchases.length, aov };
   }, [purchases]);
 
   // ── Funil por tipo ────────────────────────────────
@@ -200,7 +186,7 @@ function AdminVendasPage() {
       </header>
 
       {/* KPIs */}
-      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <KpiCard
           icon={<DollarSign className="h-5 w-5" />}
           label="Receita aprovada"
@@ -218,14 +204,6 @@ function AdminVendasPage() {
           hint="AOV por venda aprovada"
         />
         <KpiCard
-          icon={<Undo2 className="h-5 w-5" />}
-          label="Estornos"
-          value={kpis.refunded}
-          loading={isLoading}
-          accent="rose"
-          hint={kpis.refunded === 0 ? "Zero estornos" : undefined}
-        />
-        <KpiCard
           icon={<Zap className="h-5 w-5" />}
           label="Total no período"
           value={kpis.total}
@@ -237,23 +215,16 @@ function AdminVendasPage() {
 
       {/* Funil de ofertas */}
       <GlassCard>
-        <h2 className="mb-4 text-[15px] font-semibold text-white">
-          Funil de ofertas
-        </h2>
+        <h2 className="mb-4 text-[15px] font-semibold text-white">Funil de ofertas</h2>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {(["principal", "order_bump", "upsell", "downsell"] as const).map((key) => {
             const config = TYPE_CONFIG[key];
             const stats = funnelStats[key];
             const Icon = config.icon;
             const pctRevenue =
-              kpis.revenue > 0
-                ? ((stats.revenue / kpis.revenue) * 100).toFixed(0)
-                : "0";
+              kpis.revenue > 0 ? ((stats.revenue / kpis.revenue) * 100).toFixed(0) : "0";
             return (
-              <div
-                key={key}
-                className="rounded-xl bg-white/[0.04] p-4 ring-1 ring-white/[0.06]"
-              >
+              <div key={key} className="rounded-xl bg-white/[0.04] p-4 ring-1 ring-white/[0.06]">
                 <div className="flex items-center gap-2">
                   <div
                     className="grid h-7 w-7 place-items-center rounded-lg"
@@ -299,9 +270,7 @@ function AdminVendasPage() {
       <div className="grid gap-4 lg:grid-cols-2">
         <GlassCard className="p-5">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-[15px] font-semibold text-white">
-              Receita por produto
-            </h2>
+            <h2 className="text-[15px] font-semibold text-white">Receita por produto</h2>
             <Link
               to="/admin/webhooks"
               className="inline-flex items-center gap-1 text-[11px] font-medium text-white/40 hover:text-white/60"
@@ -315,11 +284,7 @@ function AdminVendasPage() {
             </p>
           ) : (
             <ResponsiveContainer width="100%" height={220}>
-              <BarChart
-                data={byProduct}
-                layout="vertical"
-                margin={{ left: 0, right: 10 }}
-              >
+              <BarChart data={byProduct} layout="vertical" margin={{ left: 0, right: 10 }}>
                 <CartesianGrid
                   strokeDasharray="3 3"
                   stroke="rgba(255,255,255,0.06)"
@@ -352,13 +317,9 @@ function AdminVendasPage() {
 
         {/* Lista de produtos */}
         <GlassCard className="p-5">
-          <h2 className="mb-4 text-[15px] font-semibold text-white">
-            Detalhamento
-          </h2>
+          <h2 className="mb-4 text-[15px] font-semibold text-white">Detalhamento</h2>
           {byProduct.length === 0 ? (
-            <p className="py-10 text-center text-[13px] text-white/40">
-              Sem dados no período.
-            </p>
+            <p className="py-10 text-center text-[13px] text-white/40">Sem dados no período.</p>
           ) : (
             <div className="space-y-1">
               {byProduct.map((row) => (
@@ -366,9 +327,7 @@ function AdminVendasPage() {
                   key={row.name}
                   className="flex items-center justify-between rounded-lg px-3 py-2.5 hover:bg-white/[0.04]"
                 >
-                  <span className="text-[13px] font-medium text-white/80">
-                    {row.name}
-                  </span>
+                  <span className="text-[13px] font-medium text-white/80">{row.name}</span>
                   <div className="flex items-center gap-3 text-[12px]">
                     <span className="text-white/40">
                       {row.vendas} venda{row.vendas > 1 ? "s" : ""}
@@ -387,12 +346,8 @@ function AdminVendasPage() {
       {/* Vendas recentes */}
       <GlassCard className="overflow-hidden p-0">
         <header className="flex items-center justify-between border-b border-white/[0.06] px-5 py-3">
-          <h2 className="text-[15px] font-semibold text-white">
-            Vendas recentes
-          </h2>
-          <span className="text-[11px] text-white/40">
-            {purchases.length} registros
-          </span>
+          <h2 className="text-[15px] font-semibold text-white">Vendas recentes</h2>
+          <span className="text-[11px] text-white/40">{purchases.length} registros</span>
         </header>
         {isLoading ? (
           <div className="space-y-3 px-5 py-6">
@@ -412,127 +367,125 @@ function AdminVendasPage() {
           </p>
         ) : (
           <>
-          {/* Mobile: card list / Desktop: table */}
-          <div className="hidden sm:block">
-            <div className="max-h-[480px] overflow-auto">
-              <table className="w-full min-w-[600px] text-sm">
-                <thead className="sticky top-0 bg-[#1A1B1F]/95 text-left text-[10px] uppercase tracking-wider text-white/40">
-                  <tr>
-                    <th className="px-5 py-3">Produto</th>
-                    <th className="px-4 py-3">Tipo</th>
-                    <th className="px-4 py-3">Comprador</th>
-                    <th className="px-4 py-3">Status</th>
-                    <th className="px-4 py-3 text-right">Valor</th>
-                    <th className="px-4 py-3 text-right">Data</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-white/[0.04]">
-                  {purchases.map((p) => {
-                    const isConfirmed = p.status === "confirmed";
-                    const typeConfig = TYPE_CONFIG[p.product_type ?? "principal"];
-                    return (
-                      <tr key={p.id} className="text-white/70">
-                        <td className="px-5 py-3">
-                          <span className="text-[13px] font-medium text-white">
-                            {p.product_name ?? "—"}
-                          </span>
-                        </td>
-                        <td className="px-4 py-3">
-                          <span
-                            className="whitespace-nowrap rounded-md px-2 py-0.5 text-[10px] font-semibold"
-                            style={{
-                              backgroundColor: `${typeConfig?.color ?? "#6B7280"}20`,
-                              color: typeConfig?.color ?? "#6B7280",
-                            }}
-                          >
-                            {typeConfig?.label ?? p.product_type ?? "—"}
-                          </span>
-                        </td>
-                        <td className="max-w-[160px] truncate px-4 py-3 text-[12px] text-white/50">
-                          {p.buyer_email ?? "—"}
-                        </td>
-                        <td className="px-4 py-3">
-                          <span
-                            className={`whitespace-nowrap rounded-full px-2 py-0.5 text-[10px] font-semibold ${
-                              isConfirmed
-                                ? "bg-emerald-500/15 text-emerald-400"
-                                : "bg-red-500/15 text-red-400"
-                            }`}
-                          >
-                            {isConfirmed ? "Aprovada" : p.status}
-                          </span>
-                        </td>
-                        <td className="whitespace-nowrap px-4 py-3 text-right tabular-nums text-[13px] font-semibold text-white">
-                          {brl(p.gross_value ?? 0)}
-                        </td>
-                        <td className="whitespace-nowrap px-4 py-3 text-right text-[12px] text-white/40">
-                          {new Date(p.created_at).toLocaleString("pt-BR", {
-                            day: "2-digit",
-                            month: "2-digit",
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+            {/* Mobile: card list / Desktop: table */}
+            <div className="hidden sm:block">
+              <div className="max-h-[480px] overflow-auto">
+                <table className="w-full min-w-[600px] text-sm">
+                  <thead className="sticky top-0 bg-[#1A1B1F]/95 text-left text-[10px] uppercase tracking-wider text-white/40">
+                    <tr>
+                      <th className="px-5 py-3">Produto</th>
+                      <th className="px-4 py-3">Tipo</th>
+                      <th className="px-4 py-3">Comprador</th>
+                      <th className="px-4 py-3">Status</th>
+                      <th className="px-4 py-3 text-right">Valor</th>
+                      <th className="px-4 py-3 text-right">Data</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/[0.04]">
+                    {purchases.map((p) => {
+                      const isConfirmed = p.status === "confirmed";
+                      const typeConfig = TYPE_CONFIG[p.product_type ?? "principal"];
+                      return (
+                        <tr key={p.id} className="text-white/70">
+                          <td className="px-5 py-3">
+                            <span className="text-[13px] font-medium text-white">
+                              {p.product_name ?? "—"}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3">
+                            <span
+                              className="whitespace-nowrap rounded-md px-2 py-0.5 text-[10px] font-semibold"
+                              style={{
+                                backgroundColor: `${typeConfig?.color ?? "#6B7280"}20`,
+                                color: typeConfig?.color ?? "#6B7280",
+                              }}
+                            >
+                              {typeConfig?.label ?? p.product_type ?? "—"}
+                            </span>
+                          </td>
+                          <td className="max-w-[160px] truncate px-4 py-3 text-[12px] text-white/50">
+                            {p.buyer_email ?? "—"}
+                          </td>
+                          <td className="px-4 py-3">
+                            <span
+                              className={`whitespace-nowrap rounded-full px-2 py-0.5 text-[10px] font-semibold ${
+                                isConfirmed
+                                  ? "bg-emerald-500/15 text-emerald-400"
+                                  : "bg-red-500/15 text-red-400"
+                              }`}
+                            >
+                              {isConfirmed ? "Aprovada" : p.status}
+                            </span>
+                          </td>
+                          <td className="whitespace-nowrap px-4 py-3 text-right tabular-nums text-[13px] font-semibold text-white">
+                            {brl(p.gross_value ?? 0)}
+                          </td>
+                          <td className="whitespace-nowrap px-4 py-3 text-right text-[12px] text-white/40">
+                            {new Date(p.created_at).toLocaleString("pt-BR", {
+                              day: "2-digit",
+                              month: "2-digit",
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
 
-          {/* Mobile card list */}
-          <div className="divide-y divide-white/[0.04] sm:hidden">
-            {purchases.map((p) => {
-              const isConfirmed = p.status === "confirmed";
-              const typeConfig = TYPE_CONFIG[p.product_type ?? "principal"];
-              return (
-                <div key={p.id} className="px-4 py-3 space-y-1.5">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-[13px] font-medium text-white">
-                        {p.product_name ?? "—"}
-                      </p>
-                      <p className="truncate text-[11px] text-white/40">
-                        {p.buyer_email ?? "—"}
-                      </p>
+            {/* Mobile card list */}
+            <div className="divide-y divide-white/[0.04] sm:hidden">
+              {purchases.map((p) => {
+                const isConfirmed = p.status === "confirmed";
+                const typeConfig = TYPE_CONFIG[p.product_type ?? "principal"];
+                return (
+                  <div key={p.id} className="px-4 py-3 space-y-1.5">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-[13px] font-medium text-white">
+                          {p.product_name ?? "—"}
+                        </p>
+                        <p className="truncate text-[11px] text-white/40">{p.buyer_email ?? "—"}</p>
+                      </div>
+                      <span className="shrink-0 tabular-nums text-[14px] font-semibold text-white">
+                        {brl(p.gross_value ?? 0)}
+                      </span>
                     </div>
-                    <span className="shrink-0 tabular-nums text-[14px] font-semibold text-white">
-                      {brl(p.gross_value ?? 0)}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span
+                        className="rounded-md px-1.5 py-0.5 text-[10px] font-semibold"
+                        style={{
+                          backgroundColor: `${typeConfig?.color ?? "#6B7280"}20`,
+                          color: typeConfig?.color ?? "#6B7280",
+                        }}
+                      >
+                        {typeConfig?.label ?? p.product_type ?? "—"}
+                      </span>
+                      <span
+                        className={`rounded-full px-1.5 py-0.5 text-[10px] font-semibold ${
+                          isConfirmed
+                            ? "bg-emerald-500/15 text-emerald-400"
+                            : "bg-red-500/15 text-red-400"
+                        }`}
+                      >
+                        {isConfirmed ? "Aprovada" : p.status}
+                      </span>
+                      <span className="ml-auto text-[11px] text-white/30">
+                        {new Date(p.created_at).toLocaleString("pt-BR", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span
-                      className="rounded-md px-1.5 py-0.5 text-[10px] font-semibold"
-                      style={{
-                        backgroundColor: `${typeConfig?.color ?? "#6B7280"}20`,
-                        color: typeConfig?.color ?? "#6B7280",
-                      }}
-                    >
-                      {typeConfig?.label ?? p.product_type ?? "—"}
-                    </span>
-                    <span
-                      className={`rounded-full px-1.5 py-0.5 text-[10px] font-semibold ${
-                        isConfirmed
-                          ? "bg-emerald-500/15 text-emerald-400"
-                          : "bg-red-500/15 text-red-400"
-                      }`}
-                    >
-                      {isConfirmed ? "Aprovada" : p.status}
-                    </span>
-                    <span className="ml-auto text-[11px] text-white/30">
-                      {new Date(p.created_at).toLocaleString("pt-BR", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
           </>
         )}
       </GlassCard>

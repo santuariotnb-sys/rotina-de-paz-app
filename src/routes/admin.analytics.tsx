@@ -391,7 +391,12 @@ function AdminAnalyticsPage() {
 
           {/* Cohort semanal */}
           <GlassCard>
-            <h2 className="mb-4 text-lg font-semibold text-white">Cohort Semanal</h2>
+            <div className="mb-4 flex items-baseline justify-between gap-2">
+              <h2 className="text-lg font-semibold text-white">Cohort Semanal</h2>
+              <span className="text-[11px] font-medium text-[#8A90A2]">
+                Últimas 12 semanas (fixo)
+              </span>
+            </div>
             {cohort.length === 0 ? (
               <p className="text-sm text-[#8A90A2]">Sem dados</p>
             ) : (
