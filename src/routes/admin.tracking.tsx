@@ -38,6 +38,7 @@ import {
 } from "@/lib/admin/constants";
 import { downloadCsv } from "@/lib/admin/csv";
 import { getConvertedLeadIds } from "@/lib/admin/conversion.functions";
+import { getMetaOverlay, type MetaOverlayRow } from "@/lib/admin/meta-overlay.functions";
 import { useAdminQuiz } from "@/lib/admin/quiz-context";
 
 export const Route = createFileRoute("/admin/tracking")({
@@ -88,6 +89,11 @@ function cleanAdName(content: string | null): string {
       .replace(/[_|]+$/, "")
       .trim() || content
   );
+}
+
+/** Format a number as Brazilian Real */
+function fmtBRL(v: number): string {
+  return v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 }
 
 const PLATFORM_COLORS: Record<string, string> = {
@@ -143,6 +149,13 @@ function AdminTrackingPage() {
   function didConvert(lead: Lead): boolean {
     return convertedSet.has(lead.id);
   }
+
+  // ── Overlay Meta (gasto × retorno por criativo) ───
+  const fetchMetaOverlay = useServerFn(getMetaOverlay);
+  const { data: metaOverlay = [], isLoading: metaLoading } = useQuery({
+    queryKey: ["adm-tracking-meta-overlay", period.days],
+    queryFn: (): Promise<MetaOverlayRow[]> => fetchMetaOverlay({ data: { days: period.days } }),
+  });
 
   // ── KPIs ──────────────────────────────────────────
   const kpis = useMemo(() => {
@@ -539,6 +552,74 @@ function AdminTrackingPage() {
           </div>
         </GlassCard>
       </div>
+
+      {/* Overlay Meta — Gasto × Retorno por criativo */}
+      <GlassCard className="overflow-hidden p-0">
+        <header className="flex items-center gap-2 border-b border-white/5 px-5 py-3">
+          <Facebook className="h-4 w-4 text-[#1877F2]" />
+          <h2 className="text-[15px] font-semibold text-white">
+            Overlay Meta — Gasto × Retorno por criativo
+          </h2>
+        </header>
+        {metaLoading ? (
+          <p className="px-5 py-10 text-center text-[13px] text-white/40">Carregando…</p>
+        ) : metaOverlay.length === 0 ? (
+          <p className="px-5 py-10 text-center text-[13px] text-white/40">
+            Sem dados de gasto Meta no período.
+          </p>
+        ) : (
+          <div className="max-h-[480px] overflow-auto">
+            <table className="w-full text-sm">
+              <thead className="sticky top-0 bg-[#1A1B1F]/95 text-left text-[10px] uppercase tracking-wider text-white/40">
+                <tr>
+                  <th className="px-4 py-3">Criativo</th>
+                  <th className="px-4 py-3 text-right">Gasto</th>
+                  <th className="px-4 py-3 text-right">Leads</th>
+                  <th className="px-4 py-3 text-right">CPL</th>
+                  <th className="px-4 py-3 text-right">Vendas</th>
+                  <th className="px-4 py-3 text-right">Receita</th>
+                  <th className="px-4 py-3 text-right">ROAS</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5">
+                {metaOverlay.map((r, i) => (
+                  <tr key={i} className="text-white/70">
+                    <td className="max-w-[220px] truncate px-4 py-3 text-[13px] font-medium text-white">
+                      {r.adName}
+                    </td>
+                    <td className="px-4 py-3 text-right tabular-nums text-[12px]">
+                      {fmtBRL(r.spend)}
+                    </td>
+                    <td className="px-4 py-3 text-right tabular-nums text-[12px]">{r.leads}</td>
+                    <td className="px-4 py-3 text-right tabular-nums text-[12px]">
+                      {r.cpl == null ? "—" : fmtBRL(r.cpl)}
+                    </td>
+                    <td className="px-4 py-3 text-right tabular-nums text-[12px]">{r.sales}</td>
+                    <td className="px-4 py-3 text-right tabular-nums text-[12px] text-emerald-300">
+                      {r.revenue > 0 ? fmtBRL(r.revenue) : "—"}
+                    </td>
+                    <td className="px-4 py-3 text-right">
+                      {r.roas == null ? (
+                        <span className="text-[11px] text-white/30">—</span>
+                      ) : (
+                        <span
+                          className={`rounded-md px-2 py-0.5 text-[12px] font-semibold tabular-nums ${
+                            r.roas >= 1
+                              ? "bg-emerald-500/15 text-emerald-300"
+                              : "bg-rose-500/15 text-rose-300"
+                          }`}
+                        >
+                          {r.roas.toFixed(2)}×
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </GlassCard>
 
       {/* Leads table */}
       <GlassCard className="overflow-hidden p-0">
