@@ -46,10 +46,10 @@ export const getWhatsAppQueueStats = createServerFn({ method: "GET" })
     const db = supabaseAdmin as any;
 
     async function countByStatus(status: string): Promise<number> {
-      let q = db.from("whatsapp_sends").select("id", { count: "exact", head: true }).eq(
-        "status",
-        status,
-      );
+      let q = db
+        .from("whatsapp_sends")
+        .select("id", { count: "exact", head: true })
+        .eq("status", status);
       if (data.quizId) q = q.eq("quiz_id", data.quizId);
       const { count, error } = await q;
       if (error) throw new Error(error.message);
