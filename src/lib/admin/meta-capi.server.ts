@@ -93,13 +93,10 @@ export async function sendMetaCapiPurchase(
   // (os extractors de kirvano.server.ts tentam data.customer primeiro; o test-webhook
   // emite aninhado). Sem esta normalização, payload aninhado zerava todo o user_data.
   const root: any =
-    payload?.data && typeof payload.data === "object"
-      ? { ...payload, ...payload.data }
-      : payload;
+    payload?.data && typeof payload.data === "object" ? { ...payload, ...payload.data } : payload;
 
   // event_id é obrigatório para dedup. Sem ele, não enviamos (evita duplicar em retry).
-  const event_id: string | null =
-    opts.transactionId ?? root?.sale_id ?? root?.checkout_id ?? null;
+  const event_id: string | null = opts.transactionId ?? root?.sale_id ?? root?.checkout_id ?? null;
   if (!event_id) {
     console.error("[meta-capi] event_id (sale_id) ausente — Purchase NÃO enviado (risco de dedup)");
     return { sent: false, error: "missing_event_id" };
@@ -132,10 +129,7 @@ export async function sendMetaCapiPurchase(
     const lastName = fullName ? String(fullName).trim().split(/\s+/).slice(1).join(" ") : null;
     // phone_number vem do Kirvano em E.164 (ex: "5519987333333"). Normaliza para E.164 canônico.
     const rawPhone: string | null =
-      root?.customer?.phone_number ??
-      root?.customer?.phone ??
-      root?.customer?.cellphone ??
-      null;
+      root?.customer?.phone_number ?? root?.customer?.phone ?? root?.customer?.cellphone ?? null;
     let phoneDigits = rawPhone ? rawPhone.replace(/\D/g, "") : null;
     if (phoneDigits) {
       // Remove leading zero (ex: 019987... → 19987...)

@@ -379,8 +379,7 @@ export async function processKirvanoPayload(
           offerLabel = offerRow?.label ?? null;
         }
 
-        const utm =
-          pick<Record<string, string>>(payload, "utm", "data.utm") ?? undefined;
+        const utm = pick<Record<string, string>>(payload, "utm", "data.utm") ?? undefined;
         await (supabaseAdmin as any).from("purchases").upsert(
           {
             transaction_id: txId ? `${txId}_${product_id.slice(0, 8)}` : null,
