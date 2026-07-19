@@ -13,6 +13,10 @@ import {
   Users,
   Target,
   BarChart3,
+  MessageCircle,
+  CheckCircle2,
+  Clock3,
+  XCircle,
 } from "lucide-react";
 import {
   BarChart,
@@ -39,6 +43,10 @@ import {
 import { downloadCsv } from "@/lib/admin/csv";
 import { getConvertedLeadIds } from "@/lib/admin/conversion.functions";
 import { getMetaOverlay, type MetaOverlayRow } from "@/lib/admin/meta-overlay.functions";
+import {
+  getWhatsAppQueueStats,
+  type WhatsAppQueueStats,
+} from "@/lib/admin/whatsapp-queue.functions";
 import { useAdminQuiz } from "@/lib/admin/quiz-context";
 
 export const Route = createFileRoute("/admin/tracking")({
@@ -103,6 +111,20 @@ const PLATFORM_COLORS: Record<string, string> = {
   Direto: "#6B7280",
 };
 
+const WA_STATUS_LABELS: Record<string, string> = {
+  sent: "Enviado",
+  pending: "Pendente",
+  failed: "Falhou",
+  skipped: "Descartado",
+};
+
+const WA_STATUS_STYLES: Record<string, string> = {
+  sent: "bg-emerald-500/15 text-emerald-300",
+  pending: "bg-amber-500/15 text-amber-300",
+  failed: "bg-rose-500/15 text-rose-300",
+  skipped: "bg-white/10 text-white/50",
+};
+
 const tooltipStyle = {
   background: "#1A1B1F",
   border: "1px solid rgba(255,255,255,0.1)",
@@ -155,6 +177,13 @@ function AdminTrackingPage() {
   const { data: metaOverlay = [], isLoading: metaLoading } = useQuery({
     queryKey: ["adm-tracking-meta-overlay", period.days],
     queryFn: (): Promise<MetaOverlayRow[]> => fetchMetaOverlay({ data: { days: period.days } }),
+  });
+
+  // ── WhatsApp — fila de envios (whatsapp_sends) ────
+  const fetchWaStats = useServerFn(getWhatsAppQueueStats);
+  const { data: waStats, isLoading: waLoading } = useQuery({
+    queryKey: ["adm-whatsapp-queue", quizId],
+    queryFn: (): Promise<WhatsAppQueueStats> => fetchWaStats({ data: { quizId } }),
   });
 
   // ── KPIs ──────────────────────────────────────────
@@ -716,6 +745,95 @@ function AdminTrackingPage() {
                     </tr>
                   );
                 })}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </GlassCard>
+
+      {/* WhatsApp — fila de envios (whatsapp_sends) */}
+      <GlassCard>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+            <MessageCircle className="h-5 w-5" />
+            WhatsApp — Fila de Envios
+          </h2>
+          <span className="text-xs text-zinc-400">Últimos 10 envios</span>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3 mb-6 sm:grid-cols-4">
+          <KpiCard
+            label="Enviados"
+            value={waStats?.totalSent ?? 0}
+            icon={<CheckCircle2 className="h-4 w-4" />}
+            accent="green"
+            loading={waLoading}
+          />
+          <KpiCard
+            label="Pendentes"
+            value={waStats?.totalPending ?? 0}
+            icon={<Clock3 className="h-4 w-4" />}
+            accent="amber"
+            loading={waLoading}
+          />
+          <KpiCard
+            label="Falhas"
+            value={waStats?.totalFailed ?? 0}
+            icon={<XCircle className="h-4 w-4" />}
+            accent="rose"
+            loading={waLoading}
+          />
+          <KpiCard
+            label="Descartados"
+            value={waStats?.totalSkipped ?? 0}
+            icon={<MessageCircle className="h-4 w-4" />}
+            loading={waLoading}
+          />
+        </div>
+
+        {waLoading ? (
+          <p className="py-6 text-center text-[13px] text-white/40">Carregando…</p>
+        ) : (waStats?.recent.length ?? 0) === 0 ? (
+          <p className="py-6 text-center text-[13px] text-white/40">
+            Nenhum envio registrado ainda.
+          </p>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead className="text-left text-[10px] uppercase tracking-wider text-white/40">
+                <tr>
+                  <th className="px-3 py-2">Data</th>
+                  <th className="px-3 py-2">Telefone</th>
+                  <th className="px-3 py-2">Status</th>
+                  <th className="px-3 py-2">Quiz</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5">
+                {(waStats?.recent ?? []).map((r) => (
+                  <tr key={r.id} className="text-white/70">
+                    <td className="px-3 py-2 text-[12px] text-white/50">
+                      {new Date(r.createdAt).toLocaleString("pt-BR", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </td>
+                    <td className="px-3 py-2 font-mono text-[12px] text-white/70">
+                      {r.phoneMasked}
+                    </td>
+                    <td className="px-3 py-2">
+                      <span
+                        className={`rounded-md px-2 py-0.5 text-[11px] font-medium ${
+                          WA_STATUS_STYLES[r.status] ?? "bg-white/10 text-white/50"
+                        }`}
+                      >
+                        {WA_STATUS_LABELS[r.status] ?? r.status}
+                      </span>
+                    </td>
+                    <td className="px-3 py-2 text-[12px] text-white/50">{r.quizId ?? "—"}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
