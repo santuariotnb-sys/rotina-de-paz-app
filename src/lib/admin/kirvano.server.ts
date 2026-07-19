@@ -1,7 +1,7 @@
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { sendWelcomeEmail } from "./email.server";
-import { sendMetaCapiPurchase } from "./meta-capi.server";
+import { parseBRL, sendMetaCapiPurchase } from "./meta-capi.server";
 
 /**
  * Validação HMAC-SHA256 em tempo constante.
@@ -150,16 +150,8 @@ function extractTransactionId(payload: KirvanoPayload): string | null {
  */
 function extractPaidTotalCents(payload: KirvanoPayload): number | null {
   const raw = pick<unknown>(payload, "total_price", "data.total_price", "data.total", "total");
-  let reais: number | undefined;
-  if (typeof raw === "number") reais = isNaN(raw) ? undefined : raw;
-  else if (typeof raw === "string") {
-    const stripped = raw.replace(/[^\d,.-]/g, "");
-    const normalized = stripped.includes(",")
-      ? stripped.replace(/\./g, "").replace(",", ".")
-      : stripped;
-    const n = parseFloat(normalized);
-    reais = isNaN(n) ? undefined : n;
-  }
+  // parseBRL é o parser canônico pt-BR (compartilhado com o CAPI — mesmo valor nos dois destinos)
+  const reais = parseBRL(raw);
   if (reais == null || reais <= 0) return null;
   return Math.round(reais * 100);
 }
@@ -334,7 +326,8 @@ export async function processKirvanoPayload(
 
       // Resolve lead_id pelo external_id (qs_*) — uma vez antes do loop
       // try/catch próprio: falha aqui NÃO pode derrubar o purchase upsert
-      const utmSrc = ((payload as any).utm as Record<string, string> | undefined)?.src ?? null;
+      // pick nested-aware: o Kirvano também entrega utm dentro de data.* (mesmo motivo dos extractors)
+      const utmSrc = pick<string>(payload, "utm.src", "data.utm.src");
       let resolvedLeadId: string | null = null;
       if (utmSrc) {
         try {
@@ -386,7 +379,8 @@ export async function processKirvanoPayload(
           offerLabel = offerRow?.label ?? null;
         }
 
-        const utm = (payload as any).utm as Record<string, string> | undefined;
+        const utm =
+          pick<Record<string, string>>(payload, "utm", "data.utm") ?? undefined;
         await (supabaseAdmin as any).from("purchases").upsert(
           {
             transaction_id: txId ? `${txId}_${product_id.slice(0, 8)}` : null,
