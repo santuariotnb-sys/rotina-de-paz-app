@@ -36,7 +36,12 @@ export const Route = createFileRoute("/admin/quiz")({
   component: AdminQuizPage,
 });
 
+// `peso` (workspace 'sacra-v4') e `situacao` (workspace 'sacra') são a MESMA
+// posição Q1, só que em quizzes diferentes — nunca aparecem juntos com dados
+// reais no mesmo workspace, mas mantemos as duas chaves pra funcionar com o
+// seletor "Todos os quizzes" e com qualquer um dos dois workspaces isolado.
 const QUESTION_LABELS: Record<string, string> = {
+  peso: "O peso invisível (Q1)",
   situacao: "Situação de vida",
   risco: "Como tem se sentido",
   sintoma: "Sintoma físico",
@@ -47,6 +52,7 @@ const QUESTION_LABELS: Record<string, string> = {
 };
 
 const QUESTION_ORDER = [
+  "peso",
   "situacao",
   "risco",
   "sintoma",
@@ -214,7 +220,9 @@ function AdminQuizPage() {
 
   // Distribuição de respostas por pergunta (para funil de perguntas)
   const questionReach = useMemo(() => {
+    // Mesma lista/ordem do módulo (peso + situacao juntos — ver comentário acima).
     const QUESTION_ORDER = [
+      "peso",
       "situacao",
       "risco",
       "sintoma",
