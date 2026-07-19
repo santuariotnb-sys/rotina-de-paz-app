@@ -41,8 +41,11 @@ function normLoc(value: string | null): string | null {
   return n || null;
 }
 
+// Hash fixo do país (funil 100% BR). Constante de módulo: não recomputar por evento.
+const HASHED_COUNTRY_BR = createHash("sha256").update("br").digest("hex");
+
 /** "R$ 1.067,00" | "67,00" | "67.00" | 67 → number. Tolera pt-BR e formato com ponto decimal. */
-function parseBRL(value: unknown): number | undefined {
+export function parseBRL(value: unknown): number | undefined {
   if (typeof value === "number") return isNaN(value) ? undefined : value;
   if (typeof value !== "string") return undefined;
   const stripped = value.replace(/[^\d,.-]/g, "");
@@ -86,17 +89,25 @@ export async function sendMetaCapiPurchase(
     return { sent: false, error: "missing_credentials" };
   }
 
+  // O Kirvano envia em DOIS shapes: campos no top-level OU aninhados em `data.*`
+  // (os extractors de kirvano.server.ts tentam data.customer primeiro; o test-webhook
+  // emite aninhado). Sem esta normalização, payload aninhado zerava todo o user_data.
+  const root: any =
+    payload?.data && typeof payload.data === "object"
+      ? { ...payload, ...payload.data }
+      : payload;
+
   // event_id é obrigatório para dedup. Sem ele, não enviamos (evita duplicar em retry).
   const event_id: string | null =
-    opts.transactionId ?? payload?.sale_id ?? payload?.checkout_id ?? null;
+    opts.transactionId ?? root?.sale_id ?? root?.checkout_id ?? null;
   if (!event_id) {
     console.error("[meta-capi] event_id (sale_id) ausente — Purchase NÃO enviado (risco de dedup)");
     return { sent: false, error: "missing_event_id" };
   }
 
   try {
-    const externalId: string | null = payload?.utm?.src ?? payload?.src ?? null;
-    const cookies = payload?.cookies ?? {};
+    const externalId: string | null = root?.utm?.src ?? root?.src ?? null;
+    const cookies = root?.cookies ?? {};
 
     // Recupera sinais do navegador capturados no quiz (cruza por external_id)
     let ts: {
@@ -115,15 +126,15 @@ export async function sendMetaCapiPurchase(
       ts = data ?? null;
     }
 
-    const email: string | null = payload?.customer?.email ?? null;
-    const fullName: string | null = payload?.customer?.name ?? null;
+    const email: string | null = root?.customer?.email ?? null;
+    const fullName: string | null = root?.customer?.name ?? null;
     const firstName = fullName ? String(fullName).trim().split(/\s+/)[0] : null;
     const lastName = fullName ? String(fullName).trim().split(/\s+/).slice(1).join(" ") : null;
     // phone_number vem do Kirvano em E.164 (ex: "5519987333333"). Normaliza para E.164 canônico.
     const rawPhone: string | null =
-      payload?.customer?.phone_number ??
-      payload?.customer?.phone ??
-      payload?.customer?.cellphone ??
+      root?.customer?.phone_number ??
+      root?.customer?.phone ??
+      root?.customer?.cellphone ??
       null;
     let phoneDigits = rawPhone ? rawPhone.replace(/\D/g, "") : null;
     if (phoneDigits) {
@@ -147,18 +158,24 @@ export async function sendMetaCapiPurchase(
         : `fb.1.${Date.now()}.${cookieFbclid}`
       : null;
     const fbc: string | null = ts?.fbc ?? fbcFromCookie ?? cookies?.fbc ?? null;
-    const ip: string | null = payload?.ip ?? ts?.client_ip ?? null;
-    const value = parseBRL(payload?.total_price);
+    const ip: string | null = root?.ip ?? ts?.client_ip ?? null;
+    const value = parseBRL(root?.total_price);
 
-    // Endereço + documento do payload Kirvano → EMQ (advanced matching). Só entram quando presentes.
-    const addr = (payload?.customer?.address ?? {}) as Record<string, unknown>;
-    const city = addr?.city != null ? String(addr.city) : null;
-    const state = addr?.state != null ? String(addr.state) : null;
-    const zipDigits = addr?.zipcode != null ? String(addr.zipcode).replace(/\D/g, "") : null;
-    const cpfDigits =
-      payload?.customer?.document != null
-        ? String(payload.customer.document).replace(/\D/g, "")
+    // Endereço + documento do payload Kirvano → EMQ (advanced matching). Só entram quando
+    // presentes E com o tipo esperado — String(objeto) viraria "[object Object]" e o hash
+    // de lixo degradaria o match em vez de omitir o campo.
+    const addr = (root?.customer?.address ?? {}) as Record<string, unknown>;
+    const city = typeof addr?.city === "string" ? addr.city : null;
+    const state = typeof addr?.state === "string" ? addr.state : null;
+    const zipDigits =
+      typeof addr?.zipcode === "string" || typeof addr?.zipcode === "number"
+        ? String(addr.zipcode).replace(/\D/g, "")
         : null;
+    const docDigits =
+      root?.customer?.document != null ? String(root.customer.document).replace(/\D/g, "") : null;
+    // Só CPF (11 dígitos) entra como identificador — CNPJ/documento malformado ficaria
+    // como external_id bogus sem contraparte no pixel client.
+    const cpfDigits = docDigits && docDigits.length === 11 ? docDigits : null;
 
     const user_data: Record<string, unknown> = {};
     const em = sha256(email);
@@ -176,8 +193,7 @@ export async function sendMetaCapiPurchase(
     if (st) user_data.st = [st];
     const zp = sha256(zipDigits);
     if (zp) user_data.zp = [zp];
-    const country = sha256("br");
-    if (country) user_data.country = [country];
+    user_data.country = [HASHED_COUNTRY_BR];
     if (fbp) user_data.fbp = fbp;
     if (fbc) user_data.fbc = fbc;
     if (ip) user_data.client_ip_address = ip;
@@ -201,7 +217,7 @@ export async function sendMetaCapiPurchase(
 
     const event: Record<string, unknown> = {
       event_name: "Purchase",
-      event_time: eventTime(payload),
+      event_time: eventTime(root),
       action_source: "website",
       event_source_url: "https://rotinadepaz.com.br/",
       event_id,
